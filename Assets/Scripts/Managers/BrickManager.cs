@@ -15,10 +15,11 @@ public class BrickManager : MonoBehaviour
     [Header("Number of bricks in the level")]
     public int totalBricskInLevel;
 
+    [Header("Bonus & Malus settings")]
+    [SerializeField] int bonusPoolID;
+    [SerializeField] int malusPoolID;
 
     public static BrickManager Instance;
-
-
 
 
     private void Awake()
@@ -32,15 +33,17 @@ public class BrickManager : MonoBehaviour
     /// </summary>
     /// <param name="brickToDestroy">Brick that will be detroyed</param>
     /// <param name="brickValue">Brick value for the score</param>
-    public void DeadBrick(GameObject brickToDestroy, int brickValue)
+    public void DeadBrick(BrickInfo touchedBrick)
     {
-        Vector3 brickPos = brickToDestroy.transform.position;
-
-        brickToDestroy.SetActive(false);
+        Vector3 brickPos = touchedBrick.Transform.position;
+        touchedBrick.Transform.gameObject.SetActive(false);
 
         PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.identity);
+        ScoreManager.Instance.IncrementScore(touchedBrick.ScoreValue);
 
-        ScoreManager.Instance.IncrementScore(brickValue);
+        //Bonus & malus case
+        if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
+        if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
     }
 
     void UpdateBrickLevel()

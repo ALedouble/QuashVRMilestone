@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickMovingBehaviour : MonoBehaviour
+public class BrickBehaviours : MonoBehaviour, IBrick
 {
-    
-    [Header("Wall Layer")]
-    public int wallLayerID = 0;
-
     [Header("Score Modifier")]
     public int scoreValue;
 
+    [Header("Armor")]
+    [Tooltip("How many hit BEFORE the next one kill it")]
+    public int armorPoints = 1;
+
+
     [Header("Waypoint")]
+    public bool isMoving;
     [Tooltip("Enter waypoints positions here")]
     public Vector3[] waypoints;
 
@@ -36,31 +38,44 @@ public class BrickMovingBehaviour : MonoBehaviour
     public bool turningBack;
     private bool onItsWayBack;
 
+    [Header("Bonus/Malus")]
+    [SerializeField] bool isBonus;
+    [SerializeField] bool isMalus;
+
+    [Header("Color ID")]
+    [SerializeField] int colorID;
+
+    public bool IsBonus { get => isBonus; }
+    public bool IsMalus { get => isMalus; }
+    public int ColorID { get => colorID; private set => colorID = value; }
 
     private void Awake()
     {
-        if(waypoints.Length != 0)
+        if (isMoving)
         {
-            this.transform.position = waypoints[waypointIndex];
+            if (waypoints.Length != 0)
+            {
+                this.transform.position = waypoints[waypointIndex];
 
-            waypointIndex++;
+                waypointIndex++;
+            }
         }
     }
 
     private void Update()
     {
-        Moving();
+        if (isMoving)
+        {
+            Moving();
+        }
     }
 
-    /// <summary>
-    /// Déplacement de la Brick
-    /// </summary>
     private void Moving()
     {
         this.transform.position = Vector3.SmoothDamp(this.transform.position, waypoints[waypointIndex], ref refVector, smoothTime,
             speed);
 
-        if(this.transform.position == waypoints[waypointIndex])
+        if (this.transform.position == waypoints[waypointIndex])
         {
             //Debug.Log("Reached");
             if (hasToWait)
@@ -75,9 +90,8 @@ public class BrickMovingBehaviour : MonoBehaviour
         }
     }
 
-
     /// <summary>
-    /// Définition du prochain 
+    /// Définition du prochain waypoint
     /// </summary>
     private void NextWaypoint()
     {
@@ -121,7 +135,7 @@ public class BrickMovingBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator WaitUntil (float timeToWait)
+    IEnumerator WaitUntil(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
 
@@ -130,12 +144,47 @@ public class BrickMovingBehaviour : MonoBehaviour
         NextWaypoint();
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    public void HitBrick(int p_dmgPoints = 1)
     {
-        if (collision.gameObject.tag == "Ball")
+        armorPoints--;
+
+        if (armorPoints <= 0)
         {
-            BrickManager.Instance.DeadBrick(this.gameObject, scoreValue);
+            PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.identity); //Spawn destroy FX
         }
+
+        //other case scenario
     }
+
+    public BrickInfo GetBrickInfo()
+    {
+        return new BrickInfo(scoreValue, armorPoints,ColorID, IsBonus, isMalus, transform);
+    }
+}
+
+public class BrickInfo
+{
+    int scoreValue;
+    int armorValue;
+    int colorID;
+    bool isBonus;
+    bool isMalus;
+    Transform transform;
+
+    public BrickInfo(int p_score,int p_armor,int p_colorID,bool p_isBonus, bool p_isMalus, Transform p_transform)
+    {
+        ScoreValue = p_score;
+        ArmorValue = p_armor;
+        ColorID = p_colorID;
+        IsBonus = p_isBonus;
+        IsMalus = p_isMalus;
+        Transform = p_transform;
+    }
+
+    public int ScoreValue { get => scoreValue; private set => scoreValue = value; }
+    public int ArmorValue { get => armorValue; private set => armorValue = value; }
+    public int ColorID { get => colorID; private set => colorID = value; }
+    public bool IsBonus { get => isBonus; private set => isBonus = value; }
+    public bool IsMalus { get => isMalus; private set => isMalus = value; }
+    public Transform Transform { get => transform; private set => transform = value; }
 }

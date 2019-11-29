@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IBall
 {
-    void HitBall();
+
 }

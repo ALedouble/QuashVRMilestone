@@ -5,12 +5,12 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
-    public LevelsScriptable[] registeredLevels = new LevelsScriptable[0];
+    public LevelsScriptable[] registeredLevels;
     public LevelSettings currentLevelConfig;
 
 
     [Header("Level Parameters")]
-    public int currentLayer = -1;
+    public int currentLayer = 0;
     public bool isThereAnotherLayer;
 
     public float layerDiffPosition;
@@ -81,6 +81,5 @@ public class LevelManager : MonoBehaviour
     {
         currentLevelConfig = registeredLevels[selectedLevel].level;
         BrickManager.Instance.levelWallsConfig = currentLevelConfig.levelWallBuilds;
-        //ZoneManager.Instance.levelZoneConfig = currentLevelConfig.levelZoneConfig;
     }
 }

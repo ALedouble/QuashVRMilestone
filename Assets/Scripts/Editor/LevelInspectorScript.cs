@@ -93,14 +93,12 @@ public class LevelInspectorScript : Editor
 
         myTarget.bricksOnScreen = new GameObject[myTarget.TotalColumns * myTarget.TotalRows];
 
-        //prefabBase = EditorUtilityScene.GetAssetsWithScript<BrickBehaviours>(prefabPath)[0].gameObject;
-
-        //prefabBase = myTarget.brickPrefab;
 
         if (myTarget.transform.childCount > 0)
         {
             myTarget.transform.DestroyChildren(true);
         }
+
 
         InitPrefab();
         InitBrickPresets();
@@ -109,7 +107,6 @@ public class LevelInspectorScript : Editor
         InitReorderableList();
         InitSelectedLevelValues();
         GetAllLevels();
-        //SubscribeEvents();
         InitEditModes();
         InitStyles();
     }
@@ -119,6 +116,7 @@ public class LevelInspectorScript : Editor
         //UnscribeEvents();
         CleanLayer();
     }
+
 
 
 
@@ -164,13 +162,11 @@ public class LevelInspectorScript : Editor
     #endregion
 
 
-
     private void InitPrefab()
     {
         if (AssetDatabase.IsValidFolder(prefabPath))
         {
             string[] prefabPaths = AssetDatabase.FindAssets("t:gameobject", new string[] { prefabPath });
-            prefabBase = new GameObject();
 
             prefabBase = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(prefabPaths[0]), typeof(GameObject)) as GameObject;
 
@@ -290,9 +286,7 @@ public class LevelInspectorScript : Editor
         toolStyle = new GUIStyle();
         toolStyle.alignment = TextAnchor.MiddleCenter;
         toolStyle.normal.textColor = Color.white;
-        //toolStyle.normal.background = ;
         toolStyle.fontSize = 10;
-
     }
 
     private void InitEditModes()
@@ -314,37 +308,13 @@ public class LevelInspectorScript : Editor
 
             }
 
-            //System.Array.Reverse(levels);
-
-            //myTarget.allLevels = new LevelsScriptable[levels.Length];
             myTarget.allLevels = levels;
-
-            //AssetDatabase.Refresh();
-            //AssetDatabase.SaveAssets();
         }
         else
         {
             myTarget.allLevels = new LevelsScriptable[0];
             levels = new LevelsScriptable[0];
         }
-
-
-
-
-        #region Old
-
-        //myTarget.allLevels = AssetDatabase.FindAssets("t:LevelsScriptable").Length;
-
-        //mySerializedObject = new SerializedObject(myTarget);
-
-        //if (myTarget.Pieces == null || myTarget.Pieces.Length == 0)
-        //{
-        //    myTarget.Pieces = new LevelPiece[myTarget.TotalRows * myTarget.TotalColumns];
-        //}
-
-        // myTarget.transform.hideFlags = HideFlags.NotEditable;
-
-        #endregion
     }
 
 
@@ -374,6 +344,7 @@ public class LevelInspectorScript : Editor
     {
         DrawLayerGUI();
         DrawLevelGUI();
+        DrawStatsGUI();
         DrawModeGUI();
         ModeHandler();
         EventHandler();
@@ -391,11 +362,11 @@ public class LevelInspectorScript : Editor
     {
         EditorGUI.BeginChangeCheck();
 
-        //Undo.RecordObject(myTarget, "Recording Changes");
-
         EditorGUILayout.LabelField("Grid Parameters", titleStyle);
 
+
         GUILayout.Space(16);
+
 
         EditorGUILayout.BeginVertical("box");
 
@@ -405,10 +376,6 @@ public class LevelInspectorScript : Editor
 
         if (EditorGUI.EndChangeCheck())
         {
-            ////Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-            //Undo.RecordObject(this, "Recording Selected Level Choice");
-            //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-
             if (myTarget.selectedLevel != null)
             {
                 InitSelectedLevelValues();
@@ -431,22 +398,13 @@ public class LevelInspectorScript : Editor
 
             if (EditorGUI.EndChangeCheck())
             {
-                //Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-                //Undo.RecordObject(this, "Recording Selected Level Choice");
-                //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-
                 nameChanged = true;
-
             }
 
             if (nameChanged)
             {
                 if (GUILayout.Button("Save"))
                 {
-                    //Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-                    //Undo.RecordObject(this, "Recording Selected Level Choice");
-                    //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-
                     string assetPath = AssetDatabase.GetAssetPath(myTarget.selectedLevel);
                     AssetDatabase.RenameAsset(assetPath, myTarget.selectedLevel.name);
 
@@ -455,7 +413,6 @@ public class LevelInspectorScript : Editor
             }
 
             EditorGUILayout.EndHorizontal();
-
         }
         else
             myTarget.levelCategories = null;
@@ -465,6 +422,7 @@ public class LevelInspectorScript : Editor
         {
             EditorGUILayout.HelpBox("Tu dois attacher un level.asset", MessageType.Warning);
         }
+
 
         GUILayout.Space(2);
 
@@ -484,34 +442,23 @@ public class LevelInspectorScript : Editor
 
         EditorGUILayout.BeginVertical("box");
 
-        EditorGUI.BeginChangeCheck();
         myTarget.xGridPlacement = EditorGUILayout.FloatField("Placement de la grille en X", myTarget.xGridPlacement);
         GUILayout.Space(8);
         myTarget.yGridPlacement = EditorGUILayout.FloatField("Placement de la grille en Y", myTarget.yGridPlacement);
         GUILayout.Space(8);
         myTarget.zGridPlacement = EditorGUILayout.FloatField("Placement de la grille en Z", myTarget.zGridPlacement);
-        if (EditorGUI.EndChangeCheck())
-        {
-            //Undo.RecordObject(this, "Recording Selected Level Choice");
-            //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-        }
 
         EditorGUILayout.EndVertical();
 
+
         GUILayout.Space(8);
+
 
         EditorGUILayout.BeginVertical("box");
 
-        EditorGUI.BeginChangeCheck();
         newTotalColumns = (int)EditorGUILayout.Slider("Number of Columns", newTotalColumns, 0, (int)(myTarget.maxWidthSpace() / myTarget.CellSize));
         newTotalRows = (int)EditorGUILayout.Slider("Number of rows", newTotalRows, 0, (int)(myTarget.maxHeightSpace() / myTarget.CellSize));
         newCellSize = EditorGUILayout.Slider("Cell Size", newCellSize, 0.1f, 1f);
-        if (EditorGUI.EndChangeCheck())
-        {
-            //Undo.RecordObject(this, "Recording Selected Level Choice");
-            //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-        }
-
 
         GUILayout.Space(2);
 
@@ -524,14 +471,16 @@ public class LevelInspectorScript : Editor
             if (EditorUtility.DisplayDialog(
                 "Level Creator",
                 "Êtes-vous sûr de vouloir reset le level?\n" +
-                "Cette action est IRREVERSIBLE et a pour effet de REINITIALISER TOUS LES LAYERS",
+                "Cette action est IRREVERSIBLE et a pour effet d'EFFACER TOUS LES LEVELS",
                 "Ouais", "Nop"))
             {
                 ResizeLevels();
             }
         }
 
+
         GUILayout.Space(2);
+
 
         bool buttonReset = GUILayout.Button("Reset Default Grid");
 
@@ -544,24 +493,24 @@ public class LevelInspectorScript : Editor
 
         GUI.enabled = OldEnabled;
 
+
         GUILayout.Space(2);
 
+
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndVertical();
-
-
     }
 
     private void DrawEditModesInspecGUI()
     {
-        EditorGUILayout.LabelField("Paint Parameters", titleStyle);
+        EditorGUILayout.LabelField("Brick Parameters", titleStyle);
 
         GUILayout.Space(2);
 
-        int index = (int)paintMode;
-        index = GUILayout.Toolbar(index, paintModeLabel);
+        //int index = (int)paintMode;
+        //index = GUILayout.Toolbar(index, paintModeLabel);
 
-        paintMode = (PaintMode)index;
+        //paintMode = (PaintMode)index;
 
 
 
@@ -653,7 +602,7 @@ public class LevelInspectorScript : Editor
 
                     if (paintedBrickSettings.isMoving)
                     {
-                        paintedBrickSettings.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", paintedBrickSettings.isMoving, layerStyle);
+                        paintedBrickSettings.isMoving = EditorGUILayout.ToggleLeft("Brick Moving parameters", paintedBrickSettings.isMoving, layerStyle);
 
                         GUILayout.BeginVertical("box");
 
@@ -666,13 +615,11 @@ public class LevelInspectorScript : Editor
 
                     GUILayout.EndVertical();
 
-
                     break;
                 }
 
             case PaintMode.OnSelection:
                 {
-
                     if (brickSettingsDisplayed.isBrickHere)
                     {
                         EditorGUI.BeginChangeCheck();
@@ -754,17 +701,18 @@ public class LevelInspectorScript : Editor
                         if (!brickSettingsDisplayed.isMoving)
                         {
                             GUILayout.BeginVertical("box");
-                        }
 
-                        brickSettingsDisplayed.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", brickSettingsDisplayed.isMoving, layerStyle);
+                            brickSettingsDisplayed.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", brickSettingsDisplayed.isMoving, layerStyle);
+
+                            GUILayout.EndVertical();
+                        }
 
                         if (brickSettingsDisplayed.isMoving)
                         {
+                            brickSettingsDisplayed.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", brickSettingsDisplayed.isMoving, layerStyle);
+
                             GUILayout.BeginVertical("box");
-                        }
 
-                        if (brickSettingsDisplayed.isMoving)
-                        {
                             brickSettingsDisplayed.smoothTime = EditorGUILayout.Slider("smoothTime", brickSettingsDisplayed.smoothTime, 0f, 1f);
                             brickSettingsDisplayed.speed = EditorGUILayout.Slider("speed", brickSettingsDisplayed.speed, 0.1f, 10f);
 
@@ -775,10 +723,11 @@ public class LevelInspectorScript : Editor
                             waypointStorageList.DoLayoutList();
 
                             serializedObject.ApplyModifiedProperties();
+
+                            GUILayout.EndVertical();
                         }
 
 
-                        GUILayout.EndVertical();
                         GUILayout.EndVertical();
 
                         if (EditorGUI.EndChangeCheck())
@@ -833,6 +782,10 @@ public class LevelInspectorScript : Editor
             }
 
             myTarget.bricksOnLayer = 0;
+            myTarget.numberOfNeutralBrick = 0;
+            myTarget.numberOfColoredBrick01 = 0;
+            myTarget.numberOfColoredBrick02 = 0;
+
             myTarget.bricksOnScreen = new GameObject[myTarget.TotalColumns * myTarget.TotalRows];
         }
     }
@@ -893,6 +846,23 @@ public class LevelInspectorScript : Editor
 
                 myTarget.bricksOnLayer++;
 
+
+                switch (currentLayer.wallBricks[i].brickColorPreset)
+                {
+
+                    case 0:
+                        myTarget.numberOfNeutralBrick++;
+                        break;
+
+                    case 1:
+                        myTarget.numberOfColoredBrick01++;
+                        break;
+
+                    case 2:
+                        myTarget.numberOfColoredBrick02++;
+                        break;
+                }
+
                 myTarget.bricksOnScreen[i] = obj;
             }
         }
@@ -949,6 +919,7 @@ public class LevelInspectorScript : Editor
 
         myTarget.bricksOnScreen[brickPos] = obj;
     }
+
 
 
 
@@ -1124,7 +1095,7 @@ public class LevelInspectorScript : Editor
             ResetLayer();
         }
 
-        GUI.Label(new Rect(5, 46, 60, 25), "Layer", layerStyle);
+        GUI.Label(new Rect(4, 46, 60, 25), "Layer", layerStyle);
 
 
         //Changement du LAYER SELECTIONNE
@@ -1182,6 +1153,29 @@ public class LevelInspectorScript : Editor
 
             myTarget.selectedLevel = currentLevel;
         }
+
+
+        EditorGUI.EndDisabledGroup();
+
+
+        GUI.backgroundColor = Color.white;
+        Handles.EndGUI();
+    }
+
+    public void DrawStatsGUI()
+    {
+        Handles.BeginGUI();
+
+        EditorGUI.BeginDisabledGroup(myTarget.selectedLevel == null);
+
+
+        GUI.Label(new Rect(23, 70, 30, 30), colorPresets[myTarget.colorPresetSelected].colorPresets[0].tag, layerStyle);
+        GUI.Label(new Rect(123, 70, 30, 30), colorPresets[myTarget.colorPresetSelected].colorPresets[1].tag, layerStyle);
+        GUI.Label(new Rect(203, 70, 30, 30), colorPresets[myTarget.colorPresetSelected].colorPresets[2].tag, layerStyle);
+
+        GUI.Box(new Rect(66, 75, 30, 20), myTarget.numberOfNeutralBrick.ToString(), slashStyle);
+        GUI.Box(new Rect(143, 75, 30, 20), myTarget.numberOfColoredBrick01.ToString(), slashStyle);
+        GUI.Box(new Rect(226, 75, 30, 20), myTarget.numberOfColoredBrick02.ToString(), slashStyle);
 
 
         EditorGUI.EndDisabledGroup();
@@ -1372,12 +1366,12 @@ public class LevelInspectorScript : Editor
 
 
 
+
     private void Paint(int col, int row)
     {
 
         if (!myTarget.IsInsideGridBounds(col, row) || prefabBase == null)
         {
-            Debug.Log(prefabBase);
             return;
         }
 
@@ -1449,6 +1443,22 @@ public class LevelInspectorScript : Editor
 
 
             myTarget.bricksOnLayer++;
+
+            switch (paintedBrickSettings.brickColorPreset)
+            {
+                case 0:
+                    myTarget.numberOfNeutralBrick++;
+                    break;
+
+                case 1:
+                    myTarget.numberOfColoredBrick01++;
+                    break;
+
+                case 2:
+                    myTarget.numberOfColoredBrick02++;
+                    break;
+            }
+
             //RECUPERATION du gameobject crée
             myTarget.bricksOnScreen[selectedBrick] = obj;
 
@@ -1503,12 +1513,10 @@ public class LevelInspectorScript : Editor
             return;
         }
 
+        int selectedBrick = col * myTarget.TotalRows + row;
 
-        if (currentLayer.wallBricks[col * myTarget.TotalRows + row].isBrickHere)
+        if (currentLayer.wallBricks[selectedBrick].isBrickHere)
         {
-
-
-
             GameObject objToDestroy = myTarget.bricksOnScreen[col * myTarget.TotalRows + row];
 
             #region Undo
@@ -1520,10 +1528,26 @@ public class LevelInspectorScript : Editor
 
             DestroyImmediate(objToDestroy);
 
-            //Undo.DestroyObjectImmediate(objToDestroy, "Registered created Object");
 
             BrickSettings blankBrick = new BrickSettings();
             currentLayer.wallBricks[col * myTarget.TotalRows + row] = blankBrick;
+
+            myTarget.bricksOnLayer--;
+
+            switch (currentLayer.wallBricks[selectedBrick].brickColorPreset)
+            {
+                case 0:
+                    myTarget.numberOfNeutralBrick--;
+                    break;
+
+                case 1:
+                    myTarget.numberOfColoredBrick01--;
+                    break;
+
+                case 2:
+                    myTarget.numberOfColoredBrick02--;
+                    break;
+            }
         }
     }
 
@@ -1564,6 +1588,7 @@ public class LevelInspectorScript : Editor
 
 
 
+
     private void ResetResizeValues()
     {
         newTotalColumns = myTarget.TotalRows;
@@ -1573,51 +1598,30 @@ public class LevelInspectorScript : Editor
 
     private void ResizeLevels()
     {
-        ///Reset tous les levels,
-        for (int i = 0; i < levels.Length; i++)
+        ///Efface tous les levels,
+        if (AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Levels"))
         {
-            //Tous les murs,
-            for (int j = 0; j < levels[i].level.levelWallBuilds.walls.Length; j++)
+            string[] levelsPaths = AssetDatabase.FindAssets("t:scriptableobject", new[] { levelsPath });
+
+            for (int j = 0; j < levelsPaths.Length; j++)
             {
-                //Et la composition du mur ( soit le nombre total de brick possible sur un mur) en fonction des colonnes et des rangées
-                //levels[i].level.levelWallBuilds.walls[j].wallBricks = new BrickSettings[newTotalRows * newTotalColumns];
+                AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(levelsPaths[j]));
             }
+
+
+            myTarget.allLevels = levels;
+
+            AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
         }
+
 
         myTarget.allLevels = levels;
         myTarget.CellSize = newCellSize;
         myTarget.TotalRows = newTotalColumns;
         myTarget.TotalColumns = newTotalRows;
-
-        #region Old
-        //LevelPiece[] newPieces = new LevelPiece[newTotalColumns * newTotalRows];
-
-        //for (int col = 0; col < myTarget.TotalRows; col++)
-        //{
-        //    for (int row = 0; row < myTarget.TotalColumns; row++)
-        //    {
-        //        if (col < newTotalColumns && row < newTotalRows)
-        //        {
-        //            newPieces[col + row * newTotalColumns] = myTarget.Pieces[col + row * myTarget.TotalRows];
-        //        }
-        //        else
-        //        {
-        //            LevelPiece piece = myTarget.Pieces[col + row * myTarget.TotalRows];
-        //            if (piece != null)
-        //            {
-        //                Object.DestroyImmediate(piece.gameObject);
-        //            }
-        //        }
-        //    }
-        //}
-
-        //myTarget.Pieces = newPieces;
-        //myTarget.TotalRows = newTotalColumns;
-        //myTarget.TotalColumns = newTotalRows;
-        #endregion
-
-
     }
+
 
 
 

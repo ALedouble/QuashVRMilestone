@@ -15,7 +15,7 @@ public class BrickBehaviours : MonoBehaviour, IBrick
     [Header("Waypoint")]
     public bool isMoving;
     [Tooltip("Enter waypoints positions here")]
-    public Vector3[] waypoints;
+    public List<Vector3> waypoints;
 
     private int waypointIndex;
     private Vector3 refVector;
@@ -53,7 +53,7 @@ public class BrickBehaviours : MonoBehaviour, IBrick
     {
         if (isMoving)
         {
-            if (waypoints.Length != 0)
+            if (waypoints.Count != 0)
             {
                 this.transform.position = waypoints[waypointIndex];
 
@@ -111,7 +111,7 @@ public class BrickBehaviours : MonoBehaviour, IBrick
             }
             else
             {
-                if (waypointIndex < waypoints.Length - 1)
+                if (waypointIndex < waypoints.Count - 1)
                 {
                     waypointIndex++;
                 }
@@ -124,7 +124,7 @@ public class BrickBehaviours : MonoBehaviour, IBrick
         }
         else
         {
-            if (waypointIndex < waypoints.Length - 1)
+            if (waypointIndex < waypoints.Count - 1)
             {
                 waypointIndex++;
             }

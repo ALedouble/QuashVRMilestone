@@ -14,4 +14,2247 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level:
     levelWallBuilds:
-      walls: []
+      walls:
+      - wallBricks:
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.35, y: 1.15, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 1
+          speed: 2.78
+          smoothTime: 0.055
+          waypointsStorage:
+          - {x: -1.35, y: 1.15, z: 24.4}
+          - {x: -0.44999996, y: 1.15, z: 24.4}
+          - {x: 0, y: 0, z: 0}
+          - {x: 1.3500001, y: 3.8500001, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.35, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -1.35, y: 1.45, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.05, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -1.05, y: 1.45, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.05, y: 2.95, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -1.05, y: 2.95, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.05, y: 3.25, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -1.05, y: 3.25, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.05, y: 3.5500002, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -1.05, y: 3.5500002, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -1.05, y: 3.8500001, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -1.05, y: 3.8500001, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.75, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.75, y: 1.45, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.75, y: 2.95, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.75, y: 2.95, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.44999996, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.44999996, y: 1.45, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.44999996, y: 1.75, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.44999996, y: 1.75, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.44999996, y: 2.05, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.44999996, y: 2.05, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.44999996, y: 2.3500001, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.44999996, y: 2.3500001, z: 24.4}
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.44999996, y: 2.95, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.44999996, y: 2.95, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.44999996, y: 3.25, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.44999996, y: 3.25, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.14999995, y: 3.25, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.14999995, y: 3.25, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: -0.14999995, y: 3.5500002, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: -0.14999995, y: 3.5500002, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.15000007, y: 1.15, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 1
+          speed: 2.78
+          smoothTime: 0.055
+          waypointsStorage:
+          - {x: 0.15000007, y: 1.15, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.15000007, y: 1.75, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 1
+          speed: 2.78
+          smoothTime: 0.055
+          waypointsStorage:
+          - {x: 0.15000007, y: 1.75, z: 24.4}
+          - {x: 0.7500001, y: 1.75, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.15000007, y: 2.3500001, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.15000007, y: 2.3500001, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.15000007, y: 2.65, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.15000007, y: 2.65, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.45000008, y: 2.3500001, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.45000008, y: 2.3500001, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.45000008, y: 3.25, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.45000008, y: 3.25, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.7500001, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.7500001, y: 1.45, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.7500001, y: 2.3500001, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.7500001, y: 2.3500001, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.7500001, y: 2.65, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.7500001, y: 2.65, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.7500001, y: 2.95, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.7500001, y: 2.95, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 0.7500001, y: 3.25, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 0.7500001, y: 3.25, z: 24.4}
+          brickColorPreset: 1
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.0500001, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 1.0500001, y: 1.45, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.3500001, y: 1.15, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 1
+          speed: 2.78
+          smoothTime: 0.055
+          waypointsStorage:
+          - {x: 1.3500001, y: 1.15, z: 24.4}
+          - {x: 0.7500001, y: 1.15, z: 24.4}
+          - {x: 1.0500001, y: 1.15, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.3500001, y: 1.45, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 1.3500001, y: 1.45, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.3500001, y: 1.75, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 1.3500001, y: 1.75, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.3500001, y: 2.05, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 1.3500001, y: 2.05, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.3500001, y: 2.3500001, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 1.3500001, y: 2.3500001, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.3500001, y: 2.65, z: 24.4}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 1.3500001, y: 2.65, z: 24.4}
+          brickColorPreset: 2
+          brickTypePreset: 2
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+      - wallBricks:
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          armorValue: 0
+          scoreValue: 0
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage: []
+          brickColorPreset: 0
+          brickTypePreset: 0

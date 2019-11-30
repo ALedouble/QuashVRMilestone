@@ -11,7 +11,18 @@ public class RacketSkinManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        //load skin slots data here
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject); //Set the instance on DontDestroyOnLoad
     }
 }
 

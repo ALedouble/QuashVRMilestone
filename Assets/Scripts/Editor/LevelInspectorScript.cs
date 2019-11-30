@@ -33,8 +33,8 @@ public class LevelInspectorScript : Editor
     private string[] paintModeLabel;
     BrickSettings paintedBrickSettings;
 
-    BrickSettings selectedBrickSettings;
-
+    BrickSettings brickSettingsDisplayed;
+    int brickPosition;
 
     LevelScript myTarget;
 
@@ -97,6 +97,11 @@ public class LevelInspectorScript : Editor
 
         //prefabBase = myTarget.brickPrefab;
 
+        if (myTarget.transform.childCount > 0)
+        {
+            myTarget.transform.DestroyChildren(true);
+        }
+
         InitPrefab();
         InitBrickPresets();
         InitColorPresets();
@@ -114,7 +119,6 @@ public class LevelInspectorScript : Editor
         //UnscribeEvents();
         CleanLayer();
     }
-
 
 
 
@@ -348,7 +352,7 @@ public class LevelInspectorScript : Editor
 
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        //base.OnInspectorGUI();
 
         DrawLevelDataInspecGUI();
 
@@ -387,7 +391,7 @@ public class LevelInspectorScript : Editor
     {
         EditorGUI.BeginChangeCheck();
 
-        Undo.RecordObject(myTarget, "Recording Changes");
+        //Undo.RecordObject(myTarget, "Recording Changes");
 
         EditorGUILayout.LabelField("Grid Parameters", titleStyle);
 
@@ -439,9 +443,9 @@ public class LevelInspectorScript : Editor
             {
                 if (GUILayout.Button("Save"))
                 {
-                    Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-                    Undo.RecordObject(this, "Recording Selected Level Choice");
-                    Undo.RecordObject(myTarget, "Recording Selected Level Choice");
+                    //Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
+                    //Undo.RecordObject(this, "Recording Selected Level Choice");
+                    //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
 
                     string assetPath = AssetDatabase.GetAssetPath(myTarget.selectedLevel);
                     AssetDatabase.RenameAsset(assetPath, myTarget.selectedLevel.name);
@@ -585,6 +589,7 @@ public class LevelInspectorScript : Editor
                     GUILayout.Space(8);
 
 
+
                     GUILayout.BeginHorizontal();
 
                     EditorGUILayout.LabelField("Brick Type", layerStyle);
@@ -602,6 +607,35 @@ public class LevelInspectorScript : Editor
 
 
                     GUILayout.Space(8);
+
+
+                    GUILayout.BeginHorizontal("box");
+
+                    if (paintedBrickSettings.isMalus && paintedBrickSettings.isBonus)
+                    {
+                        EditorGUILayout.LabelField("Malus & Bonus", layerStyle);
+                    }
+                    else if (paintedBrickSettings.isMalus)
+                    {
+                        EditorGUILayout.LabelField("Malus", layerStyle);
+                    }
+                    else if (paintedBrickSettings.isBonus)
+                    {
+                        EditorGUILayout.LabelField("Bonus", layerStyle);
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField("Bon/Mal-us ?", layerStyle);
+                    }
+
+                    paintedBrickSettings.isBonus = EditorGUILayout.Toggle(paintedBrickSettings.isBonus);
+                    paintedBrickSettings.isMalus = EditorGUILayout.Toggle(paintedBrickSettings.isMalus);
+
+                    GUILayout.EndHorizontal();
+
+
+                    GUILayout.Space(8);
+
 
                     myTarget.brickWaypoints = new List<Vector3>();
 
@@ -639,21 +673,30 @@ public class LevelInspectorScript : Editor
             case PaintMode.OnSelection:
                 {
 
-                    if (selectedBrickSettings.isBrickHere)
+                    if (brickSettingsDisplayed.isBrickHere)
                     {
+                        EditorGUI.BeginChangeCheck();
+
                         GUILayout.BeginVertical("box");
                         GUILayout.BeginHorizontal();
 
+                        EditorGUI.BeginChangeCheck();
+
                         EditorGUILayout.LabelField("Color Preset", layerStyle);
-                        selectedBrickSettings.brickColorPreset = EditorGUILayout.IntSlider(selectedBrickSettings.brickColorPreset, 0, myTarget.colorPresets[0].colorPresets.Length - 1);
+                        brickSettingsDisplayed.brickColorPreset = EditorGUILayout.IntSlider(brickSettingsDisplayed.brickColorPreset, 0, myTarget.colorPresets[0].colorPresets.Length - 1);
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            RefreshBrick(brickPosition);
+                        }
 
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal("box");
 
-                        EditorGUILayout.LabelField(myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[selectedBrickSettings.brickColorPreset].tag);
+                        EditorGUILayout.LabelField(myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[brickSettingsDisplayed.brickColorPreset].tag);
 
-                        EditorGUILayout.ColorField(myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[selectedBrickSettings.brickColorPreset].fresnelColors);
-                        EditorGUILayout.ColorField(myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[selectedBrickSettings.brickColorPreset].coreEmissiveColors);
+                        EditorGUILayout.ColorField(myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[brickSettingsDisplayed.brickColorPreset].fresnelColors);
+                        EditorGUILayout.ColorField(myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[brickSettingsDisplayed.brickColorPreset].coreEmissiveColors);
 
                         GUILayout.EndHorizontal();
 
@@ -664,15 +707,15 @@ public class LevelInspectorScript : Editor
                         GUILayout.BeginHorizontal();
 
                         EditorGUILayout.LabelField("Brick Type", layerStyle);
-                        selectedBrickSettings.brickTypePreset = EditorGUILayout.IntSlider(selectedBrickSettings.brickTypePreset, 0, myTarget.brickPresets[0].brickPresets.Length - 1);
+                        brickSettingsDisplayed.brickTypePreset = EditorGUILayout.IntSlider(brickSettingsDisplayed.brickTypePreset, 0, myTarget.brickPresets[0].brickPresets.Length - 1);
 
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal("box");
 
-                        EditorGUILayout.LabelField(myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[selectedBrickSettings.brickTypePreset].tag);
+                        EditorGUILayout.LabelField(myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[brickSettingsDisplayed.brickTypePreset].tag);
 
-                        EditorGUILayout.IntField(myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[selectedBrickSettings.brickTypePreset].armorValue);
-                        EditorGUILayout.IntField(myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[selectedBrickSettings.brickTypePreset].scoreValue);
+                        EditorGUILayout.IntField(myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[brickSettingsDisplayed.brickTypePreset].armorValue);
+                        EditorGUILayout.IntField(myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[brickSettingsDisplayed.brickTypePreset].scoreValue);
 
                         GUILayout.EndHorizontal();
 
@@ -680,37 +723,68 @@ public class LevelInspectorScript : Editor
                         GUILayout.Space(8);
 
 
+                        GUILayout.BeginHorizontal("box");
 
-                        if (!selectedBrickSettings.isMoving)
+                        if (brickSettingsDisplayed.isMalus && brickSettingsDisplayed.isBonus)
+                        {
+                            EditorGUILayout.LabelField("Malus & Bonus", layerStyle);
+                        }
+                        else if (brickSettingsDisplayed.isMalus)
+                        {
+                            EditorGUILayout.LabelField("Malus", layerStyle);
+                        }
+                        else if (brickSettingsDisplayed.isBonus)
+                        {
+                            EditorGUILayout.LabelField("Bonus", layerStyle);
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField("Bon/Mal-us ?", layerStyle);
+                        }
+
+                        brickSettingsDisplayed.isBonus = EditorGUILayout.Toggle(brickSettingsDisplayed.isBonus);
+                        brickSettingsDisplayed.isMalus = EditorGUILayout.Toggle(brickSettingsDisplayed.isMalus);
+
+                        GUILayout.EndHorizontal();
+
+
+                        GUILayout.Space(8);
+
+
+                        if (!brickSettingsDisplayed.isMoving)
                         {
                             GUILayout.BeginVertical("box");
                         }
 
-                        selectedBrickSettings.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", selectedBrickSettings.isMoving, layerStyle);
+                        brickSettingsDisplayed.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", brickSettingsDisplayed.isMoving, layerStyle);
 
-                        if (selectedBrickSettings.isMoving)
+                        if (brickSettingsDisplayed.isMoving)
                         {
                             GUILayout.BeginVertical("box");
                         }
 
-                        if (selectedBrickSettings.isMoving)
+                        if (brickSettingsDisplayed.isMoving)
                         {
-                            selectedBrickSettings.smoothTime = EditorGUILayout.Slider("smoothTime", selectedBrickSettings.smoothTime, 0f, 1f);
-                            selectedBrickSettings.speed = EditorGUILayout.Slider("speed", selectedBrickSettings.speed, 0.1f, 10f);
+                            brickSettingsDisplayed.smoothTime = EditorGUILayout.Slider("smoothTime", brickSettingsDisplayed.smoothTime, 0f, 1f);
+                            brickSettingsDisplayed.speed = EditorGUILayout.Slider("speed", brickSettingsDisplayed.speed, 0.1f, 10f);
 
 
                             serializedObject.Update();
 
-                            myTarget.brickWaypoints = selectedBrickSettings.waypointsStorage;
+                            myTarget.brickWaypoints = brickSettingsDisplayed.waypointsStorage;
                             waypointStorageList.DoLayoutList();
 
                             serializedObject.ApplyModifiedProperties();
-
                         }
 
 
                         GUILayout.EndVertical();
                         GUILayout.EndVertical();
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            currentLayer.wallBricks[brickPosition] = brickSettingsDisplayed;
+                        }
                     }
                     else
                     {
@@ -758,7 +832,7 @@ public class LevelInspectorScript : Editor
                 }
             }
 
-
+            myTarget.bricksOnLayer = 0;
             myTarget.bricksOnScreen = new GameObject[myTarget.TotalColumns * myTarget.TotalRows];
         }
     }
@@ -826,6 +900,55 @@ public class LevelInspectorScript : Editor
         //Debug.Log("myTarget.bricksOnLayer : " + myTarget.bricksOnLayer);
     }
 
+    private void RefreshBrick(int brickPos)
+    {
+        DestroyImmediate(myTarget.bricksOnScreen[brickPos], false);
+
+        GameObject obj = Instantiate(prefabBase) as GameObject;
+        BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
+        MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
+        Material[] mats = objMesh.sharedMaterials;
+
+        mats[1] = new Material(Shader.Find("Shader Graphs/Sh_CubeEdges00"));
+        mats[1].SetFloat("_Metallic", 0.75f);
+
+        mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
+        mats[0].SetColor("_FresnelColor", myTarget.colorPresets[0].colorPresets[currentLayer.wallBricks[brickPos].brickColorPreset].fresnelColors);
+        mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[0].colorPresets[currentLayer.wallBricks[brickPos].brickColorPreset].coreEmissiveColors);
+        mats[0].SetFloat("_XFrameThickness", 0.75f);
+        mats[0].SetFloat("_YFrameThickness", 0.75f);
+
+        objMesh.sharedMaterials = mats;
+
+
+
+        obj.transform.parent = myTarget.transform;
+
+        obj.name = currentLayer.wallBricks[brickPos].brickID;
+
+        obj.transform.position = currentLayer.wallBricks[brickPos].brickPosition;
+
+
+
+        objBehaviours.armorPoints = currentLayer.wallBricks[brickPos].armorValue;
+        objBehaviours.scoreValue = currentLayer.wallBricks[brickPos].scoreValue;
+
+        if (currentLayer.wallBricks[brickPos].isMoving)
+        {
+            objBehaviours.isMoving = currentLayer.wallBricks[brickPos].isMoving;
+            objBehaviours.speed = currentLayer.wallBricks[brickPos].speed;
+            objBehaviours.smoothTime = currentLayer.wallBricks[brickPos].smoothTime;
+            objBehaviours.waypoints = new List<Vector3>();
+
+            for (int j = 0; j < currentLayer.wallBricks[brickPos].waypointsStorage.Count; j++)
+            {
+                objBehaviours.waypoints.Add(currentLayer.wallBricks[brickPos].waypointsStorage[j]);
+            }
+        }
+
+
+        myTarget.bricksOnScreen[brickPos] = obj;
+    }
 
 
 
@@ -1241,7 +1364,7 @@ public class LevelInspectorScript : Editor
 
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
                 {
-                    PaintWaypoint(selectedBrickSettings, col, row);
+                    PaintWaypoint(brickSettingsDisplayed, col, row);
                 }
                 break;
         }
@@ -1321,7 +1444,7 @@ public class LevelInspectorScript : Editor
             {
                 canPaintWaypoint = true;
                 currentMode = EditionMode.Waypoint;
-                selectedBrickSettings = currentLayer.wallBricks[selectedBrick];
+                brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
             }
 
 
@@ -1424,9 +1547,10 @@ public class LevelInspectorScript : Editor
         Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
         #endregion
 
-        selectedBrickSettings = currentLayer.wallBricks[selectedBrick];
+        brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
+        brickPosition = selectedBrick;
 
-        if (selectedBrickSettings.isMoving)
+        if (brickSettingsDisplayed.isMoving)
         {
             canPaintWaypoint = true;
         }

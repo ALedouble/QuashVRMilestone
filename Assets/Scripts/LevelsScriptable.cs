@@ -75,4 +75,6 @@ public struct BrickSettings
 
     public int brickColorPreset;
     public int brickTypePreset;
+    public bool isMalus;
+    public bool isBonus;
 }

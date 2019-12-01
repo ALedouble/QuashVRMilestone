@@ -6,11 +6,12 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
     public LevelsScriptable[] registeredLevels;
+    public LevelsScriptable currentLevel;
     public LevelSettings currentLevelConfig;
-
+    public string levelsPath = "Assets/ScriptableObjects/Levels";
 
     [Header("Level Parameters")]
-    public int currentLayer = 0;
+    public int currentLayer = -1;
     public bool isThereAnotherLayer;
 
     public float layerDiffPosition;
@@ -51,6 +52,11 @@ public class LevelManager : MonoBehaviour
     void NextLayer()
     {
         levelTrans.position = Vector3.SmoothDamp(levelTrans.position, NextPos, ref refVector, smoothTime, sMaxSpeed);
+
+        if(levelTrans.position == NextPos)
+        {
+            changePositionReady = false;
+        }
     }
 
 
@@ -63,12 +69,16 @@ public class LevelManager : MonoBehaviour
         currentLayer += 1;
         NextPos = new Vector3(0, 0, startPos.z + (layerDiffPosition * currentLayer));
 
+
         if (currentLayer >= currentLevelConfig.levelWallBuilds.walls.Length)
         {
             isThereAnotherLayer = false;
         }
 
+
         changePositionReady = true;
+
+        BrickManager.Instance.SpawnLayer();
     }
 
 
@@ -82,4 +92,6 @@ public class LevelManager : MonoBehaviour
         currentLevelConfig = registeredLevels[selectedLevel].level;
         BrickManager.Instance.levelWallsConfig = currentLevelConfig.levelWallBuilds;
     }
+
+
 }

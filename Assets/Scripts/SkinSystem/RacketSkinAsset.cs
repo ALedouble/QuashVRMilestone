@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 [CreateAssetMenu(fileName = "Skin_00", menuName = "Custom/SkinAsset", order = 0)]
 public class RacketSkinAsset : ScriptableObject
@@ -10,12 +11,12 @@ public class RacketSkinAsset : ScriptableObject
     [SerializeField] string skinDescription = "Skin's description here";
 
     [Header("Skin")]
-    [SerializeField] Mesh skinMesh;
+    [SerializeField,ShowAssetPreview] Mesh skinMesh;
     [Tooltip("Array of the skin's materials. !!! MAKE SURE TO PUT THE MATERIALS IN THE RIGHT ORDER INSIDE THE ARRAY !!!")]
     [SerializeField] Material[] skinMaterials;
 
     [Header("UI")]
-    [SerializeField] Sprite skinSprite;
+    [SerializeField,ShowAssetPreview] Sprite skinSprite;
 
     public string SkinName { get => skinName; private set => skinName = value; }
     public string SkinDescription { get => skinDescription; private set => skinDescription = value; }

@@ -1,21 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class RacketSkin : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] MeshFilter meshFilter;
-    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField, Required] MeshFilter meshFilter;
+    [SerializeField, Required] MeshRenderer meshRenderer;
 
     private RacketSkinManager skinManager;
 
     [Header("Skin data")]
     [SerializeField] int currentSkinID;
-    [SerializeField] RacketSkinAsset racketSkinAsset;
+    [SerializeField, ReadOnly] RacketSkinAsset racketSkinAsset;
 
     [Header("Racket skin settings")]
     [SerializeField] bool loadSkinOnStart = false;
+
+    [Header("Debug")]
+    [SerializeField] bool debugMode;
+    [SerializeField, ShowIf("IsInDebugMode")] int debugID;
+    [SerializeField, ShowIf("IsInDebugMode")] RacketSkinAsset debugSkinAsset;
+
+    bool IsInDebugMode()
+    {
+        return debugMode;
+    }
+
+    [Button("Get References")]
+    private void GetReferences()
+    {
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
 
     private void OnEnable()
     {
@@ -27,6 +45,30 @@ public class RacketSkin : MonoBehaviour
     {
         if (loadSkinOnStart) ResetSkin();
     }
+
+    #region DEBUG METHODS
+    [Button("DEBUG SetSkin")]
+    void DebugSetSkin()
+    {
+        if (!IsInDebugMode())
+        {
+            Debug.LogWarning("Debug Method only works in debug mode");
+            return;
+        }
+        SetSkin(debugSkinAsset);
+    }
+
+    [Button("DEBUG LoadSkin")]
+    void DebugLoadSkin()
+    {
+        if (!IsInDebugMode())
+        {
+            Debug.LogWarning("Debug Method only works in debug mode");
+            return;
+        }
+        LoadSkin(debugID);
+    }
+    #endregion
 
     public void ResetSkin()
     {
@@ -45,7 +87,7 @@ public class RacketSkin : MonoBehaviour
             return;
         }
 
-        if(skinID >= skinManager.SkinSlots.Length)
+        if (skinID >= skinManager.SkinSlots.Length)
         {
             Debug.LogError("Wrong ID, the ID (" + skinID.ToString() + ") is bigger than the Skinslot's array length");
             return;

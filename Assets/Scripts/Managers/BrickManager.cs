@@ -7,9 +7,17 @@ public class BrickManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig;
+    public GameObject prefabBase;
+    public string prefabPath = "Assets/Prefabs/Bricks";
+
+    public PresetScriptable[] colorPresets;
+    public string presetPath = "Assets/ScriptableObjects/ColorPresets";
+
+    public BrickTypesScriptable[] brickPresets;
+    public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
     [Header("Number of bricks on the current layer")]
-    public int totalBricskOnLayer;
+    public int[] totalBricskOnLayer;
     public int currentBricksOnLayer;
 
     [Header("Number of bricks in the level")]
@@ -18,6 +26,9 @@ public class BrickManager : MonoBehaviour
     [Header("Bonus & Malus settings")]
     [SerializeField] int bonusPoolID;
     [SerializeField] int malusPoolID;
+
+
+
 
     public static BrickManager Instance;
 
@@ -44,16 +55,76 @@ public class BrickManager : MonoBehaviour
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
+
+        UpdateBrickLevel();
     }
 
     void UpdateBrickLevel()
     {
-        currentBricksOnLayer -= 1;
+        currentBricksOnLayer--;
 
-        if(currentBricksOnLayer <= 0)
+        if (currentBricksOnLayer <= 0)
         {
             LevelManager.Instance.SetNextLayer();
         }
     }
 
+    public void SpawnLayer()
+    {
+        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer];
+
+        for (int i = 0; i < levelWallsConfig.walls.Length; i++)
+        {
+            if (layerToSpawn.wallBricks[i].isBrickHere)
+            {
+                //GameObject obj = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
+                GameObject obj = Instantiate(prefabBase) as GameObject;
+                BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
+                MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
+                Material[] mats = objMesh.sharedMaterials;
+
+                mats[1] = new Material(Shader.Find("Shader Graphs/Sh_CubeEdges00"));
+                mats[1].SetFloat("_Metallic", 0.75f);
+
+                mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
+                mats[0].SetColor("_FresnelColor", colorPresets[0].colorPresets[layerToSpawn.wallBricks[i].brickColorPreset].fresnelColors);
+                mats[0].SetColor("_CoreEmissiveColor", colorPresets[0].colorPresets[layerToSpawn.wallBricks[i].brickColorPreset].coreEmissiveColors);
+                mats[0].SetFloat("_XFrameThickness", 0.75f);
+                mats[0].SetFloat("_YFrameThickness", 0.75f);
+
+                objMesh.sharedMaterials = mats;
+
+
+
+                //mats[0].SetColor("", );
+
+                obj.transform.parent = LevelManager.Instance.levelTrans;
+
+                obj.name = layerToSpawn.wallBricks[i].brickID;
+
+                obj.transform.position = layerToSpawn.wallBricks[i].brickPosition;
+
+
+
+                objBehaviours.armorPoints = layerToSpawn.wallBricks[i].armorValue;
+                objBehaviours.scoreValue = layerToSpawn.wallBricks[i].scoreValue;
+
+                if (layerToSpawn.wallBricks[i].isMoving)
+                {
+                    objBehaviours.isMoving = layerToSpawn.wallBricks[i].isMoving;
+                    objBehaviours.speed = layerToSpawn.wallBricks[i].speed;
+                    objBehaviours.smoothTime = layerToSpawn.wallBricks[i].smoothTime;
+                    objBehaviours.waypoints = new List<Vector3>();
+
+                    for (int j = 0; j < layerToSpawn.wallBricks[i].waypointsStorage.Count; j++)
+                    {
+                        objBehaviours.waypoints.Add(layerToSpawn.wallBricks[i].waypointsStorage[j]);
+                    }
+                }
+
+
+                currentBricksOnLayer++;
+            }
+        }
+    }
 }

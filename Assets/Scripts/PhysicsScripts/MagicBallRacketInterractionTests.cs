@@ -202,7 +202,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         if(numberOfPlayer>1)                //Amelioration Check sur manager
         {
             SwitchTarget();
-            view.RPC("SwitchTarget", RpcTarget.Others);
+            //view.RPC("SwitchTarget", RpcTarget.Others);
         }
 
         float verticalVelocity = CalculateVerticalBounceVelocity(collision);

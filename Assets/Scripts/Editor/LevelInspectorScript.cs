@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using Malee.Editor;
 using UnityEditorInternal;
 using UnityEditor.SceneManagement;
 
@@ -45,7 +44,7 @@ public class LevelInspectorScript : Editor
 
     private GUIStyle titleStyle;
     private GUIStyle layerStyle;
-    private GUIStyle buttonsStyle;
+    private GUIStyle btnStyle;
     private GUIStyle slashStyle;
     private GUIStyle noneStyle;
     private GUIStyle toolStyle;
@@ -53,10 +52,10 @@ public class LevelInspectorScript : Editor
 
 
     SerializedProperty editorSpaceProperty;
-    Malee.Editor.ReorderableList mySpace;
+    ReorderableList mySpace;
 
     SerializedProperty paintedBrickSet;
-    UnityEditorInternal.ReorderableList waypointStorageList;
+    ReorderableList waypointStorageList;
 
 
     private string levelsPath = "Assets/ScriptableObjects/Levels";
@@ -86,7 +85,7 @@ public class LevelInspectorScript : Editor
 
 
 
-#if (UNITY_EDITOR)
+#if UNITY_EDITOR
     public void OnEnable()
     {
         myTarget = (LevelScript)target;
@@ -103,6 +102,7 @@ public class LevelInspectorScript : Editor
         InitPrefab();
         InitBrickPresets();
         InitColorPresets();
+        InitWReorderableList();
         InitGridValues();
         InitReorderableList();
         InitSelectedLevelValues();
@@ -124,17 +124,17 @@ public class LevelInspectorScript : Editor
     {
         // les quatre bools du constructeur correspondent à : draggable, display header, display "add" button, display "remove" button
         paintedBrickSet = serializedObject.FindProperty("brickWaypoints");
-        waypointStorageList = new UnityEditorInternal.ReorderableList(serializedObject, paintedBrickSet, true, true, true, true);
+        waypointStorageList = new ReorderableList(serializedObject, paintedBrickSet, true, true, true, true);
 
         // ensuite, la liste marche par callbacks, effectués à chaque action
         waypointStorageList.drawHeaderCallback = MyListHeader;
         waypointStorageList.drawElementCallback = MyListElementDrawer;
         waypointStorageList.onAddCallback += MyListAddCallback;
         waypointStorageList.onRemoveCallback += MyListRemoveCallback;
-        waypointStorageList.onReorderCallback += (UnityEditorInternal.ReorderableList list) => { Debug.Log("la liste vient d'être réordonnée"); };
+        waypointStorageList.onReorderCallback += (ReorderableList list) => { Debug.Log("la liste vient d'être réordonnée"); };
     }
 
-#region Reorderlist Stuff
+    #region Reorderlist Stuff
 
     void MyListHeader(Rect rect)
     {
@@ -159,8 +159,34 @@ public class LevelInspectorScript : Editor
     {
         paintedBrickSet.DeleteArrayElementAtIndex(rlist.index);
     }
-#endregion
+    #endregion
 
+    void InitWReorderableList()
+    {
+        // les quatre bools du constructeur correspondent à : draggable, display header, display "add" button, display "remove" button
+        editorSpaceProperty = serializedObject.FindProperty("editorSpace");
+        mySpace = new ReorderableList(serializedObject, editorSpaceProperty, false, false, false, false);
+
+        // ensuite, la liste marche par callbacks, effectués à chaque action
+        mySpace.drawHeaderCallback = MyWListHeader;
+        mySpace.drawElementCallback = MyWListElementDrawer;
+        mySpace.onReorderCallback += (ReorderableList list) => { Debug.Log("la liste vient d'être réordonnée"); };
+    }
+
+    #region Reorderlist Stuff
+
+    void MyWListHeader(Rect rect)
+    {
+        EditorGUI.LabelField(rect, "Editor Space");
+    }
+
+    void MyWListElementDrawer(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        rect.yMin += 2;
+        rect.yMax -= 4;
+        EditorGUI.PropertyField(rect, editorSpaceProperty.GetArrayElementAtIndex(index), new GUIContent("Ref " + index.ToString()));
+    }
+    #endregion
 
     private void InitPrefab()
     {
@@ -226,8 +252,7 @@ public class LevelInspectorScript : Editor
 
     public void InitGridValues()
     {
-        editorSpaceProperty = serializedObject.FindProperty("editorSpace");
-        mySpace = new Malee.Editor.ReorderableList(editorSpaceProperty, false, false, true);
+
 
 
         newCellSize = myTarget.CellSize;
@@ -257,35 +282,34 @@ public class LevelInspectorScript : Editor
         titleStyle = new GUIStyle();
         titleStyle.alignment = TextAnchor.MiddleCenter;
         titleStyle.fontSize = 14;
-        titleStyle.normal.textColor = new Color(0.145f, 0.58f, .255f, 1f);
+        titleStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
 
         //Layer Label Style
         layerStyle = new GUIStyle();
         layerStyle.fontStyle = FontStyle.Bold;
         layerStyle.alignment = TextAnchor.MiddleCenter;
-        layerStyle.normal.textColor = Color.white;
-
+        layerStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         //Button Style
-        buttonsStyle = new GUIStyle();
-        buttonsStyle.alignment = TextAnchor.MiddleCenter;
-        buttonsStyle.normal.textColor = Color.white;
-        buttonsStyle.fontStyle = FontStyle.Bold;
-        buttonsStyle.fontSize = 15;
+        btnStyle = new GUIStyle();
+        btnStyle.alignment = TextAnchor.MiddleCenter;
+        btnStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
+        btnStyle.fontStyle = FontStyle.Bold;
+        btnStyle.fontSize = 15;
 
         //Slash Style
         slashStyle = new GUIStyle();
         slashStyle.alignment = TextAnchor.MiddleCenter;
-        slashStyle.normal.textColor = Color.white;
+        slashStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
 
         //End of an Option
         noneStyle = new GUIStyle();
         noneStyle.alignment = TextAnchor.MiddleCenter;
-        noneStyle.normal.textColor = Color.white;
+        noneStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
 
         //toolStyle Style
         toolStyle = new GUIStyle();
         toolStyle.alignment = TextAnchor.MiddleCenter;
-        toolStyle.normal.textColor = Color.white;
+        toolStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         toolStyle.fontSize = 10;
     }
 
@@ -436,7 +460,12 @@ public class LevelInspectorScript : Editor
 
         EditorGUILayout.BeginVertical("box");
 
+        //mySpace.DoLayoutList();
+        serializedObject.Update();
+
         mySpace.DoLayoutList();
+
+        serializedObject.ApplyModifiedProperties();
 
         GUILayout.Space(1);
 
@@ -456,8 +485,8 @@ public class LevelInspectorScript : Editor
 
         EditorGUILayout.BeginVertical("box");
 
-        newTotalColumns = (int)EditorGUILayout.Slider("Number of Columns", newTotalColumns, 0, (int)(myTarget.maxWidthSpace() / myTarget.CellSize));
-        newTotalRows = (int)EditorGUILayout.Slider("Number of rows", newTotalRows, 0, (int)(myTarget.maxHeightSpace() / myTarget.CellSize));
+        newTotalColumns = (int)EditorGUILayout.Slider("Number of Rows", newTotalColumns, 0, (int)(myTarget.maxHeightSpace() / myTarget.CellSize));
+        newTotalRows = (int)EditorGUILayout.Slider("Number of Columns", newTotalRows, 0, (int)(myTarget.maxWidthSpace() / myTarget.CellSize));
         newCellSize = EditorGUILayout.Slider("Cell Size", newCellSize, 0.1f, 1f);
 
         GUILayout.Space(2);
@@ -754,13 +783,13 @@ public class LevelInspectorScript : Editor
         {
             if (myTarget.bricksOnScreen[i] != null)
             {
-#region Undo
+                #region Undo
                 Undo.DestroyObjectImmediate(myTarget.bricksOnScreen[i]);
 
                 Undo.RecordObject(this, "Recording Selected Level Choice");
                 Undo.RecordObject(myTarget, "Recording Selected Level Choice");
                 Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-#endregion
+                #endregion
 
                 DestroyImmediate(myTarget.bricksOnScreen[i], false);
                 BrickSettings blankBrick = new BrickSettings();
@@ -930,7 +959,7 @@ public class LevelInspectorScript : Editor
 
         GUI.Box(new Rect(5, 20, 250, 115), "");
 
-        GUILayout.BeginArea(new Rect(10f, 25, 190, 30));
+        GUILayout.BeginArea(new Rect(10, 25, 190, 30));
 
         EditorGUI.BeginChangeCheck();
 
@@ -1021,7 +1050,7 @@ public class LevelInspectorScript : Editor
         if (selectedLayer > 0)
         {
             //Passage au layer PRECEDENT
-            if (GUI.Button(new Rect(55, 46, 26, 23), new GUIContent("<", "Go to Previous Layer"), buttonsStyle))
+            if (GUI.Button(new Rect(55, 46, 26, 23), new GUIContent("<", "Go to Previous Layer"), btnStyle))
             {
                 selectedLayer--;
 
@@ -1043,7 +1072,7 @@ public class LevelInspectorScript : Editor
         if (selectedLayer < totalLayersDisplayed)
         {
             //Passage au layer SUIVANT
-            if (GUI.Button(new Rect(126, 46, 26, 23), new GUIContent(">", "Go to Next Layer"), buttonsStyle))
+            if (GUI.Button(new Rect(126, 46, 26, 23), new GUIContent(">", "Go to Next Layer"), btnStyle))
             {
                 selectedLayer++;
 
@@ -1056,7 +1085,7 @@ public class LevelInspectorScript : Editor
         else
         {
             //Incrémentation du nombre TOTAL de layer
-            if (GUI.Button(new Rect(130, 49, 20, 18), new GUIContent("+", "Add a Layer"), buttonsStyle))
+            if (GUI.Button(new Rect(130, 49, 20, 18), new GUIContent("+", "Add a Layer"), btnStyle))
             {
                 numberOfLayers++;
                 totalLayersDisplayed = numberOfLayers - 1;
@@ -1381,11 +1410,11 @@ public class LevelInspectorScript : Editor
         if (!currentLayer.wallBricks[selectedBrick].isBrickHere)
         {
             //Debug.LogFormat("GridPos {0},{1}", col, row);
-#region Undo
+            #region Undo
             Undo.RecordObject(this, "Recording Selected Level Choice");
             Undo.RecordObject(myTarget, "Recording Selected Level Choice");
             Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-#endregion
+            #endregion
 
             //SPAWN et récupération du BEHAVIOUR
             //GameObject obj = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
@@ -1465,7 +1494,7 @@ public class LevelInspectorScript : Editor
             Undo.RegisterCreatedObjectUndo(obj, "Registered created Object");
         }
 
-#region Old
+        #region Old
 
         //obj.hideFlags = HideFlags.HideInHierarchy;
 
@@ -1473,7 +1502,7 @@ public class LevelInspectorScript : Editor
 
         //myTarget.Pieces[col + row * myTarget.TotalRows] = obj.GetComponent<LevelPiece>();
 
-#endregion
+        #endregion
     }
 
     private void PaintWaypoint(BrickSettings movingBrick, int col, int row)
@@ -1496,11 +1525,11 @@ public class LevelInspectorScript : Editor
 
 
         //Debug.LogFormat("GridPos {0},{1}", col, row);
-#region Undo
+        #region Undo
         Undo.RecordObject(this, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-#endregion
+        #endregion
 
         //Paint Waypoint
         movingBrick.waypointsStorage.Add(newWaypoint);
@@ -1519,12 +1548,12 @@ public class LevelInspectorScript : Editor
         {
             GameObject objToDestroy = myTarget.bricksOnScreen[col * myTarget.TotalRows + row];
 
-#region Undo
+            #region Undo
             Undo.DestroyObjectImmediate(objToDestroy);
             Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
             Undo.RecordObject(this, "Recording Selected Level Choice");
             Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-#endregion
+            #endregion
 
             DestroyImmediate(objToDestroy);
 
@@ -1565,11 +1594,11 @@ public class LevelInspectorScript : Editor
             return;
         }
 
-#region Undo
+        #region Undo
         Undo.RecordObject(this, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-#endregion
+        #endregion
 
         brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
         brickPosition = selectedBrick;
@@ -1591,8 +1620,8 @@ public class LevelInspectorScript : Editor
 
     private void ResetResizeValues()
     {
-        newTotalColumns = myTarget.TotalRows;
-        newTotalRows = myTarget.TotalColumns;
+        newTotalColumns = myTarget.TotalColumns;
+        newTotalRows = myTarget.TotalRows;
         newCellSize = myTarget.CellSize;
     }
 

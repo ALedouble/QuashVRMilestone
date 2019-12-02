@@ -65,6 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_17D31F15: 0.15
     - Vector1_1A775B25: 0.5
     - Vector1_21AC8E70: 5
     - Vector1_2DD77E5F: 2
@@ -98,7 +99,7 @@ Material:
     - _OcclusionStrength: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScrollingSpeed: 0.05
+    - _ScrollingSpeed: 0.01
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -107,6 +108,7 @@ Material:
     - _TwirlDensity: 0.2
     - _TwirlSpeed: 0.03
     - _TwirlStrength: 5
+    - _VertScroSpeed: 0.1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -121,9 +123,11 @@ Material:
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1.9240202, g: 0, b: 2.9960785, a: 0}
+    - _HoriTexTiling: {r: 1, g: 0.1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TextureTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TextureTiling: {r: 0.005, g: 0.3, b: 0, a: 0}
     - _TwirlCenter: {r: 2.5, g: 3.5, b: 0, a: 0}
+    - _VertTexTiling: {r: 1, g: 1, b: 0, a: 0}
     - _WallColor: {r: 0.05368211, g: 0, b: 0.21960784, a: 0}
 --- !u!114 &6978877813672492810
 MonoBehaviour:

@@ -86,7 +86,7 @@ public class LevelInspectorScript : Editor
 
 
 
-
+#if (UNITY_EDITOR)
     public void OnEnable()
     {
         myTarget = (LevelScript)target;
@@ -94,10 +94,10 @@ public class LevelInspectorScript : Editor
         myTarget.bricksOnScreen = new GameObject[myTarget.TotalColumns * myTarget.TotalRows];
 
 
-        if (myTarget.transform.childCount > 0)
-        {
-            myTarget.transform.DestroyChildren(true);
-        }
+        //if (myTarget.transform.childCount > 0)
+        //{
+        //    myTarget.transform.DestroyChildren(true);
+        //}
 
 
         InitPrefab();
@@ -116,7 +116,7 @@ public class LevelInspectorScript : Editor
         //UnscribeEvents();
         CleanLayer();
     }
-
+#endif
 
 
 
@@ -134,7 +134,7 @@ public class LevelInspectorScript : Editor
         waypointStorageList.onReorderCallback += (UnityEditorInternal.ReorderableList list) => { Debug.Log("la liste vient d'être réordonnée"); };
     }
 
-    #region Reorderlist Stuff
+#region Reorderlist Stuff
 
     void MyListHeader(Rect rect)
     {
@@ -159,7 +159,7 @@ public class LevelInspectorScript : Editor
     {
         paintedBrickSet.DeleteArrayElementAtIndex(rlist.index);
     }
-    #endregion
+#endregion
 
 
     private void InitPrefab()
@@ -754,13 +754,13 @@ public class LevelInspectorScript : Editor
         {
             if (myTarget.bricksOnScreen[i] != null)
             {
-                #region Undo
+#region Undo
                 Undo.DestroyObjectImmediate(myTarget.bricksOnScreen[i]);
 
                 Undo.RecordObject(this, "Recording Selected Level Choice");
                 Undo.RecordObject(myTarget, "Recording Selected Level Choice");
                 Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-                #endregion
+#endregion
 
                 DestroyImmediate(myTarget.bricksOnScreen[i], false);
                 BrickSettings blankBrick = new BrickSettings();
@@ -1381,11 +1381,11 @@ public class LevelInspectorScript : Editor
         if (!currentLayer.wallBricks[selectedBrick].isBrickHere)
         {
             //Debug.LogFormat("GridPos {0},{1}", col, row);
-            #region Undo
+#region Undo
             Undo.RecordObject(this, "Recording Selected Level Choice");
             Undo.RecordObject(myTarget, "Recording Selected Level Choice");
             Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-            #endregion
+#endregion
 
             //SPAWN et récupération du BEHAVIOUR
             //GameObject obj = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
@@ -1465,7 +1465,7 @@ public class LevelInspectorScript : Editor
             Undo.RegisterCreatedObjectUndo(obj, "Registered created Object");
         }
 
-        #region Old
+#region Old
 
         //obj.hideFlags = HideFlags.HideInHierarchy;
 
@@ -1473,7 +1473,7 @@ public class LevelInspectorScript : Editor
 
         //myTarget.Pieces[col + row * myTarget.TotalRows] = obj.GetComponent<LevelPiece>();
 
-        #endregion
+#endregion
     }
 
     private void PaintWaypoint(BrickSettings movingBrick, int col, int row)
@@ -1496,11 +1496,11 @@ public class LevelInspectorScript : Editor
 
 
         //Debug.LogFormat("GridPos {0},{1}", col, row);
-        #region Undo
+#region Undo
         Undo.RecordObject(this, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-        #endregion
+#endregion
 
         //Paint Waypoint
         movingBrick.waypointsStorage.Add(newWaypoint);
@@ -1519,12 +1519,12 @@ public class LevelInspectorScript : Editor
         {
             GameObject objToDestroy = myTarget.bricksOnScreen[col * myTarget.TotalRows + row];
 
-            #region Undo
+#region Undo
             Undo.DestroyObjectImmediate(objToDestroy);
             Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
             Undo.RecordObject(this, "Recording Selected Level Choice");
             Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-            #endregion
+#endregion
 
             DestroyImmediate(objToDestroy);
 
@@ -1565,11 +1565,11 @@ public class LevelInspectorScript : Editor
             return;
         }
 
-        #region Undo
+#region Undo
         Undo.RecordObject(this, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget, "Recording Selected Level Choice");
         Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-        #endregion
+#endregion
 
         brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
         brickPosition = selectedBrick;

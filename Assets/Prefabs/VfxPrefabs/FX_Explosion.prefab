@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 2194597433777538210}
   - component: {fileID: 2194597433777538213}
   m_Layer: 11
-  m_Name: FX_Impact
+  m_Name: FX_Explosion
   m_TagString: Impact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4902,8 +4902,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
-  numberOfDivision: 8
-  raycastOffset: 0.05
+  numberOfDivision: 10
 --- !u!54 &2194597433777538213
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -33857,7 +33856,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6164562157608746053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.466, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 2194597433777538211}

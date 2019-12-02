@@ -43,12 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13ad5eee9581d184e983dbe939b91303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registeredLevels: []
+  registeredLevels:
+  - {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
+  currentLevel: {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
   currentLevelConfig:
     levelWallBuilds:
       walls: []
-    levelZoneConfig:
-      layersZoneConfiguration: []
+  levelsPath: Assets/ScriptableObjects/Levels
   currentLayer: -1
   isThereAnotherLayer: 0
   layerDiffPosition: 0
@@ -235,7 +236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11512f2645d1465469c3226de07b66b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPlayer: {fileID: 0}
+  prefabPlayer: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
+    type: 3}
+  spawnJ1: {fileID: 0}
+  spawnJ2: {fileID: 0}
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,9 +330,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelWallsConfig:
     walls: []
-  totalBricskOnLayer: 0
+  prefabBase: {fileID: 0}
+  prefabPath: Assets/Prefabs/Bricks
+  colorPresets: []
+  presetPath: Assets/ScriptableObjects/ColorPresets
+  brickPresets: []
+  brickPresetPath: Assets/ScriptableObjects/BrickPresets
   currentBricksOnLayer: 0
-  totalBricskInLevel: 0
+  bonusPoolID: 0
+  malusPoolID: 0
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 0}
   isResetable: 1
-  resetDelay: 0
+  resetDelay: 1
 --- !u!1 &6572958010756774014
 GameObject:
   m_ObjectHideFlags: 0

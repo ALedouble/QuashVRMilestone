@@ -64,7 +64,8 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     private Target currentTarget;
     public float depthVelocity;
     public Transform[] playerTransforms = new Transform[8];
-    
+    public Transform[] xReturnsPoints = new Transform[8];
+    public Transform zReturnPoints;
     //public Transform zFloorBounceTarget;
     //[Header("X Return Settings")]
     //public Transform xReturnTarget;
@@ -109,7 +110,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
     private void OnCollisionEnter(Collision other)
     {
-        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.racket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
         
         if (other.gameObject.CompareTag("Racket") )
         {
@@ -144,6 +145,8 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
             }
 
             OnHitCollision(newVelocity);
+            RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+
             if (numberOfPlayer > 1)                //Amelioration Check sur manager
             {
                 view.RPC("OnHitCollision", RpcTarget.Others, myVel);
@@ -167,10 +170,10 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     }
 
     [PunRPC]
-    private void OnHitCollision(Vector3 direction){
+    private void OnHitCollision(Vector3 direction)
+    {
         myVel = direction  ;
         rigidbody.velocity = ClampVelocity(hitSpeedMultiplier * direction);
-        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
         ballState = BallState.NORMAL;
     }
 
@@ -218,7 +221,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     private float CalculateVerticalBounceVelocity(Collision collision)
     {
         //Vector3 collisionPoint = collision.GetContact(0).point;
-        return (gravity * (GetCurrentTargetPosition().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (GetCurrentTargetPosition().z - transform.position.z));
+        return (gravity * (GetCurrentTargetPositionZ().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (GetCurrentTargetPositionZ().z - transform.position.z));
     }
     [PunRPC]
     private void StandardBounceVelocity(Vector3 direction){
@@ -227,12 +230,14 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
     private float CalculateSideBounceVelocity(Collision collision)
     {
-        Vector3 collisionPoint = collision.GetContact(0).point;
-        Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPosition().x - collisionPoint.x, 0, GetCurrentTargetPosition().z - collisionPoint.z);
+      //  Vector3 collisionPoint = collision.GetContact(0).point;
+        Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPosition().x - transform.position.x, 0, GetCurrentTargetPosition().z - transform.position.z);
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
         return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
+        //return Vector3.Dot((depthVelocity / Vector3.Dot(Vector3.back, returnHorizontalDirection)) * Vector3.back, Vector3.right);
     }
 
+    [PunRPC]
     private void SwitchTarget()
     {
         if (currentTarget == Target.PLAYER1)
@@ -255,18 +260,37 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         //return playerTransform[(int)playerTransforms].position;
     }
 
+    private Vector3 GetCurrentTargetPositionX()
+    {
+        if (currentTarget == Target.PLAYER1)
+        {
+            return xReturnsPoints[0].position;
+        }
+        else
+        {
+            return xReturnsPoints[0].position;
+        }
+        //return playerTransform[(int)playerTransforms].position;
+    }
+
+    private Vector3 GetCurrentTargetPositionZ()
+    {
+        return zReturnPoints.position;
+        //return playerTransform[(int)playerTransforms].position;
+    }
+
     //////////////////////////////////////////    Racket Interraction     /////////////////////////////////////////////////
 
     [PunRPC]
     private Vector3 RacketArcadeHit()
     {
-        return RacketManager.instance.racket.GetComponent<PhysicInfo>().GetVelocity();
+        return RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity();
     }
 
     [PunRPC]
     private Vector3 RacketBasicPhysicHit(Collision collision)       // Ajout d'un seuil pour pouvoir jouer avec la balle?
     {
-        Vector3 racketVelocity = RacketManager.instance.racket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
+        Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
         Vector3 relativeVelocity = lastVelocity - racketVelocity;
         Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
 
@@ -279,7 +303,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     [PunRPC]
     private Vector3 RacketMediumPhysicHit(Collision collision) // Ajout d'un seuil pour pouvoir jouer avec la balle?
     {
-        Vector3 racketVelocity = RacketManager.instance.racket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
+        Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
 
         Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
 
@@ -308,7 +332,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
         Vector3 velocityDirection = Vector3.Normalize(new Vector3(Mathf.Cos(newYEulerRotation), 1 / Mathf.Tan(newZEulerRotation), Mathf.Sin(newYEulerRotation)));
 
-        float velocityMagnitude = RacketManager.instance.racket.GetComponent<PhysicInfo>().GetVelocity().magnitude;
+        float velocityMagnitude = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude;
         velocityMagnitude *= magnitudeSlope;
 
         if (velocityMagnitude > maxMagnitude)

@@ -153,43 +153,43 @@ public class QPlayerManager : MonoBehaviourPun
 
     private void ActionCall(PlayerID playerID, PlayerHand playerHand)           //Rename
     {
-        if(RacketManager.instance.GetGrabInfo().grabState == GrabState.GRABBED)
-        {
-            if(RacketManager.instance.GetGrabInfo().userID == playerID)
-            {
-                if (RacketManager.instance.GetGrabInfo().userHand == playerHand)
-                    RacketManager.instance.StopRacketGrabCall(playerID);
-                else
-                {
-                    if(BallManager.instance.GetGrabInfo().grabState == GrabState.UNUSED)
-                    {
-                        BallManager.instance.BallResetCall(playerID, playerHand);
-                    }
-                }
-            }
-            else
-            {
-                return; //A enlever?
-            }
-        }
-        else if(RacketManager.instance.GetGrabInfo().grabState == GrabState.ATTRACTED)
-        {
-            if(RacketManager.instance.GetGrabInfo().userID == playerID)
-                RacketManager.instance.StopRacketGrabCall(playerID);
-        }
-        else if(RacketManager.instance.GetGrabInfo().grabState == GrabState.UNUSED)
-        {
-            RacketManager.instance.RacketGrabCall(playerID, playerHand);
-        }
+        //if(RacketManager.instance.GetGrabInfo().grabState == GrabState.GRABBED)
+        //{
+        //    if(RacketManager.instance.GetGrabInfo().userID == playerID)
+        //    {
+        //        //if (RacketManager.instance.GetGrabInfo().userHand == playerHand)
+        //        //    RacketManager.instance.StopRacketGrabCall(playerID);
+        //        //else
+        //        //{
+        //        //    if(BallManager.instance.GetGrabInfo().grabState == GrabState.UNUSED)
+        //        //    {
+        //        //        BallManager.instance.BallResetCall(playerID, playerHand);
+        //        //    }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        return; //A enlever?
+        //    }
+        //}
+        //else if(RacketManager.instance.GetGrabInfo().grabState == GrabState.ATTRACTED)
+        //{
+        //    //if(RacketManager.instance.GetGrabInfo().userID == playerID)
+        //        //RacketManager.instance.StopRacketGrabCall(playerID);
+        //}
+        //else if(RacketManager.instance.GetGrabInfo().grabState == GrabState.UNUSED)
+        //{
+        //    //RacketManager.instance.RacketGrabCall(playerID, playerHand);
+        //}
         
-        if (BallManager.instance.GetGrabInfo().grabState == GrabState.ATTRACTED)
-        {
-            BallManager.instance.BallResetStopCall(playerID);
-        }
-        else if (BallManager.instance.GetGrabInfo().grabState == GrabState.GRABBED)
-        {
-            BallManager.instance.BallResetStopCall(playerID);
-        }
+        //if (BallManager.instance.GetGrabInfo().grabState == GrabState.ATTRACTED)
+        //{
+        //    BallManager.instance.BallResetStopCall(playerID);
+        //}
+        //else if (BallManager.instance.GetGrabInfo().grabState == GrabState.GRABBED)
+        //{
+        //    BallManager.instance.BallResetStopCall(playerID);
+        //}
     }
 
     private void StopCall(PlayerID playerID, PlayerHand playerHand)             //Rename

@@ -11,7 +11,7 @@ using VRTK;
 //    public GrabState grabState;
 //}
 
-public class RacketManager : MonoBehaviour, IGrabCaller
+public class RacketManager : MonoBehaviour//, //IGrabCaller
 {
     #region Singleton
     public static RacketManager instance;
@@ -33,11 +33,11 @@ public class RacketManager : MonoBehaviour, IGrabCaller
 
     //public GameObject racketPrefab;
     //public Transform racketSpawn;
-
-    public GameObject racket;
+    public GameObject[] rackets = new GameObject[2];
+    public GameObject localPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
     
-    private GrabInfo racketGrabInfo;
+    //private GrabInfo racketGrabInfo;
 
     //private Vector3 positionTMinus1;
     //private Quaternion rotationTMinus1;
@@ -60,8 +60,8 @@ public class RacketManager : MonoBehaviour, IGrabCaller
     {
         //racket = Instantiate(racketPrefab, racketSpawn) as GameObject;
         
-        racketGrabInfo.userID = PlayerID.NONE;
-        racketGrabInfo.grabState = GrabState.UNUSED;
+        //racketGrabInfo.userID = PlayerID.NONE;
+        //racketGrabInfo.grabState = GrabState.UNUSED;
         //positionTMinus1 = racket.transform.position;
 
         //velocityTMinus3Half = Vector3.zero;
@@ -77,6 +77,52 @@ public class RacketManager : MonoBehaviour, IGrabCaller
         //dTMinus1 = 1;
 
         //StartCoroutine(SetupEventSuscription());
+    }
+
+    //public GrabInfo GetGrabInfo()
+    //{
+    //    return racketGrabInfo;
+    //}
+
+    public void SetPlayerRacket(int racketID)
+    {
+        if ((racketID - 1) < rackets.Length)
+        {
+            localPlayerRacket = rackets[racketID - 1];
+            SetInactiveOtherRackets(racketID - 1);
+        }
+    }
+
+    private void SetInactiveOtherRackets(int activeRacket)
+    {
+        for(int i = 0; i<rackets.Length; i++)
+        {
+            if(i==activeRacket)
+            {
+                rackets[i].SetActive(true);
+            }
+            else
+            {
+                rackets[i].SetActive(false);
+            }
+        }
+    }
+
+    //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
+
+    public void OnHitEvent(GameObject hitObject)                        // Faire Un vrai event?
+    {
+        StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
+    }
+
+    private IEnumerator AfterHitIgnoreCoroutine(GameObject hitObject, float lastHitTime)
+    {
+        Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), true);
+        while (Time.time < lastHitTime + deltaHitTime)
+        {
+            yield return new WaitForFixedUpdate(); // Remplacer par WaitForSeconds
+        }
+        Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
     }
 
     //void FixedUpdate()
@@ -97,7 +143,7 @@ public class RacketManager : MonoBehaviour, IGrabCaller
     //}
 
     ///////////////////////////////////////////////////     Getter     //////////////////////////////////////////////////
-    
+
     //private Vector3 GetPosition()
     //{
     //    return racket.transform.position;
@@ -128,10 +174,7 @@ public class RacketManager : MonoBehaviour, IGrabCaller
     //    return angularAccelerationTMinus1;
     //}
 
-    public GrabInfo GetGrabInfo()
-    {
-        return racketGrabInfo;
-    }
+    
 
     ////////////////////////////////////////////////    Calculus Methods     /////////////////////////////////////////////
 
@@ -150,25 +193,10 @@ public class RacketManager : MonoBehaviour, IGrabCaller
     //    return (velocity2 - velocity1) / ((deltaTime2 + deltaTime1) / 2);
     //}
 
-    //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
-
-    public void OnHitEvent(GameObject hitObject)                        // Faire Un vrai event?
-    {
-        StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
-    }
-
-    private IEnumerator AfterHitIgnoreCoroutine(GameObject hitObject, float lastHitTime)
-    {
-        Physics.IgnoreCollision(racket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), true);
-        while (Time.time < lastHitTime + deltaHitTime)
-        {
-            yield return new WaitForFixedUpdate(); // Remplacer par WaitForSeconds
-        }
-        Physics.IgnoreCollision(racket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
-    }
+    
 
     //////////////////////////////////////////////     Distant Grab     //////////////////////////////////////////////
-    
+    /*
     public void RacketGrabCall(PlayerID callingPlayerID, PlayerHand callingPlayerHand)
     {
         grabCallCoroutine[(int)callingPlayerID] = StartCoroutine(AttemptAttraction(callingPlayerID, callingPlayerHand));
@@ -237,6 +265,7 @@ public class RacketManager : MonoBehaviour, IGrabCaller
     {
         return;
     }
+    */
 
    
     //public void OnVRTKGrab(object sender, ObjectInteractEventArgs e)

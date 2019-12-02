@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject prefabPlayer;
 
+
     public GameObject spawnJ1;
     public GameObject spawnJ2;
-
 
     public static GameManager Instance;
 
@@ -30,9 +30,13 @@ public class GameManager : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient){
             QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject, 1);
+
+            RacketManager.instance.SetPlayerRacket(1);
         }
         else{
             QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject, 1);
+
+            RacketManager.instance.SetPlayerRacket(2);
         }
        
 

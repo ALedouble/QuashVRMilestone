@@ -11,7 +11,18 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         NORMAL,
         SLOW
     }
-
+    
+    public enum Target          // 8 players max...?
+    {
+        PLAYER1 = 0,
+        PLAYER2 = 1,
+        PLAYER3 = 2,
+        PLAYER4 = 3,
+        PLAYER5 = 4,
+        PLAYER6 = 5,
+        PLAYER7 = 6,
+        PLAYER8 = 7
+    }
     public enum RacketInteractionType
     {
         BASICARCADE,
@@ -46,14 +57,19 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     [Header("Gravity Settings")]
     public float gravity;
 
-    [Header("MagicBounce Depth Settings")]
+    //[Header("MagicBounce Depth Settings")]
+    [Header("MagicBounce Settings")]
+    public int numberOfPlayer = 1;                                  // A placer ailleur!
+    public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
+    private Target currentTarget;
     public float depthVelocity;
-    public Transform zFloorBounceTarget;
+    public Transform[] playerTransforms = new Transform[8];
+    
+    //public Transform zFloorBounceTarget;
+    //[Header("X Return Settings")]
+    //public Transform xReturnTarget;
 
-    [Header("X Return Settings")]
-    public Transform xReturnTarget;
-
-    [Header("Bounce Settings")]
+    [Header("Standard Bounce Settings")]
     public float bounciness;
     public float dynamicFriction;
 
@@ -74,6 +90,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         view = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
         ballState = BallState.NORMAL;
+        currentTarget = startingPlayer;
     }
 
     private void FixedUpdate()
@@ -176,6 +193,9 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
     private void MagicalBounce3(Collision collision)
     {
+        SwitchTarget();
+        view.RPC("SwitchTarget", RpcTarget.Others);
+
         float verticalVelocity = CalculateVerticalBounceVelocity(collision);
 
         float sideVelocity = CalculateSideBounceVelocity(collision);
@@ -183,6 +203,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         rigidbody.velocity = new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness;
         theVel = rigidbody.velocity;
     }
+
     [PunRPC]
     private void MagicalBounce3Velocity(Vector3 direction){
         direction = theVel;
@@ -191,7 +212,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     private float CalculateVerticalBounceVelocity(Collision collision)
     {
         Vector3 collisionPoint = collision.GetContact(0).point;
-        return (gravity * (zFloorBounceTarget.position.z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (zFloorBounceTarget.position.z - transform.position.z));
+        return (gravity * (GetCurrentTargetPosition().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (GetCurrentTargetPosition().z - transform.position.z));
     }
     [PunRPC]
     private void StandardBounceVelocity(Vector3 direction){
@@ -201,11 +222,32 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     private float CalculateSideBounceVelocity(Collision collision)
     {
         Vector3 collisionPoint = collision.GetContact(0).point;
-        Vector3 returnHorizontalDirection = new Vector3(xReturnTarget.position.x - collisionPoint.x, 0, xReturnTarget.position.z - collisionPoint.z);
+        Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPosition().x - collisionPoint.x, 0, GetCurrentTargetPosition().z - collisionPoint.z);
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
         return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
     }
 
+    private void SwitchTarget()
+    {
+        if (currentTarget == Target.PLAYER1)
+            currentTarget = Target.PLAYER2;
+        else if(currentTarget == Target.PLAYER2)
+            currentTarget = Target.PLAYER1;
+        //currentTarget = (Target)(((int)currentTarget + 1)%numberOfPlayer); 
+    }
+
+    private Vector3 GetCurrentTargetPosition()
+    {
+        if(currentTarget == Target.PLAYER1)
+        {
+            return playerTransforms[0].position;
+        }
+        else
+        {
+            return playerTransforms[1].position;
+        }
+        //return playerTransform[(int)playerTransforms].position;
+    }
 
     //////////////////////////////////////////    Racket Interraction     /////////////////////////////////////////////////
 

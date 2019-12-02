@@ -108,7 +108,7 @@ Material:
     - _TwirlDensity: 0.2
     - _TwirlSpeed: 0.03
     - _TwirlStrength: 5
-    - _VertScroSpeed: 0.1
+    - _VertScroSpeed: 0.05
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -127,7 +127,7 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TextureTiling: {r: 0.005, g: 0.3, b: 0, a: 0}
     - _TwirlCenter: {r: 2.5, g: 3.5, b: 0, a: 0}
-    - _VertTexTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _VertTexTiling: {r: 0.2, g: 1, b: 0, a: 0}
     - _WallColor: {r: 0.05368211, g: 0, b: 0.21960784, a: 0}
 --- !u!114 &6978877813672492810
 MonoBehaviour:

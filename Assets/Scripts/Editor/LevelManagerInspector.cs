@@ -9,7 +9,7 @@ public class LevelManagerInspector : Editor
 {
     LevelManager mytarget;
 
-
+#if (UNITY_EDITOR)
     private void OnEnable()
     {
         mytarget = (LevelManager)target;
@@ -23,6 +23,7 @@ public class LevelManagerInspector : Editor
             mytarget.registeredLevels = new LevelsScriptable[0];
         }
     }
+#endif
 
     public override void OnInspectorGUI()
     {

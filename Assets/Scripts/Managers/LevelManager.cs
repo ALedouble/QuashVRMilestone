@@ -12,13 +12,13 @@ public class LevelManager : MonoBehaviour
 
     [Header("Level Parameters")]
     public int currentLayer = -1;
-    public bool isThereAnotherLayer;
+    [SerializeField] bool isThereAnotherLayer = true;
 
     public float layerDiffPosition;
 
     public Transform levelTrans;
-    public Vector3 startPos;
-    public Vector3 NextPos;
+    [SerializeField] Vector3 startPos;
+    [SerializeField] Vector3 NextPos;
 
     public Vector3 refVector;
     [Range(0, 1)] public float smoothTime;
@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        ConfigDistribution(0);
     }
 
     private void Update()
@@ -53,7 +55,7 @@ public class LevelManager : MonoBehaviour
     {
         levelTrans.position = Vector3.SmoothDamp(levelTrans.position, NextPos, ref refVector, smoothTime, sMaxSpeed);
 
-        if(levelTrans.position == NextPos)
+        if (levelTrans.position == NextPos)
         {
             changePositionReady = false;
         }
@@ -66,19 +68,23 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void SetNextLayer()
     {
-        currentLayer += 1;
-        NextPos = new Vector3(0, 0, startPos.z + (layerDiffPosition * currentLayer));
+        if (isThereAnotherLayer)
+        {
+            currentLayer += 1;
+            NextPos = new Vector3(0, 0, startPos.z + (layerDiffPosition * currentLayer));
+
+
+            changePositionReady = true;
+
+            BrickManager.Instance.SpawnLayer();
+        }
+
 
 
         if (currentLayer >= currentLevelConfig.levelWallBuilds.walls.Length)
         {
             isThereAnotherLayer = false;
         }
-
-
-        changePositionReady = true;
-
-        BrickManager.Instance.SpawnLayer();
     }
 
 
@@ -89,9 +95,9 @@ public class LevelManager : MonoBehaviour
     /// <param name="selectedLevel"></param>
     public void ConfigDistribution(int selectedLevel)
     {
-        currentLevelConfig = registeredLevels[selectedLevel].level;
+        currentLevel = registeredLevels[selectedLevel];
+        currentLevelConfig = currentLevel.level;
+
         BrickManager.Instance.levelWallsConfig = currentLevelConfig.levelWallBuilds;
     }
-
-
 }

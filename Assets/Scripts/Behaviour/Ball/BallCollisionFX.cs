@@ -36,9 +36,12 @@ public class BallCollisionFX : MonoBehaviour
         {
             currentCooldown = 0;
 
+            Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, 24.4f);
+
             if (canSpawn)
             {
-                PoolManager.instance.SpawnFromPool("ImpactFX", impactPosition, Quaternion.identity);
+                PoolManager.instance.SpawnFromPool("ImpactFX", pos, Quaternion.identity);
+                
                 canSpawn = false;
             }
         }

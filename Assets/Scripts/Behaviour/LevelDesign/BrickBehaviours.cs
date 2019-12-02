@@ -39,15 +39,19 @@ public class BrickBehaviours : MonoBehaviour, IBrick
     private bool onItsWayBack;
 
     [Header("Bonus/Malus")]
-    [SerializeField] bool isBonus;
-    [SerializeField] bool isMalus;
+    public bool isBonus;
+    public bool isMalus;
 
     [Header("Color ID")]
-    [SerializeField] int colorID;
+    public int colorID;
 
     public bool IsBonus { get => isBonus; }
     public bool IsMalus { get => isMalus; }
     public int ColorID { get => colorID; private set => colorID = value; }
+
+
+
+
 
     private void Awake()
     {

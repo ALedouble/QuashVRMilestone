@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
 {
 
     public GameObject prefabPlayer;
-    public GameObject prefabBall;
+
+    public GameObject spawnJ1;
+    public GameObject spawnJ2;
 
 
     public static GameManager Instance;
@@ -26,7 +28,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, prefabPlayer.transform.position, Quaternion.identity, 0) as GameObject, 1);
+        if (PhotonNetwork.IsMasterClient){
+            QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject, 1);
+        }
+        else{
+            QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject, 1);
+        }
+       
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;

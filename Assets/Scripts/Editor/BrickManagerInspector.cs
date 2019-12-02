@@ -9,7 +9,7 @@ public class BrickManagerInspector : Editor
     BrickManager myTarget;
 
 
-
+#if (UNITY_EDITOR)
     private void OnEnable()
     {
         myTarget = (BrickManager)target;
@@ -18,6 +18,8 @@ public class BrickManagerInspector : Editor
         InitBrickPresets();
         InitColorPresets();
     }
+#endif
+
 
     public override void OnInspectorGUI()
     {
@@ -48,9 +50,7 @@ public class BrickManagerInspector : Editor
 
             for (int i = 0; i < presetsPaths.Length; i++)
             {
-
                 myTarget.brickPresets[i] = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(presetsPaths[i]), typeof(BrickTypesScriptable)) as BrickTypesScriptable;
-
             }
         }
         else

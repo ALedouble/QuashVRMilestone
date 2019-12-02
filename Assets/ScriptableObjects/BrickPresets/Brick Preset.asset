@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Brick Preset
   m_EditorClassIdentifier: 
   brickPresets:
-  - tag: Simple Birck
+  - tag: 0_Simple Birck
     armorValue: 0
     scoreValue: 10
-  - tag: Armored Brick
+  - tag: 1_Armored Brick
     armorValue: 2
     scoreValue: 30
-  - tag: Moving Brick
+  - tag: 2_Moving Brick
     armorValue: 0
     scoreValue: 15
-  - tag: Bon/Mal-us Brick
+  - tag: 3_Bon/Mal-us Brick
     armorValue: 0
     scoreValue: 5

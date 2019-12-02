@@ -18,7 +18,7 @@ public class BallImpactDestruction : MonoBehaviour
 
     public LayerMask layerMask;
     public int numberOfDivision;
-    private float raycastOffset = 0.05f;
+    [SerializeField] private float raycastOffset = 0;
 
     private void Awake()
     {
@@ -48,6 +48,14 @@ public class BallImpactDestruction : MonoBehaviour
 
         Vector3 originPos = new Vector3(transform.position.x, transform.position.y, transform.position.z + raycastOffset);
 
+        RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
+        RadialRaycast(originPos, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
+        RadialRaycast(originPos, new Vector2(0, -1), new Vector2(-1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
+        RadialRaycast(originPos, new Vector2(-1, 0), new Vector2(1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
+
+
+
+        #region MyRaycast old
         //RaycastHit hitback;
 
         //Debug.DrawRay(originPos,
@@ -61,8 +69,8 @@ public class BallImpactDestruction : MonoBehaviour
         //}
 
 
-        #region MyRaycast
-       
+
+
         //for (int j = 0; j < numberOfDivision; j++)
         //{
         //    Debug.DrawRay(originPos,
@@ -76,16 +84,13 @@ public class BallImpactDestruction : MonoBehaviour
         //    }
         //}
 
-        RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
-        RadialRaycast(originPos, new Vector2(1,0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
-        RadialRaycast(originPos, new Vector2(0,-1), new Vector2(-1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
-        RadialRaycast(originPos, new Vector2(-1,0), new Vector2(1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
+
 
         //for (int j = 0; j < numberOfDivision; j++)
         //{
         //    Debug.DrawRay(originPos,
         //        transform.TransformDirection(new Vector3(1f - (1f / (float)numberOfDivision) * j, 0f - (1f / (float)numberOfDivision) * j, 0f)).normalized * impactPercent, Color.blue);
-            
+
         //    RaycastHit hit;
 
         //    if (Physics.Raycast(originPos, transform.TransformDirection(new Vector3(1f - (1f / (float)numberOfDivision) * j, 0f - (1f / (float)numberOfDivision) * j, 0f)).normalized, out hit,impactPercent, layerMask))
@@ -98,7 +103,7 @@ public class BallImpactDestruction : MonoBehaviour
         //{
         //    Debug.DrawRay(originPos,
         //        transform.TransformDirection(new Vector3(0f - (1f / (float)numberOfDivision) * j, -1f + (1f / (float)numberOfDivision) * j, 0f)).normalized * impactPercent, Color.blue);
-            
+
         //    RaycastHit hit;
 
         //    if (Physics.Raycast(originPos, transform.TransformDirection(new Vector3(0f - (1f / (float)numberOfDivision) * j, -1f + (1f / (float)numberOfDivision) * j, 0f)).normalized, out hit,impactPercent, layerMask))
@@ -122,7 +127,7 @@ public class BallImpactDestruction : MonoBehaviour
         #endregion
     }
 
-    void RadialRaycast(Vector3 originPosition,Vector2 destination, Vector2 evolution,float zOffset = 0.0f)
+    void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)
     {
         for (int j = 0; j < numberOfDivision; j++)
         {
@@ -134,12 +139,11 @@ public class BallImpactDestruction : MonoBehaviour
             if (Physics.Raycast(originPosition, transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized,
                 out hit, impactPercent, layerMask))
             {
-                if(hit.collider.TryGetComponent<IBrick>(out IBrick brick))
+                if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
                 {
                     BrickManager.Instance?.DeadBrick(brick.GetBrickInfo());
                 }
             }
         }
     }
-
 }

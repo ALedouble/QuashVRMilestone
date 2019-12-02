@@ -17,12 +17,11 @@ public class BrickManager : MonoBehaviour
     public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
     [Header("Number of bricks on the current layer")]
-    public int[] totalBricskOnLayer;
     public int currentBricksOnLayer;
-
+    /*
     [Header("Number of bricks in the level")]
     public int totalBricskInLevel;
-
+    */
     [Header("Bonus & Malus settings")]
     [SerializeField] int bonusPoolID;
     [SerializeField] int malusPoolID;
@@ -73,7 +72,8 @@ public class BrickManager : MonoBehaviour
     {
         Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer];
 
-        for (int i = 0; i < levelWallsConfig.walls.Length; i++)
+
+        for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
@@ -96,18 +96,23 @@ public class BrickManager : MonoBehaviour
 
 
 
-                //mats[0].SetColor("", );
-
                 obj.transform.parent = LevelManager.Instance.levelTrans;
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
-                obj.transform.position = layerToSpawn.wallBricks[i].brickPosition;
+                obj.transform.position = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y, 
+                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer)));
 
 
 
                 objBehaviours.armorPoints = layerToSpawn.wallBricks[i].armorValue;
                 objBehaviours.scoreValue = layerToSpawn.wallBricks[i].scoreValue;
+
+                objBehaviours.isBonus = layerToSpawn.wallBricks[i].isBonus;
+                objBehaviours.isMalus = layerToSpawn.wallBricks[i].isMalus;
+
+                objBehaviours.colorID = layerToSpawn.wallBricks[i].brickColorPreset;
+
 
                 if (layerToSpawn.wallBricks[i].isMoving)
                 {

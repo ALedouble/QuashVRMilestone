@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 2996100455195761721}
   - component: {fileID: 1449243544681325886}
   - component: {fileID: 2799187412174683288}
+  - component: {fileID: 952983437}
   m_Layer: 9
   m_Name: MagicBall3
   m_TagString: Ball
@@ -145,9 +146,18 @@ MonoBehaviour:
   maxMagnitude: 0
   slowness: 2
   gravity: 9.81
+  numberOfPlayer: 1
+  startingPlayer: 0
   depthVelocity: 10
-  zFloorBounceTarget: {fileID: 4822642386251928542}
-  xReturnTarget: {fileID: 4822642385486770762}
+  playerTransforms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   bounciness: 0.8
   dynamicFriction: 0
 --- !u!114 &6752616646051766013
@@ -314,8 +324,9 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 952983437}
   - {fileID: 2799187412174683288}
+  - {fileID: 6254731831715652976}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -335,6 +346,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &952983437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229351853486334900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SmoothingDelay: 5
 --- !u!1 &4822642385164060241
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +382,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4822642385164060241}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

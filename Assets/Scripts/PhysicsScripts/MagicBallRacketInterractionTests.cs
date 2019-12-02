@@ -144,7 +144,10 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
             }
 
             OnHitCollision(newVelocity);
-            view.RPC("OnHitCollision", RpcTarget.Others, myVel);
+            if (numberOfPlayer > 1)                //Amelioration Check sur manager
+            {
+                view.RPC("OnHitCollision", RpcTarget.Others, myVel);
+            }
         }
         else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))
         {
@@ -193,8 +196,11 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
     private void MagicalBounce3(Collision collision)
     {
-        SwitchTarget();
-        view.RPC("SwitchTarget", RpcTarget.Others);
+        if(numberOfPlayer>1)                //Amelioration Check sur manager
+        {
+            SwitchTarget();
+            view.RPC("SwitchTarget", RpcTarget.Others);
+        }
 
         float verticalVelocity = CalculateVerticalBounceVelocity(collision);
 
@@ -211,7 +217,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
     private float CalculateVerticalBounceVelocity(Collision collision)
     {
-        Vector3 collisionPoint = collision.GetContact(0).point;
+        //Vector3 collisionPoint = collision.GetContact(0).point;
         return (gravity * (GetCurrentTargetPosition().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (GetCurrentTargetPosition().z - transform.position.z));
     }
     [PunRPC]

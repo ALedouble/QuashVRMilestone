@@ -12,17 +12,17 @@ public class LevelManager : MonoBehaviour
 
     [Header("Level Parameters")]
     public int currentLayer = -1;
-    [SerializeField] bool isThereAnotherLayer = true;
+    bool isThereAnotherLayer = true;
 
     public float layerDiffPosition;
 
     public Transform levelTrans;
-    [SerializeField] Vector3 startPos;
+    public Vector3 startPos;
     [SerializeField] Vector3 NextPos;
 
     public Vector3 refVector;
     [Range(0, 1)] public float smoothTime;
-    [Range(0.1f, 10)] public float sMaxSpeed;
+    [Range(5f, 10)] public float sMaxSpeed;
 
     public bool changePositionReady = false;
 
@@ -36,6 +36,8 @@ public class LevelManager : MonoBehaviour
         Instance = this;
 
         ConfigDistribution(0);
+        startPos = levelTrans.position;
+        //SetNextLayer();
     }
 
     private void Update()
@@ -71,7 +73,7 @@ public class LevelManager : MonoBehaviour
         if (isThereAnotherLayer)
         {
             currentLayer += 1;
-            NextPos = new Vector3(0, 0, startPos.z + (layerDiffPosition * currentLayer));
+            NextPos = new Vector3(startPos.x, 0, startPos.z - (layerDiffPosition * currentLayer));
 
 
             changePositionReady = true;

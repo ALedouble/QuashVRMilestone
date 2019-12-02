@@ -77,8 +77,12 @@ public class BrickManager : MonoBehaviour
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
-                //GameObject obj = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
-                GameObject obj = Instantiate(prefabBase) as GameObject;
+
+                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
+                    (LevelManager.Instance.startPos.x + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer)));
+
+                //GameObject obj = Instantiate(prefabBase) as GameObject;
+                GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.Instance.levelTrans.position, Quaternion.identity);
                 BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
                 MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
                 Material[] mats = objMesh.sharedMaterials;
@@ -100,7 +104,7 @@ public class BrickManager : MonoBehaviour
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
-                obj.transform.position = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y, 
+                obj.transform.localPosition = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y, 
                     (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer)));
 
 

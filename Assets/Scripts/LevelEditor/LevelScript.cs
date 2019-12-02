@@ -17,7 +17,7 @@ public class LevelScript : MonoBehaviour
     private readonly Color normalColor = Color.red;
     private readonly Color selectedColor = Color.green;
 
-    public Vector3[] editorSpace = new Vector3[2];
+    public List<Vector3> editorSpace = new List<Vector3>(2);
 
     public float xGridPlacement = 2f;
 
@@ -89,6 +89,7 @@ public class LevelScript : MonoBehaviour
 
     public float maxWidthSpace()
     {
+        //Debug.Log(" maxWidthSpace: " + (int)((editorSpace[1].x - editorSpace[0].x) / CellSize));
         return editorSpace[1].x - editorSpace[0].x;
     }
 

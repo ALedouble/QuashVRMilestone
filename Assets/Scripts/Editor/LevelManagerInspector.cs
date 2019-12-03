@@ -14,14 +14,14 @@ public class LevelManagerInspector : Editor
     {
         mytarget = (LevelManager)target;
 
-        if (CheckForLevels())
-        {
-            GetAllLevels();
-        }
-        else
-        {
-            mytarget.registeredLevels = new LevelsScriptable[0];
-        }
+        //if (CheckForLevels())
+        //{
+        //    GetAllLevels();
+        //}
+        //else
+        //{
+        //    mytarget.registeredLevels = new LevelsScriptable[0];
+        //}
     }
 #endif
 

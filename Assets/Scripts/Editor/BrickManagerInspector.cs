@@ -14,9 +14,9 @@ public class BrickManagerInspector : Editor
     {
         myTarget = (BrickManager)target;
 
-        InitPrefab();
-        InitBrickPresets();
-        InitColorPresets();
+        //InitPrefab();
+        //InitBrickPresets();
+        //InitColorPresets();
     }
 #endif
 

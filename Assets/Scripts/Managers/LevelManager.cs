@@ -11,6 +11,8 @@ public class LevelManager : MonoBehaviour
     public string levelsPath = "Assets/ScriptableObjects/Levels";
 
     [Header("Level Parameters")]
+    public int debugThisLevel;
+
     public int currentLayer = -1;
     bool isThereAnotherLayer = true;
 
@@ -35,7 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
 
-        ConfigDistribution(0);
+        ConfigDistribution(debugThisLevel);
         startPos = levelTrans.position;
         //SetNextLayer();
     }

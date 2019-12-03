@@ -4,6 +4,31 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
+public enum Target          // 8 players max...?
+{
+    PLAYER1 = 0,
+    PLAYER2 = 1,
+    PLAYER3 = 2,
+    PLAYER4 = 3,
+    PLAYER5 = 4,
+    PLAYER6 = 5,
+    PLAYER7 = 6,
+    PLAYER8 = 7
+}
+public enum RacketInteractionType
+{
+    BASICARCADE,
+    BASICPHYSIC,
+    MEDIUMPHYSIC,
+    MIXED
+}
+
+public enum SwitchType
+{
+    RACKETBASED,
+    WALLBASED
+}
+
 public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunObservable
 {
     private enum BallState
@@ -11,28 +36,11 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         NORMAL,
         SLOW
     }
-    
-    public enum Target          // 8 players max...?
-    {
-        PLAYER1 = 0,
-        PLAYER2 = 1,
-        PLAYER3 = 2,
-        PLAYER4 = 3,
-        PLAYER5 = 4,
-        PLAYER6 = 5,
-        PLAYER7 = 6,
-        PLAYER8 = 7
-    }
-    public enum RacketInteractionType
-    {
-        BASICARCADE,
-        BASICPHYSIC,
-        MEDIUMPHYSIC,
-        MIXED
-    }
 
     [Header("Racket Settings")]
     public RacketInteractionType physicsUsed;
+    
+    // Animation curve
     public float hitMaxSpeed;
     public float hitMinSpeed;
     public float hitSpeedMultiplier;
@@ -57,12 +65,16 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     [Header("Gravity Settings")]
     public float gravity;
 
-    //[Header("MagicBounce Depth Settings")]
     [Header("MagicBounce Settings")]
     public int numberOfPlayer = 1;                                  // A placer ailleur!
     public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
     private Target currentTarget;
     public float depthVelocity;
+
+    [Header("Switch Target Settings")]
+    public SwitchType switchType = SwitchType.RACKETBASED;
+    private bool switchIsRacketBased;
+
     public Transform[] playerTransforms = new Transform[8];
     public Transform[] xReturnsPoints = new Transform[8];
     public Transform zReturnPoints;
@@ -74,16 +86,16 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     public float bounciness;
     public float dynamicFriction;
 
+
+
     private Rigidbody rigidbody;
-
     private BallState ballState;
-
     private Vector3 lastVelocity;
 
     PhotonView view;
     Vector3 myVel;
-    Vector3 theVel;
-    Vector3 ziVel;
+    //Vector3 theVel;
+    //Vector3 ziVel;
     
 
     void Start()
@@ -92,6 +104,15 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         rigidbody = GetComponent<Rigidbody>();
         ballState = BallState.NORMAL;
         currentTarget = startingPlayer;
+        
+        if(switchType == SwitchType.RACKETBASED)
+        {
+            switchIsRacketBased = true;
+        }
+        else
+        {
+            switchIsRacketBased = false;
+        }
     }
 
     private void FixedUpdate()
@@ -103,18 +124,12 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
             rigidbody.AddForce(gravity / (slowness * slowness) * Vector3.down);
     }
 
-    [PunRPC]
-    private void HitUpdate(){
-        
-    }
-
     private void OnCollisionEnter(Collision other)
     {
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
         
-        if (other.gameObject.CompareTag("Racket") )
+        if (other.gameObject.CompareTag("Racket"))
         {
-            Debug.Log("yes");
             Vector3 newVelocity = Vector3.zero;
             
             switch (physicsUsed)
@@ -150,6 +165,11 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
             if (numberOfPlayer > 1)                //Amelioration Check sur manager
             {
                 view.RPC("OnHitCollision", RpcTarget.Others, myVel);
+               if(switchIsRacketBased)
+               {
+                    SwitchTarget();
+                    //view.RPC("SwitchTarget", RpcTarget.Others);
+               }
             }
         }
         else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))
@@ -163,9 +183,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
             StandardBounce(other.GetContact(0));        // Util?
            // view.RPC("StandardBounceVelocity", RpcTarget.All, ziVel);
         }
-                
-       
-        
+
         BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal,lastVelocity));
     }
 
@@ -193,48 +211,45 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         
 
         rigidbody.velocity = ((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal);
-        ziVel = rigidbody.velocity;
-        
+        //ziVel = rigidbody.velocity;
     }
 
     private void MagicalBounce3(Collision collision)
     {
-        if(numberOfPlayer>1)                //Amelioration Check sur manager
+        if(!switchIsRacketBased)
         {
             SwitchTarget();
             //view.RPC("SwitchTarget", RpcTarget.Others);
         }
+        float verticalVelocity = CalculateVerticalBounceVelocity();
 
-        float verticalVelocity = CalculateVerticalBounceVelocity(collision);
-
-        float sideVelocity = CalculateSideBounceVelocity(collision);
+        float sideVelocity = CalculateSideBounceVelocity();
 
         rigidbody.velocity = new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness;
-        theVel = rigidbody.velocity;
+        //theVel = rigidbody.velocity;
     }
 
-    [PunRPC]
-    private void MagicalBounce3Velocity(Vector3 direction){
-        direction = theVel;
-    }
+    //[PunRPC]
+    //private void MagicalBounce3Velocity(Vector3 direction){
+    //    direction = theVel;
+    //}
+    //[PunRPC]
+    //private void StandardBounceVelocity(Vector3 direction)
+    //{
+    //    direction = ziVel;
+    //}
 
-    private float CalculateVerticalBounceVelocity(Collision collision)
+    private float CalculateVerticalBounceVelocity()
     {
-        //Vector3 collisionPoint = collision.GetContact(0).point;
         return (gravity * (GetCurrentTargetPositionZ().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (GetCurrentTargetPositionZ().z - transform.position.z));
     }
-    [PunRPC]
-    private void StandardBounceVelocity(Vector3 direction){
-        direction = ziVel;
-    }
 
-    private float CalculateSideBounceVelocity(Collision collision)
+    private float CalculateSideBounceVelocity()
     {
-      //  Vector3 collisionPoint = collision.GetContact(0).point;
         Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPosition().x - transform.position.x, 0, GetCurrentTargetPosition().z - transform.position.z);
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
-        return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
-        //return Vector3.Dot((depthVelocity / Vector3.Dot(Vector3.back, returnHorizontalDirection)) * Vector3.back, Vector3.right);
+        //return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
+        return ( Vector3.Dot(Vector3.right,returnHorizontalDirection) / Vector3.Dot(Vector3.back, returnHorizontalDirection) )* depthVelocity;   // A tester
     }
 
     [PunRPC]
@@ -278,6 +293,8 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         return zReturnPoints.position;
         //return playerTransform[(int)playerTransforms].position;
     }
+
+
 
     //////////////////////////////////////////    Racket Interraction     /////////////////////////////////////////////////
 

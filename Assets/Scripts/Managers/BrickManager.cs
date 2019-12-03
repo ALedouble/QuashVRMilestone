@@ -64,7 +64,7 @@ public class BrickManager : MonoBehaviour
 
         if (currentBricksOnLayer <= 0)
         {
-            LevelManager.Instance.SetNextLayer();
+     //       LevelManager.Instance.SetNextLayer();
         }
     }
 

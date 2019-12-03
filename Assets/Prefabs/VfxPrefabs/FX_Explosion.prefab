@@ -4898,11 +4898,12 @@ MonoBehaviour:
   - {fileID: 2194597433492395572}
   - {fileID: 2194597435136433618}
   - {fileID: 7738813519121852249}
-  maxRadius: 1.2
+  maxRadius: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
   numberOfDivision: 10
+  raycastOffset: 0
 --- !u!54 &2194597433777538213
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -665,6 +665,81 @@ RectTransform:
   m_AnchoredPosition: {x: -4.2389183, y: 0}
   m_SizeDelta: {x: 4, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &158335594
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 576415247}
+    m_Modifications:
+    - target: {fileID: 4125360568747683706, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_Name
+      value: DissonanceSetup Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.6165357
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.0614929
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.446854
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dde594d836dfee0438e858e009084b05, type: 3}
+--- !u!4 &158335595 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4125360568747690274, guid: dde594d836dfee0438e858e009084b05,
+    type: 3}
+  m_PrefabInstance: {fileID: 158335594}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &177190397
 GameObject:
   m_ObjectHideFlags: 0
@@ -4512,6 +4587,7 @@ RectTransform:
   - {fileID: 1139281839}
   - {fileID: 1735710174}
   - {fileID: 186722532}
+  - {fileID: 158335595}
   m_Father: {fileID: 1939270138}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5897,7 +5973,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: type the room name...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3c1606e6c0197314d9a7228ba213070a, type: 2}
   m_sharedMaterial: {fileID: -8219005244892711436, guid: 3c1606e6c0197314d9a7228ba213070a,
@@ -5967,13 +6043,13 @@ MonoBehaviour:
   m_margin: {x: 100.69176, y: 38.841217, z: 0.108381875, w: 10.534727}
   m_textInfo:
     textComponent: {fileID: 981584210}
-    characterCount: 21
+    characterCount: 0
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 4
+    spaceCount: 0
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0

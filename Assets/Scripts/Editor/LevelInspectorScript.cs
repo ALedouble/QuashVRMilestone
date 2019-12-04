@@ -177,7 +177,7 @@ public class LevelInspectorScript : Editor
     void InitWReorderableList()
     {
         editorSpaceProperty = serializedObject.FindProperty("editorSpace");
-        mySpace = new ReorderableList(serializedObject, editorSpaceProperty, false, false, true, true);
+        mySpace = new ReorderableList(serializedObject, editorSpaceProperty, false, false, false, false);
 
         mySpace.drawHeaderCallback = MyWListHeader;
         mySpace.drawElementCallback = MyWListElementDrawer;
@@ -1711,6 +1711,8 @@ public class LevelInspectorScript : Editor
 
         prefabBase.transform.localScale = new Vector3(newScale, newScale, newScale);
         PrefabUtility.ApplyObjectOverride(prefabBase, prefabPath, InteractionMode.UserAction);
+
+        EditorUtility.SetDirty(editorPreset);
     }
 
 

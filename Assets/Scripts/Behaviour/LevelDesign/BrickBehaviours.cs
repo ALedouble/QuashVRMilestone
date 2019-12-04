@@ -45,6 +45,11 @@ public class BrickBehaviours : MonoBehaviour, IBrick
     [Header("Color ID")]
     public int colorID;
 
+    [Header("Wall ID")]
+    public int wallID;
+
+
+
     public bool IsBonus { get => isBonus; }
     public bool IsMalus { get => isMalus; }
     public int ColorID { get => colorID; private set => colorID = value; }
@@ -162,7 +167,7 @@ public class BrickBehaviours : MonoBehaviour, IBrick
 
     public BrickInfo GetBrickInfo()
     {
-        return new BrickInfo(scoreValue, armorPoints,ColorID, IsBonus, isMalus, transform);
+        return new BrickInfo(scoreValue, armorPoints,ColorID, wallID, IsBonus, isMalus, transform);
     }
 }
 
@@ -171,15 +176,17 @@ public class BrickInfo
     int scoreValue;
     int armorValue;
     int colorID;
+    int wallID;
     bool isBonus;
     bool isMalus;
     Transform transform;
 
-    public BrickInfo(int p_score,int p_armor,int p_colorID,bool p_isBonus, bool p_isMalus, Transform p_transform)
+    public BrickInfo(int p_score,int p_armor,int p_colorID, int p_wallID, bool p_isBonus, bool p_isMalus, Transform p_transform)
     {
         ScoreValue = p_score;
         ArmorValue = p_armor;
         ColorID = p_colorID;
+        WallID = p_wallID; 
         IsBonus = p_isBonus;
         IsMalus = p_isMalus;
         Transform = p_transform;
@@ -188,6 +195,7 @@ public class BrickInfo
     public int ScoreValue { get => scoreValue; private set => scoreValue = value; }
     public int ArmorValue { get => armorValue; private set => armorValue = value; }
     public int ColorID { get => colorID; private set => colorID = value; }
+    public int WallID { get => wallID; private set => wallID = value; }
     public bool IsBonus { get => isBonus; private set => isBonus = value; }
     public bool IsMalus { get => isMalus; private set => isMalus = value; }
     public Transform Transform { get => transform; private set => transform = value; }

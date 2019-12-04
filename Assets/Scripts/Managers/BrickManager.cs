@@ -17,11 +17,14 @@ public class BrickManager : MonoBehaviour
     public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
     [Header("Number of bricks on the current layer")]
-    public int currentBricksOnLayer;
+    public int[] currentBricksOnLayer;
+    public float offsetPerPlayer;
+
     /*
     [Header("Number of bricks in the level")]
     public int totalBricskInLevel;
     */
+
     [Header("Bonus & Malus settings")]
     [SerializeField] int bonusPoolID;
     [SerializeField] int malusPoolID;
@@ -55,34 +58,37 @@ public class BrickManager : MonoBehaviour
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
-        UpdateBrickLevel();
+        UpdateBrickLevel(touchedBrick.WallID);
     }
 
-    void UpdateBrickLevel()
+    void UpdateBrickLevel(int playerID)
     {
-        currentBricksOnLayer--;
+        currentBricksOnLayer[playerID]--;
 
-        if (currentBricksOnLayer <= 0)
+        if (currentBricksOnLayer[playerID] <= 0)
         {
-            LevelManager.Instance.SetNextLayer();
+            LevelManager.Instance.SetNextLayer(playerID);
         }
     }
 
-    public void SpawnLayer()
+    public void SpawnLayer(int playerID)
     {
-        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer];
+        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID]];
 
+        Debug.Log("Spawn check");
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
+                Debug.Log("layerToSpawn.wallBricks.Count : " + layerToSpawn.wallBricks.Count);
 
-                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
-                    (LevelManager.Instance.startPos.x + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer)));
+                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, 
+                    layerToSpawn.wallBricks[i].brickPosition.y,
+                    (LevelManager.Instance.startPos[playerID].z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer[playerID])));
 
                 //GameObject obj = Instantiate(prefabBase) as GameObject;
-                GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.Instance.levelTrans.position, Quaternion.identity);
+                GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.Instance.levelTrans[playerID].position, Quaternion.identity);
                 BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
                 MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
                 Material[] mats = objMesh.sharedMaterials;
@@ -100,12 +106,12 @@ public class BrickManager : MonoBehaviour
 
 
 
-                obj.transform.parent = LevelManager.Instance.levelTrans;
+                obj.transform.parent = LevelManager.Instance.levelTrans[playerID];
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
                 obj.transform.localPosition = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
-                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer)));
+                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer[playerID])));
 
 
 
@@ -116,7 +122,7 @@ public class BrickManager : MonoBehaviour
                 objBehaviours.isMalus = layerToSpawn.wallBricks[i].isMalus;
 
                 objBehaviours.colorID = layerToSpawn.wallBricks[i].brickColorPreset;
-
+                objBehaviours.wallID = playerID;
 
                 if (layerToSpawn.wallBricks[i].isMoving)
                 {
@@ -132,7 +138,7 @@ public class BrickManager : MonoBehaviour
                 }
 
 
-                currentBricksOnLayer++;
+                currentBricksOnLayer[playerID]++;
             }
         }
     }

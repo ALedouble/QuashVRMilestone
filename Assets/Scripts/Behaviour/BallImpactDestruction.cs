@@ -46,9 +46,8 @@ public class BallImpactDestruction : MonoBehaviour
 
         impactPercent = minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(impactCurentTime));
 
-        Vector3 originPos = new Vector3(transform.position.x, transform.position.y, transform.position.z + raycastOffset);
+        Vector3 originPos = new Vector3(transform.position.x, transform.position.y, raycastOffset);
 
-        //raycastOffset = LevelManager.Instance.startPos.z - 
 
         RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
         RadialRaycast(originPos, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
@@ -143,7 +142,7 @@ public class BallImpactDestruction : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
                 {
-                    BrickManager.Instance?.DeadBrick(brick.GetBrickInfo());
+                    BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
                 }
             }
         }

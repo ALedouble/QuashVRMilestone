@@ -164,12 +164,19 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
             if (numberOfPlayer > 1)                //Amelioration Check sur manager
             {
-                view.RPC("OnHitCollision", RpcTarget.Others, myVel);
+               view.RPC("OnHitCollision", RpcTarget.Others, myVel);
                if(switchIsRacketBased)
                {
-                    SwitchTarget();
-                    //view.RPC("SwitchTarget", RpcTarget.Others);
-               }
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        SwitchTarget();
+                    }
+                    else
+                    {
+                        view.RPC("SwitchTarget", RpcTarget.MasterClient);
+                    }
+
+                }
             }
         }
         else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))

@@ -48,6 +48,8 @@ public class BallImpactDestruction : MonoBehaviour
 
         Vector3 originPos = new Vector3(transform.position.x, transform.position.y, transform.position.z + raycastOffset);
 
+        //raycastOffset = LevelManager.Instance.startPos.z - 
+
         RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
         RadialRaycast(originPos, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
         RadialRaycast(originPos, new Vector2(0, -1), new Vector2(-1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);

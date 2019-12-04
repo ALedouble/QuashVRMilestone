@@ -44,21 +44,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredLevels:
-  - {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
+  - {fileID: 0}
   currentLevel: {fileID: 0}
   currentLevelConfig:
     levelWallBuilds:
       walls: []
   levelsPath: Assets/ScriptableObjects/Levels
+  debugThisLevel: 0
   currentLayer: -1
-  isThereAnotherLayer: 0
   layerDiffPosition: 0
   levelTrans: {fileID: 0}
   startPos: {x: 0, y: 0, z: 0}
   NextPos: {x: 0, y: 0, z: 0}
   refVector: {x: 0, y: 0, z: 0}
   smoothTime: 0.015
-  sMaxSpeed: 0.1
+  sMaxSpeed: 6
   changePositionReady: 0
 --- !u!1 &1504735476317143586
 GameObject:
@@ -283,7 +283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3a515cef68b6d4a876a2f21fe767bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  racket: {fileID: 0}
+  rackets:
+  - {fileID: 0}
+  - {fileID: 0}
+  localPlayerRacket: {fileID: 0}
   deltaHitTime: 1
 --- !u!1 &3387151942400940763
 GameObject:
@@ -330,11 +333,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelWallsConfig:
     walls: []
-  prefabBase: {fileID: 0}
+  prefabBase: {fileID: 6638883875395251446, guid: 7ca0fe2ad1189764eb393824dbf6740b,
+    type: 3}
   prefabPath: Assets/Prefabs/Bricks
-  colorPresets: []
+  colorPresets:
+  - {fileID: 11400000, guid: 13777aa392caf5542bdc3239152fa2eb, type: 2}
   presetPath: Assets/ScriptableObjects/ColorPresets
-  brickPresets: []
+  brickPresets:
+  - {fileID: 11400000, guid: 891b65698e0e7f64db874611f353ef9c, type: 2}
   brickPresetPath: Assets/ScriptableObjects/BrickPresets
   currentBricksOnLayer: 0
   bonusPoolID: 0

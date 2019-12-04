@@ -11,10 +11,12 @@ public class LevelManager : MonoBehaviour
     public string levelsPath = "Assets/ScriptableObjects/Levels";
 
     [Header("Level Parameters")]
+    public int debugThisLevel;
+
     public int currentLayer = -1;
     bool isThereAnotherLayer = true;
 
-    public float layerDiffPosition;
+    public float layerDiffPosition = 0.6f;
 
     public Transform levelTrans;
     public Vector3 startPos;
@@ -35,7 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
 
-        ConfigDistribution(0);
+        ConfigDistribution(debugThisLevel);
         startPos = levelTrans.position;
         //SetNextLayer();
     }
@@ -82,8 +84,7 @@ public class LevelManager : MonoBehaviour
         }
 
 
-
-        if (currentLayer >= currentLevelConfig.levelWallBuilds.walls.Length)
+        if (currentLayer >= currentLevelConfig.levelWallBuilds.walls.Length - 1)
         {
             isThereAnotherLayer = false;
         }

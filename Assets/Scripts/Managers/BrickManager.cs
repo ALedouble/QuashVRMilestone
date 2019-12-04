@@ -64,7 +64,7 @@ public class BrickManager : MonoBehaviour
 
         if (currentBricksOnLayer <= 0)
         {
-     //       LevelManager.Instance.SetNextLayer();
+            LevelManager.Instance.SetNextLayer();
         }
     }
 
@@ -104,7 +104,7 @@ public class BrickManager : MonoBehaviour
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
-                obj.transform.localPosition = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y, 
+                obj.transform.localPosition = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
                     (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer)));
 
 

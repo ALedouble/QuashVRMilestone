@@ -29,7 +29,7 @@ public enum SwitchType
     WALLBASED
 }
 
-public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunObservable
+public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
 {
     private enum BallState
     {
@@ -78,15 +78,12 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
     public Transform[] playerTransforms = new Transform[8];
     public Transform[] xReturnsPoints = new Transform[8];
     public Transform zReturnPoints;
-    //public Transform zFloorBounceTarget;
-    //[Header("X Return Settings")]
-    //public Transform xReturnTarget;
 
     [Header("Standard Bounce Settings")]
     public float bounciness;
     public float dynamicFriction;
 
-
+    private int colorID = 0;
 
     private Rigidbody rigidbody;
     private BallState ballState;
@@ -94,8 +91,6 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
 
     PhotonView view;
     Vector3 myVel;
-    //Vector3 theVel;
-    //Vector3 ziVel;
     
 
     void Start()
@@ -130,84 +125,89 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         
         if (other.gameObject.CompareTag("Racket"))
         {
-            Vector3 newVelocity = Vector3.zero;
-            
-            switch (physicsUsed)
-            {
-                case RacketInteractionType.BASICARCADE:
-
-                    newVelocity = RacketArcadeHit();
-                    myVel = newVelocity;
-                    break;
-
-                case RacketInteractionType.BASICPHYSIC:
-                    
-                    newVelocity = RacketBasicPhysicHit(other);
-                    myVel = newVelocity;
-                    break;
-
-                case RacketInteractionType.MEDIUMPHYSIC:
-                    
-                    newVelocity = RacketMediumPhysicHit(other);
-                    myVel = newVelocity;
-
-                    break;
-                case RacketInteractionType.MIXED:
-        
-                    newVelocity = RacketMixedHit(other);
-                    myVel = newVelocity;
-                    break;
-            }
-
-            OnHitCollision(newVelocity);
-            RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
-
-            if (numberOfPlayer > 1)                //Amelioration Check sur manager
-            {
-               view.RPC("OnHitCollision", RpcTarget.Others, myVel);
-               if(switchIsRacketBased)
-               {
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        SwitchTarget();
-                    }
-                    else
-                    {
-                        view.RPC("SwitchTarget", RpcTarget.MasterClient);
-                    }
-
-                }
-            }
+            RacketInteraction(other);
         }
         else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))
         {
             MagicalBounce3(other);
             ballState = BallState.SLOW;
-           // view.RPC("MagicalBounce3Velocity", RpcTarget.All, theVel);
         }
         else
         {
             StandardBounce(other.GetContact(0));        // Util?
-           // view.RPC("StandardBounceVelocity", RpcTarget.All, ziVel);
         }
 
         BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal,lastVelocity));
     }
 
+    /////////////////////////////////////////////    Racket Interaction Interaction     /////////////////////////////////////////////////
+    
+    private void RacketInteraction(Collision other)
+    {
+        Vector3 newVelocity = Vector3.zero;
+
+        switch (physicsUsed)
+        {
+            case RacketInteractionType.BASICARCADE:
+
+                newVelocity = RacketArcadeHit();
+                myVel = newVelocity;
+                break;
+
+            case RacketInteractionType.BASICPHYSIC:
+
+                newVelocity = RacketBasicPhysicHit(other);
+                myVel = newVelocity;
+                break;
+
+            case RacketInteractionType.MEDIUMPHYSIC:
+
+                newVelocity = RacketMediumPhysicHit(other);
+                myVel = newVelocity;
+
+                break;
+            case RacketInteractionType.MIXED:
+
+                newVelocity = RacketMixedHit(other);
+                myVel = newVelocity;
+                break;
+        }
+
+        OnHitCollision(newVelocity);
+        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+
+        if (numberOfPlayer > 1)                //Amelioration Check sur manager
+        {
+            view.RPC("OnHitCollision", RpcTarget.Others, myVel);
+
+            if (switchIsRacketBased)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    SwitchTarget();
+                }
+                else
+                {
+                    view.RPC("SwitchTarget", RpcTarget.MasterClient);
+                }
+                //view.RPC("SwitchTarget", RpcTarget.Others);
+            }
+        }
+    }
+
     [PunRPC]
     private void OnHitCollision(Vector3 direction)
     {
-        myVel = direction  ;
+        myVel = direction;
         rigidbody.velocity = ClampVelocity(hitSpeedMultiplier * direction);
         ballState = BallState.NORMAL;
     }
-
 
     //////////////////////////////////    Wall-Floor Interaction     /////////////////////////////////////////////////
 
     /// Méthode qui calcul le rebond de la balle (calcul vectorielle basique) et modifie la trajectoire en conséquence
     /// contactPoint : données de collision entre la balle et l'autre objet
-    
+
     private void StandardBounce(ContactPoint contactPoint)
     {
         Vector3 normal = Vector3.Normalize(contactPoint.normal);
@@ -215,10 +215,8 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         
         Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
         float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
-        
 
         rigidbody.velocity = ((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal);
-        //ziVel = rigidbody.velocity;
     }
 
     private void MagicalBounce3(Collision collision)
@@ -233,18 +231,7 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         float sideVelocity = CalculateSideBounceVelocity();
 
         rigidbody.velocity = new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness;
-        //theVel = rigidbody.velocity;
     }
-
-    //[PunRPC]
-    //private void MagicalBounce3Velocity(Vector3 direction){
-    //    direction = theVel;
-    //}
-    //[PunRPC]
-    //private void StandardBounceVelocity(Vector3 direction)
-    //{
-    //    direction = ziVel;
-    //}
 
     private float CalculateVerticalBounceVelocity()
     {
@@ -400,20 +387,36 @@ public class MagicBallRacketInterractionTests : MonoBehaviourPunCallbacks, IPunO
         return slope * variable + offset;
     }
 
+    public int GetBallsColor()
+    {
+        return colorID;
+    }
+
+    public void SetBallColor(int colorID)
+    {
+        this.colorID = colorID;
+    }
+
+    private void SwitchColor()
+    {
+        //ColorManager.instance.SwitchBallColor();
+        // Place holder?
+    }
+
     #region IPunObservable implementation
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-{
-    if (stream.IsWriting)
     {
-        stream.SendNext(transform.position);
-        stream.SendNext(transform.rotation);
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
 
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+        }
     }
-    else
-    {
-        transform.position = (Vector3)stream.ReceiveNext();
-        transform.rotation = (Quaternion)stream.ReceiveNext();
-    }
-}
     #endregion
 }

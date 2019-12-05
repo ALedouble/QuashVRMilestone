@@ -36,7 +36,7 @@ public class BallCollisionFX : MonoBehaviour
         {
             currentCooldown = 0;
 
-            Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, 24.4f);
+            Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, impactPosition.z);
 
             if (canSpawn)
             {

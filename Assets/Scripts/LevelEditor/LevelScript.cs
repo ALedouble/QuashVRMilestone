@@ -9,17 +9,17 @@ public class LevelScript : MonoBehaviour
     [SerializeField]
     public string nameLevel;
 
-    private int totalRows = 10; //x
+    public int totalRows = 10; //y
 
-    private int totalColumns = 10; //y
+    public int totalColumns = 10; //x
 
-    public float CellSize = 0.5f;
+    public float CellSize = 0.3f;
     private readonly Color normalColor = Color.red;
     private readonly Color selectedColor = Color.green;
 
-    public List<Vector3> editorSpace = new List<Vector3>(2);
+    public List<Vector3> editorSpace;
 
-    public float xGridPlacement = 2f;
+    public float xGridPlacement = 0f;
 
     public float yGridPlacement = 1f;
 
@@ -29,8 +29,8 @@ public class LevelScript : MonoBehaviour
     public Sprite background;
 
 
-    
-    public LevelsScriptable[] allLevels = new LevelsScriptable[0];
+
+    public LevelsScriptable[] allLevels;
 
     public LevelsScriptable selectedLevel;
     public LevelSettings levelCategories;
@@ -51,7 +51,7 @@ public class LevelScript : MonoBehaviour
     public int numberOfColoredBrick02;
 
     public GameObject brickPrefab;
-    public List<Vector3> brickWaypoints = new List<Vector3>(0);
+    public List<Vector3> brickWaypoints;
 
     public Wall currentLayer;
     public int selectedLayer;
@@ -66,17 +66,17 @@ public class LevelScript : MonoBehaviour
 
 
 
-    public int TotalRows
-    {
-        get { return totalRows; }
-        set { totalRows = value; }
-    }
+    //public int TotalRows
+    //{
+    //    get { return totalRows; }
+    //    set { totalRows = value; }
+    //}
 
-    public int TotalColumns
-    {
-        get { return totalColumns; }
-        set { totalColumns = value; }
-    }
+    //public int TotalColumns
+    //{
+    //    get { return totalColumns; }
+    //    set { totalColumns = value; }
+    //}
 
 
 
@@ -89,7 +89,6 @@ public class LevelScript : MonoBehaviour
 
     public float maxWidthSpace()
     {
-        //Debug.Log(" maxWidthSpace: " + (int)((editorSpace[1].x - editorSpace[0].x) / CellSize));
         return editorSpace[1].x - editorSpace[0].x;
     }
 
@@ -186,16 +185,24 @@ public class LevelScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Color oldColor = Gizmos.color;
-        Matrix4x4 oldMatrix = Gizmos.matrix;
-        Gizmos.matrix = transform.localToWorldMatrix;
+        //editorSpace = new List<Vector3>(2);
+        //editorSpace[0] = new Vector3(0, 1, 0);
+        //editorSpace[1] = new Vector3(5, 7, 0);
 
-        Gizmos.color = normalColor;
-        GridGizmo(TotalColumns, TotalRows);
-        GridFrameGizmo(TotalColumns, TotalRows);
+        if (editorSpace.Count > 1)
+        {
+            Color oldColor = Gizmos.color;
+            Matrix4x4 oldMatrix = Gizmos.matrix;
+            Gizmos.matrix = transform.localToWorldMatrix;
 
-        Gizmos.color = oldColor;
-        Gizmos.matrix = oldMatrix;
+            Gizmos.color = normalColor;
+            GridGizmo(totalColumns, totalRows);
+            GridFrameGizmo(totalColumns, totalRows);
+
+            Gizmos.color = oldColor;
+            Gizmos.matrix = oldMatrix;
+        }
+
     }
 
 
@@ -224,8 +231,8 @@ public class LevelScript : MonoBehaviour
     public Vector3 GridToWorldPoint(int col, int row)
     {
         Vector3 worldPoint = new Vector3(
-            xGridPlacement + WidthOffset() + (col * CellSize) + (CellSize/2),
-            yGridPlacement + (row * CellSize) + (CellSize/2),
+            xGridPlacement + WidthOffset() + (col * CellSize) + (CellSize / 2),
+            yGridPlacement + (row * CellSize) + (CellSize / 2),
             zGridPlacement);
         return worldPoint;
     }
@@ -240,17 +247,17 @@ public class LevelScript : MonoBehaviour
     public bool IsInsideGridBounds(Vector3 point)
     {
         float minX = xGridPlacement - WidthOffset();
-        float maxX = (TotalColumns * CellSize) - minX;
+        float maxX = (totalColumns * CellSize) - minX;
         Debug.Log("min : " + minX + " max : " + maxX);
 
         float minY = yGridPlacement;
-        float maxY = minY + TotalRows * CellSize;
+        float maxY = minY + totalRows * CellSize;
 
         return (point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY);
     }
 
     public bool IsInsideGridBounds(int col, int row)
     {
-        return (col >= 0 && col < TotalColumns && row >= 0 && row < TotalRows);
+        return (col >= 0 && col < totalColumns && row >= 0 && row < totalRows);
     }
 }

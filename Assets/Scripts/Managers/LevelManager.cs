@@ -6,25 +6,30 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
     public LevelsScriptable[] registeredLevels;
-    public LevelsScriptable currentLevel;
-    public LevelSettings currentLevelConfig;
+    LevelsScriptable currentLevel;
+    LevelSettings currentLevelConfig;
     public string levelsPath = "Assets/ScriptableObjects/Levels";
 
+
     [Header("Level Parameters")]
-    public int currentLayer = -1;
-    bool isThereAnotherLayer = true;
+    public int debugThisLevel;
+    public int numberOfPlayers;
 
-    public float layerDiffPosition;
+    public float layerDiffPosition = 0.6f;
+    public List<Transform> levelTrans;
+    public Vector3 posDiffPerPlayer;
 
-    public Transform levelTrans;
-    public Vector3 startPos;
-    [SerializeField] Vector3 NextPos;
+    [HideInInspector] public int[] currentLayer;
+    bool[] isThereAnotherLayer;
+    [HideInInspector] public Vector3[] startPos;
+    Vector3[] NextPos;
+    Vector3 refVector;
+    bool[] changePositionReady;
 
-    public Vector3 refVector;
     [Range(0, 1)] public float smoothTime;
     [Range(5f, 10)] public float sMaxSpeed;
 
-    public bool changePositionReady = false;
+    
 
 
     public static LevelManager Instance;
@@ -35,31 +40,57 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
 
-        ConfigDistribution(0);
-        startPos = levelTrans.position;
-        //SetNextLayer();
+        ConfigDistribution(debugThisLevel);
+        initValues();
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            SetNextLayer(i);
+        }
     }
 
     private void Update()
     {
-        if (changePositionReady)
+        for (int i = 0; i < numberOfPlayers; i++)
         {
-            NextLayer();
+            if (changePositionReady[i])
+            {
+                NextLayer(i);
+            }
         }
     }
 
+    void initValues()
+    {
+        currentLayer = new int[numberOfPlayers];
+        isThereAnotherLayer = new bool[numberOfPlayers];
+        startPos = new Vector3[numberOfPlayers];
+        NextPos = new Vector3[numberOfPlayers];
+        changePositionReady = new bool[numberOfPlayers];
+        BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
 
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            currentLayer[i] = -1;
+            isThereAnotherLayer[i] = true;
+            startPos[i] = LevelManager.Instance.posDiffPerPlayer * i;
+            changePositionReady[i] = false;
+        }
+    }
 
     /// <summary>
     /// Go to the next Layer
     /// </summary>
-    void NextLayer()
+    void NextLayer(int playerID)
     {
-        levelTrans.position = Vector3.SmoothDamp(levelTrans.position, NextPos, ref refVector, smoothTime, sMaxSpeed);
+        levelTrans[playerID].position = Vector3.SmoothDamp(levelTrans[playerID].position, NextPos[playerID], ref refVector, smoothTime, sMaxSpeed);
 
-        if (levelTrans.position == NextPos)
+        if (levelTrans[playerID].position == NextPos[playerID])
         {
-            changePositionReady = false;
+            changePositionReady[playerID] = false;
         }
     }
 
@@ -68,24 +99,23 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Set up parameters to change level position
     /// </summary>
-    public void SetNextLayer()
+    public void SetNextLayer(int playerID)
     {
-        if (isThereAnotherLayer)
+        if (isThereAnotherLayer[playerID])
         {
-            currentLayer += 1;
-            NextPos = new Vector3(startPos.x, 0, startPos.z - (layerDiffPosition * currentLayer));
+            currentLayer[playerID] += 1;
+            NextPos[playerID] = new Vector3(startPos[playerID].x, startPos[playerID].y, startPos[playerID].z - (layerDiffPosition * currentLayer[playerID]));
 
 
-            changePositionReady = true;
+            changePositionReady[playerID] = true;
 
-            BrickManager.Instance.SpawnLayer();
+            BrickManager.Instance.SpawnLayer(playerID);
         }
 
 
-
-        if (currentLayer >= currentLevelConfig.levelWallBuilds.walls.Length)
+        if (currentLayer[playerID] >= currentLevelConfig.levelWallBuilds.walls.Length - 1)
         {
-            isThereAnotherLayer = false;
+            isThereAnotherLayer[playerID] = false;
         }
     }
 
@@ -99,7 +129,6 @@ public class LevelManager : MonoBehaviour
     {
         currentLevel = registeredLevels[selectedLevel];
         currentLevelConfig = currentLevel.level;
-
-        BrickManager.Instance.levelWallsConfig = currentLevelConfig.levelWallBuilds;
+        BrickManager.Instance.levelWallsConfig = registeredLevels[selectedLevel].level.levelWallBuilds;
     }
 }

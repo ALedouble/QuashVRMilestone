@@ -182,7 +182,14 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
 
             if (switchIsRacketBased)
             {
-                SwitchTarget();
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    SwitchTarget();
+                }
+                else
+                {
+                    view.RPC("SwitchTarget", RpcTarget.MasterClient);
+                }
                 //view.RPC("SwitchTarget", RpcTarget.Others);
             }
         }

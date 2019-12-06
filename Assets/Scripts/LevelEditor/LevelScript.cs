@@ -63,35 +63,19 @@ public class LevelScript : MonoBehaviour
 
 
 
-
-
-
-    //public int TotalRows
-    //{
-    //    get { return totalRows; }
-    //    set { totalRows = value; }
-    //}
-
-    //public int TotalColumns
-    //{
-    //    get { return totalColumns; }
-    //    set { totalColumns = value; }
-    //}
-
-
-
-
-    public void FromLevelScriptToLevelManager()
-    {
-        //LevelManager.Instance.registeredLevels = new LevelsScriptable[10];
-        //LevelManager.Instance.registeredLevels = allLevels;
-    }
-
+    /// <summary>
+    /// Return Width space for the editor
+    /// </summary>
+    /// <returns></returns>
     public float maxWidthSpace()
     {
         return editorSpace[1].x - editorSpace[0].x;
     }
 
+    /// <summary>
+    /// Return result value/distance from the first column 'til the last one 
+    /// </summary>
+    /// <returns></returns>
     private float colSpace()
     {
         return CellSize * (float)totalColumns;

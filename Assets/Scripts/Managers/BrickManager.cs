@@ -75,13 +75,13 @@ public class BrickManager : MonoBehaviour
     {
         Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID]];
 
-        Debug.Log("Spawn check");
+        //Debug.Log("Spawn check");
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
-                Debug.Log("layerToSpawn.wallBricks.Count : " + layerToSpawn.wallBricks.Count);
+                //Debug.Log("layerToSpawn.wallBricks.Count : " + layerToSpawn.wallBricks.Count);
 
                 Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, 
                     layerToSpawn.wallBricks[i].brickPosition.y,

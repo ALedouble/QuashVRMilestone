@@ -63,6 +63,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Set values depending on the number of Players
+    /// </summary>
     void initValues()
     {
         currentLayer = new int[numberOfPlayers];

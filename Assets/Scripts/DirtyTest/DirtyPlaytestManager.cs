@@ -33,18 +33,33 @@ public class DirtyPlaytestManager : MonoBehaviour
     [Button]
     public void SetButtons()
     {
-        int ranNbr = Random.Range(0, maxRan);
         textMesh.text = "";
 
-        for (int i = 0; i < ranNbr; i++)
+        List<DirtyButton> dirties = new List<DirtyButton>();
+
+        //Create button list
+        for (int i = 0; i < buttons.Length; i++)
         {
-            CreateButton(i, buttons[i]);
+            dirties.Add(buttons[i]);
+            buttons[i].gameObject.SetActive(false);
+        }
+
+        Debug.Log("DIRTIES = " + dirties.Count);
+
+        //Select Random number
+        for (int i = 0; i < maxRan; i++)
+        {
+            int ran = Random.Range(0, dirties.Count);
+            Debug.Log("ran =" + ran);
+            CreateButton(i, dirties[ran]);
+            dirties.Remove(dirties[ran]);
         }
     }
 
     void CreateButton(int index,DirtyButton dirtyButton)
     {
-        if(index == 0)
+        dirtyButton.gameObject.SetActive(true);
+        if (index == 0)
         {
             targetWord = RandomWord();
             textMeshController.text = targetWord;
@@ -52,7 +67,8 @@ public class DirtyPlaytestManager : MonoBehaviour
         }
         else
         {
-            dirtyButton.SetButton(false, Color.red, RandomWord());
+            string word = RandomWord();
+            dirtyButton.SetButton(word == targetWord, Color.red, word);
         }
     }
 

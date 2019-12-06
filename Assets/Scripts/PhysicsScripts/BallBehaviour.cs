@@ -4,31 +4,6 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
-public enum Target          // 8 players max...?
-{
-    PLAYER1 = 0,
-    PLAYER2 = 1,
-    PLAYER3 = 2,
-    PLAYER4 = 3,
-    PLAYER5 = 4,
-    PLAYER6 = 5,
-    PLAYER7 = 6,
-    PLAYER8 = 7
-}
-public enum RacketInteractionType
-{
-    BASICARCADE,
-    BASICPHYSIC,
-    MEDIUMPHYSIC,
-    MIXED
-}
-
-public enum SwitchType
-{
-    RACKETBASED,
-    WALLBASED
-}
-
 public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
 {
     private enum BallState
@@ -72,7 +47,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     public float depthVelocity;
 
     [Header("Switch Target Settings")]
-    public SwitchType switchType = SwitchType.RACKETBASED;
+    public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
     private bool switchIsRacketBased;
 
     public Transform[] playerTransforms = new Transform[8];
@@ -83,9 +58,14 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     public float bounciness;
     public float dynamicFriction;
 
+
+    [Header("Color Settings")]
+    public Material[] materials;
     private int colorID = 0;
 
+
     private Rigidbody rigidbody;
+    Renderer renderer; 
     private BallState ballState;
     private Vector3 lastVelocity;
 
@@ -97,17 +77,12 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     {
         view = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
+        renderer = gameObject.GetComponent<Renderer>();
+
         ballState = BallState.NORMAL;
         currentTarget = startingPlayer;
-        
-        if(switchType == SwitchType.RACKETBASED)
-        {
-            switchIsRacketBased = true;
-        }
-        else
-        {
-            switchIsRacketBased = false;
-        }
+
+        InitialiseTargetSwitchType();
     }
 
     private void FixedUpdate()
@@ -182,15 +157,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
 
             if (switchIsRacketBased)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    SwitchTarget();
-                }
-                else
-                {
-                    view.RPC("SwitchTarget", RpcTarget.MasterClient);
-                }
-                //view.RPC("SwitchTarget", RpcTarget.Others);
+                NetworkSwitchTarget();
             }
         }
     }
@@ -223,8 +190,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(!switchIsRacketBased)
         {
-            SwitchTarget();
-            //view.RPC("SwitchTarget", RpcTarget.Others);
+            NetworkSwitchTarget();
         }
         float verticalVelocity = CalculateVerticalBounceVelocity();
 
@@ -244,6 +210,21 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
         //return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
         return ( Vector3.Dot(Vector3.right,returnHorizontalDirection) / Vector3.Dot(Vector3.back, returnHorizontalDirection) )* depthVelocity;   // A tester
+    }
+
+    [PunRPC]
+    private void NetworkSwitchTarget()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Ajouter un timer pour eviter les double siwtch
+            //SwitchTarget();
+            view.RPC("SwitchTarget", RpcTarget.All);
+        }
+        else
+        {
+            view.RPC("NetworkSwitchTarget", RpcTarget.MasterClient);
+        }
     }
 
     [PunRPC]
@@ -395,12 +376,26 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     public void SetBallColor(int colorID)
     {
         this.colorID = colorID;
+        renderer.material = materials[colorID];
     }
 
     private void SwitchColor()
     {
         //ColorManager.instance.SwitchBallColor();
-        // Place holder?
+        colorID = (colorID + 1) % materials.Length;
+        renderer.material = materials[colorID];
+    }
+
+    private void InitialiseTargetSwitchType()
+    {
+        if (switchType == TargetSwitchType.RACKETBASED)
+        {
+            switchIsRacketBased = true;
+        }
+        else
+        {
+            switchIsRacketBased = false;
+        }
     }
 
     #region IPunObservable implementation

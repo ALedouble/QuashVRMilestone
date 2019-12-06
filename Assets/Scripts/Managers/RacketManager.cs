@@ -103,7 +103,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
             }
             else
             {
-                rackets[i].SetActive(false);
+               // rackets[i].SetActive(false);
             }
         }
     }

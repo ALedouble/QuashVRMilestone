@@ -112,42 +112,42 @@ public class QPlayerManager : MonoBehaviourPun
 
     public void OnPlayer1RightTriggerPress()
     {
-        ActionCall(PlayerID.PLAYER1, PlayerHand.RIGHT);
+        //ActionCall(PlayerID.PLAYER1, PlayerHand.RIGHT);
     }
 
     public void OnPlayer1RightTriggerRelease()
     {
-        StopCall(PlayerID.PLAYER1, PlayerHand.RIGHT);
+        //StopCall(PlayerID.PLAYER1, PlayerHand.RIGHT);
     }
 
     public void OnPlayer1LeftTriggerPress()
     {
-        ActionCall(PlayerID.PLAYER1, PlayerHand.LEFT);
+        //ActionCall(PlayerID.PLAYER1, PlayerHand.LEFT);
     }
 
     public void OnPlayer1LeftTriggerRelease()
     {
-        StopCall(PlayerID.PLAYER1, PlayerHand.LEFT);
+        //StopCall(PlayerID.PLAYER1, PlayerHand.LEFT);
     }
 
     public void OnPlayer2RightTriggerPress()
     {
-        ActionCall(PlayerID.PLAYER2, PlayerHand.RIGHT);
+        //ActionCall(PlayerID.PLAYER2, PlayerHand.RIGHT);
     }
 
     public void OnPlayer2RightTriggerRelease()
     {
-        StopCall(PlayerID.PLAYER2, PlayerHand.RIGHT);
+        //StopCall(PlayerID.PLAYER2, PlayerHand.RIGHT);
     }
 
     public void OnPlayer2LeftTriggerPress()
     {
-        ActionCall(PlayerID.PLAYER2, PlayerHand.LEFT);
+        //ActionCall(PlayerID.PLAYER2, PlayerHand.LEFT);
     }
 
     public void OnPlayer2LeftTriggerRelease()
     {
-        StopCall(PlayerID.PLAYER2, PlayerHand.LEFT);
+        //StopCall(PlayerID.PLAYER2, PlayerHand.LEFT);
     }
 
 
@@ -192,19 +192,19 @@ public class QPlayerManager : MonoBehaviourPun
         //}
     }
 
-    private void StopCall(PlayerID playerID, PlayerHand playerHand)             //Rename
-    {
-        if(BallManager.instance.GetGrabInfo().userID == playerID && BallManager.instance.GetGrabInfo().userHand == playerHand)
-        {
-            if(BallManager.instance.GetGrabInfo().grabState == GrabState.DELAYED)
-            {
-                BallManager.instance.BallResetStopCall(playerID);
-            }
-        }
-    }
+    //private void StopCall(PlayerID playerID, PlayerHand playerHand)             //Rename
+    //{
+    //    if(BallManager.instance.GetGrabInfo().userID == playerID && BallManager.instance.GetGrabInfo().userHand == playerHand)
+    //    {
+    //        if(BallManager.instance.GetGrabInfo().grabState == GrabState.DELAYED)
+    //        {
+    //            BallManager.instance.BallResetStopCall(playerID);
+    //        }
+    //    }
+    //}
 
-    private void ConvertInByte(byte grabByte){
-        GrabState newGrab = (GrabState)grabByte;
-    }
+    //private void ConvertInByte(byte grabByte){
+    //    GrabState newGrab = (GrabState)grabByte;
+    //}
     
 }

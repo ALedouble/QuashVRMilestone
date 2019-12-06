@@ -22,11 +22,11 @@ public class DirtyButton : MonoBehaviour
     {
         if (isGood)
         {
-            //manager.GoodAnswer();
+            manager.GoodAnswer();
         }
         else
         {
-            //manager
+            manager.BadAnswer();
         }
     }
 }

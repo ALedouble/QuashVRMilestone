@@ -7,6 +7,6 @@ public class Sh_GlobalDissolvePosition : MonoBehaviour
     public Transform ballTransform;
     void Update()
     {
-        //Shader.SetGlobalVector("_MagicalBallPos", ballTransform.position);
+        Shader.SetGlobalVector("_MagicalBallPos", ballTransform.position);
     }
 }

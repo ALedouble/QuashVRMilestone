@@ -104,6 +104,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))
         {
+            Debug.Log("MagicBounce");
             MagicalBounce3(other);
             ballState = BallState.SLOW;
         }

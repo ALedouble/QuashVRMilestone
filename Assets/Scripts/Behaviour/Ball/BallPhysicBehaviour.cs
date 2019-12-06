@@ -4,9 +4,28 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
-public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
+public enum Target          //Util?
 {
-    private enum BallState
+    PLAYER1 = 0,
+    PLAYER2 = 1
+}
+public enum RacketInteractionType
+{
+    BASICARCADE,
+    BASICPHYSIC,
+    MEDIUMPHYSIC,
+    MIXED
+}
+
+public enum TargetSwitchType
+{
+    RACKETBASED,
+    WALLBASED
+}
+
+public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
+{
+    private enum SpeedState
     {
         NORMAL,
         SLOW
@@ -14,7 +33,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("Racket Settings")]
     public RacketInteractionType physicsUsed;
-    
+
     // Animation curve
     public float hitMaxSpeed;
     public float hitMinSpeed;
@@ -50,7 +69,6 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
     private bool switchIsRacketBased;
 
-    public Transform[] playerTransforms = new Transform[8];
     public Transform[] xReturnsPoints = new Transform[8];
     public Transform zReturnPoints;
 
@@ -59,64 +77,57 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     public float dynamicFriction;
 
 
-    [Header("Color Settings")]
-    public Material[] materials;
-    private int colorID = 0;
-
-
     private Rigidbody rigidbody;
-    Renderer renderer; 
-    private BallState ballState;
+    private SpeedState speedState;
     private Vector3 lastVelocity;
 
     PhotonView view;
-    Vector3 myVel;
-    
 
     void Start()
     {
         view = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
-        renderer = gameObject.GetComponent<Renderer>();
 
-        ballState = BallState.NORMAL;
+        speedState = SpeedState.NORMAL;
+
         currentTarget = startingPlayer;
 
         InitialiseTargetSwitchType();
     }
 
     private void FixedUpdate()
-    {  
+    {
         lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour le calcul du rebond (méthode Bounce)
-        if (ballState == BallState.NORMAL)
+        if (speedState == SpeedState.NORMAL)
             rigidbody.AddForce(gravity * Vector3.down);
-        else if (ballState == BallState.SLOW)
+        else if (speedState == SpeedState.SLOW)
             rigidbody.AddForce(gravity / (slowness * slowness) * Vector3.down);
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+        switch (other.gameObject.tag)
+        {
+            case "Racket":
+                RacketInteraction(other);
+                break;
+            case "FrontWall":
+            case "Brick":
+                MagicalBounce3();
+                speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
+                break;
+            default:
+                StandardBounce(other.GetContact(0));
+                break;
+        }
         
-        if (other.gameObject.CompareTag("Racket"))
-        {
-            RacketInteraction(other);
-        }
-        else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))
-        {
-            MagicalBounce3(other);
-            ballState = BallState.SLOW;
-        }
-        else
-        {
-            StandardBounce(other.GetContact(0));        // Util?
-        }
-
-        BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal,lastVelocity));
+        // A reprendre (doublon?)
+        BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 
-    /////////////////////////////////////////////    Racket Interaction Interaction     /////////////////////////////////////////////////
-    
+    #region RacketInteraction
+
     private void RacketInteraction(Collision other)
     {
         Vector3 newVelocity = Vector3.zero;
@@ -124,36 +135,29 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         switch (physicsUsed)
         {
             case RacketInteractionType.BASICARCADE:
-
                 newVelocity = RacketArcadeHit();
-                myVel = newVelocity;
                 break;
 
             case RacketInteractionType.BASICPHYSIC:
-
                 newVelocity = RacketBasicPhysicHit(other);
-                myVel = newVelocity;
                 break;
 
             case RacketInteractionType.MEDIUMPHYSIC:
-
                 newVelocity = RacketMediumPhysicHit(other);
-                myVel = newVelocity;
-
                 break;
-            case RacketInteractionType.MIXED:
 
+            case RacketInteractionType.MIXED:
                 newVelocity = RacketMixedHit(other);
-                myVel = newVelocity;
                 break;
         }
 
-        OnHitCollision(newVelocity);
+        ApplyNewVelocity(newVelocity);
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
+        //Faire une méthode?
         if (numberOfPlayer > 1)                //Amelioration Check sur manager
         {
-            view.RPC("OnHitCollision", RpcTarget.Others, myVel);
+            view.RPC("ApplyNewVelocity", RpcTarget.Others, newVelocity);
 
             if (switchIsRacketBased)
             {
@@ -163,14 +167,15 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    private void OnHitCollision(Vector3 direction)
+    private void ApplyNewVelocity(Vector3 direction)
     {
-        myVel = direction;
         rigidbody.velocity = ClampVelocity(hitSpeedMultiplier * direction);
-        ballState = BallState.NORMAL;
+        speedState = SpeedState.NORMAL;                                         //La?
     }
 
-    //////////////////////////////////    Wall-Floor Interaction     /////////////////////////////////////////////////
+    #endregion
+
+    #region Standard Bounce
 
     /// Méthode qui calcul le rebond de la balle (calcul vectorielle basique) et modifie la trajectoire en conséquence
     /// contactPoint : données de collision entre la balle et l'autre objet
@@ -179,16 +184,20 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     {
         Vector3 normal = Vector3.Normalize(contactPoint.normal);
         float normalVelocity = Vector3.Dot(normal, lastVelocity);
-        
+
         Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
         float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
 
         rigidbody.velocity = ((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal);
     }
 
-    private void MagicalBounce3(Collision collision)
+    #endregion
+
+    #region ReturnMechanics
+
+    private void MagicalBounce3()           //Question: Repère par raport au terrain
     {
-        if(!switchIsRacketBased)
+        if (!switchIsRacketBased)
         {
             NetworkSwitchTarget();
         }
@@ -206,10 +215,11 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
 
     private float CalculateSideBounceVelocity()
     {
-        Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPosition().x - transform.position.x, 0, GetCurrentTargetPosition().z - transform.position.z);
+        Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPositionX().x - transform.position.x, 0, GetCurrentTargetPositionX().z - transform.position.z);
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
+        return (Vector3.Dot(Vector3.right, returnHorizontalDirection) / Vector3.Dot(Vector3.back, returnHorizontalDirection)) * depthVelocity;
+
         //return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
-        return ( Vector3.Dot(Vector3.right,returnHorizontalDirection) / Vector3.Dot(Vector3.back, returnHorizontalDirection) )* depthVelocity;   // A tester
     }
 
     [PunRPC]
@@ -232,22 +242,9 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (currentTarget == Target.PLAYER1)
             currentTarget = Target.PLAYER2;
-        else if(currentTarget == Target.PLAYER2)
+        else if (currentTarget == Target.PLAYER2)
             currentTarget = Target.PLAYER1;
         //currentTarget = (Target)(((int)currentTarget + 1)%numberOfPlayer); 
-    }
-
-    private Vector3 GetCurrentTargetPosition()
-    {
-        if(currentTarget == Target.PLAYER1)
-        {
-            return playerTransforms[0].position;
-        }
-        else
-        {
-            return playerTransforms[1].position;
-        }
-        //return playerTransform[(int)playerTransforms].position;
     }
 
     private Vector3 GetCurrentTargetPositionX()
@@ -260,18 +257,16 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         {
             return xReturnsPoints[0].position;
         }
-        //return playerTransform[(int)playerTransforms].position;
     }
 
     private Vector3 GetCurrentTargetPositionZ()
     {
         return zReturnPoints.position;
-        //return playerTransform[(int)playerTransforms].position;
     }
 
+    #endregion
 
-
-    //////////////////////////////////////////    Racket Interraction     /////////////////////////////////////////////////
+    #region RacketInteraction
 
     [PunRPC]
     private Vector3 RacketArcadeHit()
@@ -318,7 +313,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
         float yEulerRotation = hitRotation.eulerAngles.y;
         float zEulerRotation = hitRotation.eulerAngles.z;   //Ce serait pas plutôt X qu'on veut?
-        
+
         float newYEulerRotation = (yEulerRotation % 180) * (maxYAngle / 180);
         float newZEulerRotation = (zEulerRotation % 180) * (maxZAngle / 180);
 
@@ -331,7 +326,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
             velocityMagnitude = maxMagnitude;
         if (velocityMagnitude < minMagnitude)
             velocityMagnitude = minMagnitude;
-        
+
         return velocityMagnitude * velocityDirection;
     }
 
@@ -347,7 +342,21 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         return Vector3.zero;
     }
 
-    //////////////////////////////////////////    Utility Methods     /////////////////////////////////////////////////
+    #endregion
+
+    #region UilityMethods
+
+    private void InitialiseTargetSwitchType()
+    {
+        if (switchType == TargetSwitchType.RACKETBASED)
+        {
+            switchIsRacketBased = true;
+        }
+        else
+        {
+            switchIsRacketBased = false;
+        }
+    }
 
     private Vector3 ClampVelocity(Vector3 velocity)        //Nom à modifier
     {
@@ -368,35 +377,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks, IPunObservable
         return slope * variable + offset;
     }
 
-    public int GetBallsColor()
-    {
-        return colorID;
-    }
-
-    public void SetBallColor(int colorID)
-    {
-        this.colorID = colorID;
-        renderer.material = materials[colorID];
-    }
-
-    private void SwitchColor()
-    {
-        //ColorManager.instance.SwitchBallColor();
-        colorID = (colorID + 1) % materials.Length;
-        renderer.material = materials[colorID];
-    }
-
-    private void InitialiseTargetSwitchType()
-    {
-        if (switchType == TargetSwitchType.RACKETBASED)
-        {
-            switchIsRacketBased = true;
-        }
-        else
-        {
-            switchIsRacketBased = false;
-        }
-    }
+    #endregion
 
     #region IPunObservable implementation
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

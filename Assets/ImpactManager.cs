@@ -2,58 +2,102 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallImpactDestruction : MonoBehaviour
+public class ImpactManager : MonoBehaviour
 {
     [Header("Deflagration Animation")]
     public AnimationCurve impactCurve;
     public float impactMaxTime;
     [SerializeField] private float impactCurentTime;
-    private float impactPercent;
+    [SerializeField] private float impactPercent;
     private float minRadius = 0.1f;
 
     [Header("Deflagration zone")]
-    public List<ParticleSystem> ps;
-    public float maxRadius;
+    [SerializeField] private GameObject impactGo;
+    [SerializeField] private List<GameObject> ps;
+    [SerializeField] private float maxRadius;
     //public SphereCollider sphereCol;
 
+
+    [Header("Deflagration Parameters")]
+    public Vector3 originPos;
     public LayerMask layerMask;
     public int numberOfDivision;
-    [SerializeField] private float raycastOffset = 0;
+    public float raycastOffset = 0;
+    public float intensityModifier;
+    bool isExplosion;
+
+
+
+    public static ImpactManager Instance;
+
 
     private void Awake()
     {
-        impactCurentTime = 0;
-
-        for (int i = 0; i < ps.Count; i++)
-        {
-            ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
-        }
+        Instance = this;
     }
 
 
+    public void SetExplosion(Vector3 origin, float intensity)
+    {
+        originPos = origin;
+        maxRadius = intensity * intensityModifier;
+
+        impactGo = PoolManager.instance.SpawnFromPool("ImpactFX", originPos, Quaternion.identity);
+        DebugManager.Instance.DisplayValue(0, "intensity : " + intensity.ToString());
+        DebugManager.Instance.DisplayValue(1, "maxRadius : " + maxRadius);
+
+        ps.Clear();
+
+        //Debug.Log("count : " + obj.transform.childCount);
+        if (impactGo.transform.childCount > 0)
+        {
+            for (int i = 0; i < impactGo.transform.childCount; i++)
+            {
+                ps.Add(impactGo.transform.GetChild(i).gameObject);
+            }
+
+            for (int i = 0; i < ps.Count; i++)
+            {
+                ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
+            }
+
+            for (int i = 0; i < ps.Count; i++)
+            {
+                ps[i].GetComponent<ParticleSystem>().Play();
+            }
+        }
+
+        
+
+        isExplosion = true;
+    }
+
     private void Update()
     {
-        if (impactCurentTime < impactMaxTime)
+        if (isExplosion)
         {
-            impactCurentTime += Time.deltaTime;
+            if (impactCurentTime >= impactMaxTime)
+            {
+                impactCurentTime = 0;
+                impactPercent = 0;
+                isExplosion = false;
+
+                Debug.Log("Done");
+                impactGo.SetActive(false);
+                return;
+            }
+            else
+            {
+                impactCurentTime += Time.deltaTime;
+
+                RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
+                RadialRaycast(originPos, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
+                RadialRaycast(originPos, new Vector2(0, -1), new Vector2(-1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
+                RadialRaycast(originPos, new Vector2(-1, 0), new Vector2(1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
+            }
+
+            impactPercent = minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(impactCurentTime));
         }
-        else
-        {
-            impactCurentTime = 0;
-
-            this.gameObject.SetActive(false);
-        }
-
-        impactPercent = minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(impactCurentTime));
-
-        Vector3 originPos = new Vector3(transform.position.x, transform.position.y, raycastOffset);
-
-
-        RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
-        RadialRaycast(originPos, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
-        RadialRaycast(originPos, new Vector2(0, -1), new Vector2(-1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
-        RadialRaycast(originPos, new Vector2(-1, 0), new Vector2(1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
-
 
 
         #region MyRaycast old

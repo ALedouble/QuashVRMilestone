@@ -84,23 +84,16 @@ public class BrickManager : MonoBehaviour
     /// <param name="currentDisplacement"></param>
     public void SpawnLayer(int playerID, int currentDisplacement)
     {
-        //Debug.Log("CurrentLayer : " + LevelManager.Instance.currentLayer[playerID] + " & currentDisplacement : " + currentDisplacement);
-
         Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
-
-        //Debug.Log("Spawn check");
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
-                //Debug.Log("layerToSpawn.wallBricks.Count : " + layerToSpawn.wallBricks.Count);
-
                 Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
                     (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * ((float)LevelManager.Instance.currentLayer[playerID] + (float)currentDisplacement))));
 
 
-                //GameObject obj = Instantiate(prefabBase) as GameObject;
                 GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.Instance.levelTrans[playerID].position, Quaternion.identity);
                 BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
                 MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
@@ -119,7 +112,6 @@ public class BrickManager : MonoBehaviour
 
 
 
-                //obj.transform.parent = LevelManager.Instance.levelTrans[playerID];
                 obj.transform.parent = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
@@ -171,9 +163,6 @@ public class BrickManager : MonoBehaviour
     /// <param name="playerID"></param>
     public void SetCurrentBrickOnLayer(int playerID)
     {
-        //Debug.Log("child count : " + LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount);
-        //Debug.Log("current layer : " + LevelManager.Instance.currentLayer[playerID]);
-
         currentBricksOnLayer[playerID] = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount;
     }
 }

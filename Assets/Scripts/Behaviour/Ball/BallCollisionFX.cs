@@ -36,13 +36,17 @@ public class BallCollisionFX : MonoBehaviour
         {
             currentCooldown = 0;
 
-            Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, impactPosition.z);
+            Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
 
             if (canSpawn)
             {
                 //Debug.Log("Spawn an impact");
-                PoolManager.instance.SpawnFromPool("ImpactFX", pos, Quaternion.identity);
-                
+                //GameObject obj = PoolManager.instance.SpawnFromPool("ImpactFX", pos, Quaternion.identity);
+                //DebugManager.Instance.DisplayValue(0, collision.impulse.magnitude.ToString());
+                //obj.GetComponent<BallImpactDestruction>().maxRadius = collision.impulse.magnitude;
+
+                ImpactManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude);
+
                 canSpawn = false;
             }
         }

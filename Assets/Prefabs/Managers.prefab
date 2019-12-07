@@ -45,21 +45,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registeredLevels:
   - {fileID: 0}
-  currentLevel: {fileID: 0}
-  currentLevelConfig:
-    levelWallBuilds:
-      walls: []
   levelsPath: Assets/ScriptableObjects/Levels
   debugThisLevel: 0
-  currentLayer: -1
+  numberOfPlayers: 0
   layerDiffPosition: 0
-  levelTrans: {fileID: 0}
-  startPos: {x: 0, y: 0, z: 0}
-  NextPos: {x: 0, y: 0, z: 0}
-  refVector: {x: 0, y: 0, z: 0}
+  numberOfLayerToDisplay: 1
+  levelTrans: []
+  playersParents: []
+  startPos4Player1: {x: 0, y: 0, z: 0}
+  posDiffPerPlayer: {x: 0, y: 0, z: 0}
+  currentLayer: 
+  startPos: []
+  isEverythingDisplayed: 
   smoothTime: 0.015
   sMaxSpeed: 6
-  changePositionReady: 0
 --- !u!1 &1504735476317143586
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +341,8 @@ MonoBehaviour:
   brickPresets:
   - {fileID: 11400000, guid: 891b65698e0e7f64db874611f353ef9c, type: 2}
   brickPresetPath: Assets/ScriptableObjects/BrickPresets
-  currentBricksOnLayer: 0
+  currentBricksOnLayer: 
+  offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
 --- !u!1 &3497771482991583141
@@ -389,8 +389,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 0}
-  isResetable: 1
-  resetDelay: 1
 --- !u!1 &6572958010756774014
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +434,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   displayScore: {fileID: 0}
+--- !u!1 &7024211451994467589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7402069474708333501}
+  - component: {fileID: 1412457064529820932}
+  m_Layer: 0
+  m_Name: ImpactManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7402069474708333501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024211451994467589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2113905627460504248}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1412457064529820932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024211451994467589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253ab7ff6027734408ab0901e7db0c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impactCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  impactMaxTime: 1.2
+  impactCurentTime: 0
+  impactPercent: 0
+  impactGo: {fileID: 0}
+  ps: []
+  maxRadius: 0
+  originPos: {x: 0, y: 0, z: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  numberOfDivision: 20
+  raycastOffset: 0
+  intensityModifier: 0.05
 --- !u!1 &7025568103452848686
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +550,7 @@ Transform:
   - {fileID: 1433109375258001764}
   - {fileID: 6072903425059365076}
   - {fileID: 8250716455277317718}
+  - {fileID: 7402069474708333501}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -48,6 +48,9 @@ public class BrickBehaviours : MonoBehaviour, IBrick
     [Header("Wall ID")]
     public int wallID;
 
+    [Header("Saved Value")]
+    public int savedInIndex;
+
 
 
     public bool IsBonus { get => isBonus; }

@@ -16,7 +16,10 @@ public class LevelManager : MonoBehaviour
     public int numberOfPlayers;
 
     public float layerDiffPosition = 0.6f;
-    public List<Transform> levelTrans;
+    public int numberOfLayerToDisplay = 1;
+    [HideInInspector] public Transform[] levelTrans;
+    public Parenting[] playersParents;
+    public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
 
     [HideInInspector] public int[] currentLayer;
@@ -25,11 +28,13 @@ public class LevelManager : MonoBehaviour
     Vector3[] NextPos;
     Vector3 refVector;
     bool[] changePositionReady;
+    [HideInInspector] public bool[] isEverythingDisplayed;
+    bool[] firstSetUpDone;
 
     [Range(0, 1)] public float smoothTime;
-    [Range(5f, 10)] public float sMaxSpeed;
+    [Range(2f, 10)] public float sMaxSpeed;
 
-    
+
 
 
     public static LevelManager Instance;
@@ -49,6 +54,27 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < numberOfPlayers; i++)
         {
             SetNextLayer(i);
+
+            for (int j = 0; j < numberOfLayerToDisplay; j++)
+            {
+                if (!isEverythingDisplayed[i])
+                {
+                    BrickManager.Instance.SpawnLayer(i, j);
+                }
+            }
+
+            for (int k = currentLayer[i]; k < numberOfLayerToDisplay; k++)
+            {
+                //Debug.Log("set waypoint of layer : " + k);
+                //Debug.Log("for player : " + i);
+
+                if (k <= currentLevel.level.levelWallBuilds.walls.Length - 1)
+                {
+                    SetWaypoints(i, k);
+                }
+            }
+
+            BrickManager.Instance.SetCurrentBrickOnLayer(i);
         }
     }
 
@@ -64,26 +90,48 @@ public class LevelManager : MonoBehaviour
     }
 
 
+
     /// <summary>
     /// Set values depending on the number of Players
     /// </summary>
     void initValues()
     {
+        levelTrans = new Transform[numberOfPlayers];
         currentLayer = new int[numberOfPlayers];
         isThereAnotherLayer = new bool[numberOfPlayers];
         startPos = new Vector3[numberOfPlayers];
         NextPos = new Vector3[numberOfPlayers];
         changePositionReady = new bool[numberOfPlayers];
+        isEverythingDisplayed = new bool[numberOfPlayers];
         BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
+        playersParents = new Parenting[numberOfPlayers];
+        firstSetUpDone = new bool[numberOfPlayers];
 
         for (int i = 0; i < numberOfPlayers; i++)
         {
             currentLayer[i] = -1;
             isThereAnotherLayer[i] = true;
-            startPos[i] = LevelManager.Instance.posDiffPerPlayer * i;
-            changePositionReady[i] = false;
+            startPos[i] = posDiffPerPlayer * i;
+            playersParents[i].layersParent = new Transform[currentLevel.level.levelWallBuilds.walls.Length];
+
+
+            Vector3 goPos = new Vector3(startPos4Player1.x + (posDiffPerPlayer.x * i), startPos4Player1.y + (posDiffPerPlayer.y * i), startPos4Player1.z + (posDiffPerPlayer.z * i));
+            GameObject trans = new GameObject();
+            trans.transform.position = goPos;
+            trans.name = "Wall_Of_Player_" + i;
+            levelTrans[i] = trans.transform;
+
+            for (int j = 0; j < playersParents[i].layersParent.Length; j++)
+            {
+                GameObject obj = new GameObject();
+                obj.transform.parent = levelTrans[i];
+                obj.transform.localPosition = Vector3.zero;
+                obj.name = i + "_" + j;
+                playersParents[i].layersParent[j] = obj.transform;
+            }
         }
     }
+
 
     /// <summary>
     /// Go to the next Layer
@@ -99,7 +147,6 @@ public class LevelManager : MonoBehaviour
     }
 
 
-
     /// <summary>
     /// Set up parameters to change level position
     /// </summary>
@@ -107,13 +154,26 @@ public class LevelManager : MonoBehaviour
     {
         if (isThereAnotherLayer[playerID])
         {
-            currentLayer[playerID] += 1;
+            currentLayer[playerID]++;
             NextPos[playerID] = new Vector3(startPos[playerID].x, startPos[playerID].y, startPos[playerID].z - (layerDiffPosition * currentLayer[playerID]));
 
 
             changePositionReady[playerID] = true;
 
-            BrickManager.Instance.SpawnLayer(playerID);
+            if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
+            {
+                BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
+            }
+
+            for (int i = currentLayer[playerID]; i < (currentLayer[playerID] + numberOfLayerToDisplay - 1); i++)
+            {
+                if (i <= currentLevel.level.levelWallBuilds.walls.Length - 1)
+                {
+                    SetWaypoints(playerID, i);
+                }
+            }
+
+            BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
         }
 
 
@@ -121,8 +181,49 @@ public class LevelManager : MonoBehaviour
         {
             isThereAnotherLayer[playerID] = false;
         }
+
+        firstSetUpDone[playerID] = true;
     }
 
+
+    /// <summary>
+    /// Set les waypoints selon la nouvelle position du layer
+    /// </summary>
+    /// <param name="playerID"></param>
+    /// <param name="layer"></param>
+    public void SetWaypoints(int playerID, int layer)
+    {
+        if (playersParents[playerID].layersParent[layer].childCount > 0)
+        {
+            List<GameObject> go = new List<GameObject>();
+
+            for (int i = 0; i < playersParents[playerID].layersParent[layer].childCount; i++)
+            {
+                GameObject obj = playersParents[playerID].layersParent[layer].GetChild(i).gameObject;
+                if (obj.GetComponent<BrickBehaviours>().isMoving)
+                {
+                    go.Add(obj);
+                }
+
+            }
+
+            for (int i = 0; i < go.Count; i++)
+            {
+                BrickBehaviours brick = go[i].GetComponent<BrickBehaviours>();
+                
+
+                for (int j = 0; j < BrickManager.Instance.levelWallsConfig.walls[layer].wallBricks[brick.savedInIndex].waypointsStorage.Count; j++)
+                {
+                    Vector3 waypointToLayer = new Vector3(
+                        BrickManager.Instance.levelWallsConfig.walls[layer].wallBricks[brick.savedInIndex].waypointsStorage[j].x + (posDiffPerPlayer.x * playerID),
+                        BrickManager.Instance.levelWallsConfig.walls[layer].wallBricks[brick.savedInIndex].waypointsStorage[j].y + (posDiffPerPlayer.y * playerID),
+                        BrickManager.Instance.levelWallsConfig.walls[layer].wallBricks[brick.savedInIndex].waypointsStorage[j].z + (posDiffPerPlayer.z * playerID) + layerDiffPosition * (float)(layer - currentLayer[playerID]));
+
+                    brick.waypoints[j] = waypointToLayer;
+                }
+            }
+        }
+    }
 
 
     /// <summary>
@@ -134,5 +235,13 @@ public class LevelManager : MonoBehaviour
         currentLevel = registeredLevels[selectedLevel];
         currentLevelConfig = currentLevel.level;
         BrickManager.Instance.levelWallsConfig = registeredLevels[selectedLevel].level.levelWallBuilds;
+    }
+
+
+
+    [System.Serializable]
+    public struct Parenting
+    {
+        public Transform[] layersParent;
     }
 }

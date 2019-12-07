@@ -40,11 +40,16 @@ public class BallCollisionFX : MonoBehaviour
 
             if (canSpawn)
             {
-                Debug.Log("Spawn an impact");
+                //Debug.Log("Spawn an impact");
                 PoolManager.instance.SpawnFromPool("ImpactFX", pos, Quaternion.identity);
                 
                 canSpawn = false;
             }
+        }
+
+        if (collision.collider.TryGetComponent<IBrick>(out IBrick brick))
+        {
+            BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
         }
     }
 

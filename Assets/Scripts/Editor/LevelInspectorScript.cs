@@ -665,7 +665,7 @@ public class LevelInspectorScript : Editor
 
                         GUILayout.BeginVertical("box");
 
-                        paintedBrickSettings.smoothTime = EditorGUILayout.Slider("smoothTime", paintedBrickSettings.smoothTime, 0f, 1f);
+                        paintedBrickSettings.smoothTime = EditorGUILayout.Slider("smoothTime", paintedBrickSettings.smoothTime, 0.01f, 1f);
                         paintedBrickSettings.speed = EditorGUILayout.Slider("speed", paintedBrickSettings.speed, 0.1f, 10f);
 
                         GUILayout.EndVertical();
@@ -772,7 +772,7 @@ public class LevelInspectorScript : Editor
 
                             GUILayout.BeginVertical("box");
 
-                            brickSettingsDisplayed.smoothTime = EditorGUILayout.Slider("smoothTime", brickSettingsDisplayed.smoothTime, 0f, 1f);
+                            brickSettingsDisplayed.smoothTime = EditorGUILayout.Slider("smoothTime", brickSettingsDisplayed.smoothTime, 0.01f, 1f);
                             brickSettingsDisplayed.speed = EditorGUILayout.Slider("speed", brickSettingsDisplayed.speed, 0.1f, 10f);
 
 

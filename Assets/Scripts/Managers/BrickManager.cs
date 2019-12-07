@@ -61,19 +61,32 @@ public class BrickManager : MonoBehaviour
         UpdateBrickLevel(touchedBrick.WallID);
     }
 
+
+    /// <summary>
+    /// Check the number of Bricks on the current layer and call the next one when it hits 0
+    /// </summary>
+    /// <param name="playerID"></param>
     void UpdateBrickLevel(int playerID)
     {
         currentBricksOnLayer[playerID]--;
 
         if (currentBricksOnLayer[playerID] <= 0)
         {
+            //Debug.Log("Go to next layer");
             LevelManager.Instance.SetNextLayer(playerID);
         }
     }
 
-    public void SpawnLayer(int playerID)
+    /// <summary>
+    /// Spawn a layer
+    /// </summary>
+    /// <param name="playerID"></param>
+    /// <param name="currentDisplacement"></param>
+    public void SpawnLayer(int playerID, int currentDisplacement)
     {
-        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID]];
+        //Debug.Log("CurrentLayer : " + LevelManager.Instance.currentLayer[playerID] + " & currentDisplacement : " + currentDisplacement);
+
+        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
 
         //Debug.Log("Spawn check");
 
@@ -83,9 +96,9 @@ public class BrickManager : MonoBehaviour
             {
                 //Debug.Log("layerToSpawn.wallBricks.Count : " + layerToSpawn.wallBricks.Count);
 
-                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, 
-                    layerToSpawn.wallBricks[i].brickPosition.y,
-                    (LevelManager.Instance.startPos[playerID].z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer[playerID])));
+                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
+                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * ((float)LevelManager.Instance.currentLayer[playerID] + (float)currentDisplacement))));
+
 
                 //GameObject obj = Instantiate(prefabBase) as GameObject;
                 GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.Instance.levelTrans[playerID].position, Quaternion.identity);
@@ -106,12 +119,12 @@ public class BrickManager : MonoBehaviour
 
 
 
-                obj.transform.parent = LevelManager.Instance.levelTrans[playerID];
+                //obj.transform.parent = LevelManager.Instance.levelTrans[playerID];
+                obj.transform.parent = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
-                obj.transform.localPosition = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
-                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * (float)LevelManager.Instance.currentLayer[playerID])));
+                obj.transform.localPosition = brickNewPos;
 
 
 
@@ -123,6 +136,7 @@ public class BrickManager : MonoBehaviour
 
                 objBehaviours.colorID = layerToSpawn.wallBricks[i].brickColorPreset;
                 objBehaviours.wallID = playerID;
+                objBehaviours.savedInIndex = i;
 
                 if (layerToSpawn.wallBricks[i].isMoving)
                 {
@@ -133,13 +147,33 @@ public class BrickManager : MonoBehaviour
 
                     for (int j = 0; j < layerToSpawn.wallBricks[i].waypointsStorage.Count; j++)
                     {
-                        objBehaviours.waypoints.Add(layerToSpawn.wallBricks[i].waypointsStorage[j]);
+                        Vector3 waypointToLayer = new Vector3(layerToSpawn.wallBricks[i].waypointsStorage[j].x, layerToSpawn.wallBricks[i].waypointsStorage[j].y,
+                            layerToSpawn.wallBricks[i].waypointsStorage[j].z + (LevelManager.Instance.layerDiffPosition * ((float)LevelManager.Instance.currentLayer[playerID] + (float)currentDisplacement)));
+
+                        objBehaviours.waypoints.Add(waypointToLayer);
                     }
                 }
-
-
-                currentBricksOnLayer[playerID]++;
             }
         }
+
+
+        if (LevelManager.Instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
+        {
+            //Debug.Log("Every layers are displayed");
+            LevelManager.Instance.isEverythingDisplayed[playerID] = true;
+        }
+    }
+
+
+    /// <summary>
+    /// Get the number of Bricks on the current layer
+    /// </summary>
+    /// <param name="playerID"></param>
+    public void SetCurrentBrickOnLayer(int playerID)
+    {
+        //Debug.Log("child count : " + LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount);
+        //Debug.Log("current layer : " + LevelManager.Instance.currentLayer[playerID]);
+
+        currentBricksOnLayer[playerID] = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount;
     }
 }

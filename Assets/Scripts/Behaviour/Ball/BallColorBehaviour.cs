@@ -2,19 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum ColorSwitchTrigerType
+{
+    RACKETBASED,
+    WALLBASED
+}
+
 public class BallColorBehaviour : MonoBehaviour
 {
-    Renderer renderer;
+    public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
     [Header("Color Settings")]
-    /*public Material[] materials;  */
     public Color[] colors;
-
+    //public ColorEnum startingColor;
     private int colorID = 0;
+
+    private bool isEmpowered;
+
+    private Renderer renderer;
 
     private void Start()
     {
         renderer = gameObject.GetComponent<Renderer>();
+
+        InitializeSwitchColor();
+
+        //Recuperer les couleurs du ColorSettings
     }
 
     public int GetBallsColor()
@@ -25,8 +39,51 @@ public class BallColorBehaviour : MonoBehaviour
     public void SetBallColor(int colorID)
     {
         this.colorID = colorID;
-        //renderer.material = materials[colorID];
         renderer.material.color = colors[colorID];
+    }
+
+    private void InitializeSwitchColor()
+    {
+        if (colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
+        {
+            BallEventManager.instance.OnCollisionWithFrontWall += WallBaseSwitchColor;
+            BallEventManager.instance.OnCollisionWithRacket += TransferEmpowerement;
+        }
+        else if (colorSwitchTrigerType == ColorSwitchTrigerType.RACKETBASED)
+        {
+            BallEventManager.instance.OnCollisionWithRacket += SwitchColor;
+        }
+    }
+
+    public void TransferEmpowerement()
+    {
+        if(RacketManager.instance.isEmpowered)
+        {
+            BallBecomeEmpowered();
+            //RacketManager.instance.ExitEmpoweredState();
+        }
+    }
+
+    private void BallBecomeEmpowered()
+    {
+        isEmpowered = true;
+    }
+
+    private void WallBaseSwitchColor()
+    {
+        if(isEmpowered)
+        {
+            isEmpowered = false;
+            SwitchColor();
+        }
+    }
+
+    private void RacketBaseSwitchColor()
+    {
+        if (RacketManager.instance.isEmpowered)
+        {
+            SwitchColor();
+        }
     }
 
     private void SwitchColor()

@@ -20,19 +20,14 @@ public class BrickManager : MonoBehaviour
     public int[] currentBricksOnLayer;
     public float offsetPerPlayer;
 
-    /*
-    [Header("Number of bricks in the level")]
-    public int totalBricskInLevel;
-    */
-
     [Header("Bonus & Malus settings")]
     [SerializeField] int bonusPoolID;
     [SerializeField] int malusPoolID;
 
 
-
-
     public static BrickManager Instance;
+
+
 
 
     private void Awake()
@@ -50,6 +45,7 @@ public class BrickManager : MonoBehaviour
     {
         Vector3 brickPos = touchedBrick.Transform.position;
         touchedBrick.Transform.gameObject.SetActive(false);
+        touchedBrick.Transform.parent = null;
 
         PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.identity);
         ScoreManager.Instance.IncrementScore(touchedBrick.ScoreValue);
@@ -68,7 +64,12 @@ public class BrickManager : MonoBehaviour
     /// <param name="playerID"></param>
     void UpdateBrickLevel(int playerID)
     {
-        currentBricksOnLayer[playerID]--;
+        SetCurrentBrickOnLayer(playerID);
+
+        //Debug.Log("Player " + playerID + " has " + currentBricksOnLayer[playerID] + " to destroy");
+
+        DebugManager.Instance.DisplayValue(2, "Player " + playerID + " has " + currentBricksOnLayer[playerID] + " to destroy");
+        //DebugManager.Instance.DisplayValue(3, "Player " + playerID + " has " + LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount + "children to deactivate");
 
         if (currentBricksOnLayer[playerID] <= 0)
         {
@@ -151,7 +152,7 @@ public class BrickManager : MonoBehaviour
 
         if (LevelManager.Instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
         {
-            //Debug.Log("Every layers are displayed");
+            //Debug.Log("Every layers are displayed for player " + playerID);
             LevelManager.Instance.isEverythingDisplayed[playerID] = true;
         }
     }
@@ -164,5 +165,7 @@ public class BrickManager : MonoBehaviour
     public void SetCurrentBrickOnLayer(int playerID)
     {
         currentBricksOnLayer[playerID] = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount;
+
+        //Debug.Log("Player " + playerID + " has " + currentBricksOnLayer[playerID] + " to destroy");
     }
 }

@@ -5,6 +5,7 @@ using UnityEditor;
 using System.IO;
 using UnityEditorInternal;
 using UnityEditor.SceneManagement;
+using TMPro;
 
 
 [CustomEditor(typeof(LevelScript))]
@@ -49,7 +50,7 @@ public class LevelInspectorScript : Editor
     private GUIStyle slashStyle;
     private GUIStyle noneStyle;
     private GUIStyle toolStyle;
-
+    private GUIStyle wayStyle;
 
 
     SerializedProperty editorSpaceProperty;
@@ -69,12 +70,16 @@ public class LevelInspectorScript : Editor
     private GameObject prefabBase;
     private string prefabPath = "Assets/Prefabs/Bricks";
 
+    private GameObject waypointIcon;
+    private string iconPath = "Assets/Prefabs/EditorPrefab";
+
     private PresetScriptable[] colorPresets;
     private string presetPath = "Assets/ScriptableObjects/ColorPresets";
 
     private BrickTypesScriptable[] brickPresets;
     private string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
+    List<GameObject> waypointsgo;
 
 
     WallBuilds walls;
@@ -91,29 +96,15 @@ public class LevelInspectorScript : Editor
     public void OnEnable()
     {
         myTarget = (LevelScript)target;
+        waypointsgo = new List<GameObject>();
 
-        //Destroy resistant brick of shit (those fuckers that stay under their parent to fuck them up)
-        if (myTarget.transform.childCount > 0)
-        {
-            List<GameObject> go = new List<GameObject>();
-
-            for (int i = 0; i < myTarget.transform.childCount; i++)
-            {
-                go.Add(myTarget.transform.GetChild(i).gameObject);
-            }
-
-            for (int i = 0; i < go.Count; i++)
-            {
-                DestroyImmediate(go[i]);
-            }
-        }
 
 
         Undo.undoRedoPerformed += MyUndoCallBack;
 
 
-
         InitEditor();
+        InitWaypointPrefab();
         InitPrefab();
         InitBrickPresets();
         InitColorPresets();
@@ -144,7 +135,7 @@ public class LevelInspectorScript : Editor
         waypointStorageList.drawElementCallback = MyListElementDrawer;
         waypointStorageList.onAddCallback += MyListAddCallback;
         waypointStorageList.onRemoveCallback += MyListRemoveCallback;
-        waypointStorageList.onReorderCallback += (ReorderableList list) => { Debug.Log("la liste vient d'être réordonnée"); };
+        waypointStorageList.onReorderCallback += (ReorderableList list) => { DrawWaypointIcon(); };
     }
 
     #region Reorderlist Stuff
@@ -181,7 +172,10 @@ public class LevelInspectorScript : Editor
 
         mySpace.drawHeaderCallback = MyWListHeader;
         mySpace.drawElementCallback = MyWListElementDrawer;
-        mySpace.onReorderCallback += (ReorderableList list) => { Debug.Log("la liste vient d'être réordonnée"); };
+        //mySpace.onReorderCallback += (ReorderableList list) =>
+        //{
+        //    Debug.Log("la liste vient d'être réordonnée");
+        //};
     }
 
     #region Reorderlist Stuff
@@ -200,6 +194,8 @@ public class LevelInspectorScript : Editor
     #endregion
 
 
+
+
     private void InitPrefab()
     {
         if (AssetDatabase.IsValidFolder(prefabPath))
@@ -212,8 +208,22 @@ public class LevelInspectorScript : Editor
         }
         else
         {
-            prefabPath = null;
+            //prefabPath = null; // ?
             Debug.LogError("Prefab is missing");
+        }
+    }
+
+    private void InitWaypointPrefab()
+    {
+        if (AssetDatabase.IsValidFolder(iconPath))
+        {
+            string[] prefabPaths = AssetDatabase.FindAssets("t:gameobject", new string[] { iconPath });
+
+            waypointIcon = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(prefabPaths[0]), typeof(GameObject)) as GameObject;
+        }
+        else
+        {
+            Debug.LogError("Waypoint Prefab is missing");
         }
     }
 
@@ -326,6 +336,7 @@ public class LevelInspectorScript : Editor
         layerStyle.fontStyle = FontStyle.Bold;
         layerStyle.alignment = TextAnchor.MiddleCenter;
         layerStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
+
         //Button Style
         btnStyle = new GUIStyle();
         btnStyle.alignment = TextAnchor.MiddleCenter;
@@ -348,6 +359,13 @@ public class LevelInspectorScript : Editor
         toolStyle.alignment = TextAnchor.MiddleCenter;
         toolStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         toolStyle.fontSize = 10;
+
+        //Waypoint Style
+        wayStyle = new GUIStyle();
+        wayStyle.alignment = TextAnchor.MiddleCenter;
+        wayStyle.normal.textColor = Color.black;
+        wayStyle.fontStyle = FontStyle.Bold;
+        wayStyle.fontSize = 10;
     }
 
     private void InitEditModes()
@@ -409,6 +427,7 @@ public class LevelInspectorScript : Editor
     {
         DrawBox();
         DrawLayerGUI();
+        //DrawWaypointIconGUI();
         DrawLevelGUI();
         DrawStatsGUI();
         DrawModeGUI();
@@ -565,11 +584,6 @@ public class LevelInspectorScript : Editor
         EditorGUILayout.LabelField("Brick Parameters", titleStyle);
 
         GUILayout.Space(2);
-
-        //int index = (int)paintMode;
-        //index = GUILayout.Toolbar(index, paintModeLabel);
-
-        //paintMode = (PaintMode)index;
 
 
 
@@ -832,13 +846,22 @@ public class LevelInspectorScript : Editor
     {
         if (currentLayer != null)
         {
-            for (int i = 0; i < myTarget.bricksOnScreen.Length; i++)
+            //Destroy resistant brick of shit (those fuckers that stay under their parent to fuck them up)
+            if (myTarget.transform.childCount > 0)
             {
-                if (myTarget.bricksOnScreen[i] != null)
+                List<GameObject> go = new List<GameObject>();
+
+                for (int i = 0; i < myTarget.transform.childCount; i++)
                 {
-                    DestroyImmediate(myTarget.bricksOnScreen[i], false);
+                    go.Add(myTarget.transform.GetChild(i).gameObject);
+                }
+
+                for (int i = 0; i < go.Count; i++)
+                {
+                    DestroyImmediate(go[i]);
                 }
             }
+
 
             myTarget.bricksOnLayer = 0;
             myTarget.numberOfNeutralBrick = 0;
@@ -847,12 +870,14 @@ public class LevelInspectorScript : Editor
 
             myTarget.bricksOnScreen = new GameObject[editorPreset.columns * editorPreset.rows];
 
+            waypointsgo.Clear();
         }
     }
 
     private void SpawnLayer()
     {
         currentLayer = currentLevel.level.levelWallBuilds.walls[selectedLayer];
+        myTarget.currentLayer = currentLayer;
 
         for (int i = 0; i < currentLayer.wallBricks.Count; i++)
         {
@@ -927,7 +952,7 @@ public class LevelInspectorScript : Editor
             }
         }
 
-        //Debug.Log("myTarget.bricksOnLayer : " + myTarget.bricksOnLayer);
+        DrawWaypointIcon();
     }
 
     private void RefreshBrick(int brickPos)
@@ -1009,6 +1034,9 @@ public class LevelInspectorScript : Editor
             {
                 CleanLayer();
             }
+
+            canPaintWaypoint = false;
+            brickSettingsDisplayed = new BrickSettings();
         }
 
         if (myTarget.selectedLevel != null)
@@ -1068,6 +1096,9 @@ public class LevelInspectorScript : Editor
 
             myTarget.allLevels = levels;
 
+            canPaintWaypoint = false;
+            brickSettingsDisplayed = new BrickSettings();
+
             CleanLayer();
             SpawnLayer();
         }
@@ -1092,6 +1123,9 @@ public class LevelInspectorScript : Editor
 
                 currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
 
+                canPaintWaypoint = false;
+                brickSettingsDisplayed = new BrickSettings();
+
                 CleanLayer();
                 SpawnLayer();
             }
@@ -1115,6 +1149,9 @@ public class LevelInspectorScript : Editor
                 selectedLayer++;
 
                 currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
+
+                canPaintWaypoint = false;
+                brickSettingsDisplayed = new BrickSettings();
 
                 CleanLayer();
                 SpawnLayer();
@@ -1426,6 +1463,11 @@ public class LevelInspectorScript : Editor
                 {
                     PaintWaypoint(brickSettingsDisplayed, col, row);
                 }
+
+                if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
+                {
+                    EraseWaypoint(brickSettingsDisplayed, col, row);
+                }
                 break;
         }
     }
@@ -1544,7 +1586,7 @@ public class LevelInspectorScript : Editor
 
     private void PaintWaypoint(BrickSettings movingBrick, int col, int row)
     {
-        if (!myTarget.IsInsideGridBounds(col, row) || prefabBase == null)
+        if (!myTarget.IsInsideGridBounds(col, row) || waypointIcon == null || !brickSettingsDisplayed.isMoving)
         {
             return;
         }
@@ -1568,8 +1610,71 @@ public class LevelInspectorScript : Editor
         Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
         #endregion
 
+
         //Paint Waypoint
         movingBrick.waypointsStorage.Add(newWaypoint);
+
+        DrawWaypointIcon();
+    }
+
+    private void EraseWaypoint(BrickSettings movingBrick, int col, int row)
+    {
+        if (!myTarget.IsInsideGridBounds(col, row) || waypointIcon == null || !brickSettingsDisplayed.isMoving)
+        {
+            return;
+        }
+
+        Vector3 newWaypoint = myTarget.GridToWorldPoint(col, row);
+
+        for (int i = 0; i < movingBrick.waypointsStorage.Count; i++)
+        {
+            if (movingBrick.waypointsStorage[i] == newWaypoint)
+            {
+                #region Undo
+                Undo.RecordObject(this, "Recording Selected Level Choice");
+                Undo.RecordObject(myTarget, "Recording Selected Level Choice");
+                Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
+                #endregion
+
+                movingBrick.waypointsStorage.RemoveAt(i);
+            }
+        }
+
+        DrawWaypointIcon();
+    }
+
+    private void DrawWaypointIcon()
+    {
+        for (int i = 0; i < waypointsgo.Count; i++)
+        {
+            DestroyImmediate(waypointsgo[i]);
+        }
+
+        for (int i = 0; i < currentLayer.wallBricks.Count; i++)
+        {
+            if (currentLayer.wallBricks[i].isBrickHere)
+            {
+                if (currentLayer.wallBricks[i].isMoving)
+                {
+                    for (int j = 0; j < currentLayer.wallBricks[i].waypointsStorage.Count; j++)
+                    {
+                        Vector3 pos = new Vector3(
+                            currentLayer.wallBricks[i].waypointsStorage[j].x,
+                        currentLayer.wallBricks[i].waypointsStorage[j].y,
+                        currentLayer.wallBricks[i].waypointsStorage[j].z - 0.5f);
+
+
+                        GameObject obj = Instantiate(waypointIcon) as GameObject;
+                        obj.GetComponent<SpriteRenderer>().color = colorPresets[0].colorPresets[currentLayer.wallBricks[i].brickColorPreset].coreEmissiveColors;
+                        obj.GetComponentInChildren<TextMeshPro>().text = j.ToString();
+                        obj.transform.position = pos;
+                        obj.transform.parent = myTarget.transform;
+
+                        waypointsgo.Add(obj);
+                    }
+                }
+            }
+        }
     }
 
     private void Erase(int col, int row)
@@ -1596,7 +1701,6 @@ public class LevelInspectorScript : Editor
 
 
             BrickSettings blankBrick = new BrickSettings();
-            currentLayer.wallBricks[col * myTarget.totalRows + row] = blankBrick;
 
             myTarget.bricksOnLayer--;
 
@@ -1614,6 +1718,8 @@ public class LevelInspectorScript : Editor
                     myTarget.numberOfColoredBrick02--;
                     break;
             }
+
+            currentLayer.wallBricks[col * myTarget.totalRows + row] = blankBrick;
         }
     }
 
@@ -1652,10 +1758,6 @@ public class LevelInspectorScript : Editor
         RefreshInspector();
     }
 
-    private void DrawWaypointIcon(Vector3 IconPos)
-    {
-
-    }
 
 
 

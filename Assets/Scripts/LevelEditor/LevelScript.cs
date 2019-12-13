@@ -100,6 +100,7 @@ public class LevelScript : MonoBehaviour
 
     private void GridFrameGizmo(int cols, int rows)
     {
+        //Debug.Log("Draw Grid Frame");
         /* LEFT */
         Gizmos.DrawLine(new Vector3(xGridPlacement + WidthOffset(),
             yGridPlacement,
@@ -167,7 +168,7 @@ public class LevelScript : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         //editorSpace = new List<Vector3>(2);
         //editorSpace[0] = new Vector3(0, 1, 0);
@@ -183,10 +184,43 @@ public class LevelScript : MonoBehaviour
             GridGizmo(totalColumns, totalRows);
             GridFrameGizmo(totalColumns, totalRows);
 
+            Gizmos.color = Color.green;
+            WaypointConnections();
+
             Gizmos.color = oldColor;
             Gizmos.matrix = oldMatrix;
         }
 
+    }
+
+    private void WaypointConnections()
+    {
+        //Debug.Log("Draw Waypoint Gizmo");
+
+        for (int x = 0; x < currentLayer.wallBricks.Count; x++)
+        {
+            if (currentLayer.wallBricks[x].isMoving)
+            {
+                for (int j = 0; j < currentLayer.wallBricks[x].waypointsStorage.Count - 1; j++)
+                {
+                    Gizmos.DrawLine(new Vector3(currentLayer.wallBricks[x].waypointsStorage[j].x,
+                currentLayer.wallBricks[x].waypointsStorage[j].y,
+                currentLayer.wallBricks[x].waypointsStorage[j].z),
+
+                new Vector3(currentLayer.wallBricks[x].waypointsStorage[j + 1].x,
+                currentLayer.wallBricks[x].waypointsStorage[j + 1].y,
+                currentLayer.wallBricks[x].waypointsStorage[j + 1].z));
+                }
+
+                Gizmos.DrawLine(new Vector3(currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].x,
+                currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].y,
+                currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].z),
+
+                new Vector3(currentLayer.wallBricks[x].waypointsStorage[0].x,
+                currentLayer.wallBricks[x].waypointsStorage[0].y,
+                currentLayer.wallBricks[x].waypointsStorage[0].z));
+            }
+        }
     }
 
 

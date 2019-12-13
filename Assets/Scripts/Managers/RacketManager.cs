@@ -36,53 +36,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public GameObject[] rackets = new GameObject[2];
     public GameObject localPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
-    
-    //private GrabInfo racketGrabInfo;
-
-    //private Vector3 positionTMinus1;
-    //private Quaternion rotationTMinus1;
-
-    //private Vector3 velocityTMinus3Half;
-    //private Vector3 velocityTMinusHalf;
-    //private Vector3 angularVelocityTMinus3half;
-    //private Vector3 angularVelocityTMinusHalf;
-
-    //private Vector3 accelerationTMinus1;
-    //private Vector3 angularAccelerationTMinus1;
-
-    //private float dTMinus1;
-    //private float dTMinus2;
-
-    private Coroutine[] grabCallCoroutine = new Coroutine[2];
-    private Coroutine racketAttractionCoroutine;
-
-    private void Start()
-    {
-        //racket = Instantiate(racketPrefab, racketSpawn) as GameObject;
-        
-        //racketGrabInfo.userID = PlayerID.NONE;
-        //racketGrabInfo.grabState = GrabState.UNUSED;
-        //positionTMinus1 = racket.transform.position;
-
-        //velocityTMinus3Half = Vector3.zero;
-        //velocityTMinusHalf = Vector3.zero;
-        //angularVelocityTMinus3half = Vector3.zero;
-        //angularVelocityTMinusHalf = Vector3.zero;
-
-        //accelerationTMinus1 = Vector3.zero;
-        //angularAccelerationTMinus1 = Vector3.zero;
-
-        //rotationTMinus1 = racket.transform.rotation;
-
-        //dTMinus1 = 1;
-
-        //StartCoroutine(SetupEventSuscription());
-    }
-
-    //public GrabInfo GetGrabInfo()
-    //{
-    //    return racketGrabInfo;
-    //}
+    public bool isEmpowered = false;
 
     public void SetPlayerRacket(int racketID)
     {
@@ -95,15 +49,15 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
 
     private void SetInactiveOtherRackets(int activeRacket)
     {
-        for(int i = 0; i<rackets.Length; i++)
+        for (int i = 0; i < rackets.Length; i++)
         {
-            if(i==activeRacket)
+            if (i == activeRacket)
             {
                 rackets[i].SetActive(true);
             }
             else
             {
-               // rackets[i].SetActive(false);
+                // rackets[i].SetActive(false);
             }
         }
     }
@@ -124,6 +78,65 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         }
         Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
     }
+
+    public void EnterEmpoweredState()
+    {
+        isEmpowered = true;
+    }
+
+    public void ExitEmpoweredState()
+    {
+        isEmpowered = false;
+    }
+
+    //private GrabInfo racketGrabInfo;
+
+    //private Vector3 positionTMinus1;
+    //private Quaternion rotationTMinus1;
+
+    //private Vector3 velocityTMinus3Half;
+    //private Vector3 velocityTMinusHalf;
+    //private Vector3 angularVelocityTMinus3half;
+    //private Vector3 angularVelocityTMinusHalf;
+
+    //private Vector3 accelerationTMinus1;
+    //private Vector3 angularAccelerationTMinus1;
+
+    //private float dTMinus1;
+    //private float dTMinus2;
+
+    //private Coroutine[] grabCallCoroutine = new Coroutine[2];
+    //private Coroutine racketAttractionCoroutine;
+
+    //private void Start()
+    //{
+    //    //racket = Instantiate(racketPrefab, racketSpawn) as GameObject;
+
+    //    //racketGrabInfo.userID = PlayerID.NONE;
+    //    //racketGrabInfo.grabState = GrabState.UNUSED;
+    //    //positionTMinus1 = racket.transform.position;
+
+    //    //velocityTMinus3Half = Vector3.zero;
+    //    //velocityTMinusHalf = Vector3.zero;
+    //    //angularVelocityTMinus3half = Vector3.zero;
+    //    //angularVelocityTMinusHalf = Vector3.zero;
+
+    //    //accelerationTMinus1 = Vector3.zero;
+    //    //angularAccelerationTMinus1 = Vector3.zero;
+
+    //    //rotationTMinus1 = racket.transform.rotation;
+
+    //    //dTMinus1 = 1;
+
+    //    //StartCoroutine(SetupEventSuscription());
+    //}
+
+    //public GrabInfo GetGrabInfo()
+    //{
+    //    return racketGrabInfo;
+    //}
+
+
 
     //void FixedUpdate()
     //{
@@ -174,7 +187,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     //    return angularAccelerationTMinus1;
     //}
 
-    
+
 
     ////////////////////////////////////////////////    Calculus Methods     /////////////////////////////////////////////
 
@@ -193,7 +206,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     //    return (velocity2 - velocity1) / ((deltaTime2 + deltaTime1) / 2);
     //}
 
-    
+
 
     //////////////////////////////////////////////     Distant Grab     //////////////////////////////////////////////
     /*
@@ -267,7 +280,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     }
     */
 
-   
+
     //public void OnVRTKGrab(object sender, ObjectInteractEventArgs e)
     //{
     //    StopCoroutine(racketAttractionCoroutine);

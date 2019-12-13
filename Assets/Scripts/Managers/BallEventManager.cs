@@ -17,9 +17,10 @@ public class BallEventManager : MonoBehaviour
         instance = this;
     }
 
-    public void OnBallCollision(BallCollisionInfo ballCollisionInfo)
+    //public void OnBallCollision(BallCollisionInfo ballCollisionInfo)
+    public void OnBallCollision(String tag)
     {
-        switch (ballCollisionInfo.OtherTag)
+        switch (tag)
         {
             case "Racket":
                 OnCollisionWithRacket();

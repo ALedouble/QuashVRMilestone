@@ -120,9 +120,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 StandardBounce(other.GetContact(0));
                 break;
         }
-        
-        // A reprendre (doublon?)
-        BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+
+        //BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+        BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 

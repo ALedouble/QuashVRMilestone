@@ -92,6 +92,7 @@ public class LevelInspectorScript : Editor
     bool canPaintWaypoint;
 
 
+
 #if (UNITY_EDITOR)
     public void OnEnable()
     {
@@ -101,6 +102,7 @@ public class LevelInspectorScript : Editor
 
 
         Undo.undoRedoPerformed += MyUndoCallBack;
+
 
 
         InitEditor();
@@ -318,7 +320,7 @@ public class LevelInspectorScript : Editor
 
             myTarget.bricksOnScreen = new GameObject[editorPreset.columns * editorPreset.rows];
 
-
+            CleanLayer();
             SpawnLayer();
         }
     }
@@ -403,7 +405,6 @@ public class LevelInspectorScript : Editor
     {
         //base.OnInspectorGUI();
 
-
         DrawGridSizeInspecGUI();
 
         GUILayout.Space(12);
@@ -427,17 +428,16 @@ public class LevelInspectorScript : Editor
     {
         DrawBox();
         DrawLayerGUI();
-        //DrawWaypointIconGUI();
         DrawLevelGUI();
         DrawStatsGUI();
         DrawModeGUI();
         ModeHandler();
         EventHandler();
 
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(myTarget);
-        }
+        //if (GUI.changed)
+        //{
+        //    EditorUtility.SetDirty(myTarget);
+        //}
     }
 
 
@@ -457,6 +457,8 @@ public class LevelInspectorScript : Editor
 
         if (EditorGUI.EndChangeCheck())
         {
+            //Undo.RegisterCompleteObjectUndo(myTarget.selectedLevel, "Recording changing scene event");
+
             if (myTarget.selectedLevel != null)
             {
                 InitSelectedLevelValues();
@@ -828,11 +830,11 @@ public class LevelInspectorScript : Editor
             if (myTarget.bricksOnScreen[i] != null)
             {
                 #region Undo
-                Undo.DestroyObjectImmediate(myTarget.bricksOnScreen[i]);
+                //Undo.DestroyObjectImmediate(myTarget.bricksOnScreen[i]);
 
-                Undo.RecordObject(this, "Recording Selected Level Choice");
-                Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-                Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
+                //Undo.RecordObject(this, "Recording Selected Level Choice");
+                //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
+                //Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
                 #endregion
 
                 DestroyImmediate(myTarget.bricksOnScreen[i], false);
@@ -883,7 +885,6 @@ public class LevelInspectorScript : Editor
         {
             if (currentLayer.wallBricks[i].isBrickHere)
             {
-                //GameObject obj = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
                 GameObject obj = Instantiate(prefabBase) as GameObject;
                 BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
                 MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
@@ -901,8 +902,6 @@ public class LevelInspectorScript : Editor
                 objMesh.sharedMaterials = mats;
 
 
-
-                //mats[0].SetColor("", );
 
                 obj.transform.parent = myTarget.transform;
 
@@ -953,6 +952,69 @@ public class LevelInspectorScript : Editor
         }
 
         DrawWaypointIcon();
+
+        if(selectedLayer < currentLevel.level.levelWallBuilds.walls.Length - 1)
+        {
+            for (int i = selectedLayer + 1; i < currentLevel.level.levelWallBuilds.walls.Length; i++)
+            {
+                //Debug.Log("layer : " + i);
+                Wall nextLayer = currentLevel.level.levelWallBuilds.walls[i];
+
+                for (int j = 0; j < nextLayer.wallBricks.Count; j++)
+                {
+                    if (nextLayer.wallBricks[j].isBrickHere)
+                    {
+                        GameObject obj = Instantiate(prefabBase) as GameObject;
+                        BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
+                        MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
+                        Material[] mats = objMesh.sharedMaterials;
+
+                        mats[1] = new Material(Shader.Find("Shader Graphs/Sh_CubeEdges00"));
+                        mats[1].SetFloat("_Metallic", 0.75f);
+
+                        mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
+                        mats[0].SetColor("_FresnelColor", myTarget.colorPresets[0].colorPresets[nextLayer.wallBricks[i].brickColorPreset].fresnelColors);
+                        mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[0].colorPresets[nextLayer.wallBricks[i].brickColorPreset].coreEmissiveColors);
+                        mats[0].SetFloat("_XFrameThickness", 0.75f);
+                        mats[0].SetFloat("_YFrameThickness", 0.75f);
+
+                        objMesh.sharedMaterials = mats;
+
+
+
+                        obj.transform.parent = myTarget.transform;
+
+                        obj.name = nextLayer.wallBricks[j].brickID + " of layer " + i;
+
+                        obj.transform.position = new Vector3(nextLayer.wallBricks[j].brickPosition.x,
+                            nextLayer.wallBricks[j].brickPosition.y,
+                            nextLayer.wallBricks[j].brickPosition.z - 0.6f);
+                            
+                            
+
+
+                        //objBehaviours.armorPoints = currentLayer.wallBricks[i].armorValue;
+                        //objBehaviours.scoreValue = currentLayer.wallBricks[i].scoreValue;
+
+                        //if (currentLayer.wallBricks[i].isMoving)
+                        //{
+                        //    objBehaviours.isMoving = currentLayer.wallBricks[i].isMoving;
+                        //    objBehaviours.speed = currentLayer.wallBricks[i].speed;
+                        //    objBehaviours.smoothTime = currentLayer.wallBricks[i].smoothTime;
+                        //    objBehaviours.waypoints = new List<Vector3>();
+
+                        //    for (int j = 0; j < currentLayer.wallBricks[i].waypointsStorage.Count; j++)
+                        //    {
+                        //        objBehaviours.waypoints.Add(currentLayer.wallBricks[i].waypointsStorage[j]);
+                        //    }
+                        //}
+                    }
+                }
+            }
+        }
+        
+        
+        
     }
 
     private void RefreshBrick(int brickPos)
@@ -1475,115 +1537,12 @@ public class LevelInspectorScript : Editor
 
 
 
-    private void Paint(int col, int row)
-    {
-
-        if (!myTarget.IsInsideGridBounds(col, row) || prefabBase == null)
-        {
-            return;
-        }
-
-        //Détermine l'INDEX de la brick
-        int selectedBrick = col * myTarget.totalRows + row;
-
-        if (!currentLayer.wallBricks[selectedBrick].isBrickHere)
-        {
-            //Debug.LogFormat("GridPos {0},{1}", col, row);
-            #region Undo
-            Undo.RecordObject(this, "Recording Selected Level Choice");
-            Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-            Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-            #endregion
-
-            //SPAWN et récupération du BEHAVIOUR
-            //GameObject obj = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
-            GameObject obj = Instantiate(prefabBase) as GameObject;
-            BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
-            MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
-            Material[] mats = objMesh.sharedMaterials;
-
-            mats[1] = new Material(Shader.Find("Shader Graphs/Sh_CubeEdges00"));
-            mats[1].SetFloat("_Metallic", 0.75f);
-
-            mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
-            mats[0].SetColor("_FresnelColor", myTarget.colorPresets[0].colorPresets[paintedBrickSettings.brickColorPreset].fresnelColors);
-            mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[0].colorPresets[paintedBrickSettings.brickColorPreset].coreEmissiveColors);
-            mats[0].SetFloat("_XFrameThickness", 0.75f);
-            mats[0].SetFloat("_YFrameThickness", 0.75f);
-
-            objMesh.sharedMaterials = mats;
-
-
-
-
-            //POSITION de la brick
-            obj.transform.parent = myTarget.transform;
-
-            obj.name = string.Format("{0},{1},{2}", col, row, obj.name);
-
-            obj.transform.position = myTarget.GridToWorldPoint(col, row);
-
-
-
-
-
-
-            //SET des datas
-            BrickSettings brick = new BrickSettings();
-            brick = paintedBrickSettings;
-            brick.brickID = prefabBase.name;
-            brick.brickPosition = myTarget.GridToWorldPoint(col, row);
-            brick.isBrickHere = true;
-
-            brick.waypointsStorage = new List<Vector3>();
-            brick.waypointsStorage.Add(myTarget.GridToWorldPoint(col, row));
-
-            //ENREGISTREMENT des datas
-            currentLayer.wallBricks[selectedBrick] = brick;
-            myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer] = currentLayer;
-
-            if (paintedBrickSettings.isMoving)
-            {
-                canPaintWaypoint = true;
-                currentMode = EditionMode.Waypoint;
-                brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
-            }
-
-
-            myTarget.bricksOnLayer++;
-
-            switch (paintedBrickSettings.brickColorPreset)
-            {
-                case 0:
-                    myTarget.numberOfNeutralBrick++;
-                    break;
-
-                case 1:
-                    myTarget.numberOfColoredBrick01++;
-                    break;
-
-                case 2:
-                    myTarget.numberOfColoredBrick02++;
-                    break;
-            }
-
-            //RECUPERATION du gameobject crée
-            myTarget.bricksOnScreen[selectedBrick] = obj;
-
-            Undo.RegisterCreatedObjectUndo(obj, "Registered created Object");
-        }
-
-        #region Old
-
-        //obj.hideFlags = HideFlags.HideInHierarchy;
-
-        //myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer].wallBricks[]
-
-        //myTarget.Pieces[col + row * myTarget.TotalRows] = obj.GetComponent<LevelPiece>();
-
-        #endregion
-    }
-
+    /// <summary>
+    /// Paint Waypoint for selected Brick
+    /// </summary>
+    /// <param name="movingBrick"></param>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
     private void PaintWaypoint(BrickSettings movingBrick, int col, int row)
     {
         if (!myTarget.IsInsideGridBounds(col, row) || waypointIcon == null || !brickSettingsDisplayed.isMoving)
@@ -1603,11 +1562,8 @@ public class LevelInspectorScript : Editor
         }
 
 
-        //Debug.LogFormat("GridPos {0},{1}", col, row);
         #region Undo
-        Undo.RecordObject(this, "Recording Selected Level Choice");
-        Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-        Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
+        Undo.RegisterCompleteObjectUndo(currentLevel, "Recording Selected Name");
         #endregion
 
 
@@ -1617,6 +1573,12 @@ public class LevelInspectorScript : Editor
         DrawWaypointIcon();
     }
 
+    /// <summary>
+    /// Erase Waypoint for selected Brick
+    /// </summary>
+    /// <param name="movingBrick"></param>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
     private void EraseWaypoint(BrickSettings movingBrick, int col, int row)
     {
         if (!myTarget.IsInsideGridBounds(col, row) || waypointIcon == null || !brickSettingsDisplayed.isMoving)
@@ -1631,9 +1593,7 @@ public class LevelInspectorScript : Editor
             if (movingBrick.waypointsStorage[i] == newWaypoint)
             {
                 #region Undo
-                Undo.RecordObject(this, "Recording Selected Level Choice");
-                Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-                Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
+                Undo.RegisterCompleteObjectUndo(currentLevel, "Recording Selected Name");
                 #endregion
 
                 movingBrick.waypointsStorage.RemoveAt(i);
@@ -1643,6 +1603,9 @@ public class LevelInspectorScript : Editor
         DrawWaypointIcon();
     }
 
+    /// <summary>
+    /// Draw Waypoint Icons dor everyWaypoint on the layer
+    /// </summary>
     private void DrawWaypointIcon()
     {
         for (int i = 0; i < waypointsgo.Count; i++)
@@ -1670,13 +1633,122 @@ public class LevelInspectorScript : Editor
                         obj.transform.position = pos;
                         obj.transform.parent = myTarget.transform;
 
+
                         waypointsgo.Add(obj);
                     }
                 }
             }
         }
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorUtility.SetDirty(currentLevel);
     }
 
+    /// <summary>
+    /// Paint Brick on layer
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
+    private void Paint(int col, int row)
+    {
+
+        if (!myTarget.IsInsideGridBounds(col, row) || prefabBase == null)
+        {
+            return;
+        }
+
+        //Détermine l'INDEX de la brick
+        int selectedBrick = col * myTarget.totalRows + row;
+
+        if (!currentLayer.wallBricks[selectedBrick].isBrickHere)
+        {
+            //SPAWN et récupération du BEHAVIOUR
+            GameObject obj = Instantiate(prefabBase) as GameObject;
+            BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
+            MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
+            Material[] mats = objMesh.sharedMaterials;
+
+            mats[1] = new Material(Shader.Find("Shader Graphs/Sh_CubeEdges00"));
+            mats[1].SetFloat("_Metallic", 0.75f);
+
+            mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
+            mats[0].SetColor("_FresnelColor", myTarget.colorPresets[0].colorPresets[paintedBrickSettings.brickColorPreset].fresnelColors);
+            mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[0].colorPresets[paintedBrickSettings.brickColorPreset].coreEmissiveColors);
+            mats[0].SetFloat("_XFrameThickness", 0.75f);
+            mats[0].SetFloat("_YFrameThickness", 0.75f);
+
+            objMesh.sharedMaterials = mats;
+
+            //ENREGISTREMENT du LEVEL(scriptable) avant l'ajout de la brick
+            #region Undo
+            Undo.RecordObject(currentLevel, "Recording Selected Name");
+            #endregion
+
+            //POSITION de la brick
+            obj.transform.parent = myTarget.transform;
+
+            obj.name = string.Format("{0},{1},{2}", col, row, obj.name);
+
+            obj.transform.position = myTarget.GridToWorldPoint(col, row);
+
+            //SET des datas
+            BrickSettings brick = new BrickSettings();
+            brick = paintedBrickSettings;
+            brick.brickID = prefabBase.name;
+            brick.brickPosition = myTarget.GridToWorldPoint(col, row);
+            brick.isBrickHere = true;
+
+            brick.waypointsStorage = new List<Vector3>();
+            brick.waypointsStorage.Add(myTarget.GridToWorldPoint(col, row));
+
+            //ENREGISTREMENT des datas
+            currentLayer.wallBricks[selectedBrick] = brick;
+            myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer] = currentLayer;
+
+            if (paintedBrickSettings.isMoving)
+            {
+                canPaintWaypoint = true;
+                currentMode = EditionMode.Waypoint;
+                brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
+            }
+
+            //INCREMENTATION des différents datas statistiques
+            myTarget.bricksOnLayer++;
+
+            switch (paintedBrickSettings.brickColorPreset)
+            {
+                case 0:
+                    myTarget.numberOfNeutralBrick++;
+                    break;
+
+                case 1:
+                    myTarget.numberOfColoredBrick01++;
+                    break;
+
+                case 2:
+                    myTarget.numberOfColoredBrick02++;
+                    break;
+            }
+
+            //RECUPERATION du gameobject crée
+            myTarget.bricksOnScreen[selectedBrick] = obj;
+
+            //ENREGISTRE la création de la BRICK
+            Undo.RegisterCreatedObjectUndo(obj, "Registered created Object");
+        }
+
+        #region Old
+
+        //obj.hideFlags = HideFlags.HideInHierarchy;
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Erase brick on layer
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="row"></param>
     private void Erase(int col, int row)
     {
         if (!myTarget.IsInsideGridBounds(col, row))
@@ -1691,10 +1763,9 @@ public class LevelInspectorScript : Editor
             GameObject objToDestroy = myTarget.bricksOnScreen[col * myTarget.totalRows + row];
 
             #region Undo
+            //ENREGISTRE la destruction de la BRICK et le LEVEL avant cette dernière
             Undo.DestroyObjectImmediate(objToDestroy);
-            Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-            Undo.RecordObject(this, "Recording Selected Level Choice");
-            Undo.RecordObject(myTarget, "Recording Selected Level Choice");
+            Undo.RecordObject(currentLevel, "Recording Selected Name");
             #endregion
 
             DestroyImmediate(objToDestroy);
@@ -1738,9 +1809,9 @@ public class LevelInspectorScript : Editor
         }
 
         #region Undo
-        Undo.RecordObject(this, "Recording Selected Level Choice");
-        Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-        Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
+        //Undo.RecordObject(this, "Recording Selected Level Choice");
+        //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
+        //Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
         #endregion
 
         brickSettingsDisplayed = currentLayer.wallBricks[selectedBrick];
@@ -1825,6 +1896,8 @@ public class LevelInspectorScript : Editor
         RefreshInspector();
 
         Soil();
+
+        DrawWaypointIcon();
     }
 
     void RefreshInspector()
@@ -1843,6 +1916,11 @@ public class LevelInspectorScript : Editor
     void Soil()
     {
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-        EditorUtility.SetDirty(myTarget.selectedLevel);
+        //EditorUtility.SetDirty(currentLevel);
+
+        for (int i = 0; i < levels.Length; i++)
+        {
+            EditorUtility.SetDirty(levels[i]);
+        }
     }
 }

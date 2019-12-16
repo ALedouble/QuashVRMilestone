@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
+using Photon.Pun;
 
-public class BrickBehaviours : MonoBehaviour, IBrick
+public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
 {
     [Header("Score Modifier")]
     public int scoreValue;
@@ -172,6 +174,23 @@ public class BrickBehaviours : MonoBehaviour, IBrick
     {
         return new BrickInfo(scoreValue, armorPoints,ColorID, wallID, IsBonus, isMalus, transform);
     }
+
+    #region IPunObservable implementation
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+        }
+    }
+    #endregion
 }
 
 public class BrickInfo
@@ -202,4 +221,7 @@ public class BrickInfo
     public bool IsBonus { get => isBonus; private set => isBonus = value; }
     public bool IsMalus { get => isMalus; private set => isMalus = value; }
     public Transform Transform { get => transform; private set => transform = value; }
+
+
+    
 }

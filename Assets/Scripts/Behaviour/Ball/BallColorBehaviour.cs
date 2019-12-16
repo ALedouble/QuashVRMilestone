@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 public enum ColorSwitchTrigerType
@@ -20,6 +21,7 @@ public class BallColorBehaviour : MonoBehaviour
 
     private bool isEmpowered;
 
+    private PhotonView photonView;
     private Renderer renderer;
 
     private void Start()
@@ -28,10 +30,12 @@ public class BallColorBehaviour : MonoBehaviour
 
         InitializeSwitchColor();
 
+        photonView = PhotonView.Get(this);
+
         //Recuperer les couleurs du ColorSettings
     }
 
-    public int GetBallsColor()
+    public int GetBallColor()
     {
         return colorID;
     }
@@ -55,6 +59,7 @@ public class BallColorBehaviour : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void TransferEmpowerement()
     {
         if(RacketManager.instance.isEmpowered)
@@ -82,10 +87,11 @@ public class BallColorBehaviour : MonoBehaviour
     {
         if (RacketManager.instance.isEmpowered)
         {
-            SwitchColor();
+            photonView.RPC("SwitchColor", RpcTarget.All);
         }
     }
 
+    [PunRPC]
     private void SwitchColor()
     {
         //ColorManager.instance.SwitchBallColor();

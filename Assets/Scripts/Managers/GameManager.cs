@@ -33,8 +33,9 @@ public class GameManager : MonoBehaviour
 
             RacketManager.instance.SetPlayerRacket(1);
         }
-        else{
-            QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject, 1);
+        else
+        {
+            QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject, 2);
 
             RacketManager.instance.SetPlayerRacket(2);
         }

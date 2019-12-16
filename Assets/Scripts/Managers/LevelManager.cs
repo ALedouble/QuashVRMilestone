@@ -173,22 +173,23 @@ public class LevelManager : MonoBehaviour
             NextPos[playerID] = new Vector3(startPos[playerID].x, startPos[playerID].y, startPos[playerID].z - (layerDiffPosition * currentLayer[playerID]));
 
 
-            changePositionReady[playerID] = true;
+            //changePositionReady[playerID] = true;
+            StartCoroutine(GoWALLgO(playerID));
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
 
-            for (int i = currentLayer[playerID]; i < (currentLayer[playerID] + numberOfLayerToDisplay - 1); i++)
-            {
-                if (i <= currentLevel.level.levelWallBuilds.walls.Length - 1)
-                {
-                    SetWaypoints(playerID, i);
-                }
-            }
+            //for (int i = currentLayer[playerID]; i < (currentLayer[playerID] + numberOfLayerToDisplay - 1); i++)
+            //{
+            //    if (i <= currentLevel.level.levelWallBuilds.walls.Length - 1)
+            //    {
+            //        SetWaypoints(playerID, i);
+            //    }
+            //}
 
-            BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
+            //BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
         }
 
 
@@ -252,7 +253,22 @@ public class LevelManager : MonoBehaviour
         BrickManager.Instance.levelWallsConfig = registeredLevels[selectedLevel].level.levelWallBuilds;
     }
 
+    IEnumerator GoWALLgO(int playerID)
+    {
+        yield return new WaitForSeconds(1);
 
+        changePositionReady[playerID] = true;
+
+        for (int i = currentLayer[playerID]; i < (currentLayer[playerID] + numberOfLayerToDisplay - 1); i++)
+        {
+            if (i <= currentLevel.level.levelWallBuilds.walls.Length - 1)
+            {
+                SetWaypoints(playerID, i);
+            }
+        }
+
+        BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
+    }
 
     [System.Serializable]
     public struct Parenting

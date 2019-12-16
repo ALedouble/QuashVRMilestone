@@ -285,9 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b26f999cbdac8478b6c2a046256169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationButton: 9
-  activationMode: 0
-  selectionButton: 10
+  activationButton: 0
+  activationMode: 2
+  selectionButton: 4
   clickMethod: 0
   attemptClickOnDeactivate: 0
   clickAfterHoverDuration: 0
@@ -318,11 +318,11 @@ MonoBehaviour:
   enableTeleport: 0
   targetListPolicy: {fileID: 0}
   pointerRenderer: {fileID: 3993434249537831826}
-  activationButton: 9
+  activationButton: 0
   holdButtonToActivate: 1
-  activateOnEnable: 0
+  activateOnEnable: 1
   activationDelay: 0
-  selectionButton: 10
+  selectionButton: 4
   selectOnPress: 0
   selectionDelay: 0
   selectAfterHoverDuration: 0
@@ -353,8 +353,8 @@ MonoBehaviour:
     maxAllowedPerFrameDistanceDifference: 0.003
     smoothsRotation: 0
     maxAllowedPerFrameAngleDifference: 1.5
-  validCollisionColor: {r: 0, g: 1, b: 0, a: 1}
-  invalidCollisionColor: {r: 1, g: 0, b: 0, a: 1}
+  validCollisionColor: {r: 0.39315593, g: 0.64949846, b: 0.8773585, a: 1}
+  invalidCollisionColor: {r: 0.39607844, g: 0.6509804, b: 0.8784314, a: 1}
   tracerVisibility: 0
   cursorVisibility: 0
   maximumLength: 100
@@ -1714,9 +1714,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b26f999cbdac8478b6c2a046256169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationButton: 9
-  activationMode: 0
-  selectionButton: 10
+  activationButton: 0
+  activationMode: 2
+  selectionButton: 4
   clickMethod: 0
   attemptClickOnDeactivate: 0
   clickAfterHoverDuration: 0
@@ -1747,11 +1747,11 @@ MonoBehaviour:
   enableTeleport: 0
   targetListPolicy: {fileID: 0}
   pointerRenderer: {fileID: 6465678577763424456}
-  activationButton: 9
+  activationButton: 0
   holdButtonToActivate: 1
-  activateOnEnable: 0
+  activateOnEnable: 1
   activationDelay: 0
-  selectionButton: 10
+  selectionButton: 4
   selectOnPress: 0
   selectionDelay: 0
   selectAfterHoverDuration: 0
@@ -1782,8 +1782,8 @@ MonoBehaviour:
     maxAllowedPerFrameDistanceDifference: 0.003
     smoothsRotation: 0
     maxAllowedPerFrameAngleDifference: 1.5
-  validCollisionColor: {r: 0, g: 1, b: 0, a: 1}
-  invalidCollisionColor: {r: 1, g: 0, b: 0, a: 1}
+  validCollisionColor: {r: 0.39315593, g: 0.64949846, b: 0.8773585, a: 1}
+  invalidCollisionColor: {r: 0.39607844, g: 0.6509804, b: 0.8784314, a: 1}
   tracerVisibility: 0
   cursorVisibility: 0
   maximumLength: 100

@@ -14,6 +14,10 @@ public class RacketSkinManager : MonoBehaviour
     {
         //load skin slots data here
 
+        instance = this;
+
+        /*
+         * DONT DESTROY ON LOAD
         if (instance == null)
         {
             instance = this;
@@ -24,6 +28,7 @@ public class RacketSkinManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject); //Set the instance on DontDestroyOnLoad
+        */
     }
 }
 

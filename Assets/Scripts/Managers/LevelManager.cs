@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class LevelManager : MonoBehaviour
     public LevelsScriptable[] registeredLevels;
     LevelsScriptable currentLevel;
     LevelSettings currentLevelConfig;
-    public string levelsPath = "Assets/ScriptableObjects/Levels";
+    [HideInInspector] public string levelsPath = "Assets/ScriptableObjects/Levels";
 
 
     [Header("Level Parameters")]
@@ -21,6 +22,7 @@ public class LevelManager : MonoBehaviour
     public Parenting[] playersParents;
     public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
+    public EditorScriptable editorPreset;
 
     [HideInInspector] public int[] currentLayer;
     bool[] isThereAnotherLayer;
@@ -106,6 +108,10 @@ public class LevelManager : MonoBehaviour
         BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
         playersParents = new Parenting[numberOfPlayers];
         firstSetUpDone = new bool[numberOfPlayers];
+        ScoreManager.Instance.displayedScore = new TMPro.TextMeshProUGUI[numberOfPlayers];
+        ScoreManager.Instance.score = new float[numberOfPlayers];
+
+
 
         for (int i = 0; i < numberOfPlayers; i++)
         {
@@ -120,6 +126,15 @@ public class LevelManager : MonoBehaviour
             trans.transform.position = goPos;
             trans.name = "Wall_Of_Player_" + i;
             levelTrans[i] = trans.transform;
+
+            Vector3 displayPos = new Vector3(
+                (startPos4Player1.x + ((editorPreset.editorSpaceRecorded[1].x - editorPreset.editorSpaceRecorded[0].x)/2)) + (posDiffPerPlayer.x * i), 
+                startPos4Player1.y + (posDiffPerPlayer.y * i),
+                startPos4Player1.z + ScoreManager.Instance.scoreWallDistance + (posDiffPerPlayer.z * i));
+            GameObject goDisplay = Instantiate(ScoreManager.Instance.scoreDisplayedPrefab);
+            goDisplay.GetComponent<RectTransform>().position = displayPos;
+            goDisplay.name = "Score_Of_Player_" + i;
+            ScoreManager.Instance.displayedScore[i] = goDisplay.GetComponentInChildren<TextMeshProUGUI>();
 
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)
             {

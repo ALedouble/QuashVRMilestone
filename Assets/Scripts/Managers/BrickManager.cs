@@ -48,12 +48,12 @@ public class BrickManager : MonoBehaviour
         touchedBrick.Transform.parent = null;
 
         PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.identity);
-        ScoreManager.Instance.IncrementScore(touchedBrick.ScoreValue);
 
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
+        ScoreManager.Instance.IncrementScore(touchedBrick.ScoreValue, touchedBrick.WallID);
         UpdateBrickLevel(touchedBrick.WallID);
     }
 
@@ -66,14 +66,8 @@ public class BrickManager : MonoBehaviour
     {
         SetCurrentBrickOnLayer(playerID);
 
-        //Debug.Log("Player " + playerID + " has " + currentBricksOnLayer[playerID] + " to destroy");
-
-        DebugManager.Instance.DisplayValue(2, "Player " + playerID + " has " + currentBricksOnLayer[playerID] + " to destroy");
-        //DebugManager.Instance.DisplayValue(3, "Player " + playerID + " has " + LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount + "children to deactivate");
-
         if (currentBricksOnLayer[playerID] <= 0)
         {
-            //Debug.Log("Go to next layer");
             LevelManager.Instance.SetNextLayer(playerID);
         }
     }
@@ -121,8 +115,8 @@ public class BrickManager : MonoBehaviour
 
 
 
-                objBehaviours.armorPoints = layerToSpawn.wallBricks[i].armorValue;
-                objBehaviours.scoreValue = layerToSpawn.wallBricks[i].scoreValue;
+                objBehaviours.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
+                objBehaviours.scoreValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].scoreValue;
 
                 objBehaviours.isBonus = layerToSpawn.wallBricks[i].isBonus;
                 objBehaviours.isMalus = layerToSpawn.wallBricks[i].isMalus;
@@ -152,7 +146,6 @@ public class BrickManager : MonoBehaviour
 
         if (LevelManager.Instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
         {
-            //Debug.Log("Every layers are displayed for player " + playerID);
             LevelManager.Instance.isEverythingDisplayed[playerID] = true;
         }
     }
@@ -165,7 +158,5 @@ public class BrickManager : MonoBehaviour
     public void SetCurrentBrickOnLayer(int playerID)
     {
         currentBricksOnLayer[playerID] = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount;
-
-        //Debug.Log("Player " + playerID + " has " + currentBricksOnLayer[playerID] + " to destroy");
     }
 }

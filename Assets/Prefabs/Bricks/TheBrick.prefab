@@ -116,10 +116,12 @@ MonoBehaviour:
   waitFor: 0
   smoothTime: 0
   speed: 0.1
-  turningBack: 1
+  turningBack: 0
   isBonus: 0
   isMalus: 0
   colorID: 0
+  wallID: 0
+  savedInIndex: 0
 --- !u!114 &-1300675515941316033
 MonoBehaviour:
   m_ObjectHideFlags: 0

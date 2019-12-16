@@ -7,10 +7,10 @@ public class ScoreManager : MonoBehaviour
 {
 
     [Header("Score")]
-    public float score;
-    public TextMeshProUGUI displayScore;
-
-
+    public float[] score;
+    public TextMeshProUGUI[] displayedScore;
+    public GameObject scoreDisplayedPrefab;
+    [Range(-1, -8)] public float scoreWallDistance;
 
     public static ScoreManager Instance;
 
@@ -26,12 +26,12 @@ public class ScoreManager : MonoBehaviour
     /// Incremente le score
     /// </summary>
     /// <param name="brickValue">Brick value for the score</param>
-    public void IncrementScore(int brickValue)
+    public void IncrementScore(int brickValue, int playerID)
     {
-        score += brickValue;
+        Debug.Log("Incrémentation de " + brickValue + " pour le joueur " + playerID);
+        score[playerID] += brickValue;
 
-        string textScore = score.ToString();
-
-        displayScore.text = textScore;
+        string textScore = score[playerID].ToString();
+        displayedScore[playerID].text = textScore;
     }
 }

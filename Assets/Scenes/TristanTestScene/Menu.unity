@@ -7920,7 +7920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1409582971
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9251,7 +9251,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681533806}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -10371,7 +10371,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1918277307}
+      - m_Target: {fileID: 1409582970}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -10883,7 +10883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1918277308
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11946,6 +11946,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u25A0\u25A0\u25A0\u25A0 Room Management Screen \u25A0\u25A0\u25A0\u25A0"
       objectReference: {fileID: 0}
+    - target: {fileID: 3148885571556914766, guid: f6e15e6a26391fd4bac651de16e52c7c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7645006883458491108, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12064,23 +12069,23 @@ PrefabInstance:
     - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1918277307}
+      objectReference: {fileID: 1409582970}
     - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1409582970}
+      objectReference: {fileID: 1384487990}
     - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 1384487990}
+      objectReference: {fileID: 0}
     - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Mode
@@ -12101,11 +12106,36 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 906685041003803347, guid: f6e15e6a26391fd4bac651de16e52c7c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 906685041904650268, guid: f6e15e6a26391fd4bac651de16e52c7c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 3591302381172348688}
+    - target: {fileID: 906685041003803345, guid: f6e15e6a26391fd4bac651de16e52c7c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6e15e6a26391fd4bac651de16e52c7c, type: 3}
 --- !u!224 &932123421794968410
@@ -12830,7 +12860,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3591302381172348689
 MonoBehaviour:
   m_ObjectHideFlags: 0

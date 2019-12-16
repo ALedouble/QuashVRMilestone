@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-[CreateAssetMenu(fileName = "EditorPreset.asset", menuName = "Custom/Editor Preset", order = 122)]
+[CreateAssetMenu(fileName = "SC_EditorPreset_", menuName = "Custom/Editor Preset", order = 122)]
 public class EditorScriptable : ScriptableObject
 {
     public List<Vector3> editorSpaceRecorded;

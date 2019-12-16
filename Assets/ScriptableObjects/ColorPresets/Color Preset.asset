@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorPresets:
   - tag: Neutral
-    fresnelColors: {r: 0.3016199, g: 1, b: 0, a: 0}
-    coreEmissiveColors: {r: 1, g: 0.9629856, b: 0.5896226, a: 0}
+    fresnelColors: {r: 0.3016199, g: 1, b: 0, a: 1}
+    coreEmissiveColors: {r: 1, g: 0.9629856, b: 0.5896226, a: 1}
   - tag: A
-    fresnelColors: {r: 0, g: 1, b: 1, a: 0}
-    coreEmissiveColors: {r: 0.60878456, g: 1, b: 0.5990566, a: 0}
+    fresnelColors: {r: 0, g: 1, b: 1, a: 1}
+    coreEmissiveColors: {r: 0.60878456, g: 1, b: 0.5990566, a: 1}
   - tag: B
-    fresnelColors: {r: 1, g: 0, b: 0, a: 0}
-    coreEmissiveColors: {r: 1, g: 0.7216981, b: 0.9389946, a: 0}
+    fresnelColors: {r: 1, g: 0, b: 0, a: 1}
+    coreEmissiveColors: {r: 1, g: 0.7216981, b: 0.9389946, a: 1}

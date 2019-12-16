@@ -1,18 +1,93 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class HitScoreBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //Récupération des components
+    private TextMeshProUGUI textMesh;
+    public RectTransform scoreTextRect;
+
+
+    [Header("Hit Animation")]
+    public AnimationCurve textAnim;
+    private float percent;
+    private float currentTime;
+    public float animSpeed = 1f;
+    private float maxSize;
+
+    bool isAnimationOver = true;
+    bool isOnReverse = false;
+
+
+
+    private void Awake()
     {
-        
+        textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        //scoreTextRect = GetComponentInChildren<RectTransform>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
-        
+        if (!isAnimationOver)
+        {
+            if (!isOnReverse)
+            {
+                if (currentTime < 1)
+                {
+                    currentTime += Time.deltaTime * animSpeed;
+
+
+                    percent = textAnim.Evaluate(currentTime);
+
+                    textMesh.fontSize = percent * maxSize;
+                    scoreTextRect.localPosition = new Vector3(0, percent * 0.05f, percent * -0.8f);
+                }
+                else
+                {
+                    isOnReverse = true;
+                }
+            }
+            else
+            {
+                if (currentTime > 0)
+                {
+                    currentTime -= Time.deltaTime * animSpeed;
+
+
+                    percent = textAnim.Evaluate(currentTime);
+
+                    textMesh.color = new Color(textMesh.color.r, textMesh.color.g, textMesh.color.b, percent * 1);
+                }
+                else
+                {
+                    isAnimationOver = true;
+                    DisableObject();
+                }
+            }
+        }
+    }
+
+
+
+
+    public void SetHitValues(float scoreValue, Color textColor)
+    {
+        textMesh.text = scoreValue.ToString();
+        textMesh.color = textColor;
+
+        maxSize = ScoreManager.Instance.textValues.Evaluate(scoreValue);
+
+        currentTime = 0;
+        isOnReverse = false;
+        isAnimationOver = false;
+    }
+
+    public void DisableObject()
+    {
+        this.gameObject.SetActive(false);
     }
 }

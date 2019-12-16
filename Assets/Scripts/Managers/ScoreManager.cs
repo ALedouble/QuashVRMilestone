@@ -5,6 +5,8 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    [Header("Rapport : Score/Scale")]
+    public AnimationCurve textValues; //x/Time : scoreValue, y/Value : sizeValue
 
     [Header("Score")]
     public float[] score;

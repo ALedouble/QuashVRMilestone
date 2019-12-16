@@ -5,7 +5,7 @@ using UnityEditor;
 
 
 
-[CreateAssetMenu(fileName = "Pool List.asset", menuName = "Custom/Pool List", order = 100)]
+[CreateAssetMenu(fileName = "SC_PoolList_", menuName = "Custom/Pool List", order = 100)]
 public class PoolSettings : ScriptableObject
 {
     public Pool[] pools = new Pool[1];

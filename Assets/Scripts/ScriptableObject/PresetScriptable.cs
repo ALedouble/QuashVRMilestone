@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Color Preset", menuName = "Custom/ColorPreset", order = 130)]
+[CreateAssetMenu(fileName = "SC_ColorPreset_", menuName = "Custom/ColorPreset", order = 130)]
 public class PresetScriptable : ScriptableObject
 {
     public ColorPreset[] colorPresets;

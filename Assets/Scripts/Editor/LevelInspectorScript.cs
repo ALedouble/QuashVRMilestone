@@ -597,7 +597,7 @@ public class LevelInspectorScript : Editor
                     GUILayout.BeginHorizontal();
 
                     EditorGUILayout.LabelField("Color Preset", layerStyle);
-                    paintedBrickSettings.brickColorPreset = EditorGUILayout.IntSlider(paintedBrickSettings.brickColorPreset, 0, myTarget.colorPresets[0].colorPresets.Length - 1);
+                    paintedBrickSettings.brickColorPreset = EditorGUILayout.IntSlider(paintedBrickSettings.brickColorPreset, 0, myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets.Length - 1);
 
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal("box");
@@ -617,7 +617,7 @@ public class LevelInspectorScript : Editor
                     GUILayout.BeginHorizontal();
 
                     EditorGUILayout.LabelField("Brick Type", layerStyle);
-                    paintedBrickSettings.brickTypePreset = EditorGUILayout.IntSlider(paintedBrickSettings.brickTypePreset, 0, myTarget.brickPresets[0].brickPresets.Length - 1);
+                    paintedBrickSettings.brickTypePreset = EditorGUILayout.IntSlider(paintedBrickSettings.brickTypePreset, 0, myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets.Length - 1);
 
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal("box");
@@ -894,8 +894,8 @@ public class LevelInspectorScript : Editor
                 mats[1].SetFloat("_Metallic", 0.75f);
 
                 mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
-                mats[0].SetColor("_FresnelColor", myTarget.colorPresets[0].colorPresets[currentLayer.wallBricks[i].brickColorPreset].fresnelColors);
-                mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[0].colorPresets[currentLayer.wallBricks[i].brickColorPreset].coreEmissiveColors);
+                mats[0].SetColor("_FresnelColor", myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[currentLayer.wallBricks[i].brickColorPreset].fresnelColors);
+                mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[currentLayer.wallBricks[i].brickColorPreset].coreEmissiveColors);
                 mats[0].SetFloat("_XFrameThickness", 0.75f);
                 mats[0].SetFloat("_YFrameThickness", 0.75f);
 
@@ -909,10 +909,6 @@ public class LevelInspectorScript : Editor
 
                 obj.transform.position = currentLayer.wallBricks[i].brickPosition;
 
-
-
-                objBehaviours.armorPoints = currentLayer.wallBricks[i].armorValue;
-                objBehaviours.scoreValue = currentLayer.wallBricks[i].scoreValue;
 
                 if (currentLayer.wallBricks[i].isMoving)
                 {
@@ -973,8 +969,8 @@ public class LevelInspectorScript : Editor
                         mats[1].SetFloat("_Metallic", 0.75f);
 
                         mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
-                        mats[0].SetColor("_FresnelColor", myTarget.colorPresets[0].colorPresets[nextLayer.wallBricks[i].brickColorPreset].fresnelColors);
-                        mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[0].colorPresets[nextLayer.wallBricks[i].brickColorPreset].coreEmissiveColors);
+                        mats[0].SetColor("_FresnelColor", myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[nextLayer.wallBricks[i].brickColorPreset].fresnelColors);
+                        mats[0].SetColor("_CoreEmissiveColor", myTarget.colorPresets[myTarget.colorPresetSelected].colorPresets[nextLayer.wallBricks[i].brickColorPreset].coreEmissiveColors);
                         mats[0].SetFloat("_XFrameThickness", 0.75f);
                         mats[0].SetFloat("_YFrameThickness", 0.75f);
 
@@ -988,26 +984,7 @@ public class LevelInspectorScript : Editor
 
                         obj.transform.position = new Vector3(nextLayer.wallBricks[j].brickPosition.x,
                             nextLayer.wallBricks[j].brickPosition.y,
-                            nextLayer.wallBricks[j].brickPosition.z - 0.6f);
-                            
-                            
-
-
-                        //objBehaviours.armorPoints = currentLayer.wallBricks[i].armorValue;
-                        //objBehaviours.scoreValue = currentLayer.wallBricks[i].scoreValue;
-
-                        //if (currentLayer.wallBricks[i].isMoving)
-                        //{
-                        //    objBehaviours.isMoving = currentLayer.wallBricks[i].isMoving;
-                        //    objBehaviours.speed = currentLayer.wallBricks[i].speed;
-                        //    objBehaviours.smoothTime = currentLayer.wallBricks[i].smoothTime;
-                        //    objBehaviours.waypoints = new List<Vector3>();
-
-                        //    for (int j = 0; j < currentLayer.wallBricks[i].waypointsStorage.Count; j++)
-                        //    {
-                        //        objBehaviours.waypoints.Add(currentLayer.wallBricks[i].waypointsStorage[j]);
-                        //    }
-                        //}
+                            nextLayer.wallBricks[j].brickPosition.z + 0.6f);
                     }
                 }
             }
@@ -1046,9 +1023,8 @@ public class LevelInspectorScript : Editor
         obj.transform.position = currentLayer.wallBricks[brickPos].brickPosition;
 
 
-
-        objBehaviours.armorPoints = currentLayer.wallBricks[brickPos].armorValue;
-        objBehaviours.scoreValue = currentLayer.wallBricks[brickPos].scoreValue;
+        objBehaviours.armorPoints = myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[currentLayer.wallBricks[brickPos].brickTypePreset].armorValue;
+        objBehaviours.scoreValue = myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[currentLayer.wallBricks[brickPos].brickTypePreset].scoreValue;
 
         if (currentLayer.wallBricks[brickPos].isMoving)
         {

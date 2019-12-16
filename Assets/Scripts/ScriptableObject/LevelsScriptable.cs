@@ -6,7 +6,7 @@ using Malee;
 
 /////////////////////////////  LEVEL  ////////////////////////////////
 
-[CreateAssetMenu(fileName = "Level", menuName = "Custom/Level", order = 120)]
+[CreateAssetMenu(fileName = "SC_Level_", menuName = "Custom/Level", order = 120)]
 [System.Serializable]
 public class LevelsScriptable : ScriptableObject
 {
@@ -64,9 +64,6 @@ public struct BrickSettings
 
     //public GameObject prefab;
     public Vector3 brickPosition;
-
-    public int armorValue;
-    public int scoreValue;
 
     public bool isMoving;
     public float speed;

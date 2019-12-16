@@ -50,8 +50,8 @@ public class BrickManager : MonoBehaviour
         PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.identity);
         PoolManager.instance.SpawnFromPool("CubeDeathFX", brickPos, Quaternion.identity);
 
-        GameObject obj = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
-        obj.GetComponentInChildren<TextMeshProUGUI>().text = touchedBrick.ScoreValue.ToString();
+        GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
+        score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);

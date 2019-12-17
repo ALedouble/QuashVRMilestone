@@ -24,6 +24,8 @@ public class BrickManager : MonoBehaviour
     [SerializeField] int bonusPoolID;
     [SerializeField] int malusPoolID;
 
+    [Header("Shaking")]
+    [SerializeField] Shake layerShake;
 
     public static BrickManager Instance;
 
@@ -52,6 +54,9 @@ public class BrickManager : MonoBehaviour
 
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
         score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
+
+        LevelManager levelManager = LevelManager.Instance;
+        levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
 
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);

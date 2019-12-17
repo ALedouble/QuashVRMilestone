@@ -10,6 +10,7 @@ public class Shaker : MonoBehaviour
     float count;
     float frequencyCount;
     float frequencyTarget;
+    float magnitudeScale = 1;
     Shake currentShake;
     Vector3 targetPos;
     Vector3 originPos;
@@ -30,30 +31,31 @@ public class Shaker : MonoBehaviour
     [Button]
     public void PlayShake()
     {
+        if (defaultShake == null) return;
         StartShake(defaultShake);
     }
 
-    public void PlayShake(Shake p_shake)
+    public void PlayShake(Shake p_shake, float p_magnitudeScale = 1)
     {
         Debug.Log("Start Shake of : " + gameObject.name);
 
-        StartShake(p_shake);
+        StartShake(p_shake,p_magnitudeScale);
     }
 
-    public void PlayShake(float duration = 1, float magnitude = 0.25f, float frequency = 0.1f)
+    public void PlayShake(float duration = 1, float magnitude = 0.25f, float frequency = 0.1f, float p_magnitudeScale = 1)
     {
         Keyframe keyframe0 = new Keyframe(0, 1);
         Keyframe keyframe1 = new Keyframe(1, 1);
         Keyframe[] keyframes = new Keyframe[] { keyframe0, keyframe1 };
         AnimationCurve shakeCurve = new AnimationCurve(keyframes);
         Shake shake = new Shake(shakeCurve, shakeCurve, duration, magnitude, frequency);
-        StartShake(shake);
+        StartShake(shake,p_magnitudeScale);
     }
 
-    void StartShake(Shake p_shake)
+    void StartShake(Shake p_shake, float p_magnitudeScale = 1)
     {
         Debug.Log("Start Shake of : " + gameObject.name);
-
+        magnitudeScale = p_magnitudeScale;
         count = 0;
         frequencyCount = 0;
         frequencyTarget = p_shake.GetFrequencyOverTime(0);
@@ -68,8 +70,8 @@ public class Shaker : MonoBehaviour
     {
         if (!isShaking) return;
 
-        count += Time.deltaTime;
-        frequencyCount += Time.deltaTime;
+        count += Time.deltaTime * currentShake.SpeedMultiplier;
+        frequencyCount += Time.deltaTime * currentShake.SpeedMultiplier;
 
         float alphaLifetime = count / currentShake.LifeTime;
 
@@ -80,7 +82,7 @@ public class Shaker : MonoBehaviour
 
         if (alphaFrequency >= 1)
         {
-            targetPos = originPos + GetRandomPos(currentShake, alphaLifetime);
+            targetPos = originPos + (GetRandomPos(currentShake, alphaLifetime) * magnitudeScale);
             startPos = transform.localPosition;
             frequencyCount = 0.0f;
             frequencyTarget = currentShake.GetFrequencyOverTime(alphaLifetime);

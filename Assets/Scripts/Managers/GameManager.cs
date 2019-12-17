@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public GameObject spawnJ1;
     public GameObject spawnJ2;
 
+    public bool debugMode = true;
+
     public static GameManager Instance;
 
 
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
       //  PhotonNetwork.Instantiate(prefabBall.name, prefabBall.transform.position, Quaternion.identity, 0);
 
         Instance = this;
+        PhotonNetwork.OfflineMode = debugMode;
         
     }
 

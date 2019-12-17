@@ -17,6 +17,8 @@ public class Shaker : MonoBehaviour
     Vector3 startPos;
     bool isShaking;
 
+    [SerializeField, Slider(0.0f, 1.0f)] float unstoppableShakingLimit = 0.35f;
+
     private void Start()
     {
         originPos = transform.localPosition;
@@ -38,7 +40,6 @@ public class Shaker : MonoBehaviour
     public void PlayShake(Shake p_shake, float p_magnitudeScale = 1)
     {
         Debug.Log("Start Shake of : " + gameObject.name);
-
         StartShake(p_shake,p_magnitudeScale);
     }
 
@@ -54,6 +55,12 @@ public class Shaker : MonoBehaviour
 
     void StartShake(Shake p_shake, float p_magnitudeScale = 1)
     {
+        if (isShaking)
+        {
+            float alphaLifetime = count / currentShake.LifeTime;
+            if (alphaLifetime < unstoppableShakingLimit) return;
+        }
+
         Debug.Log("Start Shake of : " + gameObject.name);
         magnitudeScale = p_magnitudeScale;
         count = 0;

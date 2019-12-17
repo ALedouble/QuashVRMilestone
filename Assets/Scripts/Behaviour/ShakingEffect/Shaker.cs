@@ -39,7 +39,6 @@ public class Shaker : MonoBehaviour
 
     public void PlayShake(Shake p_shake, float p_magnitudeScale = 1)
     {
-        Debug.Log("Start Shake of : " + gameObject.name);
         StartShake(p_shake,p_magnitudeScale);
     }
 
@@ -60,7 +59,7 @@ public class Shaker : MonoBehaviour
             if (AlphaLifetime() < unstoppableShakingLimit) return;
         }
 
-        Debug.Log("Start Shake of : " + gameObject.name);
+        Debug.Log("Start Shake of : " + gameObject.name,this);
         magnitudeScale = p_magnitudeScale;
         count = 0;
         frequencyCount = 0;
@@ -90,7 +89,6 @@ public class Shaker : MonoBehaviour
             startPos = transform.localPosition;
             frequencyCount = 0.0f;
             frequencyTarget = currentShake.GetFrequencyOverTime(alphaLifetime);
-            Debug.Log("SALOPE = " + currentShake.GetFrequencyOverTime(alphaLifetime));
         }
 
         if (alphaLifetime >= 1)

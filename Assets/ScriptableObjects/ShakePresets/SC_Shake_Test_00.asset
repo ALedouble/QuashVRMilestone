@@ -18,25 +18,25 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -2.6522903
+      outSlope: -2.6522903
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.016006095
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.11460495
+      outSlope: -0.11460495
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.041158617
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lifeTime: 0.3
+  lifeTime: 0.4
   shakeMagnitude: 0.015
   frequencyOverLifetime:
     serializedVersion: 2
@@ -44,25 +44,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.5
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
+      inSlope: 1.4106549
+      outSlope: 1.4106549
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.025914632
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
+      inSlope: -0
+      outSlope: -0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.04192084
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shakeFrequency: 0.0321
+  shakeFrequency: 0.032
   shakeX: 1
   shakeY: 1
   shakeZ: 0
+  speedMultiplier: 1

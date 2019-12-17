@@ -53,6 +53,8 @@ public class BrickManager : MonoBehaviour
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
         score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
+
+        Debug.Log("KILL");
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);

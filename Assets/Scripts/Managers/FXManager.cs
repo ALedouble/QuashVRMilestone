@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ImpactManager : MonoBehaviour
+public class FXManager : MonoBehaviour
 {
     [Header("Deflagration Animation")]
     public AnimationCurve impactCurve;
@@ -11,9 +11,10 @@ public class ImpactManager : MonoBehaviour
     [SerializeField] private float impactPercent;
     private float minRadius = 0.1f;
 
+
     [Header("Deflagration zone")]
-    [SerializeField] private GameObject impactGo;
-    [SerializeField] private List<GameObject> ps;
+    private GameObject impactGo;
+    private List<GameObject> ps;
     [SerializeField] private float maxRadius;
     //public SphereCollider sphereCol;
 
@@ -28,27 +29,37 @@ public class ImpactManager : MonoBehaviour
 
 
 
-    public static ImpactManager Instance;
+    public static FXManager Instance;
+
 
 
     private void Awake()
     {
         Instance = this;
+        ps = new List<GameObject>();
     }
 
 
+    public float SetFXscale(float impulse)
+    {
+        float scale = impulse * intensityModifier;
+        return scale;
+    }
+
     public void SetExplosion(Vector3 origin, float intensity)
     {
+        
+
         originPos = origin;
         maxRadius = intensity * intensityModifier;
 
         impactGo = PoolManager.instance.SpawnFromPool("ImpactFX", originPos, Quaternion.identity);
-        DebugManager.Instance.DisplayValue(0, "intensity : " + intensity.ToString());
-        DebugManager.Instance.DisplayValue(1, "maxRadius : " + maxRadius);
+        //DebugManager.Instance.DisplayValue(0, "intensity : " + intensity.ToString());
+        //DebugManager.Instance.DisplayValue(1, "maxRadius : " + maxRadius);
 
         ps.Clear();
 
-        //Debug.Log("count : " + obj.transform.childCount);
+        //Debug.Log("count : " + impactGo.transform.childCount);
         if (impactGo.transform.childCount > 0)
         {
             for (int i = 0; i < impactGo.transform.childCount; i++)
@@ -66,8 +77,6 @@ public class ImpactManager : MonoBehaviour
                 ps[i].GetComponent<ParticleSystem>().Play();
             }
         }
-
-        
 
         isExplosion = true;
     }
@@ -174,6 +183,8 @@ public class ImpactManager : MonoBehaviour
 
     void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)
     {
+        Debug.Log("Ray moi ça");
+
         for (int j = 0; j < numberOfDivision; j++)
         {
             Debug.DrawRay(originPosition,
@@ -186,6 +197,8 @@ public class ImpactManager : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
                 {
+                    Debug.Log("Touché");
+
                     BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
                 }
             }

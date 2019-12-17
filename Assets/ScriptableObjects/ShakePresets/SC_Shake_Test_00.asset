@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09bff234936bd7c499644e048426da00, type: 3}
-  m_Name: SC_Shake_CamShake_00
+  m_Name: SC_Shake_Test_00
   m_EditorClassIdentifier: 
   shakeOverLifetime:
     serializedVersion: 2
@@ -47,5 +47,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   lifeTime: 1
   shakeMagnitude: 0.25
-  shakeIsHorizontal: 1
-  shakeIsVertical: 1
+  shakeFrequency: 0
+  shakeX: 0
+  shakeY: 0
+  shakeZ: 0

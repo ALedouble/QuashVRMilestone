@@ -57,8 +57,7 @@ public class Shaker : MonoBehaviour
     {
         if (isShaking)
         {
-            float alphaLifetime = count / currentShake.LifeTime;
-            if (alphaLifetime < unstoppableShakingLimit) return;
+            if (AlphaLifetime() < unstoppableShakingLimit) return;
         }
 
         Debug.Log("Start Shake of : " + gameObject.name);
@@ -80,9 +79,7 @@ public class Shaker : MonoBehaviour
         count += Time.deltaTime * currentShake.SpeedMultiplier;
         frequencyCount += Time.deltaTime * currentShake.SpeedMultiplier;
 
-        float alphaLifetime = count / currentShake.LifeTime;
-
-        
+        float alphaLifetime = AlphaLifetime();
         float alphaFrequency = frequencyCount / frequencyTarget;
         
         transform.localPosition = Vector3.Lerp(startPos, targetPos, alphaFrequency); //Lerp
@@ -116,6 +113,11 @@ public class Shaker : MonoBehaviour
         if (p_shake.ShakeZ) z = Random.Range(-1f, 1f) * p_shake.GetMagnitude(time);
 
         return new Vector3(x, y, z);
+    }
+
+    float AlphaLifetime()
+    {
+        return count / currentShake.LifeTime;
     }
 
 }

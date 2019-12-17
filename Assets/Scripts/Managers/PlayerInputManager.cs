@@ -8,7 +8,7 @@ public enum InputMod
     GAMEPLAY
 }
 
-public class InputManager : MonoBehaviour
+public class PlayerInputManager : MonoBehaviour
 {
     public InputMod inputMod = InputMod.GAMEPLAY;       //A cacher dans l'inspector
 
@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
     {
         if(inputMod == InputMod.GAMEPLAY)
         {
-            NPlayerManager.instance.RightHandActionCall();
+            GameplayInputManager.instance.RightHandActionCall();
         }
         else if(inputMod == InputMod.MENU)
         {
@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour
     {
         if (inputMod == InputMod.GAMEPLAY)
         {
-            NPlayerManager.instance.RightHandActionEnd();
+            GameplayInputManager.instance.RightHandActionEnd();
         }
         else if (inputMod == InputMod.MENU)
         {
@@ -50,7 +50,7 @@ public class InputManager : MonoBehaviour
     {
         if (inputMod == InputMod.GAMEPLAY)
         {
-            NPlayerManager.instance.LeftHandActionCall();
+            GameplayInputManager.instance.LeftHandActionCall();
         }
         else if (inputMod == InputMod.MENU)
         {
@@ -62,7 +62,7 @@ public class InputManager : MonoBehaviour
     {
         if (inputMod == InputMod.GAMEPLAY)
         {
-            NPlayerManager.instance.LeftHandActionEnd();
+            GameplayInputManager.instance.LeftHandActionEnd();
         }
         else if (inputMod == InputMod.MENU)
         {

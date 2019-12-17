@@ -8,11 +8,11 @@ public enum MainHand
     LEFTHANDED
 }
 
-public class NPlayerManager : MonoBehaviour
+public class GameplayInputManager : MonoBehaviour
 {
     #region Singleton
 
-    public static NPlayerManager instance;
+    public static GameplayInputManager instance;
 
     private void Awake()
     {

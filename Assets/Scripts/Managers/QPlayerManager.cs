@@ -44,6 +44,11 @@ public class QPlayerManager : MonoBehaviourPun
     }
     #endregion
 
+    public GameObject localPlayer;
+
+    private GameObject localPlayerRightController;
+    private GameObject localPlayerLeftController;
+
     public GameObject player1 = null;
     public GameObject player2 = null;
 
@@ -55,7 +60,12 @@ public class QPlayerManager : MonoBehaviourPun
 
     private void Start()
     {
-        StartCoroutine(SetupControllers());
+        SetupControllers();
+    }
+
+    public void SetLocalPlayer(GameObject localPlayer)
+    {
+        this.localPlayer = localPlayer;
     }
 
     public void SetPlayer(GameObject player, int PlayerID)
@@ -67,6 +77,18 @@ public class QPlayerManager : MonoBehaviourPun
         else if (PlayerID == 2)
         {
             player2 = player;
+        }
+    }
+
+    public GameObject GetLocalController(PlayerHand playerHand)
+    {
+        if(playerHand == PlayerHand.LEFT)
+        {
+            return localPlayerLeftController;
+        }
+        else
+        {
+            return localPlayerRightController;
         }
     }
 
@@ -90,15 +112,13 @@ public class QPlayerManager : MonoBehaviourPun
         return  player1LeftController;
     }
 
-    private IEnumerator SetupControllers()
+    private void SetupControllers()
     {
-        yield return new WaitForFixedUpdate();
-        if (player1)
-        {
-            //Debug.LogError(player1.GetComponentInChildren<LeftControllerGetter>());
-            player1LeftController = player1.GetComponentInChildren<LeftControllerGetter>().Get();
-            player1RightController = player1.GetComponentInChildren<RightControllerGetter>().Get();
-        }
+        localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().Get();
+        localPlayerRightController = localPlayer.GetComponentInChildren<RightControllerGetter>().Get();
+
+        //player1LeftController = player1.GetComponentInChildren<LeftControllerGetter>().Get();
+        //player1RightController = player1.GetComponentInChildren<RightControllerGetter>().Get();
         /*
         if (player2)
         {

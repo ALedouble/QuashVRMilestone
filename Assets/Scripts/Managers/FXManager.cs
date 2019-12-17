@@ -91,7 +91,6 @@ public class FXManager : MonoBehaviour
                 impactPercent = 0;
                 isExplosion = false;
 
-                Debug.Log("Done");
                 impactGo.SetActive(false);
                 return;
             }
@@ -183,8 +182,6 @@ public class FXManager : MonoBehaviour
 
     void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)
     {
-        Debug.Log("Ray moi ça");
-
         for (int j = 0; j < numberOfDivision; j++)
         {
             Debug.DrawRay(originPosition,
@@ -197,8 +194,6 @@ public class FXManager : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
                 {
-                    Debug.Log("Touché");
-
                     BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
                 }
             }

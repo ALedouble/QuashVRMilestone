@@ -25,7 +25,7 @@ public class BrickManager : MonoBehaviour
     [SerializeField] int malusPoolID;
 
     [Header("Shaking")]
-    [SerializeField] Shake layerShake;
+    public Shake layerShake;
 
     public static BrickManager Instance;
 

@@ -135,6 +135,7 @@ public class LevelManager : MonoBehaviour
             goDisplay.GetComponent<RectTransform>().position = displayPos;
             goDisplay.name = "Score_Of_Player_" + i;
             ScoreManager.Instance.displayedScore[i] = goDisplay.GetComponentInChildren<TextMeshProUGUI>();
+            playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)
             {
@@ -142,7 +143,8 @@ public class LevelManager : MonoBehaviour
                 obj.transform.parent = levelTrans[i];
                 obj.transform.localPosition = Vector3.zero;
                 obj.name = i + "_" + j;
-                playersShakers[i].layersShaker[j] = obj.AddComponent<Shaker>(); //Add shaker
+                Shaker s = obj.AddComponent<Shaker>();
+                playersShakers[i].layersShaker[j] = obj.GetComponent<Shaker>(); //Add shaker
                 playersParents[i].layersParent[j] = obj.transform;
             }
         }
@@ -277,6 +279,7 @@ public class LevelManager : MonoBehaviour
         public Transform[] layersParent;
     }
 
+    [System.Serializable]
     public struct Shakers
     {
         public Shaker[] layersShaker;

@@ -35,6 +35,8 @@ public class Shaker : MonoBehaviour
 
     public void PlayShake(Shake p_shake)
     {
+        Debug.Log("Start Shake of : " + gameObject.name);
+
         StartShake(p_shake);
     }
 
@@ -50,6 +52,8 @@ public class Shaker : MonoBehaviour
 
     void StartShake(Shake p_shake)
     {
+        Debug.Log("Start Shake of : " + gameObject.name);
+
         count = 0;
         frequencyCount = 0;
         frequencyTarget = p_shake.GetFrequencyOverTime(0);

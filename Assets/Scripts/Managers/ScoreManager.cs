@@ -30,7 +30,7 @@ public class ScoreManager : MonoBehaviour
     /// <param name="brickValue">Brick value for the score</param>
     public void IncrementScore(int brickValue, int playerID)
     {
-        Debug.Log("Incrémentation de " + brickValue + " pour le joueur " + playerID);
+        //Debug.Log("Incrémentation de " + brickValue + " pour le joueur " + playerID);
         score[playerID] += brickValue;
 
         string textScore = score[playerID].ToString();

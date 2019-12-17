@@ -10,42 +10,59 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09bff234936bd7c499644e048426da00, type: 3}
-  m_Name: SC_Shake_CamShake_00
+  m_Name: SC_Shake_Test_00
   m_EditorClassIdentifier: 
   shakeOverLifetime:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
+      value: 1
+      inSlope: 0.0000049769883
+      outSlope: 0.0000049769883
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.047904186
+    - serializedVersion: 3
+      time: 1
       value: 0
+      inSlope: -2.8028684
+      outSlope: -2.8028684
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.028609514
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lifeTime: 1
+  shakeMagnitude: 0.04
+  frequencyOverLifetime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0.019408243
-      outSlope: 0.019408243
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.48608136
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lifeTime: 1
-  shakeMagnitude: 0.25
-  shakeIsHorizontal: 1
-  shakeIsVertical: 1
+  shakeFrequency: 0.01
+  shakeX: 1
+  shakeY: 1
+  shakeZ: 0

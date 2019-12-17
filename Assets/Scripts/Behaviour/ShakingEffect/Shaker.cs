@@ -9,6 +9,7 @@ public class Shaker : MonoBehaviour
 
     float count;
     float frequencyCount;
+    float frequencyTarget;
     Shake currentShake;
     Vector3 targetPos;
     Vector3 originPos;
@@ -22,18 +23,20 @@ public class Shaker : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) PlayDefaultShake(); //Debug
+        if (Input.GetKeyDown(KeyCode.Space)) PlayShake(); //Debug
         Shaking();
     }
 
     [Button]
-    public void PlayDefaultShake()
+    public void PlayShake()
     {
         StartShake(defaultShake);
     }
 
     public void PlayShake(Shake p_shake)
     {
+        Debug.Log("Start Shake of : " + gameObject.name);
+
         StartShake(p_shake);
     }
 
@@ -42,16 +45,18 @@ public class Shaker : MonoBehaviour
         Keyframe keyframe0 = new Keyframe(0, 1);
         Keyframe keyframe1 = new Keyframe(1, 1);
         Keyframe[] keyframes = new Keyframe[] { keyframe0, keyframe1 };
-        AnimationCurve curve = new AnimationCurve(keyframes);
-        Shake shake = new Shake(curve, duration, magnitude, frequency);
-
+        AnimationCurve shakeCurve = new AnimationCurve(keyframes);
+        Shake shake = new Shake(shakeCurve, shakeCurve, duration, magnitude, frequency);
         StartShake(shake);
     }
 
     void StartShake(Shake p_shake)
     {
+        Debug.Log("Start Shake of : " + gameObject.name);
+
         count = 0;
         frequencyCount = 0;
+        frequencyTarget = p_shake.GetFrequencyOverTime(0);
         startPos = originPos;
         targetPos = originPos + GetRandomPos(p_shake);
         currentShake = p_shake;
@@ -66,9 +71,11 @@ public class Shaker : MonoBehaviour
         count += Time.deltaTime;
         frequencyCount += Time.deltaTime;
 
-        float alphaFrequency = frequencyCount / currentShake.ShakeFrequency;
         float alphaLifetime = count / currentShake.LifeTime;
 
+        
+        float alphaFrequency = frequencyCount / frequencyTarget;
+        
         transform.localPosition = Vector3.Lerp(startPos, targetPos, alphaFrequency); //Lerp
 
         if (alphaFrequency >= 1)
@@ -76,6 +83,8 @@ public class Shaker : MonoBehaviour
             targetPos = originPos + GetRandomPos(currentShake, alphaLifetime);
             startPos = transform.localPosition;
             frequencyCount = 0.0f;
+            frequencyTarget = currentShake.GetFrequencyOverTime(alphaLifetime);
+            Debug.Log("SALOPE = " + currentShake.GetFrequencyOverTime(alphaLifetime));
         }
 
         if (alphaLifetime >= 1)
@@ -95,7 +104,7 @@ public class Shaker : MonoBehaviour
 
         if (p_shake.ShakeX) x = Random.Range(-1f, 1f) * p_shake.GetMagnitude(time);
         if (p_shake.ShakeY) y = Random.Range(-1f, 1f) * p_shake.GetMagnitude(time);
-        if (p_shake.ShakeY) z = Random.Range(-1f, 1f) * p_shake.GetMagnitude(time);
+        if (p_shake.ShakeZ) z = Random.Range(-1f, 1f) * p_shake.GetMagnitude(time);
 
         return new Vector3(x, y, z);
     }

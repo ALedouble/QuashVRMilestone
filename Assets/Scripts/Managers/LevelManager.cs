@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
     public Parenting[] playersParents;
+    public Shakers[] playersShakers;
     public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
     public EditorScriptable editorPreset;
@@ -35,8 +36,6 @@ public class LevelManager : MonoBehaviour
 
     [Range(0, 1)] public float smoothTime;
     [Range(2f, 10)] public float sMaxSpeed;
-
-
 
 
     public static LevelManager Instance;
@@ -107,6 +106,7 @@ public class LevelManager : MonoBehaviour
         isEverythingDisplayed = new bool[numberOfPlayers];
         BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
         playersParents = new Parenting[numberOfPlayers];
+        playersShakers = new Shakers[numberOfPlayers];
         firstSetUpDone = new bool[numberOfPlayers];
         ScoreManager.Instance.displayedScore = new TMPro.TextMeshProUGUI[numberOfPlayers];
         ScoreManager.Instance.score = new float[numberOfPlayers];
@@ -142,6 +142,7 @@ public class LevelManager : MonoBehaviour
                 obj.transform.parent = levelTrans[i];
                 obj.transform.localPosition = Vector3.zero;
                 obj.name = i + "_" + j;
+                playersShakers[i].layersShaker[j] = obj.AddComponent<Shaker>(); //Add shaker
                 playersParents[i].layersParent[j] = obj.transform;
             }
         }
@@ -274,5 +275,10 @@ public class LevelManager : MonoBehaviour
     public struct Parenting
     {
         public Transform[] layersParent;
+    }
+
+    public struct Shakers
+    {
+        public Shaker[] layersShaker;
     }
 }

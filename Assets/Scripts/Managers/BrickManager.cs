@@ -26,6 +26,7 @@ public class BrickManager : MonoBehaviour
 
     [Header("Shaking")]
     public Shake layerShake;
+    public Shaker roomShaker;
 
     public static BrickManager Instance;
 
@@ -57,6 +58,7 @@ public class BrickManager : MonoBehaviour
 
         LevelManager levelManager = LevelManager.Instance;
         levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
+        roomShaker?.PlayShake();
 
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);

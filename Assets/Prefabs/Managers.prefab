@@ -52,8 +52,10 @@ MonoBehaviour:
   numberOfLayerToDisplay: 1
   levelTrans: []
   playersParents: []
+  playersShakers: []
   startPos4Player1: {x: 0, y: 0, z: 0}
   posDiffPerPlayer: {x: 0, y: 0, z: 0}
+  editorPreset: {fileID: 0}
   currentLayer: 
   startPos: []
   isEverythingDisplayed: 
@@ -102,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c6445d93c7e7f4e83a7dfb44f7b231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localPlayer: {fileID: 0}
   player1: {fileID: 0}
   player2: {fileID: 0}
 --- !u!1 &3387151940837507977
@@ -239,6 +242,7 @@ MonoBehaviour:
     type: 3}
   spawnJ1: {fileID: 0}
   spawnJ2: {fileID: 0}
+  debugMode: 1
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +350,7 @@ MonoBehaviour:
   offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
+  layerShake: {fileID: 11400000, guid: 8a9dd23c5930d2643aefe6bb4e462518, type: 2}
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,8 +438,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20be3e5f422ba9489c47529ddb076d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  displayScore: {fileID: 0}
+  textValues:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  score: []
+  displayedScore: []
+  scoreDisplayedPrefab: {fileID: 0}
+  scoreWallDistance: 0
 --- !u!1 &7024211451994467589
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,8 +518,6 @@ MonoBehaviour:
   impactMaxTime: 1.2
   impactCurentTime: 0
   impactPercent: 0
-  impactGo: {fileID: 0}
-  ps: []
   maxRadius: 0
   originPos: {x: 0, y: 0, z: 0}
   layerMask:

@@ -22,6 +22,7 @@ public class PostProcessFlash : MonoBehaviour
     {
         bloom = volume.profile.GetSetting<Bloom>();
         minBloomIntensity = bloom.intensity.value;
+        BallEventManager.instance.OnCollisionWithRacket += StartAnim;
     }
 
     private void Update()

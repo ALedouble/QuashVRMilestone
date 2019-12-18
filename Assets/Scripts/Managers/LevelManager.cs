@@ -7,8 +7,8 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
     public LevelsScriptable[] registeredLevels;
-    LevelsScriptable currentLevel;
-    LevelSettings currentLevelConfig;
+    public LevelsScriptable currentLevel;
+    public LevelSettings currentLevelConfig;
     [HideInInspector] public string levelsPath = "Assets/ScriptableObjects/Levels";
 
 
@@ -38,13 +38,13 @@ public class LevelManager : MonoBehaviour
     [Range(2f, 10)] public float sMaxSpeed;
 
 
-    public static LevelManager Instance;
+    public static LevelManager instance;
 
 
 
     private void Awake()
     {
-        Instance = this;
+        instance = this;
 
         ConfigDistribution(debugThisLevel);
         initValues();
@@ -127,6 +127,7 @@ public class LevelManager : MonoBehaviour
             trans.name = "Wall_Of_Player_" + i;
             levelTrans[i] = trans.transform;
 
+            /*
             Vector3 displayPos = new Vector3(
                 (startPos4Player1.x + ((editorPreset.editorSpaceRecorded[1].x - editorPreset.editorSpaceRecorded[0].x) / 2)) + (posDiffPerPlayer.x * i),
                 startPos4Player1.y + (posDiffPerPlayer.y * i),
@@ -135,6 +136,7 @@ public class LevelManager : MonoBehaviour
             goDisplay.GetComponent<RectTransform>().position = displayPos;
             goDisplay.name = "Score_Of_Player_" + i;
             ScoreManager.Instance.displayedScore[i] = goDisplay.GetComponentInChildren<TextMeshProUGUI>();
+            */
             playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)

@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 4513035634878747323}
   - component: {fileID: 4646906268572400308}
   - component: {fileID: 323053201}
+  - component: {fileID: 323053215}
   m_Layer: 9
   m_Name: MainMagicBall
   m_TagString: Ball
@@ -569,8 +570,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3734e65f27a722b418b26a9f1872c5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorSwitchTrigerType: 1
-  colors: []
+  colorSwitchTrigerType: 0
+  materials:
+  - {fileID: 2100000, guid: 1f0f9b493b9b9bb43bee0575564eb5a3, type: 2}
+  - {fileID: 2100000, guid: 3fa1933eb2b037147bc39616f2d56f39, type: 2}
 --- !u!114 &4646906268572400308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,34 +586,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afd3367b097cee48994f50f67f1299a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicsUsed: 0
-  hitMaxSpeed: 0
-  hitMinSpeed: 0
-  hitSpeedMultiplier: 0
-  racketFriction: 0
+  physicsUsed: 1
+  hitMaxSpeed: 30
+  hitMinSpeed: 0.5
+  hitSpeedMultiplier: 2
+  racketFriction: 1
   mixRatio: 0
   maxYAngle: 0
   maxZAngle: 0
   magnitudeSlope: 0
   minMagnitude: 0
   maxMagnitude: 0
-  slowness: 0
-  gravity: 0
-  numberOfPlayer: 1
+  slowness: 2
+  gravity: 9.81
   startingPlayer: 0
-  depthVelocity: 0
+  depthVelocity: 10
   switchType: 0
   xReturnsPoints:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   zReturnPoints: {fileID: 0}
-  bounciness: 0
+  bounciness: 0.8
   dynamicFriction: 0
 --- !u!114 &323053201
 MonoBehaviour:
@@ -627,10 +623,25 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 323053215}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &323053215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0

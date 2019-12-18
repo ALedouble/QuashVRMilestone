@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -16787,14 +16787,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1895193519, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.0006836922
+    - target: {fileID: 6869126553532700015, guid: 5a03154381086b94c90b01f66bb6c453,
+        type: 3}
+      propertyPath: scoreData.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1895193519, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.011944625
+    - target: {fileID: 6869126553532700015, guid: 5a03154381086b94c90b01f66bb6c453,
+        type: 3}
+      propertyPath: comboData.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6869126553532700015, guid: 5a03154381086b94c90b01f66bb6c453,
+        type: 3}
+      propertyPath: comboData.Array.data[0]
+      value: 
+      objectReference: {fileID: 1094992722}
+    - target: {fileID: 6869126553532700015, guid: 5a03154381086b94c90b01f66bb6c453,
+        type: 3}
+      propertyPath: scoreData.Array.data[0]
+      value: 
+      objectReference: {fileID: 1094992723}
     - target: {fileID: 1895193520, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
       propertyPath: m_Type
       value: 3
@@ -16807,9 +16819,41 @@ PrefabInstance:
       propertyPath: m_FillMethod
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1895193519, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0006836922
+      objectReference: {fileID: 0}
+    - target: {fileID: 1895193519, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.011944625
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1902508108, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5a03154381086b94c90b01f66bb6c453, type: 3}
+--- !u!114 &1094992722 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5905016501652988568, guid: 5a03154381086b94c90b01f66bb6c453,
+    type: 3}
+  m_PrefabInstance: {fileID: 1094992721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8717535569e5c94da61129b8bd2cdcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1094992723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2495582145702543851, guid: 5a03154381086b94c90b01f66bb6c453,
+    type: 3}
+  m_PrefabInstance: {fileID: 1094992721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dcb3ee271db43940bd17bb0a83f71d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!21 &1158822881
 Material:
   serializedVersion: 6

@@ -11,12 +11,22 @@ using Malee;
 public class LevelsScriptable : ScriptableObject
 {
     public LevelSettings level;
+
+    public LevelsScriptable()
+    {
+        level = new LevelSettings();
+    }
 }
 
 [System.Serializable]
 public class LevelSettings
 {
     public WallBuilds levelWallBuilds;
+
+    public LevelSettings()
+    {
+        levelWallBuilds = new WallBuilds();
+    }
 }
 
 
@@ -31,6 +41,11 @@ public class LevelSettings
 public class WallBuilds
 {
     public Wall[] walls;
+
+    public WallBuilds()
+    {
+        walls = new Wall[500];
+    }
 }
 
 [System.Serializable]

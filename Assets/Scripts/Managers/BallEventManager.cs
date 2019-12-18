@@ -17,7 +17,6 @@ public class BallEventManager : MonoBehaviour
         instance = this;
     }
 
-    //public void OnBallCollision(BallCollisionInfo ballCollisionInfo)
     public void OnBallCollision(String tag)
     {
         switch (tag)

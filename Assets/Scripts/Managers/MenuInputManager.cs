@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
 
-public class MenuInputManager : MonoBehaviour
+public class MenuInputManager : IInputable
 {
     public bool rightHandIsActive = true;
-    public void OnRightHandTriggerPress()
+    public void OnRightTriggerPress()
     {
         if(rightHandIsActive == false)
         {
@@ -14,7 +14,7 @@ public class MenuInputManager : MonoBehaviour
         }
     }
 
-    public void OnLeftHandTriggerPress()
+    public void OnLeftTriggerPress()
     {
         if (rightHandIsActive == true)
         {
@@ -22,12 +22,12 @@ public class MenuInputManager : MonoBehaviour
         }
     }
 
-    public void OnRightHandTriggerRelease()
+    public void OnRightTriggerRelease()
     {
         
     }
 
-    public void OnLeftHandTriggerRelease()
+    public void OnLeftTriggerRelease()
     {
         
     }

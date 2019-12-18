@@ -18,32 +18,25 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        //QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, prefabPlayer.transform.position, Quaternion.identity, 0), 1);
-      //  PhotonNetwork.Instantiate(prefabBall.name, prefabBall.transform.position, Quaternion.identity, 0);
-
         Instance = this;
         PhotonNetwork.OfflineMode = debugMode;
-        
     }
 
     void Start()
     {
-        //PhotonNetwork.Instantiate("LocalRacket", Vector3.zero, Quaternion.identity);
-        //PhotonNetwork.Instantiate("ForeignRacket", Vector3.zero, Quaternion.identity);
         if (PhotonNetwork.IsMasterClient){
-            QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject, 1);
+            QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject);
 
             RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("Racket", Vector3.zero, Quaternion.identity) as GameObject);
+
+            //  PhotonNetwork.Instantiate(prefabBall.name, prefabBall.transform.position, Quaternion.identity, 0);
         }
         else
         {
-            QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject, 2);
+            QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject);
 
             RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("Racket", Vector3.zero, Quaternion.identity) as GameObject);
         }
-
-        
-
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
     }

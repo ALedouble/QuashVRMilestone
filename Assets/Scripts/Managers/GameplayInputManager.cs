@@ -8,25 +8,12 @@ public enum MainHand
     LEFTHANDED
 }
 
-public class GameplayInputManager : MonoBehaviour
+public class GameplayInputManager : IInputable
 {
-    #region Singleton
-
-    public static GameplayInputManager instance;
-
-    private void Awake()
-    {
-        if (instance)
-            Destroy(this);
-        else
-            instance = this;
-    }
-    #endregion
-
     //Player settings (Gaucher/Droitier, pouvoirs utilises, ...)
     public MainHand mainHand = MainHand.RIGHTHANDED;
 
-    public void RightHandActionCall()
+    public void OnRightTriggerPress()
     {
         if(mainHand == MainHand.RIGHTHANDED)
         {
@@ -35,7 +22,7 @@ public class GameplayInputManager : MonoBehaviour
         }
     }
 
-    public void LeftHandActionCall()
+    public void OnLeftTriggerPress()
     {
         if (mainHand == MainHand.LEFTHANDED)
         {
@@ -44,7 +31,7 @@ public class GameplayInputManager : MonoBehaviour
         }
     }
 
-    public void RightHandActionEnd()
+    public void OnRightTriggerRelease()
     {
         if (mainHand == MainHand.RIGHTHANDED)
         {
@@ -53,7 +40,7 @@ public class GameplayInputManager : MonoBehaviour
         }
     }
 
-    public void LeftHandActionEnd()
+    public void OnLeftTriggerRelease()
     {
         if (mainHand == MainHand.LEFTHANDED)
         {

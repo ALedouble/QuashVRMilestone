@@ -60,7 +60,7 @@ public class Shaker : MonoBehaviour
             //if (AlphaLifetime() < unstoppableShakingLimit) return;
         }
 
-        Debug.Log("Start Shake of : " + gameObject.name,this);
+        //Debug.Log("Start Shake of : " + gameObject.name,this);
         magnitudeScale = p_magnitudeScale;
         count = 0;
         frequencyCount = 0;

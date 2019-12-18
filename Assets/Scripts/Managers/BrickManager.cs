@@ -6,7 +6,7 @@ using TMPro;
 public class BrickManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
-    [HideInInspector] public WallBuilds levelWallsConfig;
+    public WallBuilds levelWallsConfig = new WallBuilds();
     public GameObject prefabBase;
     [HideInInspector] public string prefabPath = "Assets/Prefabs/Bricks";
 
@@ -94,7 +94,7 @@ public class BrickManager : MonoBehaviour
     /// <param name="currentDisplacement"></param>
     public void SpawnLayer(int playerID, int currentDisplacement)
     {
-        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
+        Wall layerToSpawn = LevelManager.Instance.currentLevelConfig.levelWallBuilds.walls[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
@@ -159,7 +159,7 @@ public class BrickManager : MonoBehaviour
         }
 
 
-        if (LevelManager.Instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
+        if (LevelManager.Instance.currentLayer[playerID] + currentDisplacement >= LevelManager.Instance.currentLevelConfig.levelWallBuilds.walls.Length - 1)
         {
             LevelManager.Instance.isEverythingDisplayed[playerID] = true;
         }

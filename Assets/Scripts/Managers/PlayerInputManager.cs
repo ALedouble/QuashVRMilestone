@@ -10,6 +10,25 @@ public enum InputMod
 
 public class PlayerInputManager : MonoBehaviour
 {
+    #region Singleton
+    public static PlayerInputManager instance;
+
+    private IInputable gameplayAction = new GameplayInputManager();
+    private IInputable menuAction = new MenuInputManager();
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    #endregion
+
     public InputMod inputMod = InputMod.GAMEPLAY;       //A cacher dans l'inspector
 
     public void SetInputMod(InputMod inputMod)
@@ -26,11 +45,11 @@ public class PlayerInputManager : MonoBehaviour
     {
         if(inputMod == InputMod.GAMEPLAY)
         {
-            GameplayInputManager.instance.RightHandActionCall();
+            gameplayAction.OnRightTriggerPress();
         }
         else if(inputMod == InputMod.MENU)
         {
-            //Ici Tristan
+            menuAction.OnRightTriggerPress();
         }
     }
 
@@ -38,11 +57,11 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (inputMod == InputMod.GAMEPLAY)
         {
-            GameplayInputManager.instance.RightHandActionEnd();
+            gameplayAction.OnRightTriggerRelease();
         }
         else if (inputMod == InputMod.MENU)
         {
-            //Ici Tristan
+            menuAction.OnRightTriggerRelease();
         }
     }
 
@@ -50,11 +69,11 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (inputMod == InputMod.GAMEPLAY)
         {
-            GameplayInputManager.instance.LeftHandActionCall();
+            gameplayAction.OnLeftTriggerPress();
         }
         else if (inputMod == InputMod.MENU)
         {
-            //Ici Tristan
+            menuAction.OnLeftTriggerPress();
         }
     }
 
@@ -62,11 +81,11 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (inputMod == InputMod.GAMEPLAY)
         {
-            GameplayInputManager.instance.LeftHandActionEnd();
+            gameplayAction.OnLeftTriggerRelease();
         }
         else if (inputMod == InputMod.MENU)
         {
-            //Ici Tristan
+            menuAction.OnLeftTriggerRelease();
         }
     }
 }

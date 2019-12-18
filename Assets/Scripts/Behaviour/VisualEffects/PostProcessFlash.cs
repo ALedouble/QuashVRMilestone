@@ -18,20 +18,19 @@ public class PostProcessFlash : MonoBehaviour
     [SerializeField, ReadOnly] float minBloomIntensity;
     [SerializeField] float maxBloomIntensity;
 
-    private void Start()
+    protected virtual void Start()
     {
         bloom = volume.profile.GetSetting<Bloom>();
         minBloomIntensity = bloom.intensity.value;
-        BallEventManager.instance.OnCollisionWithRacket += StartAnim;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         Animation();
     }
 
     [Button]
-    void StartAnim()
+    protected virtual void StartAnim()
     {
         animCount = 0.0f;
         isAnimating = true;
@@ -49,7 +48,7 @@ public class PostProcessFlash : MonoBehaviour
         }
     }
 
-    float AlphaCount()
+    protected float AlphaCount()
     {
         return animCount / animDuration;
     }

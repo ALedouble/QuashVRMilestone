@@ -6,15 +6,15 @@ using TMPro;
 public class BrickManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
-    public WallBuilds levelWallsConfig;
+    [HideInInspector] public WallBuilds levelWallsConfig;
     public GameObject prefabBase;
-    public string prefabPath = "Assets/Prefabs/Bricks";
+    [HideInInspector] public string prefabPath = "Assets/Prefabs/Bricks";
 
     public PresetScriptable[] colorPresets;
-    public string presetPath = "Assets/ScriptableObjects/ColorPresets";
+    [HideInInspector] public string presetPath = "Assets/ScriptableObjects/ColorPresets";
 
     public BrickTypesScriptable[] brickPresets;
-    public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
+    [HideInInspector] public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
     [Header("Number of bricks on the current layer")]
     public int[] currentBricksOnLayer;
@@ -26,6 +26,7 @@ public class BrickManager : MonoBehaviour
 
     [Header("Shaking")]
     public Shake layerShake;
+
 
     public static BrickManager Instance;
 

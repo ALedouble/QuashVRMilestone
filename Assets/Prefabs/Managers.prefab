@@ -44,23 +44,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredLevels:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
   levelsPath: Assets/ScriptableObjects/Levels
   debugThisLevel: 0
-  numberOfPlayers: 0
-  layerDiffPosition: 0
-  numberOfLayerToDisplay: 1
-  levelTrans: []
+  numberOfPlayers: 2
+  layerDiffPosition: 0.6
+  numberOfLayerToDisplay: 5
+  levelTrans:
+  - {fileID: 0}
+  - {fileID: 0}
   playersParents: []
   playersShakers: []
   startPos4Player1: {x: 0, y: 0, z: 0}
-  posDiffPerPlayer: {x: 0, y: 0, z: 0}
-  editorPreset: {fileID: 0}
+  posDiffPerPlayer: {x: 5, y: 0, z: 0}
+  editorPreset: {fileID: 11400000, guid: 0a36c470dd78c134e906ec9a44c43a18, type: 2}
   currentLayer: 
   startPos: []
   isEverythingDisplayed: 
   smoothTime: 0.015
-  sMaxSpeed: 6
+  sMaxSpeed: 3
 --- !u!1 &1504735476317143586
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c6445d93c7e7f4e83a7dfb44f7b231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localPlayer: {fileID: 0}
   player1: {fileID: 0}
   player2: {fileID: 0}
 --- !u!1 &3387151940837507977
@@ -237,8 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11512f2645d1465469c3226de07b66b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPlayer: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
-    type: 3}
+  prefabPlayer: {fileID: 0}
   spawnJ1: {fileID: 0}
   spawnJ2: {fileID: 0}
   debugMode: 1
@@ -286,7 +288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rackets:
-  - {fileID: 0}
   - {fileID: 0}
   localPlayerRacket: {fileID: 0}
   deltaHitTime: 1
@@ -349,7 +350,7 @@ MonoBehaviour:
   offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
-  layerShake: {fileID: 0}
+  layerShake: {fileID: 11400000, guid: 3dab91117c4d3c04bbd4c6d27b7eab7a, type: 2}
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,17 +440,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textValues:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 103
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 0.5
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.71428573
+      outSlope: 0.71428573
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minTextSize: 0
+  minTextSize: 0.01
   maxTextSize: 0.251
   maxScoreValue: 30
   score: []
   displayedScore: []
-  scoreDisplayedPrefab: {fileID: 0}
-  scoreWallDistance: 0
+  scoreDisplayedPrefab: {fileID: 7041889826128242043, guid: ca24e4f8024c287419962fdac1d81321,
+    type: 3}
+  scoreWallDistance: -5
   finishingFirstScoreBoost: 0
 --- !u!1 &7024211451994467589
 GameObject:

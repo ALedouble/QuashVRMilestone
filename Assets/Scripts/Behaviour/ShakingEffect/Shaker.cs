@@ -56,7 +56,8 @@ public class Shaker : MonoBehaviour
     {
         if (isShaking)
         {
-            if (AlphaLifetime() < unstoppableShakingLimit) return;
+            return;
+            //if (AlphaLifetime() < unstoppableShakingLimit) return;
         }
 
         Debug.Log("Start Shake of : " + gameObject.name,this);

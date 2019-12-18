@@ -190,8 +190,17 @@ public class FXManager : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
                 {
-                    //BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
-                    hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                    if (brick.GetBrickInfo().ColorID != 0)
+                    {
+                        if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1)
+                        {
+                            hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                        }
+                    }
+                    else
+                    {
+                        hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                    }
                 }
             }
         }

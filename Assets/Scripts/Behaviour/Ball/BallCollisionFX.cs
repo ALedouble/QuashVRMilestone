@@ -52,7 +52,17 @@ public class BallCollisionFX : MonoBehaviour
         if (collision.collider.TryGetComponent<IBrick>(out IBrick brick))
         {
             //BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
-            collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+            if(brick.GetBrickInfo().ColorID != 0)
+            {
+                if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1)
+                {
+                    collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                }
+            }
+            else
+            {
+                collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+            }
         }
     }
 

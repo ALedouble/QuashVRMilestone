@@ -31,7 +31,7 @@ public class BallManager : MonoBehaviour
     {
         return ballColorBehaviour;
     }
-     public int GetBallColorID()
+    public int GetBallColorID()
     {
         return ballColorBehaviour.GetBallColor();
     }

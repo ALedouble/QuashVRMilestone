@@ -174,7 +174,7 @@ public class BallPhysicBehaviour : MonoBehaviour/*, IPunObservable*/
             RacketApplyNewVelocity(newVelocity, transform.position);
             RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
         }
-        else
+        else if(other.gameObject.GetComponent<PhotonView>().IsMine)
         {
             photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
 

@@ -154,15 +154,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         ApplyNewVelocity(newVelocity);
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
-        //Faire une méthode?
-        if (numberOfPlayer > 1)                //Amelioration Check sur manager
+        if(PhotonNetwork.IsMasterClient)
         {
             view.RPC("ApplyNewVelocity", RpcTarget.Others, newVelocity);
+        }
 
-            if (switchIsRacketBased)
-            {
-                NetworkSwitchTarget();
-            }
+        if (switchIsRacketBased)
+        {
+            NetworkSwitchTarget();
         }
     }
 
@@ -225,16 +224,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     [PunRPC]
     private void NetworkSwitchTarget()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient) //A transformer en isMine
         {
             // Ajouter un timer pour eviter les double siwtch
             //SwitchTarget();
             view.RPC("SwitchTarget", RpcTarget.All);
         }
-        else
-        {
-            view.RPC("NetworkSwitchTarget", RpcTarget.MasterClient);
-        }
+        //else
+        //{
+        //    view.RPC("NetworkSwitchTarget", RpcTarget.MasterClient);
+        //}
     }
 
     [PunRPC]

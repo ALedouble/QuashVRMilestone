@@ -26,6 +26,7 @@ public class BrickManager : MonoBehaviour
 
     [Header("Shaking")]
     public Shake layerShake;
+    public Shaker roomShaker;
 
     public static BrickManager Instance;
 
@@ -49,14 +50,18 @@ public class BrickManager : MonoBehaviour
         touchedBrick.Transform.gameObject.SetActive(false);
         touchedBrick.Transform.parent = null;
 
-        PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.identity);
-        PoolManager.instance.SpawnFromPool("CubeDeathFX", brickPos, Quaternion.identity);
+        Vector3 cross = Vector3.Cross(touchedBrick.Transform.up, touchedBrick.Transform.right);
+
+        PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.LookRotation(cross, Vector3.up));
+        PoolManager.instance.SpawnFromPool("CubeDeathFX", brickPos, Quaternion.LookRotation(cross, Vector3.up));
+
 
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
         score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
         LevelManager levelManager = LevelManager.Instance;
         levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
+        roomShaker?.PlayShake();
 
         //Bonus & malus case
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);

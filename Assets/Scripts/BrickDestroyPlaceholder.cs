@@ -21,8 +21,8 @@ public class BrickDestroyPlaceholder : MonoBehaviour
         if (collision.gameObject.tag == "Ball")
         {
             gameObject.SetActive(false);
-            PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.identity);
-            PoolManager.instance.SpawnFromPool("ImpactFX", transform.position, Quaternion.identity);
+            PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
+            PoolManager.instance.SpawnFromPool("ImpactFX", transform.position, Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
         }
     }
 }

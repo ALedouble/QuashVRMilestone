@@ -60,7 +60,7 @@ public class BrickManager : MonoBehaviour
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
         score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
-        LevelManager levelManager = LevelManager.Instance;
+        LevelManager levelManager = LevelManager.instance;
         levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
         roomShaker?.PlayShake();
 
@@ -83,7 +83,7 @@ public class BrickManager : MonoBehaviour
 
         if (currentBricksOnLayer[playerID] <= 0)
         {
-            LevelManager.Instance.SetNextLayer(playerID);
+            LevelManager.instance.SetNextLayer(playerID);
         }
     }
 
@@ -94,17 +94,17 @@ public class BrickManager : MonoBehaviour
     /// <param name="currentDisplacement"></param>
     public void SpawnLayer(int playerID, int currentDisplacement)
     {
-        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
+        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.instance.currentLayer[playerID] + currentDisplacement];
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
                 Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
-                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.Instance.layerDiffPosition * ((float)LevelManager.Instance.currentLayer[playerID] + (float)currentDisplacement))));
+                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.instance.layerDiffPosition * ((float)LevelManager.instance.currentLayer[playerID] + (float)currentDisplacement))));
 
 
-                GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.Instance.levelTrans[playerID].position, Quaternion.identity);
+                GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.instance.levelTrans[playerID].position, Quaternion.identity);
                 BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
                 MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
                 Material[] mats = objMesh.sharedMaterials;
@@ -122,7 +122,7 @@ public class BrickManager : MonoBehaviour
 
 
 
-                obj.transform.parent = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID] + currentDisplacement];
+                obj.transform.parent = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID] + currentDisplacement];
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
@@ -150,7 +150,7 @@ public class BrickManager : MonoBehaviour
                     for (int j = 0; j < layerToSpawn.wallBricks[i].waypointsStorage.Count; j++)
                     {
                         Vector3 waypointToLayer = new Vector3(layerToSpawn.wallBricks[i].waypointsStorage[j].x, layerToSpawn.wallBricks[i].waypointsStorage[j].y,
-                            layerToSpawn.wallBricks[i].waypointsStorage[j].z + (LevelManager.Instance.layerDiffPosition * ((float)LevelManager.Instance.currentLayer[playerID] + (float)currentDisplacement)));
+                            layerToSpawn.wallBricks[i].waypointsStorage[j].z + (LevelManager.instance.layerDiffPosition * ((float)LevelManager.instance.currentLayer[playerID] + (float)currentDisplacement)));
 
                         objBehaviours.waypoints.Add(waypointToLayer);
                     }
@@ -159,9 +159,9 @@ public class BrickManager : MonoBehaviour
         }
 
 
-        if (LevelManager.Instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
+        if (LevelManager.instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
         {
-            LevelManager.Instance.isEverythingDisplayed[playerID] = true;
+            LevelManager.instance.isEverythingDisplayed[playerID] = true;
         }
     }
 
@@ -172,6 +172,6 @@ public class BrickManager : MonoBehaviour
     /// <param name="playerID"></param>
     public void SetCurrentBrickOnLayer(int playerID)
     {
-        currentBricksOnLayer[playerID] = LevelManager.Instance.playersParents[playerID].layersParent[LevelManager.Instance.currentLayer[playerID]].childCount;
+        currentBricksOnLayer[playerID] = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount;
     }
 }

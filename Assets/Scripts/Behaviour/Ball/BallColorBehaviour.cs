@@ -15,7 +15,8 @@ public class BallColorBehaviour : MonoBehaviour
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
     [Header("Color Settings")]
-    public Color[] colors;
+
+    public Material[] materials;
     //public ColorEnum startingColor;
     private int colorID = 0;
 
@@ -43,7 +44,7 @@ public class BallColorBehaviour : MonoBehaviour
     public void SetBallColor(int colorID)
     {
         this.colorID = colorID;
-        renderer.material.color = colors[colorID];
+        renderer.material = materials[colorID];
     }
 
     private void InitializeSwitchColor()
@@ -55,7 +56,7 @@ public class BallColorBehaviour : MonoBehaviour
         }
         else if (colorSwitchTrigerType == ColorSwitchTrigerType.RACKETBASED)
         {
-            BallEventManager.instance.OnCollisionWithRacket += SwitchColor;
+            BallEventManager.instance.OnCollisionWithRacket += RacketBaseSwitchColor;
         }
     }
 
@@ -79,7 +80,7 @@ public class BallColorBehaviour : MonoBehaviour
         if(isEmpowered)
         {
             isEmpowered = false;
-            SwitchColor();
+            photonView.RPC("SwitchColor", RpcTarget.All);
         }
     }
 
@@ -87,7 +88,10 @@ public class BallColorBehaviour : MonoBehaviour
     {
         if (RacketManager.instance.isEmpowered)
         {
-            photonView.RPC("SwitchColor", RpcTarget.All);
+            if(PhotonNetwork.OfflineMode)
+                SwitchColor();
+            else
+                photonView.RPC("SwitchColor", RpcTarget.All);
         }
     }
 
@@ -95,7 +99,12 @@ public class BallColorBehaviour : MonoBehaviour
     private void SwitchColor()
     {
         //ColorManager.instance.SwitchBallColor();
-        colorID = (colorID + 1) % colors.Length;
-        renderer.material.color = colors[colorID];
+        colorID = (colorID + 1) % materials.Length;
+        renderer.material = materials[colorID];
+
+        if (colorID == 0)
+            Debug.Log("Rouge");
+        else
+            Debug.Log("Bleu");
     }
 }

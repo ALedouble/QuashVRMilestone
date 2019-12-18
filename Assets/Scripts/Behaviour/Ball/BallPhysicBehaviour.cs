@@ -156,7 +156,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         if(PhotonNetwork.IsMasterClient)
         {
-            view.RPC("ApplyNewVelocity", RpcTarget.Others, newVelocity);
+            view.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity);
         }
 
         if (switchIsRacketBased)

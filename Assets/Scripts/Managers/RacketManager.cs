@@ -24,15 +24,33 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         }
     }
     #endregion
-
+    public GameObject racketPrefab;
     public GameObject localPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
     public bool isEmpowered = false;
 
+    private Transform grabPosition;
+
+    private void Start()
+    {
+        grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
+    }
+
     public void SetLocalRacket(GameObject localRacket)
     {
         localPlayerRacket = localRacket;
-        QPlayerManager.instance.AssociateRacketWithController();
+
+        AssociateRacketWithController();
+    }
+
+    private void AssociateRacketWithController()
+    {
+        //Ajouter Les setting Droitier/Gaucher
+        RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).transform;
+        localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
+        localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
+        localPlayerRacket.transform.localPosition = grabPosition.localPosition; 
+        localPlayerRacket.transform.localRotation = grabPosition.localRotation;
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
@@ -55,11 +73,17 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public void EnterEmpoweredState()
     {
         isEmpowered = true;
+
+
+        Debug.Log("Oué oué oué!");
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
+
+
+        Debug.Log("oups!");
     }
 }
 

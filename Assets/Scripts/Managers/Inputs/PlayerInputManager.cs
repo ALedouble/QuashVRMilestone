@@ -13,8 +13,7 @@ public class PlayerInputManager : MonoBehaviour
     #region Singleton
     public static PlayerInputManager instance;
 
-    private IInputable gameplayAction = new GameplayInputManager();
-    private IInputable menuAction = new MenuInputManager();
+    
 
     private void Awake()
     {
@@ -31,9 +30,21 @@ public class PlayerInputManager : MonoBehaviour
 
     public InputMod inputMod = InputMod.GAMEPLAY;       //A cacher dans l'inspector
 
+    private IInputable gameplayAction = new GameplayInputManager();
+    private IInputable menuAction = new MenuInputManager();
+
     public void SetInputMod(InputMod inputMod)
     {
         this.inputMod = inputMod;
+
+        if (inputMod == InputMod.GAMEPLAY)
+        {
+            gameplayAction.EnterInputMod();
+        }
+        else if (inputMod == InputMod.MENU)
+        {
+            menuAction.EnterInputMod();
+        }
     }
 
     public InputMod GetInputMod()

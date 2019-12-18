@@ -128,7 +128,7 @@ public class LevelManager : MonoBehaviour
             levelTrans[i] = trans.transform;
 
             Vector3 displayPos = new Vector3(
-                (startPos4Player1.x + ((editorPreset.editorSpaceRecorded[1].x - editorPreset.editorSpaceRecorded[0].x)/2)) + (posDiffPerPlayer.x * i), 
+                (startPos4Player1.x + ((editorPreset.editorSpaceRecorded[1].x - editorPreset.editorSpaceRecorded[0].x) / 2)) + (posDiffPerPlayer.x * i),
                 startPos4Player1.y + (posDiffPerPlayer.y * i),
                 startPos4Player1.z + ScoreManager.Instance.scoreWallDistance + (posDiffPerPlayer.z * i));
             GameObject goDisplay = Instantiate(ScoreManager.Instance.scoreDisplayedPrefab);
@@ -175,24 +175,31 @@ public class LevelManager : MonoBehaviour
             currentLayer[playerID]++;
             NextPos[playerID] = new Vector3(startPos[playerID].x, startPos[playerID].y, startPos[playerID].z - (layerDiffPosition * currentLayer[playerID]));
 
+            //Check si le joueur est le premier à avoir fini cette couche. La récompense est divisé selon son "placement"
+            if (firstSetUpDone[playerID])
+            {
+                float rewardModifier = 1;
 
-            //changePositionReady[playerID] = true;
+                for (int i = 0; i < numberOfPlayers; i++)
+                {
+                    if (playerID != i)
+                    {
+                        if (currentLayer[playerID] < currentLayer[i])
+                        {
+                            rewardModifier++;
+                        }
+                    }
+                }
+
+                ScoreManager.Instance.IncrementScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
+            }
+
             StartCoroutine(GoWALLgO(playerID));
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
-
-            //for (int i = currentLayer[playerID]; i < (currentLayer[playerID] + numberOfLayerToDisplay - 1); i++)
-            //{
-            //    if (i <= currentLevel.level.levelWallBuilds.walls.Length - 1)
-            //    {
-            //        SetWaypoints(playerID, i);
-            //    }
-            //}
-
-            //BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
         }
 
 
@@ -229,7 +236,7 @@ public class LevelManager : MonoBehaviour
             for (int i = 0; i < go.Count; i++)
             {
                 BrickBehaviours brick = go[i].GetComponent<BrickBehaviours>();
-                
+
 
                 for (int j = 0; j < BrickManager.Instance.levelWallsConfig.walls[layer].wallBricks[brick.savedInIndex].waypointsStorage.Count; j++)
                 {

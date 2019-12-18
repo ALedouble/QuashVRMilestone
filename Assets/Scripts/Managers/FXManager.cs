@@ -7,10 +7,9 @@ public class FXManager : MonoBehaviour
     [Header("Deflagration Animation")]
     public AnimationCurve impactCurve;
     public float impactMaxTime;
-    [SerializeField] private float impactCurentTime;
-    [SerializeField] private float impactPercent;
+    private float impactCurentTime;
+    private float impactPercent;
     private float minRadius = 0.1f;
-
 
     [Header("Deflagration zone")]
     private GameObject impactGo;
@@ -20,7 +19,7 @@ public class FXManager : MonoBehaviour
 
 
     [Header("Deflagration Parameters")]
-    public Vector3 originPos;
+    private Vector3 originPos;
     public LayerMask layerMask;
     public int numberOfDivision;
     public float raycastOffset = 0;
@@ -54,12 +53,9 @@ public class FXManager : MonoBehaviour
         maxRadius = intensity * intensityModifier;
 
         impactGo = PoolManager.instance.SpawnFromPool("ImpactFX", originPos, Quaternion.identity);
-        //DebugManager.Instance.DisplayValue(0, "intensity : " + intensity.ToString());
-        //DebugManager.Instance.DisplayValue(1, "maxRadius : " + maxRadius);
 
         ps.Clear();
 
-        //Debug.Log("count : " + impactGo.transform.childCount);
         if (impactGo.transform.childCount > 0)
         {
             for (int i = 0; i < impactGo.transform.childCount; i++)
@@ -194,7 +190,8 @@ public class FXManager : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
                 {
-                    BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
+                    //BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
+                    hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                 }
             }
         }

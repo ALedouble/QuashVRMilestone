@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallCollisionInfo
+public struct BallCollisionInfo
 {
-    private string otherTag;
-    private Vector3 contactPoint;
-    private Vector3 contactNormal;
-    private Vector3 ballVelocity;
-
-    public string OtherTag { get => otherTag; private set => otherTag = value; }
-    public Vector3 ContactPoint { get => contactPoint; private set => contactPoint = value; }
-    public Vector3 ContactNormal { get => contactNormal; private set => contactNormal = value; }
-    public Vector3 BallVelocity { get => ballVelocity; private set => ballVelocity = value; }
+    public string OtherTag { get; private set; }
+    public Vector3 ContactPoint { get; private set; }
+    public Vector3 ContactNormal { get; private set; }
+    public Vector3 BallVelocity { get; private set; }
 
     /// <summary>
     /// Creates a BallCollisioInfo class that contains a large amount of data about the collision of the ball with another object

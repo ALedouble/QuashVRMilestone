@@ -23,8 +23,9 @@ public enum TargetSwitchType
     WALLBASED
 }
 
-public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
+public class BallPhysicBehaviour : MonoBehaviour/*, IPunObservable*/
 {
+    //Ajouter Le slow en RPC
     private enum SpeedState
     {
         NORMAL,
@@ -60,7 +61,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float gravity;
 
     [Header("MagicBounce Settings")]
-    public int numberOfPlayer = 1;                                  // A placer ailleur!
     public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
     private Target currentTarget;
     public float depthVelocity;
@@ -81,11 +81,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private SpeedState speedState;
     private Vector3 lastVelocity;
 
-    PhotonView view;
+    private PhotonView photonView;
 
     void Start()
     {
-        view = GetComponent<PhotonView>();
+        photonView = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
 
         speedState = SpeedState.NORMAL;
@@ -110,6 +110,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             case "Racket":
                 RacketInteraction(other);
+                speedState = SpeedState.NORMAL;                                         //La?
                 break;
             case "FrontWall":
             case "Brick":
@@ -121,9 +122,24 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
         }
 
-        //BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
-        BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
+        if(PhotonNetwork.OfflineMode)
+        {
+            OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+        }
+        else if (photonView.IsMine)
+        {
+            photonView.RPC("OnBallCollision", RpcTarget.All, new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+        }
+
+        //Revoir audio manager pour qu'il utilise le OnBallCollision event system
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+    }
+
+    [PunRPC]
+    private void OnBallCollision(BallCollisionInfo ballCollisionInfo)
+    {
+        //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
+        BallEventManager.instance?.OnBallCollision(ballCollisionInfo);
     }
 
     #region RacketInteraction
@@ -151,25 +167,29 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
         }
 
-        ApplyNewVelocity(newVelocity);
-        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+        newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
-        if(PhotonNetwork.IsMasterClient)
+        if(PhotonNetwork.OfflineMode)
         {
-            view.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity);
+            RacketApplyNewVelocity(newVelocity, transform.position);
+            RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
         }
-
-        if (switchIsRacketBased)
+        else
         {
-            NetworkSwitchTarget();
+            photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+
+            if (switchIsRacketBased)
+            {
+                photonView.RPC("SwitchTarget", RpcTarget.All);
+            }
         }
     }
 
     [PunRPC]
-    private void ApplyNewVelocity(Vector3 direction)
+    private void RacketApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit)
     {
-        rigidbody.velocity = ClampVelocity(hitSpeedMultiplier * direction);
-        speedState = SpeedState.NORMAL;                                         //La?
+        transform.position = positionWhenHit;
+        rigidbody.velocity = newVelocity;
     }
 
     #endregion
@@ -196,10 +216,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void MagicalBounce3()           //Question: Repère par raport au terrain
     {
-        if (!switchIsRacketBased)
+        if (!switchIsRacketBased && photonView.IsMine)
         {
-            NetworkSwitchTarget();
+            photonView.RPC("SwitchTarget", RpcTarget.All);
         }
+
+        //RPC Slow?
+
         float verticalVelocity = CalculateVerticalBounceVelocity();
 
         float sideVelocity = CalculateSideBounceVelocity();
@@ -217,23 +240,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPositionX().x - transform.position.x, 0, GetCurrentTargetPositionX().z - transform.position.z);
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
         return (Vector3.Dot(Vector3.right, returnHorizontalDirection) / Vector3.Dot(Vector3.back, returnHorizontalDirection)) * depthVelocity;
-
-        //return Vector3.Dot(depthVelocity * Vector3.back, returnHorizontalDirection) * Vector3.Dot(returnHorizontalDirection, Vector3.right);
-    }
-
-    [PunRPC]
-    private void NetworkSwitchTarget()
-    {
-        if (PhotonNetwork.IsMasterClient) //A transformer en isMine
-        {
-            // Ajouter un timer pour eviter les double siwtch
-            //SwitchTarget();
-            view.RPC("SwitchTarget", RpcTarget.All);
-        }
-        //else
-        //{
-        //    view.RPC("NetworkSwitchTarget", RpcTarget.MasterClient);
-        //}
     }
 
     [PunRPC]
@@ -243,7 +249,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             currentTarget = Target.PLAYER2;
         else if (currentTarget == Target.PLAYER2)
             currentTarget = Target.PLAYER1;
-        //currentTarget = (Target)(((int)currentTarget + 1)%numberOfPlayer); 
+        //currentTarget = (Target)(((int)currentTarget + 1) % PhotonNetwork.PlayerList.Length);
     }
 
     private Vector3 GetCurrentTargetPositionX()
@@ -267,13 +273,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #region RacketInteraction
 
-    [PunRPC]
     private Vector3 RacketArcadeHit()
     {
         return RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity();
     }
 
-    [PunRPC]
     private Vector3 RacketBasicPhysicHit(Collision collision)       // Ajout d'un seuil pour pouvoir jouer avec la balle?
     {
         Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
@@ -286,7 +290,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         return -normalVelocity + tangentVelocity;
     }
 
-    [PunRPC]
     private Vector3 RacketMediumPhysicHit(Collision collision) // Ajout d'un seuil pour pouvoir jouer avec la balle?
     {
         Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
@@ -299,7 +302,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         return normalVelocity + tangentVelocity;
     }
 
-    [PunRPC]
     private Vector3 RacketMixedHit(Collision collision)
     {
         return RacketArcadeHit() * (1 - mixRatio) + RacketBasicPhysicHit(collision) * mixRatio;
@@ -378,20 +380,20 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #endregion
 
-    #region IPunObservable implementation
-    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
+    //#region IPunObservable implementation
+    //void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(transform.position);
+    //        stream.SendNext(transform.rotation);
 
-        }
-        else
-        {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-        }
-    }
-    #endregion
+    //    }
+    //    else
+    //    {
+    //        transform.position = (Vector3)stream.ReceiveNext();
+    //        transform.rotation = (Quaternion)stream.ReceiveNext();
+    //    }
+    //}
+    //#endregion
 }

@@ -2,36 +2,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BallEventManager : MonoBehaviour
 {
+    #region Singleton
     public static BallEventManager instance;
-
-    public event Action OnCollisionWithBrick = delegate { };
-    public event Action OnCollisionWithFrontWall = delegate { };
-    public event Action OnCollisionWithWall = delegate { };
-    public event Action OnCollisionWithRacket = delegate { };
 
     private void Awake()
     {
         instance = this;
     }
+    #endregion
 
-    public void OnBallCollision(String tag)
+    public delegate void OnCollisionDelegate(BallCollisionInfo ballCollisionInfo);
+
+    public event OnCollisionDelegate OnCollisionWithBrick;
+    public event OnCollisionDelegate OnCollisionWithFrontWall;
+    public event OnCollisionDelegate OnCollisionWithWall;
+    public event OnCollisionDelegate OnCollisionWithRacket;
+
+    [PunRPC]
+    public void OnBallCollision(BallCollisionInfo ballCollisionInfo)
     {
         switch (tag)
         {
             case "Racket":
-                OnCollisionWithRacket();
+                OnCollisionWithRacket(ballCollisionInfo);
                 break;
             case "Wall":
-                OnCollisionWithWall();
+                OnCollisionWithWall(ballCollisionInfo);
                 break;
             case "FrontWall":
-                OnCollisionWithFrontWall();
+                OnCollisionWithFrontWall(ballCollisionInfo);
                 break;
             case "Brick":
-                OnCollisionWithBrick();
+                OnCollisionWithBrick(ballCollisionInfo);
                 break;
             default:
                 break;

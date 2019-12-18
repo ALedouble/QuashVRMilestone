@@ -90,7 +90,7 @@ public class LevelInspectorScript : Editor
 
 
     bool canPaintWaypoint;
-
+    bool nameSaved = true;
 
 
 #if (UNITY_EDITOR)
@@ -480,10 +480,17 @@ public class LevelInspectorScript : Editor
 
             if (EditorGUI.EndChangeCheck())
             {
+                nameSaved = false;
+            }
+
+            if (!nameSaved)
+            {
+                Debug.Log("hhhhhh Save");
                 if (GUILayout.Button("Save"))
                 {
                     string assetPath = AssetDatabase.GetAssetPath(myTarget.selectedLevel);
                     AssetDatabase.RenameAsset(assetPath, myTarget.selectedLevel.name);
+                    nameSaved = true;
                 }
             }
 
@@ -949,7 +956,7 @@ public class LevelInspectorScript : Editor
 
         DrawWaypointIcon();
 
-        if(selectedLayer < currentLevel.level.levelWallBuilds.walls.Length - 1)
+        if (selectedLayer < currentLevel.level.levelWallBuilds.walls.Length - 1)
         {
             for (int i = selectedLayer + 1; i < currentLevel.level.levelWallBuilds.walls.Length; i++)
             {
@@ -989,9 +996,9 @@ public class LevelInspectorScript : Editor
                 }
             }
         }
-        
-        
-        
+
+
+
     }
 
     private void RefreshBrick(int brickPos)
@@ -1253,6 +1260,9 @@ public class LevelInspectorScript : Editor
             }
 
             currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
+
+            CleanLayer();
+            SpawnLayer();
         }
 
         GUI.Label(new Rect(87, 46, 30, 25), "/", slashStyle);
@@ -1286,14 +1296,42 @@ public class LevelInspectorScript : Editor
                 currentLevel.level.levelWallBuilds.walls[i] = new Wall(newTotalColumns * newTotalRows);
             }
 
-
-            for (int i = 0; i < oldNumberOfLayers; i++)
+            if (oldNumberOfLayers > numberOfLayers)
             {
-                currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
+                for (int i = 0; i < numberOfLayers; i++)
+                {
+                    currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < oldNumberOfLayers; i++)
+                {
+                    currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
+                }
             }
 
 
+
             myTarget.selectedLevel = currentLevel;
+
+            if (selectedLayer > numberOfLayers - 1)
+            {
+                selectedLayer = numberOfLayers - 1;
+
+                currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
+
+                canPaintWaypoint = false;
+                brickSettingsDisplayed = new BrickSettings();
+
+                CleanLayer();
+                SpawnLayer();
+            }
+            else
+            {
+                CleanLayer();
+                SpawnLayer();
+            }
         }
 
 
@@ -1400,6 +1438,39 @@ public class LevelInspectorScript : Editor
 
         Vector3 gridPos = myTarget.WorldToGridCoordinates(worldPos);
 
+        Event e = Event.current;
+        switch (e.keyCode)
+        {
+            //Debug.Log("Checking");
+
+            case KeyCode.F1:
+                {
+                    currentMode = (EditionMode)0;
+                    RefreshInspector();
+                    break;
+                }
+            case KeyCode.F2:
+                {
+                    currentMode = (EditionMode)1;
+                    RefreshInspector();
+                    break;
+                }
+            case KeyCode.F3:
+                {
+                    currentMode = (EditionMode)2;
+                    RefreshInspector();
+                    break;
+                }
+            case KeyCode.F4:
+                {
+                    if (canPaintWaypoint)
+                    {
+                        currentMode = (EditionMode)3;
+                        RefreshInspector();
+                    }
+                    break;
+                }
+        }
 
 
         int col = (int)gridPos.x;
@@ -1589,6 +1660,8 @@ public class LevelInspectorScript : Editor
             DestroyImmediate(waypointsgo[i]);
         }
 
+        waypointsgo.Clear();
+
         for (int i = 0; i < currentLayer.wallBricks.Count; i++)
         {
             if (currentLayer.wallBricks[i].isBrickHere)
@@ -1746,7 +1819,6 @@ public class LevelInspectorScript : Editor
 
             DestroyImmediate(objToDestroy);
 
-
             BrickSettings blankBrick = new BrickSettings();
 
             myTarget.bricksOnLayer--;
@@ -1764,6 +1836,12 @@ public class LevelInspectorScript : Editor
                 case 2:
                     myTarget.numberOfColoredBrick02--;
                     break;
+            }
+
+            if (currentLayer.wallBricks[selectedBrick].isMoving)
+            {
+                currentLayer.wallBricks[col * myTarget.totalRows + row].waypointsStorage.Clear();
+                DrawWaypointIcon();
             }
 
             currentLayer.wallBricks[col * myTarget.totalRows + row] = blankBrick;

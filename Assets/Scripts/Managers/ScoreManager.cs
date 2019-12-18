@@ -14,8 +14,7 @@ public class ScoreManager : MonoBehaviour
     [Header("Score")]
     public float[] score;
     public TextMeshProUGUI[] displayedScore;
-    public GameObject scoreDisplayedPrefab;
-    [Range(-1, -8)] public float scoreWallDistance;
+    public GameObject[] scoreHUDprefab;
 
 
     public float finishingFirstScoreBoost;
@@ -38,6 +37,6 @@ public class ScoreManager : MonoBehaviour
         score[playerID] += brickValue;
 
         string textScore = score[playerID].ToString();
-        displayedScore[playerID].text = textScore;
+        //displayedScore[playerID].text = textScore;
     }
 }

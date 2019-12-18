@@ -16,8 +16,8 @@ public class BallColorBehaviour : MonoBehaviour
 
     [Header("Color Settings")]
 
+    // Lier ces materials a un système de color Settings
     public Material[] materials;
-    //public ColorEnum startingColor;
     private int colorID = 0;
 
     private bool isEmpowered;
@@ -61,7 +61,7 @@ public class BallColorBehaviour : MonoBehaviour
     }
 
     [PunRPC]
-    public void TransferEmpowerement()
+    public void TransferEmpowerement(BallCollisionInfo ballCollisionInfo)
     {
         if(RacketManager.instance.isEmpowered)
         {
@@ -75,7 +75,7 @@ public class BallColorBehaviour : MonoBehaviour
         isEmpowered = true;
     }
 
-    private void WallBaseSwitchColor()
+    private void WallBaseSwitchColor(BallCollisionInfo ballCollisionInfo)
     {
         if(isEmpowered)
         {
@@ -84,7 +84,7 @@ public class BallColorBehaviour : MonoBehaviour
         }
     }
 
-    private void RacketBaseSwitchColor()
+    private void RacketBaseSwitchColor(BallCollisionInfo ballCollisionInfo)
     {
         if (RacketManager.instance.isEmpowered)
         {

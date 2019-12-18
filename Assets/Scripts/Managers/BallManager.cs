@@ -29,7 +29,11 @@ public class BallManager : MonoBehaviour
 
     public BallColorBehaviour GetBallColorBehaviour()
     {
-        return GetBallColorBehaviour();
+        return ballColorBehaviour;
+    }
+    public int GetBallColorID()
+    {
+        return ballColorBehaviour.GetBallColor();
     }
 
     public BallPhysicBehaviour GetBallPhysicsBehaviour()

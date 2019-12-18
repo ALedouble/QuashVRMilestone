@@ -6,7 +6,7 @@ using TMPro;
 public class BrickManager : MonoBehaviour
 {
     [Header("Récupération de la configuration du level")]
-    [HideInInspector] public WallBuilds levelWallsConfig;
+    public WallBuilds levelWallsConfig = new WallBuilds();
     public GameObject prefabBase;
     [HideInInspector] public string prefabPath = "Assets/Prefabs/Bricks";
 

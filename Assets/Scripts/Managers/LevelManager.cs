@@ -21,6 +21,9 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public Transform[] levelTrans;
     public Parenting[] playersParents;
     public Shakers[] playersShakers;
+    public Shaker roomShaker;
+    public GUIHUD playersHUD;
+
     public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
     public EditorScriptable editorPreset;
@@ -47,7 +50,7 @@ public class LevelManager : MonoBehaviour
         instance = this;
 
         ConfigDistribution(debugThisLevel);
-        initValues();
+        InitValues();
     }
 
     private void Start()
@@ -66,9 +69,6 @@ public class LevelManager : MonoBehaviour
 
             for (int k = currentLayer[i]; k < numberOfLayerToDisplay; k++)
             {
-                //Debug.Log("set waypoint of layer : " + k);
-                //Debug.Log("for player : " + i);
-
                 if (k <= currentLevel.level.levelWallBuilds.walls.Length - 1)
                 {
                     SetWaypoints(i, k);
@@ -90,18 +90,37 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set HUD depending on the number of Players
+    /// </summary>
+    void InitHUD()
+    {
+        playersHUD = new GUIHUD();
+        roomShaker = new Shaker();
 
+        Vector3 roomPos = new Vector3(
+                startPos4Player1.x,
+                startPos4Player1.y,
+                startPos4Player1.z);
+
+        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+
+        playersHUD = goHUD.GetComponent<GUIHUD>();
+        roomShaker = goRoom.GetComponent<Shaker>();
+    }
 
     /// <summary>
     /// Set values depending on the number of Players
     /// </summary>
-    void initValues()
+    void InitValues()
     {
         levelTrans = new Transform[numberOfPlayers];
         currentLayer = new int[numberOfPlayers];
         isThereAnotherLayer = new bool[numberOfPlayers];
         startPos = new Vector3[numberOfPlayers];
         NextPos = new Vector3[numberOfPlayers];
+
         changePositionReady = new bool[numberOfPlayers];
         isEverythingDisplayed = new bool[numberOfPlayers];
         BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
@@ -127,16 +146,10 @@ public class LevelManager : MonoBehaviour
             trans.name = "Wall_Of_Player_" + i;
             levelTrans[i] = trans.transform;
 
-            /*
-            Vector3 displayPos = new Vector3(
-                (startPos4Player1.x + ((editorPreset.editorSpaceRecorded[1].x - editorPreset.editorSpaceRecorded[0].x) / 2)) + (posDiffPerPlayer.x * i),
-                startPos4Player1.y + (posDiffPerPlayer.y * i),
-                startPos4Player1.z + ScoreManager.Instance.scoreWallDistance + (posDiffPerPlayer.z * i));
-            GameObject goDisplay = Instantiate(ScoreManager.Instance.scoreDisplayedPrefab);
-            goDisplay.GetComponent<RectTransform>().position = displayPos;
-            goDisplay.name = "Score_Of_Player_" + i;
-            ScoreManager.Instance.displayedScore[i] = goDisplay.GetComponentInChildren<TextMeshProUGUI>();
-            */
+
+
+
+
             playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)

@@ -52,8 +52,10 @@ MonoBehaviour:
   numberOfLayerToDisplay: 1
   levelTrans: []
   playersParents: []
+  playersShakers: []
   startPos4Player1: {x: 0, y: 0, z: 0}
   posDiffPerPlayer: {x: 0, y: 0, z: 0}
+  editorPreset: {fileID: 0}
   currentLayer: 
   startPos: []
   isEverythingDisplayed: 
@@ -239,6 +241,7 @@ MonoBehaviour:
     type: 3}
   spawnJ1: {fileID: 0}
   spawnJ2: {fileID: 0}
+  debugMode: 1
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +349,7 @@ MonoBehaviour:
   offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
+  layerShake: {fileID: 0}
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,8 +437,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20be3e5f422ba9489c47529ddb076d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  displayScore: {fileID: 0}
+  textValues:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minTextSize: 0
+  maxTextSize: 0.251
+  maxScoreValue: 30
+  score: []
+  displayedScore: []
+  scoreDisplayedPrefab: {fileID: 0}
+  scoreWallDistance: 0
+  finishingFirstScoreBoost: 0
 --- !u!1 &7024211451994467589
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,31 +500,35 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 3.1138847
+      outSlope: 3.1138847
       tangentMode: 0
       weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2
+      value: 0
+      inSlope: Infinity
+      outSlope: 3.3232641
+      tangentMode: 7
+      weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.031936094
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.07089618
+      outSlope: 0.07089618
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.041583627
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  impactMaxTime: 1.2
-  impactCurentTime: 0
-  impactPercent: 0
-  impactGo: {fileID: 0}
-  ps: []
+  impactMaxTime: 1
   maxRadius: 0
-  originPos: {x: 0, y: 0, z: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024

@@ -1399,7 +1399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d3475c4ffd3b34aa9d5cda0f2c8d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreData: {fileID: 2495582145702543851}
-  comboData: {fileID: 5905016501652988568}
+  scoreData:
+  - {fileID: 2495582145702543851}
+  comboData:
+  - {fileID: 5905016501652988568}
   fillBarData: {fileID: 3256969756240130405}
   timerData: {fileID: 8338851412709969169}

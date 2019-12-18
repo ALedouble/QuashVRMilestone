@@ -25,11 +25,13 @@ public class PoolManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
+
+        InitPoolDico();
     }
 
-    private void Start()
+    private void InitPoolDico()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 

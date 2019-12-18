@@ -34,7 +34,7 @@ MonoBehaviour:
   - tag: Brick
     prefab: {fileID: 6638883875395251446, guid: 7ca0fe2ad1189764eb393824dbf6740b,
       type: 3}
-    size: 1500
+    size: 2000
   - tag: ScoreText
     prefab: {fileID: 6060744808397351014, guid: 2fb956f0af9d2a244894d103ae9dfe2a,
       type: 3}
@@ -44,14 +44,13 @@ MonoBehaviour:
       type: 3}
     size: 1
   - tag: HUD_01
-    prefab: {fileID: 6060744808397351014, guid: 2fb956f0af9d2a244894d103ae9dfe2a,
+    prefab: {fileID: 1695847572930411680, guid: 5a03154381086b94c90b01f66bb6c453,
       type: 3}
     size: 1
   - tag: Playroom_00
-    prefab: {fileID: 6060744808397351014, guid: 2fb956f0af9d2a244894d103ae9dfe2a,
-      type: 3}
+    prefab: {fileID: 370162124747881589, guid: 182e6ff66de7690439d49a598f7e6dff, type: 3}
     size: 1
   - tag: Playroom_01
-    prefab: {fileID: 6060744808397351014, guid: 2fb956f0af9d2a244894d103ae9dfe2a,
+    prefab: {fileID: 5724817507822973492, guid: b607dfa668ad2e042b5a0b5c6b9778ef,
       type: 3}
     size: 1

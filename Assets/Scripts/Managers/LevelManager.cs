@@ -93,7 +93,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Set HUD depending on the number of Players
     /// </summary>
-    void InitHUD()
+    void InitRoom()
     {
         playersHUD = new GUIHUD();
         roomShaker = new Shaker();
@@ -130,7 +130,7 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.displayedScore = new TMPro.TextMeshProUGUI[numberOfPlayers];
         ScoreManager.Instance.score = new float[numberOfPlayers];
 
-
+        InitRoom();
 
         for (int i = 0; i < numberOfPlayers; i++)
         {

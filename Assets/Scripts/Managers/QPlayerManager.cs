@@ -71,6 +71,10 @@ public class QPlayerManager : MonoBehaviourPun
     {
         //Ajouter Les setting Droitier/Gaucher
         RacketManager.instance.localPlayerRacket.transform.parent = localPlayerRightController.transform;
+        RacketManager.instance.localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
+        RacketManager.instance.localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
+        RacketManager.instance.localPlayerRacket.transform.localPosition = Vector3.zero;
+        RacketManager.instance.localPlayerRacket.transform.localRotation = Quaternion.identity;
     }
 
     private void SetupControllers()

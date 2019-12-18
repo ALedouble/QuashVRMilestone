@@ -12,14 +12,14 @@ public class GameManager : MonoBehaviour
     public GameObject spawnJ1;
     public GameObject spawnJ2;
 
-    public bool debugMode = true;
+    public bool isOffline = true;
 
     public static GameManager Instance;
 
     void Awake()
     {
         Instance = this;
-        PhotonNetwork.OfflineMode = debugMode;
+        PhotonNetwork.OfflineMode = isOffline;
     }
 
     void Start()

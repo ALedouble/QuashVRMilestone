@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IInputable
 {
+    void EnterInputMod();
+
     void OnRightTriggerPress();
 
     void OnRightTriggerRelease();

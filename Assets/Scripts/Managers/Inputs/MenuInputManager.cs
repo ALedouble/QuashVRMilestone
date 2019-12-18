@@ -5,7 +5,17 @@ using VRTK;
 
 public class MenuInputManager : IInputable
 {
+    //Ajouter preference Droitier Gaucher
     public bool rightHandIsActive = true;
+
+    public void EnterInputMod()
+    {
+        //Ajouter preference Droitier Gaucher
+        rightHandIsActive = true;
+
+        SetRightPointerActive(rightHandIsActive);
+        SetLeftPointerActive(!rightHandIsActive);
+    }
     public void OnRightTriggerPress()
     {
         if(rightHandIsActive == false)

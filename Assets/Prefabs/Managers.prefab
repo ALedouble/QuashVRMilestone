@@ -497,20 +497,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 3.1138847
+      outSlope: 3.1138847
       tangentMode: 0
       weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2
+      value: 0
+      inSlope: Infinity
+      outSlope: 3.3232641
+      tangentMode: 7
+      weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.031936094
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.07089618
+      outSlope: 0.07089618
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.041583627
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -519,7 +528,6 @@ MonoBehaviour:
   impactCurentTime: 0
   impactPercent: 0
   maxRadius: 0
-  originPos: {x: 0, y: 0, z: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024

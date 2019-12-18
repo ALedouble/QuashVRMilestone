@@ -68,7 +68,7 @@ public class LevelInspectorScript : Editor
     LevelsScriptable currentLevel;
 
     private GameObject prefabBase;
-    private string prefabPath = "Assets/Prefabs/Bricks";
+    private string prefabPath = "Assets/Resources/Bricks";
 
     private GameObject waypointIcon;
     private string iconPath = "Assets/Prefabs/EditorPrefab";
@@ -210,7 +210,7 @@ public class LevelInspectorScript : Editor
         }
         else
         {
-            //prefabPath = null; // ?
+            prefabPath = null;
             Debug.LogError("Prefab is missing");
         }
     }

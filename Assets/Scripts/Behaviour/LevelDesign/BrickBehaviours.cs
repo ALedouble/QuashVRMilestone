@@ -12,7 +12,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
     [Header("Armor")]
     [Tooltip("How many hit BEFORE the next one kill it")]
     public int armorPoints = 1;
-
+    bool hasBeenHit;
 
     [Header("Waypoint")]
     public bool isMoving;
@@ -45,13 +45,13 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
     public bool isMalus;
 
     [Header("Color ID")]
-    public int colorID;
+    public int colorID; //Couleur du preset ID
 
     [Header("Wall ID")]
-    public int wallID;
+    public int wallID; //Mur du joueur ID
 
     [Header("Saved Value")]
-    public int savedInIndex;
+    public int savedInIndex; //index de la Brick dans la couche
 
 
 
@@ -158,17 +158,50 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
         NextWaypoint();
     }
 
+
     public void HitBrick(int p_dmgPoints = 1)
     {
-        armorPoints--;
-
-        if (armorPoints <= 0)
+        if (!hasBeenHit)
         {
-            PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.identity); //Spawn destroy FX
+            Debug.Log("damage of " + p_dmgPoints);
+            hasBeenHit = true;
+
+            armorPoints--;
+
+
+            if (armorPoints <= 0)
+            {
+                if (TryGetComponent<IBrick>(out IBrick brick))
+                {
+                    BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
+                }
+            }
+            else
+            {
+                StartCoroutine(HitRecoverDelay(1));
+            }
+
         }
 
         //other case scenario
     }
+
+    IEnumerator HitRecoverDelay(float recoverTime)
+    {
+        yield return new WaitForSeconds(recoverTime);
+
+        hasBeenHit = false;
+    }
+
+
+
+
+
+
+
+
+
+
 
     public BrickInfo GetBrickInfo()
     {

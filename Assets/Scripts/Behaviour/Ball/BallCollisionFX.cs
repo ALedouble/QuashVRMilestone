@@ -33,9 +33,6 @@ public class BallCollisionFX : MonoBehaviour
             GameObject obj = PoolManager.instance.SpawnFromPool("BounceFX", impactPosition, 
 
                 Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
-
-            //Debug.DrawRay(this.transform.position, collision.contacts[0].normal, Color.blue, 20);
-            //Debug.DrawRay(this.transform.position, Vector3.up, Color.green, 20);
         }
 
         if (collision.gameObject.tag == "Brick" || collision.gameObject.tag == "FrontWall")
@@ -43,16 +40,9 @@ public class BallCollisionFX : MonoBehaviour
             currentCooldown = 0;
 
             Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
-            Debug.Log("Brick me");
 
             if (canSpawn)
             {
-                //Debug.Log("Spawn an impact");
-                //GameObject obj = PoolManager.instance.SpawnFromPool("ImpactFX", pos, Quaternion.identity);
-                //DebugManager.Instance.DisplayValue(0, collision.impulse.magnitude.ToString());
-                //obj.GetComponent<BallImpactDestruction>().maxRadius = collision.impulse.magnitude;
-                Debug.Log("Set explosion");
-
                 FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude);
 
                 canSpawn = false;
@@ -61,7 +51,8 @@ public class BallCollisionFX : MonoBehaviour
 
         if (collision.collider.TryGetComponent<IBrick>(out IBrick brick))
         {
-            BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
+            //BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
+            collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
         }
     }
 

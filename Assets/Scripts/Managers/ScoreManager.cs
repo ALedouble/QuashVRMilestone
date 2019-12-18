@@ -7,12 +7,19 @@ public class ScoreManager : MonoBehaviour
 {
     [Header("Rapport : Score/Scale")]
     public AnimationCurve textValues; //x/Time : scoreValue, y/Value : sizeValue
+    public float minTextSize;
+    public float maxTextSize;
+    public float maxScoreValue;
 
     [Header("Score")]
     public float[] score;
     public TextMeshProUGUI[] displayedScore;
     public GameObject scoreDisplayedPrefab;
     [Range(-1, -8)] public float scoreWallDistance;
+
+
+    public float finishingFirstScoreBoost;
+
 
     public static ScoreManager Instance;
 

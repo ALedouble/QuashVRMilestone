@@ -17,6 +17,7 @@ public class HitScoreBehaviour : MonoBehaviour
     private float currentTime;
     public float animSpeed = 1f;
     private float maxSize;
+    private float minSize;
 
     bool isAnimationOver = true;
     bool isOnReverse = false;
@@ -26,7 +27,6 @@ public class HitScoreBehaviour : MonoBehaviour
     private void Awake()
     {
         textMesh = GetComponentInChildren<TextMeshProUGUI>();
-        //scoreTextRect = GetComponentInChildren<RectTransform>();
     }
 
 
@@ -43,7 +43,7 @@ public class HitScoreBehaviour : MonoBehaviour
 
                     percent = textAnim.Evaluate(currentTime);
 
-                    textMesh.fontSize = percent * maxSize;
+                    textMesh.fontSize = minSize + (percent * maxSize);
                     scoreTextRect.localPosition = new Vector3(0, percent * 0.05f, percent * -0.8f);
                 }
                 else
@@ -79,7 +79,13 @@ public class HitScoreBehaviour : MonoBehaviour
         textMesh.text = scoreValue.ToString();
         textMesh.color = textColor;
 
-        maxSize = ScoreManager.Instance.textValues.Evaluate(scoreValue);
+        float getSize = 0;
+        float timeToGet = scoreValue / ScoreManager.Instance.maxScoreValue;
+        minSize = ScoreManager.Instance.minTextSize;
+
+        getSize = ScoreManager.Instance.textValues.Evaluate(timeToGet); //"return" une valeur entre 0 et 1
+        maxSize = (getSize * (ScoreManager.Instance.maxTextSize - minSize));
+        
 
         currentTime = 0;
         isOnReverse = false;

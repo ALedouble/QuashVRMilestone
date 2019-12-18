@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-[CreateAssetMenu(fileName = "ShakeAsset_00", menuName = "Custom/ShakeAsset", order = 1)]
+[CreateAssetMenu(fileName = "SC_Shake_ShakeName_00", menuName = "Custom/ShakeAsset", order = 1)]
 public class Shake : ScriptableObject
 {
     [SerializeField] AnimationCurve shakeOverLifetime;
@@ -14,6 +14,10 @@ public class Shake : ScriptableObject
     [SerializeField] bool shakeX = true;
     [SerializeField] bool shakeY = true;
     [SerializeField] bool shakeZ = true;
+
+    [Space]
+
+    [SerializeField] float speedMultiplier = 1.0f;
 
     public Shake(AnimationCurve p_shakeOverLifetime, AnimationCurve p_frequencyOverLifetime,float p_lifeTime,float p_shakeMagnitude, float p_shakeFrequency,bool p_shakeX = true,bool p_shakeY = true,bool p_shakeZ = true)
     {
@@ -44,5 +48,6 @@ public class Shake : ScriptableObject
     public bool ShakeY { get => shakeY; private set => shakeY = value; }
     public float ShakeFrequency { get => shakeFrequency; private set => shakeFrequency = value; }
     public bool ShakeZ { get => shakeZ; private set => shakeZ = value; }
-    public AnimationCurve FrequencyOverLifetime { get => frequencyOverLifetime; set => frequencyOverLifetime = value; }
+    public AnimationCurve FrequencyOverLifetime { get => frequencyOverLifetime; private set => frequencyOverLifetime = value; }
+    public float SpeedMultiplier { get => speedMultiplier; private set => speedMultiplier = value; }
 }

@@ -112,6 +112,12 @@ public class QPlayerManager : MonoBehaviourPun
         return  player1LeftController;
     }
 
+    public void AssociateRacketWithController()
+    {
+        //Ajouter Les setting Droitier/Gaucher
+        RacketManager.instance.localPlayerRacket.transform.parent = localPlayerRightController.transform;
+    }
+
     private void SetupControllers()
     {
         localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().Get();

@@ -350,7 +350,7 @@ MonoBehaviour:
   offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
-  layerShake: {fileID: 11400000, guid: 3dab91117c4d3c04bbd4c6d27b7eab7a, type: 2}
+  layerShake: {fileID: 11400000, guid: 8a9dd23c5930d2643aefe6bb4e462518, type: 2}
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,15 +471,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minTextSize: 0.01
-  maxTextSize: 0.251
-  maxScoreValue: 30
   score: []
   displayedScore: []
-  scoreDisplayedPrefab: {fileID: 7041889826128242043, guid: ca24e4f8024c287419962fdac1d81321,
-    type: 3}
-  scoreWallDistance: -5
-  finishingFirstScoreBoost: 0
+  scoreDisplayedPrefab: {fileID: 0}
+  scoreWallDistance: 0
 --- !u!1 &7024211451994467589
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +551,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  impactMaxTime: 1
+  impactMaxTime: 1.2
+  impactCurentTime: 0
+  impactPercent: 0
   maxRadius: 0
   layerMask:
     serializedVersion: 2

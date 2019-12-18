@@ -7,9 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     public GameObject prefabPlayer;
-
 
     public GameObject spawnJ1;
     public GameObject spawnJ2;
@@ -17,7 +15,6 @@ public class GameManager : MonoBehaviour
     public bool debugMode = true;
 
     public static GameManager Instance;
-
 
     void Awake()
     {
@@ -31,22 +28,26 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //PhotonNetwork.Instantiate("LocalRacket", Vector3.zero, Quaternion.identity);
+        //PhotonNetwork.Instantiate("ForeignRacket", Vector3.zero, Quaternion.identity);
         if (PhotonNetwork.IsMasterClient){
             QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject, 1);
 
-            RacketManager.instance.SetPlayerRacket(1);
+            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("Racket", Vector3.zero, Quaternion.identity) as GameObject);
         }
         else
         {
             QPlayerManager.instance.SetPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject, 2);
 
-            RacketManager.instance.SetPlayerRacket(2);
+            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("Racket", Vector3.zero, Quaternion.identity) as GameObject);
         }
-       
+
+        
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
     }
+
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

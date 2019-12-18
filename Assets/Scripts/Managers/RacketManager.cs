@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
+using Photon.Pun;
 
 
 public class RacketManager : MonoBehaviour//, //IGrabCaller
@@ -24,34 +25,36 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     }
     #endregion
 
-    public GameObject[] rackets = new GameObject[2];
     public GameObject localPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
     public bool isEmpowered = false;
 
-    public void SetPlayerRacket(int racketID)
+    public void SetLocalRacket(GameObject localRacket)
     {
-        if ((racketID - 1) < rackets.Length)
-        {
-            localPlayerRacket = rackets[racketID - 1];
-            SetInactiveOtherRackets(racketID - 1);
-        }
+        localPlayerRacket = localRacket;
+        QPlayerManager.instance.AssociateRacketWithController();
+
+        //if ((racketID - 1) < rackets.Length)
+        //{
+        //    localPlayerRacket = rackets[racketID - 1];
+        //    //SetInactiveOtherRackets(racketID - 1);
+        //}
     }
 
-    private void SetInactiveOtherRackets(int activeRacket)
-    {
-        for (int i = 0; i < rackets.Length; i++)
-        {
-            if (i == activeRacket)
-            {
-                rackets[i].SetActive(true);
-            }
-            else
-            {
-                // rackets[i].SetActive(false);
-            }
-        }
-    }
+    //private void SetInactiveOtherRackets(int activeRacket)
+    //{
+    //    for (int i = 0; i < rackets.Length; i++)
+    //    {
+    //        if (i == activeRacket)
+    //        {
+    //            rackets[i].SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            // rackets[i].SetActive(false);
+    //        }
+    //    }
+    //}
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
 

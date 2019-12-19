@@ -14,6 +14,8 @@ public class ScoreManager : MonoBehaviour
     [Header("Score")]
     public float[] score;
     public float[] combo;
+    public int[] brickCounterGauge;
+    public int maxCounter;
 
     public GUIScoreData[] displayedScore;
     public GUIComboData[] displayedCombo;
@@ -53,13 +55,22 @@ public class ScoreManager : MonoBehaviour
     /// Incremente le score
     /// </summary>
     /// <param name="brickValue">Brick value for the score</param>
-    public void SetCombo(int increment, int playerID)
+    public void SetCombo(int playerID)
     {
-        Debug.Log("Incrémentation du combo de " + increment + " pour le joueur " + playerID);
-        combo[playerID] += increment;
+        Debug.Log("Incrémentation du counter de " + 1 + " pour le joueur " + playerID);
+        brickCounterGauge[playerID] ++;
 
-        string textCombo = combo[playerID].ToString();
-        displayedCombo[playerID].UpdateText("x" + textCombo);
+        if (brickCounterGauge[playerID] >= maxCounter)
+        {
+            Debug.Log("Incrémentation du combo de " + 1 + " pour le joueur " + playerID);
+            brickCounterGauge[playerID] = 0;
+            combo[playerID]++;
+            string textCombo = combo[playerID].ToString();
+            displayedCombo[playerID].UpdateText("x" + textCombo);
+        }
+
+        //Update fill Image 
+        //Play anim combo increased
     }
 
     /// <summary>

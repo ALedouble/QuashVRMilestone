@@ -131,6 +131,7 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.displayedCombo = new GUIComboData[numberOfPlayers];
         ScoreManager.Instance.score = new float[numberOfPlayers];
         ScoreManager.Instance.combo = new float[numberOfPlayers];
+        ScoreManager.Instance.brickCounterGauge = new int[numberOfPlayers];
 
         InitRoom();
 

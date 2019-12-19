@@ -69,6 +69,8 @@ public class BrickManager : MonoBehaviour
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
         ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);
+        ScoreManager.Instance.SetCombo(touchedBrick.WallID);
+        ScoreManager.Instance.resetCombo = false;
         UpdateBrickLevel(touchedBrick.WallID);
     }
 

@@ -596,12 +596,14 @@ MonoBehaviour:
   debugThisLevel: 0
   numberOfPlayers: 2
   layerDiffPosition: 0.6
-  numberOfLayerToDisplay: 5
+  numberOfLayerToDisplay: 3
   levelTrans:
   - {fileID: 0}
   - {fileID: 0}
   playersParents: []
   playersShakers: []
+  roomShaker: {fileID: 0}
+  playersHUD: {fileID: 0}
   startPos4Player1: {x: 0, y: 0, z: 0}
   posDiffPerPlayer: {x: 5, y: 0, z: 0}
   editorPreset: {fileID: 11400000, guid: 0a36c470dd78c134e906ec9a44c43a18, type: 2}
@@ -788,7 +790,7 @@ MonoBehaviour:
   prefabPlayer: {fileID: 0}
   spawnJ1: {fileID: 0}
   spawnJ2: {fileID: 0}
-  debugMode: 1
+  isOffline: 1
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3a515cef68b6d4a876a2f21fe767bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  racketPrefab: {fileID: 0}
   localPlayerRacket: {fileID: 0}
   deltaHitTime: 1
   isEmpowered: 0
@@ -1020,8 +1023,7 @@ MonoBehaviour:
   maxScoreValue: 0
   score: []
   displayedScore: []
-  scoreDisplayedPrefab: {fileID: 0}
-  scoreWallDistance: 0
+  scoreHUDprefab: []
   finishingFirstScoreBoost: 0
 --- !u!1 &7024211451994467589
 GameObject:

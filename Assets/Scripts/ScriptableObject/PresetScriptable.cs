@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine; 
 
 [CreateAssetMenu(fileName = "SC_ColorPreset_", menuName = "Custom/ColorPreset", order = 130)]
 public class PresetScriptable : ScriptableObject
@@ -12,6 +12,6 @@ public class PresetScriptable : ScriptableObject
 public struct ColorPreset
 {
     public string tag;
-    public Color fresnelColors;
-    public Color coreEmissiveColors;
+    [ColorUsage(true, true)] public Color fresnelColors;
+    [ColorUsage(true, true)] public Color coreEmissiveColors;
 }

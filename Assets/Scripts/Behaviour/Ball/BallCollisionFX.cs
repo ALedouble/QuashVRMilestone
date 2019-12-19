@@ -37,6 +37,10 @@ public class BallCollisionFX : MonoBehaviour
 
         if (collision.gameObject.tag == "Brick" || collision.gameObject.tag == "FrontWall")
         {
+            ScoreManager.Instance.resetCombo = true;
+
+            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, 0)); //Placeholder for ballID _ "0"
+
             currentCooldown = 0;
 
             Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
@@ -66,5 +70,13 @@ public class BallCollisionFX : MonoBehaviour
         }
     }
 
+    public IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)
+    {
+        yield return new WaitForSeconds(timeBeforeCheck);
 
+        if (ScoreManager.Instance.resetCombo)
+        {
+            ScoreManager.Instance.ResetCombo(playerID);
+        }
+    }
 }

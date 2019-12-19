@@ -11,7 +11,6 @@ public class PostProcessFlash : MonoBehaviour
     [SerializeField, ReadOnly] float animCount = 0.0f;
     [SerializeField, ReadOnly] bool isAnimating;
 
-
     [Header("Bloom settings")]
     [SerializeField, ReadOnly] Bloom bloom;
     [SerializeField] AnimationCurve bloomEvolution;
@@ -29,7 +28,6 @@ public class PostProcessFlash : MonoBehaviour
         Animation();
     }
 
-    [Button]
     protected virtual void StartAnim(BallCollisionInfo ballCollisionInfo)
     {
         animCount = 0.0f;

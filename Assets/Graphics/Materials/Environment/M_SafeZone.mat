@@ -63,6 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_939CDD3C: 0.8
+    - Vector1_D84448C6: 0.9
     - _AlphaClip: 0
     - _AngleRadius: 0.1
     - _Blend: 0
@@ -72,7 +73,9 @@ Material:
     - _DissolveDistanceRange: 0
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FrameHeight: 1.6
     - _FrameSize: 0.69
+    - _FrameWidth: 2.7
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -89,11 +92,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Vector2_11EA59FA: {r: 0, g: 0, b: 0, a: 0}
     - Vector3_BB55A5B0: {r: 1.85, g: 0, b: 1.3, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _RadialShear: {r: 0, g: 0, b: 0, a: 0}
-    - _SafeZoneColor: {r: 0.345098, g: 1.788235, b: 2.996078, a: 1}
+    - _SafeZoneColor: {r: 2.938221, g: 0.46073294, b: 4, a: 1}
+    - _SafeZoneOffset: {r: -0.85, g: -0.3, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 6, g: 6, b: 0, a: 0}

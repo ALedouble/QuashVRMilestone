@@ -30,7 +30,7 @@ public class PostProcessFlash : MonoBehaviour
     }
 
     [Button]
-    protected virtual void StartAnim(BallCollisionInfo ballCollisionInfo)
+    protected virtual void StartAnim()
     {
         animCount = 0.0f;
         isAnimating = true;

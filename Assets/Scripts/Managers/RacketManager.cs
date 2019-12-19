@@ -49,8 +49,9 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).transform;
         localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
         localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
-        localPlayerRacket.transform.localPosition = grabPosition.localPosition; 
-        localPlayerRacket.transform.localRotation = grabPosition.localRotation;
+        localPlayerRacket.transform.localPosition = new Vector3(0f, 0.02f, 0.6f); //grabPosition.localPosition; 
+        localPlayerRacket.transform.localEulerAngles = new Vector3(0f, 180f, 90f); //grabPosition.localRotation;
+        //localPlayerRacket.tag = "Racket";
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
@@ -73,17 +74,11 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public void EnterEmpoweredState()
     {
         isEmpowered = true;
-
-
-        Debug.Log("Oué oué oué!");
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
-
-
-        Debug.Log("oups!");
     }
 }
 

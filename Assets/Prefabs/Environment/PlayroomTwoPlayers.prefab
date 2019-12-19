@@ -1743,12 +1743,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5724817507704726602}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bb782554c9495a498067bc278ad24c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballTransform: {fileID: 0}
+  ballTransform: {fileID: 4822642385164060240, guid: 86aa4bc98f473ea45b90047a06625a42,
+    type: 3}
 --- !u!1 &5724817507822973492
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,12 +2634,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5724817508317253729}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bb782554c9495a498067bc278ad24c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballTransform: {fileID: 0}
+  ballTransform: {fileID: 4822642385164060240, guid: 86aa4bc98f473ea45b90047a06625a42,
+    type: 3}
 --- !u!1 &5724817508685463515
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class SoundClass : ScriptableObject
 [System.Serializable]
 public struct SoundSettings
 {
+    public string soundName;
     public enum Tags { Brick, Impact, Wall, Floor, Racket, FrontWall }
     public Tags tag;
 

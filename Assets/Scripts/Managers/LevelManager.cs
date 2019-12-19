@@ -19,10 +19,10 @@ public class LevelManager : MonoBehaviour
     public float layerDiffPosition = 0.6f;
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
-    public Parenting[] playersParents;
-    public Shakers[] playersShakers;
-    public Shaker roomShaker;
-    public GUIHUD playersHUD;
+    [HideInInspector] public Parenting[] playersParents;
+    [HideInInspector] public Shakers[] playersShakers;
+    [HideInInspector] public Shaker roomShaker;
+    [HideInInspector] public GUIHUD playersHUD;
 
     public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
@@ -37,8 +37,8 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public bool[] isEverythingDisplayed;
     bool[] firstSetUpDone;
 
-    [Range(0, 1)] public float smoothTime;
-    [Range(2f, 10)] public float sMaxSpeed;
+    [Range(0.01f, 1f)] public float smoothTime;
+    [Range(2f, 10f)] public float sMaxSpeed;
 
 
     public static LevelManager instance;
@@ -127,8 +127,11 @@ public class LevelManager : MonoBehaviour
         playersParents = new Parenting[numberOfPlayers];
         playersShakers = new Shakers[numberOfPlayers];
         firstSetUpDone = new bool[numberOfPlayers];
-        ScoreManager.Instance.displayedScore = new TMPro.TextMeshProUGUI[numberOfPlayers];
+        ScoreManager.Instance.displayedScore = new GUIScoreData[numberOfPlayers];
+        ScoreManager.Instance.displayedCombo = new GUIComboData[numberOfPlayers];
         ScoreManager.Instance.score = new float[numberOfPlayers];
+        ScoreManager.Instance.combo = new float[numberOfPlayers];
+        ScoreManager.Instance.brickCounterGauge = new int[numberOfPlayers];
 
         InitRoom();
 
@@ -146,12 +149,14 @@ public class LevelManager : MonoBehaviour
             trans.name = "Wall_Of_Player_" + i;
             levelTrans[i] = trans.transform;
 
+            ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreData[i];
+            ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];
 
 
 
+                playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 
-            playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
-
+            //Spawn les PARENTS pour chaque LAYER du mur d'un joueur
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)
             {
                 GameObject obj = new GameObject();
@@ -206,7 +211,7 @@ public class LevelManager : MonoBehaviour
                     }
                 }
 
-                ScoreManager.Instance.IncrementScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
+                ScoreManager.Instance.SetScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
             }
 
             StartCoroutine(GoWALLgO(playerID));

@@ -82,7 +82,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minBloomIntensity: 0
-  maxBloomIntensity: 50
+  maxBloomIntensity: 30
 --- !u!1 &6060072582621619404
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,28 +144,19 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.6697034
-      value: 0.89150655
-      inSlope: -0.44957572
-      outSlope: -0.44957572
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -4.3193073
-      outSlope: -4.3193073
+      inSlope: -0.036556605
+      outSlope: -0.036556605
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.07935187
+      inWeight: 0.06451613
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   minBloomIntensity: 0
-  maxBloomIntensity: 30
+  maxBloomIntensity: 26
 --- !u!1 &6937498788346901310
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +230,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minBloomIntensity: 0
-  maxBloomIntensity: 60
+  maxBloomIntensity: 30
 --- !u!1 &7007212452373148804
 GameObject:
   m_ObjectHideFlags: 0

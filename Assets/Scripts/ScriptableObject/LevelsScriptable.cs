@@ -11,6 +11,7 @@ using Malee;
 public class LevelsScriptable : ScriptableObject
 {
     public LevelSettings level;
+    public float timeForThisLevel;
 
     public LevelsScriptable()
     {

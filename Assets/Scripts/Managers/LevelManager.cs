@@ -77,6 +77,8 @@ public class LevelManager : MonoBehaviour
 
             BrickManager.Instance.SetCurrentBrickOnLayer(i);
         }
+
+        GameManager.Instance.StartTheGame();
     }
 
     private void Update()
@@ -108,6 +110,7 @@ public class LevelManager : MonoBehaviour
 
         playersHUD = goHUD.GetComponent<GUIHUD>();
         roomShaker = goRoom.GetComponent<Shaker>();
+        GameManager.Instance.timerData = playersHUD.TimerData;
     }
 
     /// <summary>
@@ -133,6 +136,9 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.combo = new float[numberOfPlayers];
         ScoreManager.Instance.brickCounterGauge = new int[numberOfPlayers];
 
+        GameManager.Instance.timeMax = currentLevel.timeForThisLevel;
+        GameManager.Instance.currentTimer = GameManager.Instance.timeMax;
+
         InitRoom();
 
         for (int i = 0; i < numberOfPlayers; i++)
@@ -151,10 +157,10 @@ public class LevelManager : MonoBehaviour
 
             ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreData[i];
             ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];
+            ScoreManager.Instance.combo[i] = 1;
 
 
-
-                playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
+            playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 
             //Spawn les PARENTS pour chaque LAYER du mur d'un joueur
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)
@@ -285,7 +291,7 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator GoWALLgO(int playerID)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.95f);
 
         changePositionReady[playerID] = true;
 

@@ -485,7 +485,6 @@ public class LevelInspectorScript : Editor
 
             if (!nameSaved)
             {
-                Debug.Log("hhhhhh Save");
                 if (GUILayout.Button("Save"))
                 {
                     string assetPath = AssetDatabase.GetAssetPath(myTarget.selectedLevel);
@@ -495,6 +494,14 @@ public class LevelInspectorScript : Editor
             }
 
             EditorGUILayout.EndHorizontal();
+
+            currentLevel.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.timeForThisLevel);
+
+            if(currentLevel.timeForThisLevel == 0)
+            {
+                EditorGUILayout.HelpBox("Le Timer ne peut être égale à 0", MessageType.Warning);
+                EditorGUILayout.HelpBox("Non mais allo quoi ?!", MessageType.Error);
+            }
         }
         else
             myTarget.levelCategories = null;

@@ -68,7 +68,7 @@ public class BrickManager : MonoBehaviour
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
-        ScoreManager.Instance.IncrementScore(touchedBrick.ScoreValue, touchedBrick.WallID);
+        ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);
         UpdateBrickLevel(touchedBrick.WallID);
     }
 

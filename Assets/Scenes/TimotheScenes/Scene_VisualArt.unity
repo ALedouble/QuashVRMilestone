@@ -52734,6 +52734,54 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1309968930}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1314071120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1314071122}
+  - component: {fileID: 1314071121}
+  m_Layer: 8
+  m_Name: PP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1314071121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314071120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: ef5bbae02a950fa498cf3b91311a473a, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 1
+--- !u!4 &1314071122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314071120}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 37
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1319350444
 GameObject:
   m_ObjectHideFlags: 0
@@ -78018,6 +78066,21 @@ PrefabInstance:
         type: 3}
       propertyPath: textValues.m_Curve.Array.data[3].outWeight
       value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: maxScoreValue
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: maxTextSize
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: minTextSize
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2113905627460504248, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}

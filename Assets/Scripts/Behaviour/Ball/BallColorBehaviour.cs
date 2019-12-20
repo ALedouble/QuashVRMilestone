@@ -10,7 +10,7 @@ public enum ColorSwitchTrigerType
     WALLBASED
 }
 
-public class BallColorBehaviour : MonoBehaviour, IPunObservable
+public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 {
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
@@ -115,9 +115,10 @@ public class BallColorBehaviour : MonoBehaviour, IPunObservable
         colorID = (colorID + 1) % materials.Length;
         renderer.material = materials[colorID];
     }
-
+/*
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         throw new System.NotImplementedException();
     }
+    */
 }

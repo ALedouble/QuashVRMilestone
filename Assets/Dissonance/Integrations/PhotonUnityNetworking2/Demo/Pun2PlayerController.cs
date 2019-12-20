@@ -43,6 +43,7 @@ namespace Dissonance.Integrations.PhotonUnityNetworking2.Demo
                 transform.position = Vector3.Lerp(transform.position, _correctPlayerPos, Time.deltaTime * 5);
                 transform.rotation = Quaternion.Lerp(transform.rotation, _correctPlayerRot, Time.deltaTime * 5);
             }
+            
         }
 
         void IPunObservable.OnPhotonSerializeView([NotNull] PhotonStream stream, PhotonMessageInfo info)

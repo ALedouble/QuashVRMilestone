@@ -122,16 +122,19 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
         }
 
-        if(PhotonNetwork.OfflineMode)
+
+        photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
+        /*
+        if ( true)//PhotonNetwork.OfflineMode)
         {
             //OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
             OnBallCollision(other.gameObject.tag);
         }
-        else if (photonView.IsMine)
+        else //if //(photonView.IsMine)
         {
             photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
         }
-
+        */
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system
        // AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
@@ -177,7 +180,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
-        if(PhotonNetwork.OfflineMode)
+        photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+
+        if (switchIsRacketBased)
+        {
+            photonView.RPC("SwitchTarget", RpcTarget.All);
+        }
+
+        /*
+        if (PhotonNetwork.OfflineMode)
         {
             RacketApplyNewVelocity(newVelocity, transform.position);
             RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
@@ -192,7 +204,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 photonView.RPC("SwitchTarget", RpcTarget.All);
             }
         }
-    }
+        */
+
+       }
 
     [PunRPC]
     private void RacketApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit)
@@ -225,7 +239,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void MagicalBounce3()           //Question: Repère par raport au terrain
     {
-        if (!switchIsRacketBased && photonView.IsMine)
+        if (!switchIsRacketBased) // && photonView.IsMine)
         {
             photonView.RPC("SwitchTarget", RpcTarget.All);
         }
@@ -269,7 +283,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
         else
         {
-            return xReturnsPoints[0].position;
+            return xReturnsPoints[1].position;
         }
     }
 

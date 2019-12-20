@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     public float layerDiffPosition = 0.6f;
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
-    [HideInInspector] public Parenting[] playersParents;
+     public Parenting[] playersParents;
     [HideInInspector] public Shakers[] playersShakers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     public Vector3 posDiffPerPlayer;
     public EditorScriptable editorPreset;
 
-    [HideInInspector] public int[] currentLayer;
+     public int[] currentLayer;
     bool[] isThereAnotherLayer;
     [HideInInspector] public Vector3[] startPos;
     Vector3[] NextPos;
@@ -233,7 +233,10 @@ public class LevelManager : MonoBehaviour
         {
             isThereAnotherLayer[playerID] = false;
         }
+        //Debug.Log("NumberOfPlayers : " + playersParents.Length);
+        //Debug.Log("NumberOf Layers : " + playersParents[playerID].layersParent.Length);
 
+        //BrickManager.Instance.ActivateMovingBricks(playerID);
         firstSetUpDone[playerID] = true;
     }
 

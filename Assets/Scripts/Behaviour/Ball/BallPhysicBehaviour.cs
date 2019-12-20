@@ -123,20 +123,20 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
 
 
-        photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
-        /*
-        if ( true)//PhotonNetwork.OfflineMode)
+        //photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
+
+        if (PhotonNetwork.OfflineMode)
         {
             //OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
             OnBallCollision(other.gameObject.tag);
         }
-        else //if //(photonView.IsMine)
+        else if (photonView.IsMine)
         {
             photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
         }
-        */
+
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system
-       // AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 
     //[PunRPC]
@@ -152,6 +152,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
         BallEventManager.instance.OnBallCollision(tag);
     }
+
 
     #region RacketInteraction
 
@@ -188,25 +189,23 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             photonView.RPC("SwitchTarget", RpcTarget.All);
         }
 
-        /*
-        if (PhotonNetwork.OfflineMode)
-        {
-            RacketApplyNewVelocity(newVelocity, transform.position);
-            RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
-        }
-        else //if(other.gameObject.GetComponent<PhotonView>().IsMine)
-        {
-            photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
-            RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
-            if (switchIsRacketBased)
-            {
-                photonView.RPC("SwitchTarget", RpcTarget.All);
-            }
-        }
-        */
+        //if (PhotonNetwork.OfflineMode)
+        //{
+        //    RacketApplyNewVelocity(newVelocity, transform.position);
+        //    RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+        //}
+        //else //if(other.gameObject.GetComponent<PhotonView>().IsMine)
+        //{
+        //    photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+        //    RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
-       }
+        //    if (switchIsRacketBased)
+        //    {
+        //        photonView.RPC("SwitchTarget", RpcTarget.All);
+        //    }
+        //}
+    }
 
     [PunRPC]
     private void RacketApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit)
@@ -239,7 +238,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void MagicalBounce3()           //Question: Repère par raport au terrain
     {
-        if (!switchIsRacketBased) // && photonView.IsMine)
+        if (!switchIsRacketBased && photonView.IsMine)
         {
             photonView.RPC("SwitchTarget", RpcTarget.All);
         }
@@ -247,7 +246,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         //RPC Slow?
 
         float verticalVelocity = CalculateVerticalBounceVelocity();
-
         float sideVelocity = CalculateSideBounceVelocity();
 
         rigidbody.velocity = new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness;
@@ -408,7 +406,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         if (stream.IsWriting)
         {
-           stream.SendNext(transform.position);
+            stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
 
         }

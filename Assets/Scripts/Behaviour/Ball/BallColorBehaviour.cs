@@ -111,7 +111,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [PunRPC]
     private void SwitchColor()
     {
-        //ColorManager.instance.SwitchBallColor();
         colorID = (colorID + 1) % materials.Length;
         renderer.material = materials[colorID];
     }

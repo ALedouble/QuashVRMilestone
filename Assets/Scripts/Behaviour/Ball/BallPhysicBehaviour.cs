@@ -67,7 +67,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     [Header("Switch Target Settings")]
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
-    private bool switchIsRacketBased;
+    private bool switchTargetIsRacketBased;
 
     public Transform[] xReturnsPoints = new Transform[8];
     public Transform zReturnPoints;
@@ -130,7 +130,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             //OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
             OnBallCollision(other.gameObject.tag);
         }
-        else if (photonView.IsMine)
+        else if (PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
         }
@@ -184,11 +184,12 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
-        if (switchIsRacketBased)
+        if (switchTargetIsRacketBased)
         {
             photonView.RPC("SwitchTarget", RpcTarget.All);
         }
 
+        BallManager.instance.TransferEmpowerement();
 
         //if (PhotonNetwork.OfflineMode)
         //{
@@ -238,7 +239,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void MagicalBounce3()           //Question: Repère par raport au terrain
     {
-        if (!switchIsRacketBased && photonView.IsMine)
+        if (!switchTargetIsRacketBased && photonView.IsMine)
         {
             photonView.RPC("SwitchTarget", RpcTarget.All);
         }
@@ -372,11 +373,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         if (switchType == TargetSwitchType.RACKETBASED)
         {
-            switchIsRacketBased = true;
+            switchTargetIsRacketBased = true;
         }
         else
         {
-            switchIsRacketBased = false;
+            switchTargetIsRacketBased = false;
         }
     }
 

@@ -11,8 +11,8 @@ public class DebugString : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        serverName.text = PhotonNetwork.CurrentRoom.Name;
-        regionName.text = PhotonNetwork.CloudRegion;
+        //serverName.text = PhotonNetwork.CurrentRoom.Name;
+        //regionName.text = PhotonNetwork.CloudRegion;
     }
 
     // Update is called once per frame

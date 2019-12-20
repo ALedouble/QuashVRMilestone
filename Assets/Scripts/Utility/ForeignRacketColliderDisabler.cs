@@ -7,7 +7,7 @@ public class ForeignRacketColliderDisabler : MonoBehaviour
 {
     private void Start()
     {
-       if(!(gameObject.GetComponent<PhotonView>().IsMine))
+       if(!PhotonNetwork.OfflineMode && !(gameObject.GetComponent<PhotonView>().IsMine))
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
         }

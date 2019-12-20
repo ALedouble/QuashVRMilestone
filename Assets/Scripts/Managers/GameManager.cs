@@ -8,12 +8,19 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
+    void Awake()
+    {
+        Instance = this;
+
+
+    }
+
     public GameObject prefabPlayer;
 
     public GameObject spawnJ1;
     public GameObject spawnJ2;
-
-    
 
     public GUITimerData timerData;
     public float currentTimer;
@@ -23,18 +30,6 @@ public class GameManager : MonoBehaviour
     private int mSeconds;
 
     bool isGameStart = false;
-
-    public static GameManager Instance;
-
-
-
-
-    void Awake()
-    {
-        Instance = this;
-
-
-    }
 
     void Start()
     {

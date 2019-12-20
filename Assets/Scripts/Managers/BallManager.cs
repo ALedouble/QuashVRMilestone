@@ -27,15 +27,22 @@ public class BallManager : MonoBehaviour
         ballPhysicInfo = ball.GetComponent<PhysicInfo>();
     }
 
-    public BallColorBehaviour GetBallColorBehaviour()
-    {
-        return ballColorBehaviour;
-    }
     public int GetBallColorID()
     {
         return ballColorBehaviour.GetBallColor();
     }
 
+    public void TransferEmpowerement()
+    {
+        if(ballColorBehaviour.colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
+            ballColorBehaviour.TransferEmpowerement();
+    }
+
+    public BallColorBehaviour GetBallColorBehaviour()
+    {
+        return ballColorBehaviour;
+    }
+    
     public BallPhysicBehaviour GetBallPhysicsBehaviour()
     {
         return GetBallPhysicsBehaviour();

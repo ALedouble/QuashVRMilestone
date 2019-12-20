@@ -39,7 +39,7 @@ public class BallCollisionFX : MonoBehaviour
         {
             ScoreManager.Instance.resetCombo = true;
 
-            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, 0)); //Placeholder for ballID _ "0"
+            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, 0)); //BallID
 
             currentCooldown = 0;
 

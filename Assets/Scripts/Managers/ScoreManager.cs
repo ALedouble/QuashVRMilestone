@@ -43,7 +43,6 @@ public class ScoreManager : MonoBehaviour
     /// <param name="brickValue">Brick value for the score</param>
     public void SetScore(int brickValue, int playerID)
     {
-        Debug.Log("Incrémentation du score de " + brickValue + " pour le joueur " + playerID);
         score[playerID] += brickValue * combo[playerID];
 
         string textScore = score[playerID].ToString();
@@ -57,19 +56,21 @@ public class ScoreManager : MonoBehaviour
     /// <param name="brickValue">Brick value for the score</param>
     public void SetCombo(int playerID)
     {
-        Debug.Log("Incrémentation du counter de " + 1 + " pour le joueur " + playerID);
         brickCounterGauge[playerID] ++;
+        
 
         if (brickCounterGauge[playerID] >= maxCounter)
         {
-            Debug.Log("Incrémentation du combo de " + 1 + " pour le joueur " + playerID);
             brickCounterGauge[playerID] = 0;
             combo[playerID]++;
             string textCombo = combo[playerID].ToString();
             displayedCombo[playerID].UpdateText("x" + textCombo);
+
+            displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
         }
 
-        //Update fill Image 
+
+        displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
         //Play anim combo increased
     }
 
@@ -79,10 +80,11 @@ public class ScoreManager : MonoBehaviour
     /// <param name="playerID"></param>
     public void ResetCombo(int playerID)
     {
-        Debug.Log("Reset du combo pour le joueur " + playerID);
         combo[playerID] = 1;
+        brickCounterGauge[playerID] = 0;
 
         string textCombo = combo[playerID].ToString();
         displayedCombo[playerID].UpdateText("x" + textCombo);
+        displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
     }
 }

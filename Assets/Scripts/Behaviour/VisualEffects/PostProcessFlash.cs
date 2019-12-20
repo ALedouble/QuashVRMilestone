@@ -28,7 +28,7 @@ public class PostProcessFlash : MonoBehaviour
         Animation();
     }
 
-    protected virtual void StartAnim(BallCollisionInfo ballCollisionInfo)
+    protected virtual void StartAnim()
     {
         animCount = 0.0f;
         isAnimating = true;

@@ -61,7 +61,8 @@ public class BrickManager : MonoBehaviour
 
 
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
-        score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
+        float newScore = touchedBrick.ScoreValue * ScoreManager.Instance.combo[touchedBrick.WallID]; //BallID
+        score.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
         LevelManager levelManager = LevelManager.instance;
         levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
@@ -71,8 +72,8 @@ public class BrickManager : MonoBehaviour
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
-        ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);
-        ScoreManager.Instance.SetCombo(touchedBrick.WallID);
+        ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);//BallID
+        ScoreManager.Instance.SetCombo(touchedBrick.WallID);//BallID
         ScoreManager.Instance.resetCombo = false;
         UpdateBrickLevel(touchedBrick.WallID);
 

@@ -163,7 +163,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
     {
         if (!hasBeenHit)
         {
-            Debug.Log("damage of " + p_dmgPoints);
+            //Debug.Log("damage of " + p_dmgPoints);
             hasBeenHit = true;
 
             armorPoints--;

@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        
+
+
     }
 
     void Start()
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
         {
             QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject);
 
-            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
+           RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
 
             //  PhotonNetwork.Instantiate(prefabBall.name, prefabBall.transform.position, Quaternion.identity, 0);
         }
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
             RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 
         }
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
 
     }
 

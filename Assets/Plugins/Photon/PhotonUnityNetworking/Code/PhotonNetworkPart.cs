@@ -254,7 +254,7 @@ namespace Photon.Pun
                 HashSet<GameObject> instantiatedGos = new HashSet<GameObject>();
                 foreach (PhotonView view in photonViewList.Values)
                 {
-                    if (view.isRuntimeInstantiated)
+                    if (view != null && view.isRuntimeInstantiated )
                     {
                         instantiatedGos.Add(view.gameObject); // HashSet keeps each object only once
                     }

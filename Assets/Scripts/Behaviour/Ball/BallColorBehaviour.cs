@@ -10,7 +10,7 @@ public enum ColorSwitchTrigerType
     WALLBASED
 }
 
-public class BallColorBehaviour : MonoBehaviour
+public class BallColorBehaviour : MonoBehaviour, IPunObservable
 {
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
@@ -52,6 +52,7 @@ public class BallColorBehaviour : MonoBehaviour
         if (colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
         {
             BallEventManager.instance.OnCollisionWithFrontWall += WallBaseSwitchColor;
+            BallEventManager.instance.OnCollisionWithBrick += WallBaseSwitchColor;
             BallEventManager.instance.OnCollisionWithRacket += TransferEmpowerement;
         }
         else if (colorSwitchTrigerType == ColorSwitchTrigerType.RACKETBASED)
@@ -61,7 +62,7 @@ public class BallColorBehaviour : MonoBehaviour
     }
 
     [PunRPC]
-    public void TransferEmpowerement(BallCollisionInfo ballCollisionInfo)
+    public void TransferEmpowerement()
     {
         if(RacketManager.instance.isEmpowered)
         {
@@ -75,23 +76,35 @@ public class BallColorBehaviour : MonoBehaviour
         isEmpowered = true;
     }
 
-    private void WallBaseSwitchColor(BallCollisionInfo ballCollisionInfo)
+    private void WallBaseSwitchColor()
     {
-        if(isEmpowered)
+        if (isEmpowered)
         {
             isEmpowered = false;
-            photonView.RPC("SwitchColor", RpcTarget.All);
+            if (PhotonNetwork.OfflineMode)
+            {
+                SwitchColor();
+            }
+            else
+            {
+                photonView.RPC("SwitchColor", RpcTarget.All);
+            }
         }
     }
 
-    private void RacketBaseSwitchColor(BallCollisionInfo ballCollisionInfo)
+    private void RacketBaseSwitchColor()
     {
         if (RacketManager.instance.isEmpowered)
         {
-            if(PhotonNetwork.OfflineMode)
+            if (PhotonNetwork.OfflineMode)
+            {
                 SwitchColor();
+            }
             else
+            {
                 photonView.RPC("SwitchColor", RpcTarget.All);
+            }
+                
         }
     }
 
@@ -101,10 +114,10 @@ public class BallColorBehaviour : MonoBehaviour
         //ColorManager.instance.SwitchBallColor();
         colorID = (colorID + 1) % materials.Length;
         renderer.material = materials[colorID];
+    }
 
-        if (colorID == 0)
-            Debug.Log("Rouge");
-        else
-            Debug.Log("Bleu");
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject spawnJ1;
     public GameObject spawnJ2;
 
-    public bool isOffline = true;
+    
 
     public GUITimerData timerData;
     public float currentTimer;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        PhotonNetwork.OfflineMode = isOffline;
+        
     }
 
     void Start()
@@ -40,18 +41,18 @@ public class GameManager : MonoBehaviour
         {
             QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject);
 
-            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("Racket", Vector3.zero, Quaternion.identity) as GameObject);
+            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
 
             //  PhotonNetwork.Instantiate(prefabBall.name, prefabBall.transform.position, Quaternion.identity, 0);
         }
-        else
+        else 
         {
             QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject);
-
-            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("Racket", Vector3.zero, Quaternion.identity) as GameObject);
+           
+            RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
+                
         }
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 60;
+
     }
 
     public void RestartScene()

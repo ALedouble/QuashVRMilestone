@@ -23,7 +23,7 @@ public enum TargetSwitchType
     WALLBASED
 }
 
-public class BallPhysicBehaviour : MonoBehaviour/*, IPunObservable*/
+public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 {
     //Ajouter Le slow en RPC
     private enum SpeedState
@@ -124,22 +124,30 @@ public class BallPhysicBehaviour : MonoBehaviour/*, IPunObservable*/
 
         if(PhotonNetwork.OfflineMode)
         {
-            OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+            //OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+            OnBallCollision(other.gameObject.tag);
         }
         else if (photonView.IsMine)
         {
-            photonView.RPC("OnBallCollision", RpcTarget.All, new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
+            photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
         }
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system
-        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+       // AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 
+    //[PunRPC]
+    //private void OnBallCollision(BallCollisionInfo ballCollisionInfo)
+    //{
+    //    //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
+    //    BallEventManager.instance?.OnBallCollision(ballCollisionInfo);
+    //}
+
     [PunRPC]
-    private void OnBallCollision(BallCollisionInfo ballCollisionInfo)
+    private void OnBallCollision(string tag)
     {
         //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
-        BallEventManager.instance?.OnBallCollision(ballCollisionInfo);
+        BallEventManager.instance.OnBallCollision(tag);
     }
 
     #region RacketInteraction
@@ -174,9 +182,10 @@ public class BallPhysicBehaviour : MonoBehaviour/*, IPunObservable*/
             RacketApplyNewVelocity(newVelocity, transform.position);
             RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
         }
-        else if(other.gameObject.GetComponent<PhotonView>().IsMine)
+        else //if(other.gameObject.GetComponent<PhotonView>().IsMine)
         {
             photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+            RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
             if (switchIsRacketBased)
             {
@@ -380,20 +389,20 @@ public class BallPhysicBehaviour : MonoBehaviour/*, IPunObservable*/
 
     #endregion
 
-    //#region IPunObservable implementation
-    //void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(transform.position);
-    //        stream.SendNext(transform.rotation);
+    #region IPunObservable implementation
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+           stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
 
-    //    }
-    //    else
-    //    {
-    //        transform.position = (Vector3)stream.ReceiveNext();
-    //        transform.rotation = (Quaternion)stream.ReceiveNext();
-    //    }
-    //}
-    //#endregion
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+        }
+    }
+    #endregion
 }

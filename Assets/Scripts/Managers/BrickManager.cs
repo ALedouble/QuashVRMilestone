@@ -28,6 +28,9 @@ public class BrickManager : MonoBehaviour
     public Shake layerShake;
     public Shaker roomShaker;
 
+    [Header("Audio")]
+    public string soundName;
+    [SerializeField] float hitIntensity;
 
     public static BrickManager Instance;
 
@@ -73,6 +76,8 @@ public class BrickManager : MonoBehaviour
         ScoreManager.Instance.SetCombo(touchedBrick.WallID);//BallID
         ScoreManager.Instance.resetCombo = false;
         UpdateBrickLevel(touchedBrick.WallID);
+
+        AudioManager.instance.PlayHitSound(soundName,touchedBrick.Transform.position,touchedBrick.Transform.rotation,hitIntensity);
     }
 
 

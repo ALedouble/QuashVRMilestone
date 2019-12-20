@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6638883875395251444}
   - component: {fileID: -1300675515941316033}
   - component: {fileID: 4949246617415803204}
-  - component: {fileID: 8544091144335389726}
   m_Layer: 10
   m_Name: TheBrick
   m_TagString: Brick
@@ -150,26 +149,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814303b8ffb454b44be1ddf2cc04a897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8544091144335389726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6638883875395251446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 6638883875395251444}
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0

@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     bool isGameStart = false;
 
+    public bool offlineMode = false;
+
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -50,6 +52,10 @@ public class GameManager : MonoBehaviour
         }
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
+
+        if(offlineMode){
+            PhotonNetwork.OfflineMode = true;
+        }
 
     }
 

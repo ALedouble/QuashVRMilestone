@@ -15,12 +15,10 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
     [Header("Color Settings")]
-    //public Material materialBlueprint;
     public PresetScriptable[] colorPresets;
-    // Lier ces materials a un système de color Settings
-    public Material[] materials;
-    public Color testColor;
-    public Color testColor2;
+    public Color lineColor;
+    private Material[] materials;
+
 
     private int colorID = 1;
 
@@ -37,10 +35,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         photonView = PhotonView.Get(this);
 
-        //materials = new Material[2];
+        materials = new Material[2];
         SetupMaterials();
-
-        //Recuperer les couleurs du ColorSettings
     }
 
     public int GetBallColor()
@@ -124,14 +120,17 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void SetupMaterials()
     {
-        //materials[0] = new Material(materialBlueprint);
-        //materials[1] = new Material(materialBlueprint);
+        Debug.Log("SetupMaterials");
+        materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
+        materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
 
-        materials[0].SetColor("GlowColor", testColor /*colorPresets[0].colorPresets[0].coreEmissiveColors*/);
-        materials[0].SetColor("BallColor", testColor /*colorPresets[0].colorPresets[0].fresnelColors*/);
+        materials[0].SetColor("Color_89166C92", colorPresets[0].colorPresets[1].coreEmissiveColors);
+        materials[0].SetColor("Color_69EC7551", colorPresets[0].colorPresets[1].fresnelColors);
+        materials[0].SetColor("Color_DE7EE60A", lineColor);
 
-        materials[1].SetColor("GlowColor", testColor2 /*colorPresets[0].colorPresets[1].coreEmissiveColors*/);
-        materials[1].SetColor("BallColor", testColor2 /*colorPresets[0].colorPresets[1].fresnelColors*/);
+        materials[1].SetColor("Color_89166C92", colorPresets[0].colorPresets[2].coreEmissiveColors);
+        materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].fresnelColors);
+        materials[1].SetColor("Color_DE7EE60A", lineColor);
 
         renderer.material = materials[colorID];
     }

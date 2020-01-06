@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredLevels:
-  - {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
+  - {fileID: 11400000, guid: 90e4369e3dce3a441951f8e5679c5c41, type: 2}
   currentLevel: {fileID: 0}
   currentLevelConfig:
     levelWallBuilds:
@@ -787,10 +787,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11512f2645d1465469c3226de07b66b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPlayer: {fileID: 0}
+  playerPrefab: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
+    type: 3}
+  racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
+    type: 3}
   spawnJ1: {fileID: 0}
   spawnJ2: {fileID: 0}
-  isOffline: 1
+  timerData: {fileID: 0}
+  currentTimer: 0
+  timerSpeedModifier: 0
+  timeMax: 0
+  offlineMode: 0
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,9 +841,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3a515cef68b6d4a876a2f21fe767bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  racketPrefab: {fileID: 0}
+  racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
+    type: 3}
   localPlayerRacket: {fileID: 0}
-  deltaHitTime: 1
+  deltaHitTime: 2
   isEmpowered: 0
 --- !u!1 &3387151942400940763
 GameObject:
@@ -898,6 +906,8 @@ MonoBehaviour:
   malusPoolID: 0
   layerShake: {fileID: 11400000, guid: 8a9dd23c5930d2643aefe6bb4e462518, type: 2}
   roomShaker: {fileID: 0}
+  soundName: 
+  hitIntensity: 0
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,13 +1028,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minTextSize: 0
-  maxTextSize: 0
-  maxScoreValue: 0
-  score: []
+  minTextSize: 0.25
+  maxTextSize: 0.35
+  maxScoreValue: 6000
+  score:
+  - 1
+  combo:
+  - 1
+  brickCounterGauge: 01000000
+  maxCounter: 1
   displayedScore: []
-  scoreHUDprefab: []
-  finishingFirstScoreBoost: 0
+  displayedCombo: []
+  resetCombo: 1
+  finishingFirstScoreBoost: 1
 --- !u!1 &7024211451994467589
 GameObject:
   m_ObjectHideFlags: 0

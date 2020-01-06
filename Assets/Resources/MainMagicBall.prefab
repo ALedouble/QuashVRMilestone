@@ -348,7 +348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758958001795561110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2000001, y: 0, z: 0.20000076}
+  m_LocalPosition: {x: 2.5, y: 0, z: -9}
   m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 0.19999999}
   m_Children:
   - {fileID: 1758958001167005419}
@@ -572,10 +572,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3734e65f27a722b418b26a9f1872c5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorSwitchTrigerType: 1
-  materials:
-  - {fileID: 2100000, guid: 1f0f9b493b9b9bb43bee0575564eb5a3, type: 2}
-  - {fileID: 2100000, guid: 3fa1933eb2b037147bc39616f2d56f39, type: 2}
+  colorSwitchTrigerType: 0
+  colorPresets:
+  - {fileID: 11400000, guid: 13777aa392caf5542bdc3239152fa2eb, type: 2}
+  lineColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.92156863}
 --- !u!114 &4646906268572400308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,9 +601,9 @@ MonoBehaviour:
   maxMagnitude: 0
   slowness: 2
   gravity: 9.81
-  startingPlayer: 0
   depthVelocity: 10
   switchType: 0
+  startingPlayer: 0
   xReturnsPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -631,7 +631,6 @@ MonoBehaviour:
   - {fileID: 323053215}
   - {fileID: -8053101754471880488}
   - {fileID: 4646906268572400308}
-  - {fileID: 4513035634878747323}
   - {fileID: -6548133154734702371}
   viewIdField: 0
   InstantiationId: 0
@@ -658,7 +657,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758958001795561110}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
   m_Name: 

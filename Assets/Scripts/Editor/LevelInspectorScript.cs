@@ -71,7 +71,10 @@ public class LevelInspectorScript : Editor
     private string prefabPath = "Assets/Resources/Bricks";
 
     private GameObject waypointIcon;
-    private string iconPath = "Assets/Prefabs/EditorPrefab";
+    private string iconPath = "Assets/Prefabs/Editor/WaypointPrefab";
+
+    private GameObject frontWall;
+    private string frontPath = "Assets/Prefabs/Editor/FrontWallPrefab";
 
     private PresetScriptable[] colorPresets;
     private string presetPath = "Assets/ScriptableObjects/ColorPresets";
@@ -91,7 +94,7 @@ public class LevelInspectorScript : Editor
 
     bool canPaintWaypoint;
     bool nameSaved = true;
-
+    bool changingNumberOfLayers;
 
 #if (UNITY_EDITOR)
     public void OnEnable()
@@ -107,6 +110,7 @@ public class LevelInspectorScript : Editor
 
         InitEditor();
         InitWaypointPrefab();
+        InitFrontPrefab();
         InitPrefab();
         InitBrickPresets();
         InitColorPresets();
@@ -226,6 +230,20 @@ public class LevelInspectorScript : Editor
         else
         {
             Debug.LogError("Waypoint Prefab is missing");
+        }
+    }
+
+    private void InitFrontPrefab()
+    {
+        if (AssetDatabase.IsValidFolder(frontPath))
+        {
+            string[] prefabPaths = AssetDatabase.FindAssets("t:gameobject", new string[] { frontPath });
+
+            frontWall = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(prefabPaths[0]), typeof(GameObject)) as GameObject;
+        }
+        else
+        {
+            Debug.LogError("FrontWall Prefab is missing");
         }
     }
 
@@ -485,7 +503,6 @@ public class LevelInspectorScript : Editor
 
             if (!nameSaved)
             {
-                Debug.Log("hhhhhh Save");
                 if (GUILayout.Button("Save"))
                 {
                     string assetPath = AssetDatabase.GetAssetPath(myTarget.selectedLevel);
@@ -495,6 +512,14 @@ public class LevelInspectorScript : Editor
             }
 
             EditorGUILayout.EndHorizontal();
+
+            currentLevel.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.timeForThisLevel);
+
+            if (currentLevel.timeForThisLevel == 0)
+            {
+                EditorGUILayout.HelpBox("Le Timer ne peut être égale à 0", MessageType.Warning);
+                EditorGUILayout.HelpBox("Non mais allo quoi ?!", MessageType.Error);
+            }
         }
         else
             myTarget.levelCategories = null;
@@ -836,13 +861,11 @@ public class LevelInspectorScript : Editor
         {
             if (myTarget.bricksOnScreen[i] != null)
             {
-                #region Undo
-                //Undo.DestroyObjectImmediate(myTarget.bricksOnScreen[i]);
-
-                //Undo.RecordObject(this, "Recording Selected Level Choice");
-                //Undo.RecordObject(myTarget, "Recording Selected Level Choice");
-                //Undo.RecordObject(myTarget.selectedLevel, "Recording Selected Name");
-                #endregion
+                if (currentLayer.wallBricks[i].isMoving)
+                {
+                    currentLayer.wallBricks[i].waypointsStorage.Clear();
+                    DrawWaypointIcon();
+                }
 
                 DestroyImmediate(myTarget.bricksOnScreen[i], false);
                 BrickSettings blankBrick = new BrickSettings();
@@ -880,6 +903,8 @@ public class LevelInspectorScript : Editor
             myTarget.bricksOnScreen = new GameObject[editorPreset.columns * editorPreset.rows];
 
             waypointsgo.Clear();
+
+            
         }
     }
 
@@ -997,7 +1022,8 @@ public class LevelInspectorScript : Editor
             }
         }
 
-
+        GameObject frontGo = Instantiate(frontWall);
+        frontGo.transform.parent = myTarget.transform;
 
     }
 
@@ -1238,11 +1264,14 @@ public class LevelInspectorScript : Editor
             }
         }
 
-
-        if (GUI.Button(new Rect(160, 49, 90, 18), new GUIContent("Reset Layer", "Clean Layer's Data")))
+        if (!changingNumberOfLayers)
         {
-            ResetLayer();
+            if (GUI.Button(new Rect(160, 49, 90, 18), new GUIContent("Reset Layer", "Clean Layer's Data")))
+            {
+                ResetLayer();
+            }
         }
+
 
         GUI.Label(new Rect(4, 46, 60, 25), "Layer", layerStyle);
 
@@ -1270,68 +1299,20 @@ public class LevelInspectorScript : Editor
 
 
         //Changement du nombre TOTAL de layer
-        EditorGUI.BeginChangeCheck();
-
         totalLayersDisplayed = EditorGUI.IntField(new Rect(107, 49, 22, 18), totalLayersDisplayed, layerStyle);
 
-        if (EditorGUI.EndChangeCheck())
+        if (totalLayersDisplayed + 1 != numberOfLayers)
         {
-            int oldNumberOfLayers = myTarget.selectedLevel.level.levelWallBuilds.walls.Length;
-            numberOfLayers = totalLayersDisplayed + 1;
+            changingNumberOfLayers = true;
 
-
-
-            List<Wall> tempWalls = new List<Wall>();
-
-            for (int i = 0; i < oldNumberOfLayers; i++)
+            if (GUI.Button(new Rect(160, 49, 90, 18), new GUIContent("Save changes", "Reset Number of Layers")))
             {
-                tempWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
+                ResetNumberOfLayers();
             }
-
-
-            currentLevel.level.levelWallBuilds.walls = new Wall[numberOfLayers];
-
-            for (int i = 0; i < numberOfLayers; i++)
-            {
-                currentLevel.level.levelWallBuilds.walls[i] = new Wall(newTotalColumns * newTotalRows);
-            }
-
-            if (oldNumberOfLayers > numberOfLayers)
-            {
-                for (int i = 0; i < numberOfLayers; i++)
-                {
-                    currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
-                }
-            }
-            else
-            {
-                for (int i = 0; i < oldNumberOfLayers; i++)
-                {
-                    currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
-                }
-            }
-
-
-
-            myTarget.selectedLevel = currentLevel;
-
-            if (selectedLayer > numberOfLayers - 1)
-            {
-                selectedLayer = numberOfLayers - 1;
-
-                currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
-
-                canPaintWaypoint = false;
-                brickSettingsDisplayed = new BrickSettings();
-
-                CleanLayer();
-                SpawnLayer();
-            }
-            else
-            {
-                CleanLayer();
-                SpawnLayer();
-            }
+        }
+        else
+        {
+            changingNumberOfLayers = false;
         }
 
 
@@ -1400,6 +1381,65 @@ public class LevelInspectorScript : Editor
         Handles.EndGUI();
     }
 
+    private void ResetNumberOfLayers()
+    {
+        int oldNumberOfLayers = myTarget.selectedLevel.level.levelWallBuilds.walls.Length;
+        numberOfLayers = totalLayersDisplayed + 1;
+
+
+
+        List<Wall> tempWalls = new List<Wall>();
+
+        for (int i = 0; i < oldNumberOfLayers; i++)
+        {
+            tempWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
+        }
+
+
+        currentLevel.level.levelWallBuilds.walls = new Wall[numberOfLayers];
+
+        for (int i = 0; i < numberOfLayers; i++)
+        {
+            currentLevel.level.levelWallBuilds.walls[i] = new Wall(newTotalColumns * newTotalRows);
+        }
+
+        if (oldNumberOfLayers > numberOfLayers)
+        {
+            for (int i = 0; i < numberOfLayers; i++)
+            {
+                currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < oldNumberOfLayers; i++)
+            {
+                currentLevel.level.levelWallBuilds.walls[i] = tempWalls[i];
+            }
+        }
+
+
+
+        myTarget.selectedLevel = currentLevel;
+
+        if (selectedLayer > numberOfLayers - 1)
+        {
+            selectedLayer = numberOfLayers - 1;
+
+            currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
+
+            canPaintWaypoint = false;
+            brickSettingsDisplayed = new BrickSettings();
+
+            CleanLayer();
+            SpawnLayer();
+        }
+        else
+        {
+            CleanLayer();
+            SpawnLayer();
+        }
+    }
 
 
 

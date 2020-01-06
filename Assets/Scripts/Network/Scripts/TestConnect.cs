@@ -10,10 +10,10 @@ public class TestConnect : MonoBehaviourPunCallbacks
        Screen.fullScreen = !Screen.fullScreen;
 
        Debug.Log("Connecting to Photon...", this);
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 60;
-        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "eu";
-        PhotonNetwork.AutomaticallySyncScene = true;
+       PhotonNetwork.SendRate = 60;
+       PhotonNetwork.SerializationRate = 60;
+       PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "eu";
+       PhotonNetwork.AutomaticallySyncScene = true;
        PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
        PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
        PhotonNetwork.ConnectUsingSettings();

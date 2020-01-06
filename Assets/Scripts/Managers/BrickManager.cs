@@ -61,7 +61,8 @@ public class BrickManager : MonoBehaviour
 
 
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
-        score.GetComponent<HitScoreBehaviour>().SetHitValues(touchedBrick.ScoreValue, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
+        float newScore = touchedBrick.ScoreValue * ScoreManager.Instance.combo[touchedBrick.WallID]; //BallID
+        score.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
         LevelManager levelManager = LevelManager.instance;
         levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
@@ -71,12 +72,12 @@ public class BrickManager : MonoBehaviour
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
-        ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);
-        ScoreManager.Instance.SetCombo(touchedBrick.WallID);
+        ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);//BallID
+        ScoreManager.Instance.SetCombo(touchedBrick.WallID);//BallID
         ScoreManager.Instance.resetCombo = false;
         UpdateBrickLevel(touchedBrick.WallID);
 
-        AudioManager.instance.PlayHitSound(soundName,touchedBrick.Transform.position,touchedBrick.Transform.rotation,hitIntensity);
+        AudioManager.instance.PlayHitSound(soundName, touchedBrick.Transform.position, touchedBrick.Transform.rotation, hitIntensity);
     }
 
 
@@ -149,7 +150,7 @@ public class BrickManager : MonoBehaviour
 
                 if (layerToSpawn.wallBricks[i].isMoving)
                 {
-                    objBehaviours.isMoving = layerToSpawn.wallBricks[i].isMoving;
+                    //objBehaviours.isMoving = layerToSpawn.wallBricks[i].isMoving;// Related to the Level Manager NOW
                     objBehaviours.speed = layerToSpawn.wallBricks[i].speed;
                     objBehaviours.smoothTime = layerToSpawn.wallBricks[i].smoothTime;
                     objBehaviours.waypoints = new List<Vector3>();
@@ -170,8 +171,40 @@ public class BrickManager : MonoBehaviour
         {
             LevelManager.instance.isEverythingDisplayed[playerID] = true;
         }
+
+        ActivateMovingBricks(playerID);
     }
 
+    /// <summary>
+    /// Activate bricks movement on the current front layer
+    /// </summary>
+    /// <param name="bricksTransform"></param>
+    /// <param name="playerID"></param>
+    public void ActivateMovingBricks(int playerID)
+    {
+        Wall layerToSpawn = levelWallsConfig.walls[LevelManager.instance.currentLayer[playerID]];
+
+        List<BrickBehaviours> bricks = new List<BrickBehaviours>();
+
+        //Debug.Log("Current layer : " + LevelManager.instance.currentLayer[playerID]);
+        //Debug.Log("Child Count : " + LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount);
+        if (LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount > 0)
+        {
+            for (int i = 0; i < LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount; i++)
+            {
+                bricks.Add(LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].GetChild(i).gameObject.GetComponent<BrickBehaviours>());
+            }
+        }
+
+
+        for (int i = 0; i < bricks.Count; i++)
+        {
+            if (layerToSpawn.wallBricks[bricks[i].savedInIndex].isMoving)
+            {
+                bricks[i].isMoving = true;
+            }
+        }
+    }
 
     /// <summary>
     /// Get the number of Bricks on the current layer

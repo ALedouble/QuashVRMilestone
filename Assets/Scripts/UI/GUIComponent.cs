@@ -21,5 +21,8 @@ public class GUIComponent : MonoBehaviour
     {
         if (!image) return;
         image.fillAmount = fillAmount;
+
+
+
     }
 }

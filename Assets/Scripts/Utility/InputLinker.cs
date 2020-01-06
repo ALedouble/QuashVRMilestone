@@ -6,21 +6,21 @@ public class InputLinker : MonoBehaviour
 {
     public void OnRightTriggerPress()
     {
-        PlayerInputManager.instance.OnRightTriggerPress();
+        PlayerInputManager.instance?.OnRightTriggerPress();
     }
 
     public void OnRightTriggerRelease()
     {
-        PlayerInputManager.instance.OnRightTriggerRelease();
+        PlayerInputManager.instance?.OnRightTriggerRelease();
     }
 
     public void OnLeftTriggerPress()
     {
-        PlayerInputManager.instance.OnLeftTriggerPress();
+        PlayerInputManager.instance?.OnLeftTriggerPress();
     }
 
     public void OnLeftTriggerRelease()
     {
-        PlayerInputManager.instance.OnLeftTriggerRelease();
+        PlayerInputManager.instance?.OnLeftTriggerRelease();
     }
 }

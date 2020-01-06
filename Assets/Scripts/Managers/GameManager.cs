@@ -8,29 +8,32 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    #region Singleton
     public static GameManager Instance;
 
     void Awake()
     {
         Instance = this;
-
-
     }
+    #endregion
 
+    [Header("Player Settings")]
     public GameObject prefabPlayer;
 
     public GameObject spawnJ1;
     public GameObject spawnJ2;
 
+    [Header("Timer Settings")]
     public GUITimerData timerData;
     public float currentTimer;
     public float timerSpeedModifier;
     public float timeMax;
+
     private int seconds;
     private int mSeconds;
+    private bool isGameStart = false;
 
-    bool isGameStart = false;
-
+    [Header("Offline Mode")]
     public bool offlineMode = false;
 
     void Start()
@@ -48,15 +51,14 @@ public class GameManager : MonoBehaviour
             QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(prefabPlayer.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject);
            
             RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
-                
         }
+
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
 
         if(offlineMode){
             PhotonNetwork.OfflineMode = true;
         }
-
     }
 
     public void RestartScene()

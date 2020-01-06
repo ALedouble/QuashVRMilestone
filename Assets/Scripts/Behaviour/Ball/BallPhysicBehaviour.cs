@@ -61,12 +61,12 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float gravity;
 
     [Header("MagicBounce Settings")]
-    public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
     private Target currentTarget;
     public float depthVelocity;
 
     [Header("Switch Target Settings")]
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
+    public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
     private bool switchTargetIsRacketBased;
 
     public Transform[] xReturnsPoints = new Transform[8];
@@ -191,10 +191,18 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
-        photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+        if(PhotonNetwork.OfflineMode)
+        {
+            RacketApplyNewVelocity(newVelocity, transform.position);
+        }
+        else
+        {
+            photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+        }
+
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
-        if (switchTargetIsRacketBased)
+        if (switchTargetIsRacketBased && !PhotonNetwork.OfflineMode)
         {
             photonView.RPC("SwitchTarget", RpcTarget.All);
         }

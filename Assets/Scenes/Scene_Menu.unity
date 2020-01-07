@@ -1671,6 +1671,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304443288}
   m_CullTransparentMesh: 0
+--- !u!1 &306229745 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4507639601624595165, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4507639602123267283}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &315789972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4638,8 +4644,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11512f2645d1465469c3226de07b66b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPlayer: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
+  playerPrefab: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
     type: 3}
+  racketPrefab: {fileID: 0}
   spawnJ1: {fileID: 1096231840}
   spawnJ2: {fileID: 1096231840}
   timerData: {fileID: 0}
@@ -7988,6 +7995,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1431959819}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 306229745}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1206737450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9147,6 +9176,12 @@ RectTransform:
   m_AnchoredPosition: {x: -0.134, y: -1.4320002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1431959819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5186855831673343762, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4507639602123267283}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1481098836
 GameObject:
   m_ObjectHideFlags: 0
@@ -15723,7 +15758,7 @@ GameObject:
   - component: {fileID: 8013209652902522248}
   m_Layer: 5
   m_Name: "\u25A1 \u25A1 \u25A1 MainMenuFrontCanvas \u25A1 \u25A1 \u25A1"
-  m_TagString: Untagged
+  m_TagString: maincanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

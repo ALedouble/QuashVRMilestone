@@ -10,17 +10,19 @@ public class RoomListing : MonoBehaviour
   [SerializeField]
   private Text _text;
 
-  GameObject currentRoom;
+  GameObject mainCanvas;
   GameObject joinRoom;
+   Transform currentRoom;
 
   public RoomInfo RoomInfo{ get; private set; }
 
     private void Start()
     {
-        currentRoom = GameObject.FindGameObjectWithTag("currentroom");
-        joinRoom = GameObject.FindGameObjectWithTag("joinroom");
+        mainCanvas = GameObject.FindGameObjectWithTag("maincanvas");
+        currentRoom = mainCanvas.transform.Find("■■■■ Current Room Screen ■■■■");
+        
 
-        Debug.Log(joinRoom);
+        joinRoom = GameObject.FindGameObjectWithTag("joinroom");
     }
 
     public void SetRoomInfo(RoomInfo roomInfo){
@@ -31,7 +33,12 @@ public class RoomListing : MonoBehaviour
   public void OnClick_Button(){
        
         joinRoom.SetActive(false);
-        currentRoom.SetActive(true);
+        currentRoom.gameObject.SetActive(true);
+        currentRoom.GetChild(0).gameObject.SetActive(true);
+        currentRoom.GetChild(1).gameObject.SetActive(true);
+        currentRoom.GetChild(3).gameObject.SetActive(true);
+
+
         PhotonNetwork.JoinRoom(RoomInfo.Name);
    
   }

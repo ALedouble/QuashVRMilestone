@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Offline Mode")]
     public bool offlineMode = false;
-
+    
     void Start()
     {
         if (offlineMode)
@@ -71,8 +71,6 @@ public class GameManager : MonoBehaviour
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
-
-        
     }
 
     public void RestartScene()

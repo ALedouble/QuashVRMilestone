@@ -97,16 +97,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void FixedUpdate()
     {
-        if(PhotonNetwork.OfflineMode){
-            Movement();
-        } else if (!PhotonNetwork.OfflineMode){
-            photonView.RPC("Movement", RpcTarget.All);
-        }
-        
-    }
-
-    [PunRPC]
-    private void Movement(){
         lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour le calcul du rebond (méthode Bounce)
         if (speedState == SpeedState.NORMAL)
             rigidbody.AddForce(gravity * Vector3.down);

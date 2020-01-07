@@ -19,17 +19,37 @@ public class LevelsScriptable : ScriptableObject
     }
 }
 
+
 [System.Serializable]
 public class LevelSettings
 {
     public WallBuilds levelWallBuilds;
+    public ProgressionSettings levelProgression;
 
     public LevelSettings()
     {
         levelWallBuilds = new WallBuilds();
+        levelProgression = new ProgressionSettings();
     }
 }
 
+
+
+///////////////////////////  PROGRESSION  //////////////////////////////
+
+[System.Serializable]
+public struct ProgressionSettings
+{
+    public bool isDone;
+    public bool isUnlocked;
+
+    public LevelsScriptable[] unlockConditions;
+
+    public Vector2 offsetLevelPos;
+    public int score;
+    public int stagePos;
+    public int levelID;
+}
 
 
 

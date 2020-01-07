@@ -33,9 +33,8 @@ public class DissonanceOptions : MonoBehaviour
     }
 
     void ModifyVolume(){
-        dissonanceVolume.CurrentFaderVolume = 0.7f;
-        RoomChannel channel = dissonanceComms.RoomChannels.Open("Room", amplitudeMultiplier: 1f);
-        channel.Volume = 0.5f;
-         Debug.Log(channel.Volume);
+     //   RoomChannel channel = dissonanceComms.RoomChannels.Open("Room", amplitudeMultiplier: 1f);
+     //   channel.Volume = 0.5f;
+     //    Debug.Log(channel.Volume);
     }   
 }

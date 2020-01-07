@@ -28,16 +28,20 @@ public class BallEventManager : MonoBehaviour
         switch (tag)
         {
             case "Racket":
-                OnCollisionWithRacket();
+                if(OnCollisionWithRacket != null)
+                    OnCollisionWithRacket();
                 break;
             case "Wall":
-                OnCollisionWithWall();
+                if (OnCollisionWithWall != null)
+                    OnCollisionWithWall();
                 break;
             case "FrontWall":
-                OnCollisionWithFrontWall();
+                if (OnCollisionWithFrontWall != null)
+                    OnCollisionWithFrontWall();
                 break;
             case "Brick":
-                OnCollisionWithBrick();
+                if (OnCollisionWithBrick != null)
+                    OnCollisionWithBrick();
                 break;
             default:
                 break;

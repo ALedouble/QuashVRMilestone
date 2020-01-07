@@ -15,10 +15,12 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
     [Header("Color Settings")]
+    public PresetScriptable[] colorPresets;
+    public Color lineColor;
+    private Material[] materials;
 
-    // Lier ces materials a un système de color Settings
-    public Material[] materials;
-    private int colorID = 0;
+
+    private int colorID = 1;
 
     private bool isEmpowered;
 
@@ -33,7 +35,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         photonView = PhotonView.Get(this);
 
-        //Recuperer les couleurs du ColorSettings
+        materials = new Material[2];
+        SetupMaterials();
     }
 
     public int GetBallColor()
@@ -114,6 +117,25 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         colorID = (colorID + 1) % materials.Length;
         renderer.material = materials[colorID];
     }
+
+    private void SetupMaterials()
+    {
+        Debug.Log("SetupMaterials");
+        materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
+        materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
+
+        materials[0].SetColor("Color_89166C92", colorPresets[0].colorPresets[1].coreEmissiveColors);
+        materials[0].SetColor("Color_69EC7551", colorPresets[0].colorPresets[1].fresnelColors);
+        materials[0].SetColor("Color_DE7EE60A", lineColor);
+
+        materials[1].SetColor("Color_89166C92", colorPresets[0].colorPresets[2].coreEmissiveColors);
+        materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].fresnelColors);
+        materials[1].SetColor("Color_DE7EE60A", lineColor);
+
+        renderer.material = materials[colorID];
+    }
+
+    //Ne plus jamais refaire ça!!!!!!!!!!!
 /*
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

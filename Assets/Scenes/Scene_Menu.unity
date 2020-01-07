@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -846,6 +846,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 4, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &177864129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4507639601338666827, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4507639602123267283}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &177864135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177864129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adc7b2345ac8c548819b1bf513a396d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &184156334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,6 +1234,18 @@ RectTransform:
   m_AnchoredPosition: {x: -0.17, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &240299726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4507639601086231758, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4507639602123267283}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de925532a568fc7429d20e6871792308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &244276350
 GameObject:
   m_ObjectHideFlags: 0
@@ -4759,17 +4789,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 682365203}
-        m_MethodName: SendDebug
-        m_Mode: 1
+      - m_Target: {fileID: 1939270137}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+          m_BoolArgument: 1
+        m_CallState: 1
 --- !u!114 &682365205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11325,6 +11355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1871935853}
   - component: {fileID: 1871935854}
+  - component: {fileID: 1871935855}
   m_Layer: 5
   m_Name: Room Listing
   m_TagString: Untagged
@@ -11366,6 +11397,20 @@ MonoBehaviour:
   content: {fileID: 1040887276}
   _roomListing: {fileID: 8688632996154797314, guid: 8f5265fb4176f4547b6f2d952249ad03,
     type: 3}
+--- !u!114 &1871935855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871935852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4099ebff1487c344ebffc65e91fda2b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerListingsMenu: {fileID: 240299726}
+  leaveRoomMenu: {fileID: 177864135}
 --- !u!1 &1876301297
 GameObject:
   m_ObjectHideFlags: 0
@@ -11765,7 +11810,7 @@ GameObject:
   - component: {fileID: 1918277309}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Join Room Screen \u25A0\u25A0\u25A0\u25A0"
-  m_TagString: Untagged
+  m_TagString: joinroom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12103,18 +12148,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 4507639602123267283}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1939270139 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4507639600841012520, guid: db90d7d5b94a1944aaa42d210b93f2b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 4507639602123267283}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939270137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4099ebff1487c344ebffc65e91fda2b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1966876058
 GameObject:
   m_ObjectHideFlags: 0
@@ -14388,6 +14421,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4507639600841012522, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_TagString
+      value: currentroom
+      objectReference: {fileID: 0}
     - target: {fileID: 4507639600841012521, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14493,6 +14531,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4507639600841012520, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: leaveRoomMenu
+      value: 
+      objectReference: {fileID: 177864135}
+    - target: {fileID: 4507639601607619064, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4507639601502146495, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_IsActive
@@ -14511,7 +14559,7 @@ PrefabInstance:
     - target: {fileID: 5186855831673343762, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5186855831673343789, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
@@ -14521,7 +14569,7 @@ PrefabInstance:
     - target: {fileID: 4507639601624595165, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4507639601303316806, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
@@ -15693,7 +15741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createOrJoinCanvas: {fileID: 198138025}
-  currentRoomCanvas: {fileID: 1939270139}
+  currentRoomCanvas: {fileID: 1871935855}
 --- !u!224 &8013209652902522252
 RectTransform:
   m_ObjectHideFlags: 0

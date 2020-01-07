@@ -13,7 +13,7 @@ public class Sh_GlobalDissolvePosition : MonoBehaviour
 
     private void Update()
     {
-        if(ballTransform)
+        if (ballTransform)
             Shader.SetGlobalVector("_MagicalBallPos", ballTransform.position);
     }
 

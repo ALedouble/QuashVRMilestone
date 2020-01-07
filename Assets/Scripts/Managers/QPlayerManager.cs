@@ -33,14 +33,13 @@ public class QPlayerManager : MonoBehaviourPun
 
     private void Awake()
     {
-        if(instance)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        //if(instance)
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
 
         instance = this;
-        DontDestroyOnLoad(instance);
     }
     #endregion
 

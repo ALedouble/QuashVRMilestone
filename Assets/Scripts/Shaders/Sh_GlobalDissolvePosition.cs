@@ -4,9 +4,22 @@ using UnityEngine;
 
 public class Sh_GlobalDissolvePosition : MonoBehaviour
 {
-    public Transform ballTransform;
-    void Update()
+    public static Transform ballTransform;
+
+    private void Start()
     {
-       //Shader.SetGlobalVector("_MagicalBallPos", ballTransform.position);
+        Setup(); // Sera peut être appeler dans un manager plus tard
+    }
+
+    private void Update()
+    {
+        if(ballTransform)
+            Shader.SetGlobalVector("_MagicalBallPos", ballTransform.position);
+    }
+
+    public static void Setup()
+    {
+        if (BallManager.instance)
+            ballTransform = BallManager.instance.ball.transform;
     }
 }

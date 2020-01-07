@@ -19,6 +19,9 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public Color lineColor;
     private Material[] materials;
 
+    [Header("Trail Settings")]
+    public GameObject[] trails;
+
 
     private int colorID = 1;
 
@@ -36,7 +39,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         photonView = PhotonView.Get(this);
 
         materials = new Material[2];
-        SetupMaterials();
+        SetupColors();
     }
 
     public int GetBallColor()
@@ -116,11 +119,21 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         colorID = (colorID + 1) % materials.Length;
         renderer.material = materials[colorID];
+
+        trails[colorID].SetActive(true);
+        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);       // Prevent negative value of modulo
+    }
+
+    [PunRPC]
+    private void SetupColors()
+    {
+        SetupMaterials();
+        SetupTrails();
     }
 
     private void SetupMaterials()
     {
-        Debug.Log("SetupMaterials");
+        //Debug.Log("SetupMaterials");
         materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
         materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
 
@@ -133,6 +146,15 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         materials[1].SetColor("Color_DE7EE60A", lineColor);
 
         renderer.material = materials[colorID];
+    }
+
+    private void SetupTrails()
+    {
+        trails[0].GetComponent<TrailRenderer>().startColor = colorPresets[0].colorPresets[1].coreEmissiveColors;
+        trails[1].GetComponent<TrailRenderer>().startColor = colorPresets[0].colorPresets[2].coreEmissiveColors;
+        
+        trails[colorID].SetActive(true);
+        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
     }
 
     //Ne plus jamais refaire ça!!!!!!!!!!!

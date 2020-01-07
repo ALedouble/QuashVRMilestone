@@ -381,7 +381,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1f0f9b493b9b9bb43bee0575564eb5a3, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -576,6 +576,9 @@ MonoBehaviour:
   colorPresets:
   - {fileID: 11400000, guid: 13777aa392caf5542bdc3239152fa2eb, type: 2}
   lineColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.92156863}
+  trails:
+  - {fileID: 1758958001167005412}
+  - {fileID: 1758958001423848000}
 --- !u!114 &4646906268572400308
 MonoBehaviour:
   m_ObjectHideFlags: 0

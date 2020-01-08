@@ -42285,4 +42285,12 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
+    levelProgression:
+      isDone: 0
+      isUnlocked: 0
+      unlockConditions: []
+      levelPos: {x: 0, y: 0}
+      score: 0
+      stagePos: 0
+      levelID: 0
   timeForThisLevel: 180

@@ -97,7 +97,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void FixedUpdate()
     {
-        lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour le calcul du rebond (méthode Bounce)
+        lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour les calculs de rebond
+        
         if (speedState == SpeedState.NORMAL)
             rigidbody.AddForce(gravity * Vector3.down);
         else if (speedState == SpeedState.SLOW)
@@ -122,9 +123,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
         }
 
-
-        //photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
-
         if (PhotonNetwork.OfflineMode)
         {
             //OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
@@ -135,7 +133,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
         }
 
-        //Revoir audio manager pour qu'il utilise le OnBallCollision event system
+        //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 
@@ -153,6 +151,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallEventManager.instance.OnBallCollision(tag);
     }
 
+    [PunRPC]
+    private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit)
+    {
+        transform.position = positionWhenHit;
+        rigidbody.velocity = newVelocity;
+        lastVelocity = newVelocity;
+    }
 
     #region RacketInteraction
 
@@ -183,11 +188,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         if(PhotonNetwork.OfflineMode)
         {
-            RacketApplyNewVelocity(newVelocity, transform.position);
+            ApplyNewVelocity(newVelocity, transform.position);
         }
         else
         {
-            photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
         }
 
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
@@ -216,29 +221,23 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         //}
     }
 
-    [PunRPC]
-    private void RacketApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit)
-    {
-        transform.position = positionWhenHit;
-        rigidbody.velocity = newVelocity;
-    }
-
     #endregion
 
     #region Standard Bounce
 
     /// Méthode qui calcul le rebond de la balle (calcul vectorielle basique) et modifie la trajectoire en conséquence
     /// contactPoint : données de collision entre la balle et l'autre objet
-
     private void StandardBounce(ContactPoint contactPoint)
     {
         Vector3 normal = Vector3.Normalize(contactPoint.normal);
         float normalVelocity = Vector3.Dot(normal, lastVelocity);
+        if (normalVelocity > 0)
+            normalVelocity = -normalVelocity;
 
         Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
         float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
 
-        rigidbody.velocity = ((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal);
+        ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal), transform.position);
     }
 
     #endregion
@@ -257,7 +256,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         float verticalVelocity = CalculateVerticalBounceVelocity();
         float sideVelocity = CalculateSideBounceVelocity();
 
-        rigidbody.velocity = new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness;
+        ApplyNewVelocity(new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness, transform.position);
     }
 
     private float CalculateVerticalBounceVelocity()

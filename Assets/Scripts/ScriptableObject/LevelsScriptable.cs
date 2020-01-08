@@ -45,7 +45,7 @@ public struct ProgressionSettings
 
     public LevelsScriptable[] unlockConditions;
 
-    public Vector2 offsetLevelPos;
+    public Vector2 levelPos;
     public int score;
     public int stagePos;
     public int levelID;

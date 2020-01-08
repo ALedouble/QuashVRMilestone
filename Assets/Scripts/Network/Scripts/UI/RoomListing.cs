@@ -23,6 +23,7 @@ public class RoomListing : MonoBehaviour
         
 
         joinRoom = GameObject.FindGameObjectWithTag("joinroom");
+        Debug.Log(joinRoom);
     }
 
     public void SetRoomInfo(RoomInfo roomInfo){

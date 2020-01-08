@@ -39,7 +39,15 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         photonView = PhotonView.Get(this);
 
         materials = new Material[2];
-        SetupColors();
+
+        if(PhotonNetwork.OfflineMode)
+        {
+            SetupColors();
+        }
+        else /*if(PhotonNetwork.IsMasterClient)*/
+        {
+            photonView.RPC("SetupColor", RpcTarget.AllBuffered);
+        }
     }
 
     public int GetBallColor()

@@ -9,13 +9,13 @@ public class PostProcessFlash : MonoBehaviour
     [SerializeField] PostProcessVolume volume;
     [SerializeField] float animDuration = 1.0f;
     [SerializeField, ReadOnly] float animCount = 0.0f;
-    [SerializeField, ReadOnly] bool isAnimating;
+    [SerializeField, ReadOnly] protected bool isAnimating;
 
     [Header("Bloom settings")]
-    [SerializeField, ReadOnly] Bloom bloom;
-    [SerializeField] AnimationCurve bloomEvolution;
-    [SerializeField, ReadOnly] float minBloomIntensity;
-    [SerializeField] float maxBloomIntensity;
+    [SerializeField, ReadOnly] protected Bloom bloom;
+    [SerializeField] protected AnimationCurve bloomEvolution;
+    [SerializeField, ReadOnly] protected float minBloomIntensity;
+    [SerializeField] protected float maxBloomIntensity;
 
     protected virtual void Start()
     {
@@ -28,13 +28,14 @@ public class PostProcessFlash : MonoBehaviour
         Animation();
     }
 
+    [Button]
     protected virtual void StartAnim()
     {
         animCount = 0.0f;
         isAnimating = true;
     }
 
-    void Animation()
+    protected virtual void Animation()
     {
         if (!isAnimating) return;
         animCount += Time.deltaTime;

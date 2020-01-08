@@ -157,6 +157,91 @@ MonoBehaviour:
     m_RotationOrder: 4
   minBloomIntensity: 0
   maxBloomIntensity: 30
+--- !u!1 &6203038417669669650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7007300446843357017}
+  - component: {fileID: 3031814103452199262}
+  m_Layer: 8
+  m_Name: FlashBallMissed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7007300446843357017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203038417669669650}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7007212452373148806}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3031814103452199262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203038417669669650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d80fcf086a56e46964e4225912fa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 7007212452373148807}
+  animDuration: 1
+  animCount: 0
+  isAnimating: 0
+  bloom: {fileID: 0}
+  bloomEvolution:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 18.56679
+      outSlope: 18.56679
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.060975604
+    - serializedVersion: 3
+      time: 0.1
+      value: 1
+      inSlope: -0.2644833
+      outSlope: -0.2644833
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.044397842
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.059472766
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minBloomIntensity: 0
+  maxBloomIntensity: 50
+  bloomTargetColor: {r: 1, g: 0, b: 0, a: 1}
+  bloomIniColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6937498788346901310
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +347,7 @@ Transform:
   - {fileID: 8015674850704324121}
   - {fileID: 1382244294240042420}
   - {fileID: 6636357386822192385}
+  - {fileID: 7007300446843357017}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

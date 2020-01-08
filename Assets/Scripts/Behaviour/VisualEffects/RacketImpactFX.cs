@@ -11,11 +11,12 @@ public class RacketImpactFX : MonoBehaviour
     void Start()
     {
         BallEventManager.instance.OnCollisionWithRacket += PlayEffect;
-        playerRacket = RacketManager.instance?.localPlayerRacket;
+        
     }
 
     void PlayEffect()
     {
+        playerRacket = RacketManager.instance?.localPlayerRacket;
         transform.position = playerRacket.transform.position;
         particleSystem.Play();
     }

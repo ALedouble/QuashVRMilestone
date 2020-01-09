@@ -933,7 +933,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.4499999, y: 3.25, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.4499999, y: 3.25, z: 0}
@@ -960,7 +960,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.4499999, y: 3.8500001, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.4499999, y: 3.8500001, z: 0}
@@ -987,7 +987,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.4499999, y: 4.4500003, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.4499999, y: 4.4500003, z: 0}
@@ -1168,7 +1168,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.75, y: 3.5500002, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.75, y: 3.5500002, z: 0}
@@ -1195,7 +1195,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.75, y: 4.15, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.75, y: 4.15, z: 0}
@@ -1222,7 +1222,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.75, y: 4.75, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.75, y: 4.75, z: 0}
@@ -1358,7 +1358,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 2.65, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 2.65, z: 0}
@@ -1385,7 +1385,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 3.25, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 3.25, z: 0}
@@ -1411,7 +1411,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 3.8500001, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 3.8500001, z: 0}
@@ -1438,7 +1438,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 4.4500003, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 4.4500003, z: 0}
@@ -1464,7 +1464,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 5.05, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 5.05, z: 0}
@@ -1601,7 +1601,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.35, y: 2.95, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.35, y: 2.95, z: 0}
@@ -1627,7 +1627,7 @@ MonoBehaviour:
         - isBrickHere: 1
           brickID: TheBrick
           brickPosition: {x: 2.35, y: 3.5500002, z: 0}
-          isMoving: 1
+          isMoving: 0
           speed: 0.1
           smoothTime: 0.01
           waypointsStorage:
@@ -1650,7 +1650,7 @@ MonoBehaviour:
         - isBrickHere: 1
           brickID: TheBrick
           brickPosition: {x: 2.35, y: 4.15, z: 0}
-          isMoving: 1
+          isMoving: 0
           speed: 0.1
           smoothTime: 0.01
           waypointsStorage:
@@ -1838,7 +1838,7 @@ MonoBehaviour:
         - isBrickHere: 1
           brickID: TheBrick
           brickPosition: {x: 2.65, y: 3.5500002, z: 0}
-          isMoving: 1
+          isMoving: 0
           speed: 0.1
           smoothTime: 0.01
           waypointsStorage:
@@ -1861,7 +1861,7 @@ MonoBehaviour:
         - isBrickHere: 1
           brickID: TheBrick
           brickPosition: {x: 2.65, y: 4.15, z: 0}
-          isMoving: 1
+          isMoving: 0
           speed: 0.1
           smoothTime: 0.01
           waypointsStorage:
@@ -1885,7 +1885,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.65, y: 4.75, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.65, y: 4.75, z: 0}
@@ -2022,7 +2022,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.95, y: 2.65, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 2.65, z: 0}
@@ -2049,7 +2049,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.95, y: 3.25, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 3.25, z: 0}
@@ -2075,7 +2075,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.95, y: 3.8500001, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 3.8500001, z: 0}
@@ -2102,7 +2102,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.95, y: 4.4500003, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 4.4500003, z: 0}
@@ -2128,7 +2128,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.95, y: 5.05, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 5.05, z: 0}
@@ -2265,7 +2265,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.25, y: 2.95, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.25, y: 2.95, z: 0}
@@ -2291,7 +2291,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.25, y: 3.5500002, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.25, y: 3.5500002, z: 0}
@@ -2318,7 +2318,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.25, y: 4.15, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.25, y: 4.15, z: 0}
@@ -2499,7 +2499,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.55, y: 3.25, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.55, y: 3.25, z: 0}
@@ -2526,7 +2526,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.55, y: 3.8500001, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.55, y: 3.8500001, z: 0}
@@ -2553,7 +2553,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.55, y: 4.4500003, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 5
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.55, y: 4.4500003, z: 0}

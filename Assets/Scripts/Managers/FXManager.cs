@@ -51,7 +51,7 @@ public class FXManager : MonoBehaviour
 
         originPos = origin;
         //maxRadius = intensity * intensityModifier;
-        maxRadius = 0.7f;
+        //maxRadius = 0.7f;
 
         impactGo = PoolManager.instance.SpawnFromPool("ImpactFX", originPos, Quaternion.identity);
 

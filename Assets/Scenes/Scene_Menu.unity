@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4740,9 +4740,9 @@ MonoBehaviour:
   racketPrefab: {fileID: 0}
   spawnJ1: {fileID: 1096231840}
   spawnJ2: {fileID: 1096231840}
+  timerSpeedModifier: 0
   timerData: {fileID: 0}
   currentTimer: 0
-  timerSpeedModifier: 0
   timeMax: 0
   offlineMode: 0
 --- !u!4 &670950473
@@ -10837,7 +10837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add55f0a784cf794d8fd2bef71ffc3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: ScenePlaytest
+  sceneName: Scene_Playtest_OnePlayer
 --- !u!95 &1740841467
 Animator:
   serializedVersion: 3
@@ -14831,16 +14831,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: currentroom
       objectReference: {fileID: 0}
-    - target: {fileID: 4507639601624595165, guid: db90d7d5b94a1944aaa42d210b93f2b2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5186855831673343762, guid: db90d7d5b94a1944aaa42d210b93f2b2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4507639600841012521, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14986,10 +14976,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5186855831673343762, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5186855831673343789, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507639601624595165, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4507639601303316806, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}

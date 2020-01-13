@@ -63,7 +63,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
 
         GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
-        float newScore = touchedBrick.ScoreValue * ScoreManager.Instance.combo[touchedBrick.WallID]; //BallID
+        float newScore = touchedBrick.ScoreValue * ScoreManager.Instance.combo[(int)BallManager.instance.GetBallColorID()]; //BallID
         score.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
 
         LevelManager levelManager = LevelManager.instance;
@@ -76,12 +76,12 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
         
         if (!GameManager.Instance.offlineMode){
-            ScoreManager.Instance.pV.RPC("SetScore", RpcTarget.All, touchedBrick.ScoreValue, touchedBrick.WallID);
-            ScoreManager.Instance.pV.RPC("SetCombo", RpcTarget.All, touchedBrick.WallID);
+            ScoreManager.Instance.pV.RPC("SetScore", RpcTarget.All, touchedBrick.ScoreValue, (int)BallManager.instance.GetBallColorID()); //BallID
+            ScoreManager.Instance.pV.RPC("SetCombo", RpcTarget.All, (int)BallManager.instance.GetBallColorID()); //BallID
         }
         else{
-            ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);//BallID
-            ScoreManager.Instance.SetCombo(touchedBrick.WallID);//BallID
+            ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, (int)BallManager.instance.GetBallColorID()); //BallID
+            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetBallColorID()); //BallID
         }
        
         ScoreManager.Instance.resetCombo = false;

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using Photon.Pun;
+using Photon;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class BrickManager : MonoBehaviour
+public class BrickManager : MonoBehaviourPunCallbacks
 {
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig = new WallBuilds();
@@ -72,8 +74,16 @@ public class BrickManager : MonoBehaviour
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
-        ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);//BallID
-        ScoreManager.Instance.SetCombo(touchedBrick.WallID);//BallID
+        
+        if (!GameManager.Instance.offlineMode){
+            ScoreManager.Instance.pV.RPC("SetScore", RpcTarget.All, touchedBrick.ScoreValue, touchedBrick.WallID);
+            ScoreManager.Instance.pV.RPC("SetCombo", RpcTarget.All, touchedBrick.WallID);
+        }
+        else{
+            ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, touchedBrick.WallID);//BallID
+            ScoreManager.Instance.SetCombo(touchedBrick.WallID);//BallID
+        }
+       
         ScoreManager.Instance.resetCombo = false;
         UpdateBrickLevel(touchedBrick.WallID);
 

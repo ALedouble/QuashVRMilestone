@@ -55,6 +55,16 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         return colorID;
     }
 
+    public Material GetCurrentMaterial()
+    {
+        return materials[colorID];
+    }
+
+    public Material[] GetBallMaterials()
+    {
+        return materials;
+    }
+
     public void SetBallColor(int colorID)
     {
         this.colorID = colorID;
@@ -164,6 +174,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         trails[colorID].SetActive(true);
         trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
     }
+
+
 
     //Ne plus jamais refaire ça!!!!!!!!!!!
 /*

@@ -27,22 +27,33 @@ public class BallManager : MonoBehaviour
         ballPhysicInfo = ball.GetComponent<PhysicInfo>();
     }
 
+
+    #region Color
+    public BallColorBehaviour GetBallColorBehaviour()
+    {
+        return ballColorBehaviour;
+    }
+
     public int GetBallColorID()
     {
         return ballColorBehaviour.GetBallColor();
     }
 
-    public void TransferEmpowerement()
+    public Material GetCurrentMaterial()
     {
-        if(ballColorBehaviour.colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
-            ballColorBehaviour.TransferEmpowerement();
+        return ballColorBehaviour.GetCurrentMaterial();
     }
 
-    public BallColorBehaviour GetBallColorBehaviour()
+    public Material[] GetBallMaterials()
     {
-        return ballColorBehaviour;
+        return ballColorBehaviour.GetBallMaterials();
     }
-    
+
+    #endregion
+
+
+    #region Physics
+
     public BallPhysicBehaviour GetBallPhysicsBehaviour()
     {
         return GetBallPhysicsBehaviour();
@@ -52,4 +63,22 @@ public class BallManager : MonoBehaviour
     {
         return ballPhysicInfo;
     }
+
+    #endregion
+
+    #region Utility
+
+    public QPlayer GetLastPlayerWhoHitTheBall()
+    {
+        return ballPhysicBehaviour.GetLastPlayerWhoHitTheBall();
+    }
+
+    public void TransferEmpowerement()
+    {
+        if (ballColorBehaviour.colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
+            ballColorBehaviour.TransferEmpowerement();
+    }
+
+    #endregion
+
 }

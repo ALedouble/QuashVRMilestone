@@ -42,8 +42,8 @@ public class BallBehaviour : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     [Header("MagicBounce Settings")]
     public int numberOfPlayer = 1;                                  // A placer ailleur!
-    public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
-    private Target currentTarget;
+    public QPlayer startingPlayer = QPlayer.PLAYER1;                  // Sera modifier!
+    private QPlayer currentTarget;
     public float depthVelocity;
 
     [Header("Switch Target Settings")]
@@ -232,16 +232,16 @@ public class BallBehaviour : MonoBehaviourPunCallbacks/*, IPunObservable*/
     [PunRPC]
     private void SwitchTarget()
     {
-        if (currentTarget == Target.PLAYER1)
-            currentTarget = Target.PLAYER2;
-        else if(currentTarget == Target.PLAYER2)
-            currentTarget = Target.PLAYER1;
+        if (currentTarget == QPlayer.PLAYER1)
+            currentTarget = QPlayer.PLAYER2;
+        else if(currentTarget == QPlayer.PLAYER2)
+            currentTarget = QPlayer.PLAYER1;
         //currentTarget = (Target)(((int)currentTarget + 1)%numberOfPlayer); 
     }
 
     private Vector3 GetCurrentTargetPosition()
     {
-        if(currentTarget == Target.PLAYER1)
+        if(currentTarget == QPlayer.PLAYER1)
         {
             return playerTransforms[0].position;
         }
@@ -254,7 +254,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private Vector3 GetCurrentTargetPositionX()
     {
-        if (currentTarget == Target.PLAYER1)
+        if (currentTarget == QPlayer.PLAYER1)
         {
             return xReturnsPoints[0].position;
         }

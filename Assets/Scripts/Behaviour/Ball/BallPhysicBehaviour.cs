@@ -4,8 +4,9 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
-public enum Target          //Util?
+public enum QPlayer          //Util?
 {
+    NONE = -1,
     PLAYER1 = 0,
     PLAYER2 = 1
 }
@@ -61,12 +62,12 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float gravity;
 
     [Header("MagicBounce Settings")]
-    private Target currentTarget;
+    private QPlayer currentTarget;
     public float depthVelocity;
 
     [Header("Switch Target Settings")]
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
-    public Target startingPlayer = Target.PLAYER1;                  // Sera modifier!
+    public QPlayer startingPlayer = QPlayer.PLAYER1;                  // Sera modifier!
     private bool switchTargetIsRacketBased;
 
     public Transform[] xReturnsPoints = new Transform[8];
@@ -80,6 +81,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private Rigidbody rigidbody;
     private SpeedState speedState;
     private Vector3 lastVelocity;
+
+    private QPlayer lastPlayerWhoHitTheBall;
 
     private PhotonView photonView;
 
@@ -189,10 +192,21 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         if(PhotonNetwork.OfflineMode)
         {
             ApplyNewVelocity(newVelocity, transform.position);
+
+            lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
         }
         else
         {
             photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
+            }
+            else
+            {
+                lastPlayerWhoHitTheBall = QPlayer.PLAYER2;
+            }
         }
 
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
@@ -274,16 +288,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     [PunRPC]
     private void SwitchTarget()
     {
-        if (currentTarget == Target.PLAYER1)
-            currentTarget = Target.PLAYER2;
-        else if (currentTarget == Target.PLAYER2)
-            currentTarget = Target.PLAYER1;
+        if (currentTarget == QPlayer.PLAYER1)
+            currentTarget = QPlayer.PLAYER2;
+        else if (currentTarget == QPlayer.PLAYER2)
+            currentTarget = QPlayer.PLAYER1;
         //currentTarget = (Target)(((int)currentTarget + 1) % PhotonNetwork.PlayerList.Length);
     }
 
     private Vector3 GetCurrentTargetPositionX()
     {
-        if (currentTarget == Target.PLAYER1)
+        if (currentTarget == QPlayer.PLAYER1)
         {
             return xReturnsPoints[0].position;
         }
@@ -405,6 +419,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private float MakeLinearAssociation(float variable, float slope, float offset)
     {
         return slope * variable + offset;
+    }
+
+    public QPlayer GetLastPlayerWhoHitTheBall()
+    {
+        return lastPlayerWhoHitTheBall;
     }
 
     #endregion

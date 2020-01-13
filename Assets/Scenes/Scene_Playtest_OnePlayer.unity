@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -162,12 +162,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSpawnsPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 5250395144351929571, guid: 6a49211283d2bd349bdb21f84a9c8758,
-        type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
-        type: 0}
     - target: {fileID: 5250395143342882795, guid: 6a49211283d2bd349bdb21f84a9c8758,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -223,6 +217,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5250395144351929571, guid: 6a49211283d2bd349bdb21f84a9c8758,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
+        type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a49211283d2bd349bdb21f84a9c8758, type: 3}
 --- !u!1 &330787441 stripped
@@ -593,7 +593,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c8fdfa613dec86e4aa895c81c9b59913, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4412a6a0682944b42b899065ad1b368b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1089,7 +1089,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4eb80ca349ab52e4ea1ba2335c6beb6c, type: 2}
   - {fileID: 11400000, guid: 3981db714530f184a94eed0102460ece, type: 2}
   - {fileID: 11400000, guid: 03a283f02c68deb42bdc6d6995bfa707, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: c952f053ec30e2741a929e51e16568d2, type: 2}
   - {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77, type: 2}
   - {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
   selectedLevel: {fileID: 11400000, guid: f63a6932d32d7fe4cb7529c6808cd8e1, type: 2}

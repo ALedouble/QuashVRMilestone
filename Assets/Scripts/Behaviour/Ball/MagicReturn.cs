@@ -16,8 +16,6 @@ public class MagicReturn
 
     public Vector3 CalculateNewVelocity(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        Vector3 newVelocity = new Vector3();
-
         double A = CalculateA();
         double B = CalculateB(ballImpactPosition, targetPosition);
         double C = CalculateC(ballImpactPosition, targetPosition);
@@ -36,14 +34,11 @@ public class MagicReturn
         double Q = CalculateQ(H, I, J, K);
         double tOne = CalculateTOne(P, Q);
 
+        double yVelocity = calculateYVelocity(tOne, H, I);
+
+        Vector3 newVelocity = new Vector3((float)xVelocity, (float)yVelocity, 0);
+
         return newVelocity;
-    }
-
-    private double CalculateYVelocity()
-    {
-        double yVelocity = 0;
-
-        return yVelocity; 
     }
 
     private double CalculateA()

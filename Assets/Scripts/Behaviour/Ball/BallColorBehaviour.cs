@@ -28,11 +28,11 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private bool isEmpowered;
 
     private PhotonView photonView;
-    private Renderer renderer;
+    private Renderer myRenderer;
 
     private void Start()
     {
-        renderer = gameObject.GetComponent<Renderer>();
+        myRenderer = gameObject.GetComponent<Renderer>();
 
         InitializeSwitchColor();
 
@@ -68,7 +68,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public void SetBallColor(int colorID)
     {
         this.colorID = colorID;
-        renderer.material = materials[colorID];
+        myRenderer.material = materials[colorID];
     }
 
     private void InitializeSwitchColor()
@@ -136,7 +136,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private void SwitchColor()
     {
         colorID = (colorID + 1) % materials.Length;
-        renderer.material = materials[colorID];
+        myRenderer.material = materials[colorID];
 
         trails[colorID].SetActive(true);
         trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);       // Prevent negative value of modulo
@@ -163,7 +163,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].fresnelColors);
         materials[1].SetColor("Color_DE7EE60A", lineColor);
 
-        renderer.material = materials[colorID];
+        myRenderer.material = materials[colorID];
     }
 
     private void SetupTrails()

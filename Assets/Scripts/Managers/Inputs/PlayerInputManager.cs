@@ -99,4 +99,9 @@ public class PlayerInputManager : MonoBehaviour
             menuAction.OnLeftTriggerRelease();
         }
     }
+
+    public void OnPauseButtonPress()
+    {
+        // Menu pause!
+    }
 }

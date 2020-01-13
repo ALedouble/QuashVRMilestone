@@ -1,10 +1,11 @@
 ﻿using System.Collections;
+using Photon.Pun;
+using Photon;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Photon.Pun;
 
-public class BrickManager : MonoBehaviour
+public class BrickManager : MonoBehaviourPunCallbacks
 {
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig = new WallBuilds();
@@ -34,14 +35,12 @@ public class BrickManager : MonoBehaviour
     [SerializeField] float hitIntensity;
 
     public static BrickManager Instance;
-    PhotonView photonView;
 
 
 
 
     private void Awake()
     {
-        photonView = PhotonView.Get(this);
         Instance = this;
     }
 

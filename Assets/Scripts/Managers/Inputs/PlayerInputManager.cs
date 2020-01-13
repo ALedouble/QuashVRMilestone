@@ -102,6 +102,6 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnPauseButtonPress()
     {
-        // Menu pause!
+        GUIMenuPause.guiMenuPause.GamePaused();
     }
 }

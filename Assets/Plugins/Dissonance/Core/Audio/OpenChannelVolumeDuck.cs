@@ -13,7 +13,7 @@ namespace Dissonance.Audio
         private readonly RoomChannels _rooms;
         private readonly PlayerChannels _players;
 
-        private volatile float _targetVolume = 1;
+        public volatile float _targetVolume = 1;
         public float TargetVolume
         {
             get { return _targetVolume; }

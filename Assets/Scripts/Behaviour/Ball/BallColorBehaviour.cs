@@ -30,17 +30,19 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private PhotonView photonView;
     private Renderer myRenderer;
 
+
+
+
+
+
     private void Start()
     {
         myRenderer = gameObject.GetComponent<Renderer>();
 
-        InitializeSwitchColor();
-
-        photonView = PhotonView.Get(this);
-
         materials = new Material[2];
 
-        if(PhotonNetwork.OfflineMode)
+
+        if (GameManager.Instance.offlineMode)
         {
             SetupColors();
         }
@@ -48,6 +50,10 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         {
             photonView.RPC("SetupColor", RpcTarget.AllBuffered);
         }
+
+        InitializeSwitchColor();
+
+        photonView = PhotonView.Get(this);
     }
 
     public int GetBallColor()
@@ -151,7 +157,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void SetupMaterials()
     {
-        //Debug.Log("SetupMaterials");
+        Debug.Log("SetupMaterials");
         materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
         materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
 
@@ -163,7 +169,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].fresnelColors);
         materials[1].SetColor("Color_DE7EE60A", lineColor);
 
-        myRenderer.material = materials[colorID];
+        myRenderer.sharedMaterial = materials[colorID];
     }
 
     private void SetupTrails()
@@ -178,7 +184,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
 
     //Ne plus jamais refaire ça!!!!!!!!!!!
-/*
+    /*
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         throw new System.NotImplementedException();

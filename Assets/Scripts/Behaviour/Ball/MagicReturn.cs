@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class MagicReturn
 {
-    public double xVelocity;
+    public double zVelocity;
     public double groundHeight;
     public double gravity;
     public double dynamicFriction;
     public double bounciness;
+
     public MagicReturn()
     {
 
@@ -34,9 +35,10 @@ public class MagicReturn
         double Q = CalculateQ(H, I, J, K);
         double tOne = CalculateTOne(P, Q);
 
-        double yVelocity = calculateYVelocity(tOne, H, I);
+        double yVelocity = CalculateYVelocity(tOne, H, I);
+        double xVelocity = CalculateXVelocity(yVelocity);
 
-        Vector3 newVelocity = new Vector3((float)xVelocity, (float)yVelocity, 0);
+        Vector3 newVelocity = new Vector3((float)xVelocity, (float)yVelocity, (float)zVelocity);
 
         return newVelocity;
     }
@@ -48,17 +50,17 @@ public class MagicReturn
 
     private double CalculateB(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return gravity * (targetPosition.x - ballImpactPosition.x) * (2 + bounciness * (1 - dynamicFriction)) / (xVelocity * (1 - dynamicFriction) * (1 - dynamicFriction));
+        return gravity * (targetPosition.x - ballImpactPosition.x) * (2 + bounciness * (1 - dynamicFriction)) / (zVelocity * (1 - dynamicFriction) * (1 - dynamicFriction));
     }
 
     private double CalculateC(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return -bounciness * (targetPosition.x - ballImpactPosition.x) / (xVelocity * (1 - dynamicFriction));
+        return -bounciness * (targetPosition.x - ballImpactPosition.x) / (zVelocity * (1 - dynamicFriction));
     }
 
     private double CalculateD(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return -gravity * (targetPosition.x - ballImpactPosition.x) * (targetPosition.x - ballImpactPosition.x) / (xVelocity * xVelocity * (1 - dynamicFriction) * (1 - dynamicFriction)) + groundHeight - targetPosition.y;
+        return -gravity * (targetPosition.x - ballImpactPosition.x) * (targetPosition.x - ballImpactPosition.x) / (zVelocity * zVelocity * (1 - dynamicFriction) * (1 - dynamicFriction)) + groundHeight - targetPosition.y;
     }
 
     private double CalculateE(double A)
@@ -113,8 +115,13 @@ public class MagicReturn
         return Mathf.Pow((float)double1, 1f / 3f) + Mathf.Pow((float)double2, 1f / 3f);
     }
 
-    private double calculateYVelocity(double tOne, double H, double I)
+    private double CalculateYVelocity(double tOne, double H, double I)
     {
         return tOne - I / (3 * H);
+    }
+
+    private double CalculateXVelocity(double yVelocity)
+    {
+        return 0;
     }
 }

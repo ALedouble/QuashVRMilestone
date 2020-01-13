@@ -43,6 +43,10 @@ public class GameManager : MonoBehaviour
         {
             PhotonNetwork.OfflineMode = true;
         }
+        else
+        {
+            PhotonNetwork.OfflineMode = false;
+        }
         
         if(!PhotonNetwork.OfflineMode)
         {

@@ -47,7 +47,7 @@ public class BallCollisionFX : MonoBehaviour
 
             if (canSpawn)
             {
-                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude);
+                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, 0); //BallID
 
                 canSpawn = false;
             }

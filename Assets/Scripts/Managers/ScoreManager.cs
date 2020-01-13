@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon;
 using TMPro;
 
 public class ScoreManager : MonoBehaviour
@@ -11,15 +13,19 @@ public class ScoreManager : MonoBehaviour
     public float maxTextSize;
     public float maxScoreValue;
 
-    [Header("Score")]
-    public float[] score;
-    public float[] combo;
-    public int[] brickCounterGauge;
-    public int maxCounter;
+    [Space]
 
-    public GUIScoreData[] displayedScore;
-    public GUIComboData[] displayedCombo;
-    public bool resetCombo = true;
+    [Header("Score variables")]
+    public int maxCounter;
+    [HideInInspector] public float[] score;
+    [HideInInspector] public float[] combo;
+    [HideInInspector] public int[] brickCounterGauge;
+    
+
+    [HideInInspector] public GUIScoreData[] displayedScore;
+    [HideInInspector] public GUIComboData[] displayedCombo;
+    [HideInInspector] public bool resetCombo = true;
+    [HideInInspector] public PhotonView pV;
 
 
     public float finishingFirstScoreBoost;
@@ -27,12 +33,15 @@ public class ScoreManager : MonoBehaviour
 
     public static ScoreManager Instance;
 
+    
+
 
 
 
 
     private void Awake()
     {
+        pV = GetComponent<PhotonView>();
         Instance = this;
     }
 
@@ -41,6 +50,7 @@ public class ScoreManager : MonoBehaviour
     /// Incremente le score
     /// </summary>
     /// <param name="brickValue">Brick value for the score</param>
+    [PunRPC]
     public void SetScore(int brickValue, int playerID)
     {
         score[playerID] += brickValue * combo[playerID];
@@ -54,6 +64,7 @@ public class ScoreManager : MonoBehaviour
     /// Incremente le score
     /// </summary>
     /// <param name="brickValue">Brick value for the score</param>
+    [PunRPC]
     public void SetCombo(int playerID)
     {
         brickCounterGauge[playerID] ++;

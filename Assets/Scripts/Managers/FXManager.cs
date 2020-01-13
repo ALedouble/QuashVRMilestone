@@ -13,8 +13,10 @@ public class FXManager : MonoBehaviour
 
     [Header("Deflagration zone")]
     private GameObject impactGo;
-    private List<GameObject> ps;
-    [SerializeField] private float maxRadius;
+    private List<ParticleSystem> ps;
+    public float[] playersRadius;
+    private float maxRadius;
+
     //public SphereCollider sphereCol;
 
 
@@ -35,7 +37,7 @@ public class FXManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        ps = new List<GameObject>();
+        ps = new List<ParticleSystem>();
     }
 
 
@@ -45,15 +47,17 @@ public class FXManager : MonoBehaviour
         return scale;
     }
 
-    public void SetExplosion(Vector3 origin, float intensity)
+    public void SetExplosion(Vector3 origin, float intensity, int playerID)
     {
         
 
         originPos = origin;
         //maxRadius = intensity * intensityModifier;
-        //maxRadius = 0.7f;
+        maxRadius = playersRadius[playerID];
 
         impactGo = PoolManager.instance.SpawnFromPool("ImpactFX", originPos, Quaternion.identity);
+
+        impactGo.transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
 
         ps.Clear();
 
@@ -61,12 +65,15 @@ public class FXManager : MonoBehaviour
         {
             for (int i = 0; i < impactGo.transform.childCount; i++)
             {
-                ps.Add(impactGo.transform.GetChild(i).gameObject);
+                ps.Add(impactGo.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>());
             }
 
             for (int i = 0; i < ps.Count; i++)
             {
-                ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
+                //ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
+
+                //var main = ps[i].GetComponent<ParticleSystem>().main;
+                //main.startColor = 
             }
 
             for (int i = 0; i < ps.Count; i++)

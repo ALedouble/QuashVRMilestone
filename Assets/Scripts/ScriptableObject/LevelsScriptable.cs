@@ -11,7 +11,6 @@ using Malee;
 public class LevelsScriptable : ScriptableObject
 {
     public LevelSettings level;
-    public float timeForThisLevel;
 
     public LevelsScriptable()
     {
@@ -25,15 +24,24 @@ public class LevelSettings
 {
     public WallBuilds levelWallBuilds;
     public ProgressionSettings levelProgression;
+    public LevelSpecifics levelSpec;
 
     public LevelSettings()
     {
         levelWallBuilds = new WallBuilds();
         levelProgression = new ProgressionSettings();
+        levelSpec = new LevelSpecifics();
     }
 }
 
+///////////////////////////  PARAMETRES du level  //////////////////////////////
 
+[System.Serializable]
+public struct LevelSpecifics
+{
+    public float timeForThisLevel;
+    public float impactRadiusForThisLevel;
+}
 
 ///////////////////////////  PROGRESSION  //////////////////////////////
 

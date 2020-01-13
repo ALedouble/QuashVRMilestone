@@ -91,6 +91,7 @@ public class LevelInspectorScript : Editor
     int numberOfLayers;
     int totalLayersDisplayed;
 
+    LevelSpecifics specifics;
 
     bool canPaintWaypoint;
     bool nameSaved = true;
@@ -335,6 +336,8 @@ public class LevelInspectorScript : Editor
             totalLayersDisplayed = numberOfLayers - 1;
             selectedLayer = 0;
             myTarget.bricksOnLayer = 0;
+            specifics = currentLevel.level.levelSpec;
+
 
             myTarget.bricksOnScreen = new GameObject[editorPreset.columns * editorPreset.rows];
 
@@ -513,12 +516,19 @@ public class LevelInspectorScript : Editor
 
             EditorGUILayout.EndHorizontal();
 
-            currentLevel.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.timeForThisLevel);
+            currentLevel.level.levelSpec.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.level.levelSpec.timeForThisLevel);
 
-            if (currentLevel.timeForThisLevel == 0)
+            if (currentLevel.level.levelSpec.timeForThisLevel == 0)
             {
                 EditorGUILayout.HelpBox("Le Timer ne peut être égale à 0", MessageType.Warning);
                 EditorGUILayout.HelpBox("Non mais allo quoi ?!", MessageType.Error);
+            }
+
+            currentLevel.level.levelSpec.impactRadiusForThisLevel = EditorGUILayout.FloatField("Taille de l'impact", currentLevel.level.levelSpec.impactRadiusForThisLevel);
+
+            if (currentLevel.level.levelSpec.impactRadiusForThisLevel == 0)
+            {
+                EditorGUILayout.HelpBox("L'impact est égale à 0", MessageType.Warning);
             }
         }
         else

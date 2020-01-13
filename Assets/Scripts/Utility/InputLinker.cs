@@ -23,4 +23,14 @@ public class InputLinker : MonoBehaviour
     {
         PlayerInputManager.instance?.OnLeftTriggerRelease();
     }
+
+    public void OnLeftPauseButtonPress()
+    {
+        PlayerInputManager.instance?.OnPauseButtonPress();
+    }
+
+    public void OnRightPauseButtonPress()
+    {
+        PlayerInputManager.instance?.OnPauseButtonPress();
+    }
 }

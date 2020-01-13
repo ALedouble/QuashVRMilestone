@@ -10224,4 +10224,6 @@ MonoBehaviour:
       score: 0
       stagePos: 0
       levelID: 0
-  timeForThisLevel: 100
+    levelSpec:
+      timeForThisLevel: 100
+      impactRadiusForThisLevel: 0.7

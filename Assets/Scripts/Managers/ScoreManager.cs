@@ -11,15 +11,18 @@ public class ScoreManager : MonoBehaviour
     public float maxTextSize;
     public float maxScoreValue;
 
-    [Header("Score")]
-    public float[] score;
-    public float[] combo;
-    public int[] brickCounterGauge;
-    public int maxCounter;
+    [Space]
 
-    public GUIScoreData[] displayedScore;
-    public GUIComboData[] displayedCombo;
-    public bool resetCombo = true;
+    [Header("Score variables")]
+    public int maxCounter;
+    [HideInInspector] public float[] score;
+    [HideInInspector] public float[] combo;
+    [HideInInspector] public int[] brickCounterGauge;
+    
+
+    [HideInInspector] public GUIScoreData[] displayedScore;
+    [HideInInspector] public GUIComboData[] displayedCombo;
+    [HideInInspector] public bool resetCombo = true;
 
 
     public float finishingFirstScoreBoost;

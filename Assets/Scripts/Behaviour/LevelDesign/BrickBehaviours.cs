@@ -173,6 +173,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
             {
                 if (TryGetComponent<IBrick>(out IBrick brick))
                 {
+                    hasBeenHit = false;
                     BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
                 }
             }

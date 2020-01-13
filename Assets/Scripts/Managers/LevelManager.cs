@@ -135,8 +135,9 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.score = new float[numberOfPlayers];
         ScoreManager.Instance.combo = new float[numberOfPlayers];
         ScoreManager.Instance.brickCounterGauge = new int[numberOfPlayers];
+        FXManager.Instance.playersRadius = new float[numberOfPlayers];
 
-        GameManager.Instance.timeMax = currentLevel.timeForThisLevel;
+        GameManager.Instance.timeMax = currentLevel.level.levelSpec.timeForThisLevel;
         GameManager.Instance.currentTimer = GameManager.Instance.timeMax;
 
         InitRoom();
@@ -159,6 +160,7 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];
             ScoreManager.Instance.combo[i] = 1;
 
+            FXManager.Instance.playersRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;
 
             playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 

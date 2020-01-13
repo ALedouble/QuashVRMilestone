@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Dissonance;
+using Dissonance.Audio;
 
 public class DissonanceOptions : MonoBehaviour
 {
     public GameObject dissonanceSetup;
+    float volume;
 
     DissonanceComms dissonanceComms;
 
     VoiceBroadcastTrigger dissonanceVolume;
+    OpenChannelVolumeDuck duckVolume;
+
+    RoomChannel channel;
+    VoicePlayerState voicePlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -17,11 +23,13 @@ public class DissonanceOptions : MonoBehaviour
         dissonanceComms = dissonanceSetup.GetComponent<DissonanceComms>();
         dissonanceVolume = dissonanceSetup.GetComponent<VoiceBroadcastTrigger>();
 
-        ModifyVolume();
+        channel = dissonanceComms.RoomChannels.Open("Room", amplitudeMultiplier: 0f);
+
+        MuteMic();
     }
 
     void Update(){
-       
+       channel.Volume = volume;
     }
 
     void MuteMic(){
@@ -32,9 +40,8 @@ public class DissonanceOptions : MonoBehaviour
         } 
     }
 
-    void ModifyVolume(){
-     //   RoomChannel channel = dissonanceComms.RoomChannels.Open("Room", amplitudeMultiplier: 1f);
-     //   channel.Volume = 0.5f;
-     //    Debug.Log(channel.Volume);
+    public void ModifyVolume(float newVolume){
+        volume = newVolume;
+        Debug.Log(newVolume);
     }   
 }

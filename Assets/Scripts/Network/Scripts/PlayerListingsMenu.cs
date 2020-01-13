@@ -14,13 +14,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+
+
     private void Awake(){
         GetCurrentRoomPlayers();
-    }
-
-    public void Update()
-    {
-        Debug.Log(_listings.Count);
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){

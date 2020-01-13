@@ -16,10 +16,6 @@ MonoBehaviour:
   - tag: AudioSource
     prefab: {fileID: 414941099223655605, guid: d5a31ec5219a2dc448cd66587b3eb2d7, type: 3}
     size: 5
-  - tag: ImpactFX
-    prefab: {fileID: 2194597433777538208, guid: a4b20a9794e29dd46aec1255019e3eb8,
-      type: 3}
-    size: 5
   - tag: BounceFX
     prefab: {fileID: 565995459955419888, guid: 1871c528be518d1418d139ffbaf1537d, type: 3}
     size: 5
@@ -34,7 +30,7 @@ MonoBehaviour:
   - tag: Brick
     prefab: {fileID: 6638883875395251446, guid: 7ca0fe2ad1189764eb393824dbf6740b,
       type: 3}
-    size: 2000
+    size: 1850
   - tag: ScoreText
     prefab: {fileID: 6060744808397351014, guid: 2fb956f0af9d2a244894d103ae9dfe2a,
       type: 3}
@@ -54,3 +50,11 @@ MonoBehaviour:
     prefab: {fileID: 5724817507822973492, guid: b607dfa668ad2e042b5a0b5c6b9778ef,
       type: 3}
     size: 1
+  - tag: ImpactColor01
+    prefab: {fileID: 2194597433777538208, guid: 72ae6c3e3ed37e348aec95030a4441be,
+      type: 3}
+    size: 2
+  - tag: ImpactColor02
+    prefab: {fileID: 2194597433777538208, guid: 7f8900fa34f94ee459d260190ca087ba,
+      type: 3}
+    size: 2

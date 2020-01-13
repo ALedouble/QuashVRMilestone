@@ -1089,7 +1089,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4eb80ca349ab52e4ea1ba2335c6beb6c, type: 2}
   - {fileID: 11400000, guid: 3981db714530f184a94eed0102460ece, type: 2}
   - {fileID: 11400000, guid: 03a283f02c68deb42bdc6d6995bfa707, type: 2}
-  - {fileID: 11400000, guid: c952f053ec30e2741a929e51e16568d2, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77, type: 2}
   - {fileID: 11400000, guid: c72e6a29d4836db4ebee987b960831fc, type: 2}
   selectedLevel: {fileID: 11400000, guid: f63a6932d32d7fe4cb7529c6808cd8e1, type: 2}
@@ -4521,6 +4521,9 @@ MonoBehaviour:
       score: 0
       stagePos: 0
       levelID: 0
+    levelSpec:
+      timeForThisLevel: 0
+      impactRadiusForThisLevel: 0
   colorPresets:
   - {fileID: 11400000, guid: 13777aa392caf5542bdc3239152fa2eb, type: 2}
   brickPresets:

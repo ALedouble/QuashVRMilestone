@@ -13,7 +13,7 @@ public class FXManager : MonoBehaviour
 
     [Header("Deflagration zone")]
     private GameObject impactGo;
-    private List<ParticleSystem> ps;
+    private List<GameObject> ps;
     public float[] playersRadius;
     private float maxRadius;
 
@@ -37,7 +37,7 @@ public class FXManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        ps = new List<ParticleSystem>();
+        ps = new List<GameObject>();
     }
 
 
@@ -55,7 +55,20 @@ public class FXManager : MonoBehaviour
         //maxRadius = intensity * intensityModifier;
         maxRadius = playersRadius[playerID];
 
-        impactGo = PoolManager.instance.SpawnFromPool("ImpactFX", originPos, Quaternion.identity);
+
+        switch (BallManager.instance.GetBallColorID())
+        {
+            case 0:
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", originPos, Quaternion.identity);
+
+                break;
+
+            case 1:
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", originPos, Quaternion.identity);
+
+                break;
+        }
+
 
         impactGo.transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
 
@@ -65,15 +78,7 @@ public class FXManager : MonoBehaviour
         {
             for (int i = 0; i < impactGo.transform.childCount; i++)
             {
-                ps.Add(impactGo.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>());
-            }
-
-            for (int i = 0; i < ps.Count; i++)
-            {
-                //ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
-
-                //var main = ps[i].GetComponent<ParticleSystem>().main;
-                //main.startColor = 
+                ps.Add(impactGo.transform.GetChild(i).gameObject);
             }
 
             for (int i = 0; i < ps.Count; i++)

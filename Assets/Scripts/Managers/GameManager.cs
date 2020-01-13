@@ -25,10 +25,10 @@ public class GameManager : MonoBehaviour
     public GameObject spawnJ2;
 
     [Header("Timer Settings")]
-    public GUITimerData timerData;
-    public float currentTimer;
-    public float timerSpeedModifier;
-    public float timeMax;
+    public float timerSpeedModifier = 1f;
+    [HideInInspector] public GUITimerData timerData;
+    [HideInInspector] public float currentTimer;
+    [HideInInspector] public float timeMax;
 
     private int seconds;
     private int mSeconds;

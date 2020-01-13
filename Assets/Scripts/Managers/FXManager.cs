@@ -13,8 +13,8 @@ public class FXManager : MonoBehaviour
 
     [Header("Deflagration zone")]
     private GameObject impactGo;
-    private List<GameObject> ps;
-    public float[] playersRadius;
+    private List<ParticleSystem> ps;
+    [HideInInspector] public float[] playersRadius;
     private float maxRadius;
 
     //public SphereCollider sphereCol;
@@ -37,7 +37,7 @@ public class FXManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        ps = new List<GameObject>();
+        ps = new List<ParticleSystem>();
     }
 
 
@@ -78,12 +78,14 @@ public class FXManager : MonoBehaviour
         {
             for (int i = 0; i < impactGo.transform.childCount; i++)
             {
-                ps.Add(impactGo.transform.GetChild(i).gameObject);
+                ps.Add(impactGo.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>());
             }
 
             for (int i = 0; i < ps.Count; i++)
             {
-                ps[i].GetComponent<ParticleSystem>().Play();
+                ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
+
+                ps[i].Play();
             }
         }
 

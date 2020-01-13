@@ -18,11 +18,11 @@ public class BrickDestroyPlaceholder : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ball")
-        {
-            gameObject.SetActive(false);
-            PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
-            PoolManager.instance.SpawnFromPool("ImpactFX", transform.position, Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
-        }
+        //if (collision.gameObject.tag == "Ball")
+        //{
+        //    gameObject.SetActive(false);
+        //    PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
+        //    PoolManager.instance.SpawnFromPool("ImpactFX", transform.position, Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
+        //}
     }
 }

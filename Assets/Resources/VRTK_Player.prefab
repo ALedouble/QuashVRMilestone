@@ -2059,18 +2059,6 @@ MonoBehaviour:
       m_Calls: []
   OnButtonTwoPressed:
     m_PersistentCalls:
-      m_Calls: []
-  OnButtonTwoReleased:
-    m_PersistentCalls:
-      m_Calls: []
-  OnButtonTwoTouchStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnButtonTwoTouchEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStartMenuPressed:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1753954253580804494}
         m_MethodName: OnRightPauseButtonPress
@@ -2083,6 +2071,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnButtonTwoReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonTwoTouchStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonTwoTouchEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartMenuPressed:
+    m_PersistentCalls:
+      m_Calls: []
   OnStartMenuReleased:
     m_PersistentCalls:
       m_Calls: []

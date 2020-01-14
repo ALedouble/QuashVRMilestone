@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -957,12 +957,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115650432}
   m_CullTransparentMesh: 0
---- !u!1 &127008944 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 562496685723464131, guid: db90d7d5b94a1944aaa42d210b93f2b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 4507639602123267283}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &160883546
 GameObject:
   m_ObjectHideFlags: 0
@@ -12705,50 +12699,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &1950264658
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1950264660}
-  - component: {fileID: 1950264659}
-  m_Layer: 0
-  m_Name: DissonanceOptions
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1950264659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950264658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 775e47d0892f6bc409874a3286363d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dissonanceSetup: {fileID: 127008944}
---- !u!4 &1950264660
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950264658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.023435, y: 0.7450741, z: -7.026317}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966876058
 GameObject:
   m_ObjectHideFlags: 0
@@ -15477,6 +15427,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: currentroom
       objectReference: {fileID: 0}
+    - target: {fileID: 4507639601624595165, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186855831673343762, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4507639600841012521, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15622,20 +15582,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5186855831673343762, guid: db90d7d5b94a1944aaa42d210b93f2b2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5186855831673343789, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4507639601624595165, guid: db90d7d5b94a1944aaa42d210b93f2b2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4507639601303316806, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
@@ -15721,7 +15671,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1950264659}
+      objectReference: {fileID: 0}
     - target: {fileID: 4507639601784881050, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

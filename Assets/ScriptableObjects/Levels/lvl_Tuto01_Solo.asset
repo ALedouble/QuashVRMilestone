@@ -11209,14 +11209,15 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 1.75, y: 3.25, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
+          waypointsStorage:
+          - {x: 1.75, y: 3.25, z: 0}
+          brickColorPreset: 1
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -11431,14 +11432,15 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 2.05, y: 3.5500002, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
+          waypointsStorage:
+          - {x: 2.05, y: 3.5500002, z: 0}
+          brickColorPreset: 1
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -11627,7 +11629,7 @@ MonoBehaviour:
           smoothTime: 0
           waypointsStorage:
           - {x: 2.35, y: 2.95, z: 0}
-          brickColorPreset: 2
+          brickColorPreset: 1
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -11639,7 +11641,7 @@ MonoBehaviour:
           smoothTime: 0
           waypointsStorage:
           - {x: 2.35, y: 3.25, z: 0}
-          brickColorPreset: 2
+          brickColorPreset: 1
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -11655,14 +11657,15 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 2.35, y: 3.8500001, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
+          waypointsStorage:
+          - {x: 2.35, y: 3.8500001, z: 0}
+          brickColorPreset: 1
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -11828,7 +11831,7 @@ MonoBehaviour:
           smoothTime: 0
           waypointsStorage:
           - {x: 2.65, y: 2.65, z: 0}
-          brickColorPreset: 1
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -11864,18 +11867,19 @@ MonoBehaviour:
           smoothTime: 0
           waypointsStorage:
           - {x: 2.65, y: 3.5500002, z: 0}
-          brickColorPreset: 1
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 2.65, y: 3.8500001, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
+          waypointsStorage:
+          - {x: 2.65, y: 3.8500001, z: 0}
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -12052,7 +12056,7 @@ MonoBehaviour:
           smoothTime: 0
           waypointsStorage:
           - {x: 2.95, y: 2.95, z: 0}
-          brickColorPreset: 1
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -12064,7 +12068,19 @@ MonoBehaviour:
           smoothTime: 0
           waypointsStorage:
           - {x: 2.95, y: 3.25, z: 0}
-          brickColorPreset: 1
+          brickColorPreset: 2
+          brickTypePreset: 0
+          isMalus: 0
+          isBonus: 0
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 2.95, y: 3.5500002, z: 0}
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
+          waypointsStorage:
+          - {x: 2.95, y: 3.5500002, z: 0}
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -12255,25 +12271,15 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 3.25, y: 3.25, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
-          brickTypePreset: 0
-          isMalus: 0
-          isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
-          isMoving: 0
-          speed: 0
-          smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
+          waypointsStorage:
+          - {x: 3.25, y: 3.25, z: 0}
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -13451,4 +13457,6 @@ MonoBehaviour:
       score: 0
       stagePos: 0
       levelID: 0
-  timeForThisLevel: 120
+    levelSpec:
+      timeForThisLevel: 120
+      impactRadiusForThisLevel: 1.7

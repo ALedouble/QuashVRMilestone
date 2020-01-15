@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 270723340031542538}
   - component: {fileID: 270723340031542537}
   - component: {fileID: 7381415872149517838}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: PauseTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 270723340191464475}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 270723340313265110}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270723340313265109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.274867, y: 2.8712986, z: 24.630934}
+  m_LocalPosition: {x: 2.274867, y: 2.125, z: 24.630934}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 270723340873363022}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 270723340873363017}
   - component: {fileID: 270723340873363016}
   - component: {fileID: 270723340873363023}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Canvas Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ GameObject:
   - component: {fileID: 1212000773469220323}
   - component: {fileID: 1212000773469220321}
   - component: {fileID: 1212000773469220322}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Contour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 5086773998285584518}
   - component: {fileID: 984023872695565429}
   - component: {fileID: 6789868578436838262}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Contour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 4534822193159472743}
   - component: {fileID: 5357026931294747535}
   - component: {fileID: 1981240315590824593}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Button Main Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 5158111144059882118}
   - component: {fileID: 4977495810190158734}
   - component: {fileID: 2904719099187705172}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -782,7 +782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2682485501928234219}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ' '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 1809497842433487170}
   - component: {fileID: 3072978868511852201}
   - component: {fileID: 2237017291837900445}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Button Resume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +894,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: GameResumed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &2237017291837900445
 Animator:
   serializedVersion: 3
@@ -925,7 +936,7 @@ GameObject:
   - component: {fileID: 5720401718580283390}
   - component: {fileID: 6714880730387112296}
   - component: {fileID: 6590042374918428920}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,7 +1009,7 @@ GameObject:
   - component: {fileID: 4094745324093988804}
   - component: {fileID: 7085646183827061866}
   - component: {fileID: 883917985058688650}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,7 +1082,7 @@ GameObject:
   - component: {fileID: 8863190938322283583}
   - component: {fileID: 8858854945764365763}
   - component: {fileID: 8542955620174675685}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,6 +1238,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Background
       objectReference: {fileID: 0}
+    - target: {fileID: 8751958282587927261, guid: 059735664b3cb9243ad90f2756765e78,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8751958282587927266, guid: 059735664b3cb9243ad90f2756765e78,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1347,6 +1363,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.6561644
       objectReference: {fileID: 0}
+    - target: {fileID: 8751958282587927267, guid: 059735664b3cb9243ad90f2756765e78,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: d2e3de2cfe37e324fbf1e4c5154e14a4, type: 2}
     - target: {fileID: 8751958282587927267, guid: 059735664b3cb9243ad90f2756765e78,
         type: 3}
       propertyPath: m_Color.a

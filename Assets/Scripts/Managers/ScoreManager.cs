@@ -33,12 +33,6 @@ public class ScoreManager : MonoBehaviour
 
     public static ScoreManager Instance;
 
-    
-
-
-
-
-
     private void Awake()
     {
         pV = GetComponent<PhotonView>();
@@ -57,6 +51,9 @@ public class ScoreManager : MonoBehaviour
 
         string textScore = score[playerID].ToString();
         displayedScore[playerID].UpdateText(textScore);
+
+        //Trigger de l'anim
+        GUIScoreAnim.instance.PlayAnimScoreIncrease();
     }
 
 
@@ -76,13 +73,13 @@ public class ScoreManager : MonoBehaviour
             combo[playerID]++;
             string textCombo = combo[playerID].ToString();
             displayedCombo[playerID].UpdateText("x" + textCombo);
+            GUIComboAnim.instance.PlayAnimComboIncreasing();
 
             displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
         }
 
 
         displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
-        //Play anim combo increased
     }
 
     /// <summary>
@@ -97,5 +94,8 @@ public class ScoreManager : MonoBehaviour
         string textCombo = combo[playerID].ToString();
         displayedCombo[playerID].UpdateText("x" + textCombo);
         displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
+
+        //Trigger de l'anim
+        GUIComboAnim.instance.PlayAnimComboBreak();
     }
 }

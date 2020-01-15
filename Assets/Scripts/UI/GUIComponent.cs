@@ -10,7 +10,6 @@ public class GUIComponent : MonoBehaviour
     [SerializeField] TextMeshProUGUI textMesh;
     [SerializeField] Image image;
 
-
     public virtual void UpdateText(string newText)
     {
         if (!textMesh) return;
@@ -21,8 +20,5 @@ public class GUIComponent : MonoBehaviour
     {
         if (!image) return;
         image.fillAmount = fillAmount;
-
-
-
     }
 }

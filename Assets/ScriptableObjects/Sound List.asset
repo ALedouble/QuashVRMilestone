@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Sound List
   m_EditorClassIdentifier: 
   sounds:
-  - tag: 4
-    clip: {fileID: 8300000, guid: 7f3c8b1cb36c5b6459a87255c9c7bf1c, type: 3}
+  - soundName: Hit Ball Hard
+    tag: 0
+    clip: {fileID: 0}
     cooldown: 1
     volume: 1
     pitch: 1
@@ -24,40 +25,4 @@ MonoBehaviour:
     maxHitMagnitude: 15
     minVolume: 0.1
     maxVolume: 0.8
-    lastPlayTime: 0
-  - tag: 3
-    clip: {fileID: 8300000, guid: 7f3c8b1cb36c5b6459a87255c9c7bf1c, type: 3}
-    cooldown: 1
-    volume: 1
-    pitch: 1
-    loop: 0
-    spatialBlend: 0
-    panStereo: 0
-    maxHitMagnitude: 10
-    minVolume: 0.2
-    maxVolume: 1
-    lastPlayTime: 0
-  - tag: 2
-    clip: {fileID: 8300000, guid: 7f3c8b1cb36c5b6459a87255c9c7bf1c, type: 3}
-    cooldown: 1
-    volume: 1
-    pitch: 1
-    loop: 0
-    spatialBlend: 0
-    panStereo: 0
-    maxHitMagnitude: 10
-    minVolume: 0.2
-    maxVolume: 1
-    lastPlayTime: 0
-  - tag: 5
-    clip: {fileID: 8300000, guid: 7f3c8b1cb36c5b6459a87255c9c7bf1c, type: 3}
-    cooldown: 1
-    volume: 1
-    pitch: 1
-    loop: 0
-    spatialBlend: 0
-    panStereo: 0
-    maxHitMagnitude: 10
-    minVolume: 0.2
-    maxVolume: 1
     lastPlayTime: 0

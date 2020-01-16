@@ -53,7 +53,7 @@ public class ScoreManager : MonoBehaviour
         displayedScore[playerID].UpdateText(textScore);
 
         //Trigger de l'anim
-        GUIScoreData.instance.PlayAnimScoreIncrease();
+        GUIScoreAnim.instance.PlayAnimScoreIncrease();
     }
 
 
@@ -73,15 +73,13 @@ public class ScoreManager : MonoBehaviour
             combo[playerID]++;
             string textCombo = combo[playerID].ToString();
             displayedCombo[playerID].UpdateText("x" + textCombo);
+            GUIComboAnim.instance.PlayAnimComboIncreasing();
 
             displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
         }
 
 
         displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
-
-        //Trigger de l'anim
-        GUIComboData.instance.PlayAnimComboIncreasing();
     }
 
     /// <summary>
@@ -98,6 +96,6 @@ public class ScoreManager : MonoBehaviour
         displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
 
         //Trigger de l'anim
-        GUIComboData.instance.PlayAnimComboBreak();
+        GUIComboAnim.instance.PlayAnimComboBreak();
     }
 }

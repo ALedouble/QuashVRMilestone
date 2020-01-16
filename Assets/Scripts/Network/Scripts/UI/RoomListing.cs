@@ -4,11 +4,12 @@ using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RoomListing : MonoBehaviour
 {
   [SerializeField]
-  private Text _text;
+  private TextMeshProUGUI _text;
 
   GameObject mainCanvas;
   GameObject joinRoom;

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4372,6 +4372,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 378aa5e557bce5f4583438d8d7381be3, type: 3}
+--- !u!1 &587751483 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2609172055907320103, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4507639602123267283}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &591859142
 GameObject:
   m_ObjectHideFlags: 0
@@ -12842,10 +12848,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1950264658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 775e47d0892f6bc409874a3286363d1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 413be237a27360c4287ebd4ee44e4330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissonanceSetup: {fileID: 127008944}
+  dissonance: {fileID: 587751483}
 --- !u!4 &1950264660
 Transform:
   m_ObjectHideFlags: 0

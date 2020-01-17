@@ -65,6 +65,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private QPlayer currentTarget;
     public float depthVelocity;
 
+    public float xAcceleration;
+    public float groundHeight;
+
+    public float minRange;
+    public float maxRange;
+    public float angleSpread;
+
+    private TargetSelector targetSelector;
+    private OneBounceMagicReturn magicReturn;
+
     [Header("Switch Target Settings")]
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
     public QPlayer startingPlayer = QPlayer.PLAYER1;                  // Sera modifier!
@@ -92,6 +102,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         rigidbody = GetComponent<Rigidbody>();
 
         speedState = SpeedState.NORMAL;
+
+
+        targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
+        magicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, groundHeight);
 
         currentTarget = startingPlayer;
 
@@ -258,6 +272,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #region ReturnMechanics
 
+    #region BasicMagicReturn
     private void MagicalBounce3()           //Question: Repère par raport au terrain
     {
         if (!switchTargetIsRacketBased && photonView.IsMine)
@@ -311,6 +326,21 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         return zReturnPoints.position;
     }
+    #endregion
+
+    #region RandomReturn
+
+    private void RandomReturn()
+    {
+        Vector3 targetPosition = targetSelector.GetTargetPosition();
+        Vector3 newVelocity = magicReturn.CalculateNewVelocity(transform.position, targetPosition);
+
+        //Slow?
+
+        ApplyNewVelocity(newVelocity, transform.position);
+    }
+
+    #endregion
 
     #endregion
 

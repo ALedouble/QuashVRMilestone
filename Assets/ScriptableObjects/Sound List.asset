@@ -15,7 +15,20 @@ MonoBehaviour:
   sounds:
   - soundName: Hit Ball Hard
     tag: 0
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 07a081386b231d24586d02119734ff79, type: 3}
+    cooldown: 1
+    volume: 1
+    pitch: 1
+    loop: 0
+    spatialBlend: 0
+    panStereo: 0
+    maxHitMagnitude: 15
+    minVolume: 0.1
+    maxVolume: 0.8
+    lastPlayTime: 0
+  - soundName: Hit Wall
+    tag: 2
+    clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
     cooldown: 1
     volume: 1
     pitch: 1

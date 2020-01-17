@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagicReturn
+public class OneBounceMagicReturn
 {
     public double zVelocity;
-    public double groundHeight;
-    public double gravity;
-    public double dynamicFriction;
-    public double bounciness;
     public double xAcceleration;
 
-    public MagicReturn()
-    {
+    public double gravity;
+    public double bounciness;
+    public double dynamicFriction;
 
+    public double groundHeight;
+
+    public OneBounceMagicReturn(float zVelocity, float xAcceleration, float gravity = 9.81f, float bounciness = 1f, float dynamicFriction = 0f, float groundHeight = 0f)
+    {
+        this.zVelocity = zVelocity;
+        this.xAcceleration = xAcceleration;
+        this.gravity = gravity;
+        this.bounciness = bounciness;
+        this.dynamicFriction = dynamicFriction;
+        this.groundHeight = groundHeight;
     }
 
     public Vector3 CalculateNewVelocity(Vector3 ballImpactPosition, Vector3 targetPosition)

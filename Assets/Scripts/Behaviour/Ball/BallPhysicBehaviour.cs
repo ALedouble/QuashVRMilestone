@@ -133,8 +133,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "FrontWall":
             case "Brick":
-                //MagicalBounce3();
-                RandomReturn();
+                MagicalBounce3();
+                //RandomReturn();
                 speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
                 break;
             default:

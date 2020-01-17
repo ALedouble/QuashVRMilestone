@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 1758958001795561108}
   - component: {fileID: 4513035634878747323}
   - component: {fileID: 4646906268572400308}
+  - component: {fileID: 4786920642494746230}
   - component: {fileID: 323053201}
   - component: {fileID: 323053215}
   - component: {fileID: -8053101754471880488}
@@ -605,6 +606,11 @@ MonoBehaviour:
   slowness: 2
   gravity: 9.81
   depthVelocity: 10
+  xAcceleration: 0
+  groundHeight: 0
+  minRange: 0
+  maxRange: 0
+  angleSpread: 0
   switchType: 0
   startingPlayer: 0
   xReturnsPoints:
@@ -613,6 +619,22 @@ MonoBehaviour:
   zReturnPoints: {fileID: 0}
   bounciness: 0.8
   dynamicFriction: 0
+--- !u!114 &4786920642494746230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f35a4588ad228034289b2d0838b88a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRange: 0.8
+  maxRange: 1.5
+  angleSpread: 240
+  playerPositions: []
 --- !u!114 &323053201
 MonoBehaviour:
   m_ObjectHideFlags: 0

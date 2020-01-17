@@ -104,7 +104,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         speedState = SpeedState.NORMAL;
 
 
-        targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
+        //targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
+        targetSelector = GetComponent<BasicRandomTargetSelector>();
         magicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, groundHeight);
 
         currentTarget = startingPlayer;
@@ -132,7 +133,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "FrontWall":
             case "Brick":
-                MagicalBounce3();
+                //MagicalBounce3();
+                RandomReturn();
                 speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
                 break;
             default:

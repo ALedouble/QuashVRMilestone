@@ -50,6 +50,7 @@ public class OneBounceMagicReturn
 
         double xVelocity = CalculateXVelocity(ballImpactPosition, targetPosition, yVelocity, T12, Tt);
 
+        Debug.Log("Velocity :: x: " + xVelocity + "  y: " + yVelocity + "  z: " + zVelocity);
         Vector3 newVelocity = new Vector3((float)xVelocity, (float)yVelocity, (float)zVelocity);
 
         return newVelocity;
@@ -144,6 +145,9 @@ public class OneBounceMagicReturn
 
     private double CalculateXVelocity(Vector3 ballImpactPosition, Vector3 targetPosition, double yVelocity, double T12, double Tt)
     {
-        return (-(xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f) + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
+        if(targetPosition.x - ballImpactPosition.x < 0)  
+            return (-(xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f) + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
+        else
+            return (xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
     }
 }

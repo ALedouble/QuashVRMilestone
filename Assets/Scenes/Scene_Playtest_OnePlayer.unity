@@ -1439,9 +1439,39 @@ PrefabInstance:
       propertyPath: hitSpeedMultiplier
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: xAcceleration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: groundHeight
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 323053201, guid: 9138b8837b2e24e43b9a7d9f2391acae, type: 3}
       propertyPath: viewIdField
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[0].x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[0].y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[0].z
+      value: -9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9138b8837b2e24e43b9a7d9f2391acae, type: 3}

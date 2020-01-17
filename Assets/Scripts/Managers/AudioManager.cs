@@ -29,14 +29,23 @@ public class AudioManager : MonoBehaviour
 
     public void PlayHitSound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float hitIntensity)
     {
+        
+        bool hasSoundAssociatedWith = false;
+
         for (int i = 0; i < soundList.sounds.Length; i++)
         {
             if (tag == soundList.sounds[i].tag.ToString())
             {
                 selectedSound = soundList.sounds[i];
+                hasSoundAssociatedWith = true;
                 break;
             }
 
+        }
+
+        if (!hasSoundAssociatedWith)
+        {
+            return;
         }
 
         if (selectedSound.clip == null)

@@ -3531,7 +3531,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb782554c9495a498067bc278ad24c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballTransform: {fileID: 0}
 --- !u!1 &1323700361808478417
 GameObject:
   m_ObjectHideFlags: 0
@@ -4747,7 +4746,7 @@ GameObject:
   - component: {fileID: 7791302948308726307}
   m_Layer: 0
   m_Name: EnviroRoom_FloorLines
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

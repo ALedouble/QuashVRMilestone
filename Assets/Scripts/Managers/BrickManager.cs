@@ -89,7 +89,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
         ScoreManager.Instance.resetCombo = false;
         UpdateBrickLevel(touchedBrick.WallID);
 
-        AudioManager.instance.PlayHitSound(soundName, touchedBrick.Transform.position, touchedBrick.Transform.rotation, hitIntensity);
+        //AudioManager.instance.PlayHitSound(soundName, touchedBrick.Transform.position, touchedBrick.Transform.rotation, hitIntensity);
     }
 
 

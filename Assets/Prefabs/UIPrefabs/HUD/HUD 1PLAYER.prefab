@@ -291,13 +291,14 @@ GameObject:
   - component: {fileID: 4967680526892798734}
   - component: {fileID: 3065527107858026721}
   - component: {fileID: 7564924319280522980}
+  - component: {fileID: 2535447193504919066}
   m_Layer: 5
   m_Name: Canvas ScoreScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1193011029502963975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -307,7 +308,7 @@ RectTransform:
   m_GameObject: {fileID: 2849006568472999199}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5.78}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 1, z: 1}
   m_Children:
   - {fileID: 382506295993332728}
   m_Father: {fileID: 6885061630627397367}
@@ -392,6 +393,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clickOnPointerCollision: 0
   autoActivateWithinDistance: 0
+--- !u!95 &2535447193504919066
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2849006568472999199}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d5c7d46c4facb3f4d8f8fb64c87fb6a2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3069330434041674569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,7 +1793,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 2415919103
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2070,8 +2090,8 @@ MonoBehaviour:
   - {fileID: 8905695093484661469}
   maxComboData:
   - {fileID: 2354249298412401897}
-  scoreScreen:
-  - {fileID: 2849006568472999199}
+  animScoreScreen:
+  - {fileID: 2535447193504919066}
   scoreScreenCompleted:
   - {fileID: 9076206475829560907}
   scoreScreenFailed:
@@ -3626,7 +3646,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 2650800127
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

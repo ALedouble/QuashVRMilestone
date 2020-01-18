@@ -54,10 +54,10 @@ public class OneBounceMagicReturn
         //Debug.Log("P: " + P);
         double Q = CalculateQ(H, I, J, K);
         //Debug.Log("Q: " + Q);
-        double tOne = CalculateTOne(P, Q);
+        double T = CalculateT(P, Q);
         //Debug.Log("tOne: " + tOne);
 
-        double yVelocity = CalculateYVelocity(tOne, H, I);
+        double yVelocity = CalculateYVelocity(T, H, I);
 
         double T12 = CalculateT12(yVelocity, ballImpactPosition);
         double Tt = CalculateTt(T12, zVelocity, ballImpactPosition, targetPosition);
@@ -129,52 +129,74 @@ public class OneBounceMagicReturn
 
     private double CalculateP(double H, double I, double J)
     {
-        return (J * J - I * I) / (3 * H * H);
+        return (3 * H * J - I * I) / (3 * H * H);
     }
 
     private double CalculateQ(double H, double I, double J, double K)
     {
-        return -I * I * I / (3 * 3 * 3 * H * H * H) + I * I / (3 * 3 * H * H) + J * I / (3 * H * H) + K / H;
+        return -I * I * I / (3 * 3 * 3 * H * H * H) + I * I * I / (3 * 3 * H * H * H) + J * I / (3 * H * H) + K / H;
     }
 
-    private double CalculateTOne(double P, double Q)
+    private double CalculateT(double P, double Q)
     {
-        double double1 = (-Q - Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27) )) / 2;
-        double double2 = (-Q + Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27) )) / 2;
-
-        Debug.Log("double1: " + double1);
-        Debug.Log("double2: " + double2);
-
-        double cubeRoot1;
-        double cubeRoot2;
-
-        if(double1 < 0)
-        {
-            cubeRoot1 = - Mathf.Pow((float)(-double1), 1f / 3f);
-        }
+        double delta = -(4 * P * P * P + 27 * Q * Q);
+        Debug.Log("Delta: " + delta);
+        if (delta < 0)
+            return CalculateTDeltaNeg(delta, P, Q);
+        else if (delta == 0)            //Attention Erreur numeriques
+            return CalculateTDeltaZero(P, Q);
         else
-        {
-            cubeRoot1 = Mathf.Pow((float)double1, 1f / 3f);
-        }
+            return CalculateTDeltaPos(P, Q);
 
-        if (double2 < 0)
-        {
-            cubeRoot2 = - Mathf.Pow((float)(-double2), 1f / 3f);
-        }
-        else
-        {
-            cubeRoot2 = Mathf.Pow((float)double2, 1f / 3f);
-        }
-
-        Debug.Log("cubeRoot1:" + cubeRoot1);
-        Debug.Log("cubeRoot2:" + cubeRoot2);
-
-        return cubeRoot1 + cubeRoot2;
     }
 
-    private double CalculateYVelocity(double tOne, double H, double I)
+    private double CalculateTDeltaNeg(double delta, double P, double Q)
     {
-        return tOne - I / (3 * H);
+        double uCube = (-Q + Mathf.Sqrt(-(float)delta / 27f)) / 2.0;
+        double vCube = (-Q - Mathf.Sqrt(-(float)delta / 27f)) / 2.0;
+
+        double u;
+        double v;
+
+        if (uCube < 0)
+            u = -Mathf.Pow((float)(-uCube), 1f / 3f);
+        else
+            u = Mathf.Pow((float)uCube, 1f / 3f);
+
+        if (vCube < 0)
+            v = -Mathf.Pow((float)(-vCube), 1f / 3f);
+        else
+            v = Mathf.Pow((float)vCube, 1f / 3f);
+
+        return u + v;
+    }
+
+    private double CalculateTDeltaZero(double P, double Q)
+    {
+        double tZero = 3 * Q / P;
+        double tOne = -3 * Q / (2 * P);
+
+        if (true)    // Trouver un critere
+            return tZero;
+        else
+            return tOne;
+    }
+
+    private double CalculateTDeltaPos(double P, double Q)
+    {
+        double tZero = 2 * Mathf.Sqrt((float)(-P / 3.0)) * Mathf.Cos( Mathf.Acos( (float)(3 * Q * Mathf.Sqrt((float)(3 / -P)) / (2 * P)) ) );
+        double tOne = 2 * Mathf.Sqrt((float)(-P / 3.0)) * Mathf.Cos( Mathf.Acos( (float)(3 * Q * Mathf.Sqrt((float)(3 / -P)) / (2 * P)) ) + 2 * Mathf.PI / 3f );
+        double tTwo = 2 * Mathf.Sqrt((float)(-P / 3.0)) * Mathf.Cos( Mathf.Acos( (float)(3 * Q * Mathf.Sqrt((float)(3 / -P)) / (2 * P)) ) + 2 * Mathf.PI / 3f );
+
+        if (true)
+            return tZero;
+        else
+            return tOne;
+    }
+
+    private double CalculateYVelocity(double T, double H, double I)
+    {
+        return T - I / (3 * H);
     }
 
     private double CalculateT12(double yVelocity, Vector3 ballImpactPosition)

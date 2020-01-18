@@ -196,8 +196,8 @@ public class FXManager : MonoBehaviour
     {
         for (int j = 0; j < numberOfDivision; j++)
         {
-            Debug.DrawRay(originPosition,
-                transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
+            //Debug.DrawRay(originPosition,
+            //    transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
 
             RaycastHit hit;
 

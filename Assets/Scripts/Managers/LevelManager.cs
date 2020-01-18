@@ -254,12 +254,13 @@ public class LevelManager : MonoBehaviour
                 //ScoreManager.Instance.SetScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
             }
 
-            StartCoroutine(GoWALLgO(playerID));
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
+
+            StartCoroutine(GoWALLgO(playerID));
         }
 
         if (firstSetUpDone[playerID])
@@ -333,7 +334,9 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator GoWALLgO(int playerID)
     {
-        yield return new WaitForSeconds(0.95f);
+        yield return new WaitForSeconds(0.90f);
+
+        BrickManager.Instance.ActivateMovingBricks(playerID);
 
         changePositionReady[playerID] = true;
 

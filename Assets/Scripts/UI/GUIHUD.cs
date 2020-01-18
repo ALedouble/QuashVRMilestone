@@ -11,16 +11,17 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GUITimerData timerData;
 
     [Header("HUD ScoreScreen References")]
-    [SerializeField] GUIMaxScoreData maxScoreData;
-    [SerializeField] GUIMaxComboData maxComboData;
+    [SerializeField] GUIMaxScoreData[] maxScoreData;
+    [SerializeField] GUIMaxComboData[] maxComboData;
 
     [Header("References")]
-    [SerializeField] GameObject scoreScreen;
-    [SerializeField] GameObject scoreScreenCompleted;
-    [SerializeField] GameObject scoreScreenFailed;
-    [SerializeField] GameObject scoreComboHUD;
-    [SerializeField] GameObject timerHUD;
-    [SerializeField] GameObject layerCountHUD;
+    [SerializeField] GameObject[] scoreScreen;
+    [SerializeField] GameObject[] scoreScreenCompleted;
+    [SerializeField] GameObject[] scoreScreenFailed;
+    [SerializeField] GameObject[] scoreComboHUD;
+    [SerializeField] GameObject[] timerHUD;
+    [SerializeField] GameObject[] layerCountHUD;
+
     public Transform[] layerCountParent;
 
     #region Singleton
@@ -36,38 +37,51 @@ public class GUIHUD : MonoBehaviour
     public GUIComboData[] ComboData { get => comboData; }
     public GUIFillBarData FillBarData { get => fillBarData; }
     public GUITimerData TimerData { get => timerData; }
-    public GUIMaxScoreData MaxScoreData { get => maxScoreData; }
-    public GUIMaxComboData MaxComboData { get => maxComboData; }
+    public GUIMaxScoreData[] MaxScoreData { get => maxScoreData; }
+    public GUIMaxComboData[] MaxComboData { get => maxComboData; }
 
     // ----------------------------------------------------- //
 
     public void EnableScoreScreen()
     {
-        scoreScreen.SetActive(true);
+        for (int i = 0; i < scoreScreen.Length; i++)
+        {
+            scoreScreen[i].SetActive(true);
 
-        scoreComboHUD.SetActive(false);
-        timerHUD.SetActive(false);
-        layerCountHUD.SetActive(false);
+            scoreComboHUD[i].SetActive(false);
+            timerHUD[i].SetActive(false);
+            layerCountHUD[i].SetActive(false);
+
+        }
 
         if (!GameManager.Instance.hasLost)
         {
-            scoreScreenCompleted.SetActive(true);
-            scoreScreenFailed.SetActive(false);
+            for (int i = 0; i < scoreScreenCompleted.Length; i++)
+            {
+                scoreScreenCompleted[i].SetActive(true);
+                scoreScreenFailed[i].SetActive(false);
+            }
+
         }
         else
         {
-            scoreScreenFailed.SetActive(true);
-            scoreScreenCompleted.SetActive(false);
+            for (int i = 0; i < scoreScreenFailed.Length; i++)
+            {
+                scoreScreenFailed[i].SetActive(true);
+                scoreScreenCompleted[i].SetActive(false);
+            }
         }
     }
 
     public void DisableScoreScreen()
     {
-        scoreScreen.SetActive(false);
+        for (int i = 0; i < scoreScreen.Length; i++)
+        {
+            scoreScreen[i].SetActive(false);
 
-        scoreComboHUD.SetActive(true);
-        timerHUD.SetActive(true);
-        layerCountHUD.SetActive(true);
+            scoreComboHUD[i].SetActive(true);
+            timerHUD[i].SetActive(true);
+            layerCountHUD[i].SetActive(true);
+        }
     }
-
 }

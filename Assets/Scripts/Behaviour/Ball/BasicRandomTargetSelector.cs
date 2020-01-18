@@ -13,12 +13,12 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
 
     public Vector3 CurrentTargetPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length];}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
-    public BasicRandomTargetSelector(float minRange, float maxRange, float angleSpread)
-    {
-        this.minRange = minRange;
-        this.maxRange = maxRange;
-        this.angleSpread = angleSpread;
-    }
+    //public BasicRandomTargetSelector(float minRange, float maxRange, float angleSpread)
+    //{
+    //    this.minRange = minRange;
+    //    this.maxRange = maxRange;
+    //    this.angleSpread = angleSpread;
+    //}
 
     public void SwitchTarget()
     {

@@ -157,7 +157,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void SetupMaterials()
     {
-        Debug.Log("SetupMaterials");
         materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
         materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
 

@@ -26,22 +26,36 @@ public class OneBounceMagicReturn
     public Vector3 CalculateNewVelocity(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
         double A = CalculateA();
+        Debug.Log("A: " + A);
         double B = CalculateB(ballImpactPosition, targetPosition);
+        Debug.Log("B: " + B);
         double C = CalculateC(ballImpactPosition, targetPosition);
+        Debug.Log("C: " + C);
         double D = CalculateD(ballImpactPosition, targetPosition);
+        Debug.Log("D: " + D);
 
         double E = CalculateE(A);
+        Debug.Log("E: " + E);
         double F = CalculateF(B, C);
+        Debug.Log("F: " + F);
         double G = CalculateG(ballImpactPosition, A, D);
+        Debug.Log("G: " + G);
 
         double H = CalculateH(B, E, F);
+        Debug.Log("H: " + H);
         double I = CalculateI(ballImpactPosition, B, E ,F, G);
+        Debug.Log("I: " + I);
         double J = CalculateJ(ballImpactPosition, B, E, F, G);
+        Debug.Log("J: " + J);
         double K = CalculateK(ballImpactPosition, B, G);
+        Debug.Log("K: " + K);
 
         double P = CalculateP(H, I, J);
+        Debug.Log("P: " + P);
         double Q = CalculateQ(H, I, J, K);
+        Debug.Log("Q: " + Q);
         double tOne = CalculateTOne(P, Q);
+        Debug.Log("tOne: " + tOne);
 
         double yVelocity = CalculateYVelocity(tOne, H, I);
 
@@ -123,8 +137,8 @@ public class OneBounceMagicReturn
 
     private double CalculateTOne(double P, double Q)
     {
-        double double1 = (-Q - Mathf.Sqrt((float)Q * (float)Q + 4 * (float)P * (float)P * (float)P / 27)) / 2;
-        double double2 = (-Q + Mathf.Sqrt((float)Q * (float)Q + 4 * (float)P * (float)P * (float)P / 27)) / 2;
+        double double1 = (-Q - Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27) )) / 2;
+        double double2 = (-Q + Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27)) ) / 2;
         return Mathf.Pow((float)double1, 1f / 3f) + Mathf.Pow((float)double2, 1f / 3f);
     }
 

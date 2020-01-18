@@ -26,19 +26,6 @@ MonoBehaviour:
     minVolume: 0.575
     maxVolume: 0.8
     lastPlayTime: 0
-  - soundName: Hit Wall
-    tag: 2
-    clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
-    cooldown: 0
-    volume: 0.459
-    pitch: 1
-    loop: 0
-    spatialBlend: 0
-    panStereo: 0
-    maxHitMagnitude: 15
-    minVolume: 0.575
-    maxVolume: 0.8
-    lastPlayTime: 0
   - soundName: Ball Hit Floor
     tag: 3
     clip: {fileID: 8300000, guid: bbe8e02f79bb49649ad95f3a641dc471, type: 3}
@@ -52,20 +39,7 @@ MonoBehaviour:
     minVolume: 0.879
     maxVolume: 1
     lastPlayTime: 0
-  - soundName: 
-    tag: 5
-    clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
-    cooldown: 0
-    volume: 0.57
-    pitch: 1
-    loop: 0
-    spatialBlend: 0
-    panStereo: 0
-    maxHitMagnitude: 15
-    minVolume: 0.575
-    maxVolume: 0.8
-    lastPlayTime: 0
-  - soundName: 
+  - soundName: SFX_Ball_Impact
     tag: 5
     clip: {fileID: 8300000, guid: 447e2b43b74016241bb6ec8954542afb, type: 3}
     cooldown: 0
@@ -75,10 +49,10 @@ MonoBehaviour:
     spatialBlend: 0
     panStereo: 0
     maxHitMagnitude: 15
-    minVolume: 0.575
-    maxVolume: 0.8
+    minVolume: 0.879
+    maxVolume: 1
     lastPlayTime: 0
-  - soundName: 
+  - soundName: SFX_Brick_Explosion
     tag: 0
     clip: {fileID: 8300000, guid: 82cb3ab64bb619c4fa1763c6e025ded6, type: 3}
     cooldown: 0
@@ -88,6 +62,32 @@ MonoBehaviour:
     spatialBlend: 0
     panStereo: 0
     maxHitMagnitude: 15
-    minVolume: 0.575
-    maxVolume: 0.8
+    minVolume: 0.879
+    maxVolume: 1
+    lastPlayTime: 0
+  - soundName: Ball Hit Wall
+    tag: 2
+    clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
+    cooldown: 0
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    spatialBlend: 0
+    panStereo: 0
+    maxHitMagnitude: 15
+    minVolume: 0.879
+    maxVolume: 1
+    lastPlayTime: 0
+  - soundName: Ball Hit Front Wall
+    tag: 5
+    clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
+    cooldown: 0
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    spatialBlend: 0
+    panStereo: 0
+    maxHitMagnitude: 15
+    minVolume: 0.879
+    maxVolume: 1
     lastPlayTime: 0

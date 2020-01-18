@@ -90,6 +90,7 @@ public class FXManager : MonoBehaviour
         }
 
         isExplosion = true;
+        AudioManager.instance.PlaySound("SFX_Ball_Impact", Vector3.zero);
     }
 
     private void Update()

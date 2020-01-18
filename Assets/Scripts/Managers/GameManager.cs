@@ -88,6 +88,11 @@ public class GameManager : MonoBehaviour
         {
             UpdateTimer();
         }
+
+        if (PhotonNetwork.PlayerList.Length == 0)
+        {
+            //Condition de déconnexion de la room Multi et retour dans le menu.
+        }
     }
 
     public void StartTheGame()
@@ -137,5 +142,22 @@ public class GameManager : MonoBehaviour
 
             timerData.FillImage(currentTimer / timeMax);
         }
+    }
+
+
+    [PunRPC]
+    public void Restart(int view)
+    {
+        Scene sceneLoaded = SceneManager.GetActiveScene();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.LoadLevel(sceneLoaded.buildIndex);
+        }
+    }
+
+    public void ReturnMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

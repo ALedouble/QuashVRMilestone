@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
         if (PhotonNetwork.PlayerList.Length == 0)
         {
             //Condition de déconnexion de la room Multi et retour dans le menu.
+            Debug.Log("oui");
+        }
+        else
+        {
+            Debug.Log("non");
         }
     }
 

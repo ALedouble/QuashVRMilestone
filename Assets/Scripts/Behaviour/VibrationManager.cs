@@ -6,9 +6,9 @@ using VRTK;
 public class VibrationManager : MonoBehaviour
 {
     public VRTK_ControllerReference controllerRef;
-    public AudioClip clipVib;
 
     public static VibrationManager instance;
+
 
 
     private void Awake()
@@ -16,9 +16,15 @@ public class VibrationManager : MonoBehaviour
         instance = this;
     }
 
-    public void StartVibration()
+    public void VibrateOn(AudioClip clipVib)
     {
-        controllerRef = VRTK_ControllerReference.GetControllerReference(1);
+        controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, clipVib);
+    }
+
+    public void VibrateOn(float strength)
+    {
+        controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
+        VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, strength);
     }
 }

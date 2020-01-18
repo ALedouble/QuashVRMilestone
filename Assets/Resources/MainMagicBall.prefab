@@ -548,7 +548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2768b78909232d843b86fd7f63baec24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownBetweenTwoImpactFX: 0
+  cooldownBetweenTwoImpactFX: 0.5
+  clipVib: {fileID: 8300000, guid: 9aefe65fd0be8564391b90725de420d4, type: 3}
 --- !u!114 &1758958001795561108
 MonoBehaviour:
   m_ObjectHideFlags: 0

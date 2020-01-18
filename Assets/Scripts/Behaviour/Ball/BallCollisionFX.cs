@@ -10,6 +10,7 @@ public class BallCollisionFX : MonoBehaviour
     private float currentCooldown = 0f;
     public float cooldownBetweenTwoImpactFX;
     private bool canSpawn = false;
+    
 
     private void Update()
     {
@@ -31,7 +32,6 @@ public class BallCollisionFX : MonoBehaviour
         {
             Vector3 forward = Vector3.Cross(collision.contacts[0].normal, collision.transform.up);
             GameObject obj = PoolManager.instance.SpawnFromPool("BounceFX", impactPosition, 
-
                 Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
         }
 
@@ -39,7 +39,7 @@ public class BallCollisionFX : MonoBehaviour
         {
             ScoreManager.Instance.resetCombo = true;
 
-            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, 0)); //BallID
+            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall())); //BallID
 
             currentCooldown = 0;
 
@@ -47,7 +47,7 @@ public class BallCollisionFX : MonoBehaviour
 
             if (canSpawn)
             {
-                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, 0); //BallID
+                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
 
                 canSpawn = false;
             }
@@ -55,10 +55,9 @@ public class BallCollisionFX : MonoBehaviour
 
         if (collision.collider.TryGetComponent<IBrick>(out IBrick brick))
         {
-            //BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
             if(brick.GetBrickInfo().ColorID != 0)
             {
-                if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1)
+                if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1) //ColorID
                 {
                     collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                 }
@@ -69,6 +68,7 @@ public class BallCollisionFX : MonoBehaviour
             }
         }
     }
+
 
     public IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)
     {

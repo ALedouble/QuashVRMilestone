@@ -12,11 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers Solo
       objectReference: {fileID: 0}
-    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: numberOfPlayers
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2113905627460504248, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -71,6 +66,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: playersRadius.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: playersRadius.Array.data[0]
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: numberOfPlayers
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}

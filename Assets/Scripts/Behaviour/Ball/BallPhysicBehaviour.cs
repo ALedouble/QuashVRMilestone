@@ -94,6 +94,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private QPlayer lastPlayerWhoHitTheBall;
 
+    private List<Vector3> forcesToApply;
+
     private PhotonView photonView;
 
     void Start()
@@ -106,7 +108,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         //targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
         targetSelector = GetComponent<BasicRandomTargetSelector>();
-        magicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, groundHeight);
+        magicReturn = new OneBounceMagicReturn(-depthVelocity, xAcceleration, gravity, bounciness, groundHeight);
 
         currentTarget = startingPlayer;
 
@@ -121,6 +123,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             rigidbody.AddForce(gravity * Vector3.down);
         else if (speedState == SpeedState.SLOW)
             rigidbody.AddForce(gravity / (slowness * slowness) * Vector3.down);
+
+        ApplyForces();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -176,6 +180,17 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         transform.position = positionWhenHit;
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
+    }
+
+    private void ApplyForces()
+    {
+        //if(forcesToApply.Count>0)
+        //{
+        //    foreach(Vector3 force in forcesToApply)
+        //    {
+        //        rigidbody.AddForce(force);
+        //    }
+        //}
     }
 
     #region RacketInteraction
@@ -339,7 +354,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         //Slow?
 
-        ApplyNewVelocity(newVelocity, transform.position);
+        ApplyNewVelocity(newVelocity / slowness, transform.position);
     }
 
     #endregion

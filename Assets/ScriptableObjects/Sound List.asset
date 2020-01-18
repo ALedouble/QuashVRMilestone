@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - soundName: Hit Ball Hard
-    tag: 0
+    tag: 4
     clip: {fileID: 8300000, guid: 07a081386b231d24586d02119734ff79, type: 3}
     cooldown: 1
     volume: 1
@@ -31,24 +31,37 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
     cooldown: 0
     volume: 1
-    pitch: 0
+    pitch: 1
     loop: 0
     spatialBlend: 0
     panStereo: 0
-    maxHitMagnitude: 0
+    maxHitMagnitude: 15
     minVolume: 0.575
     maxVolume: 0.8
     lastPlayTime: 0
   - soundName: Ball Hit Floor
-    tag: 2
+    tag: 3
     clip: {fileID: 8300000, guid: bbe8e02f79bb49649ad95f3a641dc471, type: 3}
     cooldown: 0
     volume: 1
-    pitch: 0
+    pitch: 1
     loop: 0
     spatialBlend: 0
     panStereo: 0
-    maxHitMagnitude: 0
+    maxHitMagnitude: 15
+    minVolume: 0.879
+    maxVolume: 1
+    lastPlayTime: 0
+  - soundName: 
+    tag: 5
+    clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
+    cooldown: 0
+    volume: 1
+    pitch: 1
+    loop: 0
+    spatialBlend: 0
+    panStereo: 0
+    maxHitMagnitude: 15
     minVolume: 0.575
     maxVolume: 0.8
     lastPlayTime: 0

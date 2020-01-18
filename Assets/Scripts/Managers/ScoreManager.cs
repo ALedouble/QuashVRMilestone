@@ -18,8 +18,9 @@ public class ScoreManager : MonoBehaviour
     [Header("Score variables")]
     public int maxCounter;
     [HideInInspector] public float[] score;
-    [HideInInspector] public float[] combo;
+    [HideInInspector] public int[] combo;
     [HideInInspector] public int[] brickCounterGauge;
+    public int[] playersMaxCombo;
     
 
     [HideInInspector] public GUIScoreData[] displayedScore;
@@ -76,6 +77,11 @@ public class ScoreManager : MonoBehaviour
             GUIComboAnim.instance.PlayAnimComboIncreasing();
 
             displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
+
+            if(combo[playerID] > playersMaxCombo[playerID])
+            {
+                playersMaxCombo[playerID] = combo[playerID];
+            }
         }
 
 

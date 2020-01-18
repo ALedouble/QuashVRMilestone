@@ -114,6 +114,11 @@ public class GameManager : MonoBehaviour
         isGameStart = true;
     }
 
+    public void EndOfTheGame()
+    {
+        LevelManager.instance.playersHUD.EnableScoreScreen();
+        isGameStart = false;
+    }
 
     private void UpdateTimer()
     {
@@ -133,6 +138,7 @@ public class GameManager : MonoBehaviour
             isTimerStopped = true;
             hasLost = true;
 
+            EndOfTheGame();
             //GameOver STATE
         }
         else

@@ -21,6 +21,7 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject scoreComboHUD;
     [SerializeField] GameObject timerHUD;
     [SerializeField] GameObject layerCountHUD;
+    public Transform[] layerCountParent;
 
     private bool isCompleted = false;
 

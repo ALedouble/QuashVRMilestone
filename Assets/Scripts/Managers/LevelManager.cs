@@ -21,6 +21,8 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public Transform[] levelTrans;
     [HideInInspector] public Parenting[] playersParents;
     [HideInInspector] public Shakers[] playersShakers;
+    /*[HideInInspector]*/
+    public UIlayers[] playersUIlayers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
 
@@ -30,6 +32,7 @@ public class LevelManager : MonoBehaviour
 
     [HideInInspector] public int[] currentLayer;
     public int numberOfLayers;
+    UI_LayerBehaviour[] UiLayers;
     bool[] isThereAnotherLayer;
     [HideInInspector] public Vector3[] startPos;
     Vector3[] NextPos;
@@ -130,6 +133,7 @@ public class LevelManager : MonoBehaviour
         BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
         playersParents = new Parenting[numberOfPlayers];
         playersShakers = new Shakers[numberOfPlayers];
+        playersUIlayers = new UIlayers[numberOfPlayers];
         firstSetUpDone = new bool[numberOfPlayers];
         ScoreManager.Instance.displayedScore = new GUIScoreData[numberOfPlayers];
         ScoreManager.Instance.displayedCombo = new GUIComboData[numberOfPlayers];
@@ -150,6 +154,7 @@ public class LevelManager : MonoBehaviour
             startPos[i] = posDiffPerPlayer * i;
             playersParents[i].layersParent = new Transform[currentLevel.level.levelWallBuilds.walls.Length];
             numberOfLayers = currentLevel.level.levelWallBuilds.walls.Length;
+            playersUIlayers[i].layersUI = new UI_LayerBehaviour[numberOfLayers];
 
             Vector3 goPos = new Vector3(startPos4Player1.x + (posDiffPerPlayer.x * i), startPos4Player1.y + (posDiffPerPlayer.y * i), startPos4Player1.z + (posDiffPerPlayer.z * i));
             GameObject trans = new GameObject();
@@ -160,6 +165,16 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreData[i];
             ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];
             ScoreManager.Instance.combo[i] = 1;
+
+
+            playersHUD.layerCountParent[i].localPosition = new Vector3(0 - 0.1f * numberOfLayers, 0.5f, 0);
+            for (int r = 0; r < numberOfLayers; r++)
+            {
+                GameObject layerUI = PoolManager.instance.SpawnFromPool("LayerUI", new Vector3(0, 0), Quaternion.identity);
+                layerUI.transform.parent = playersHUD.layerCountParent[i];
+                layerUI.transform.localPosition = new Vector3(0 + 0.2f * r, 0, 0);
+                playersUIlayers[i].layersUI[r] = layerUI.GetComponent<UI_LayerBehaviour>();
+            }
 
             FXManager.Instance.playersRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;
 
@@ -193,9 +208,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    void SetLayersUI(int playerID)
+    void SetLayersUI(int playerID, int layerCompleted)
     {
-
+        playersUIlayers[playerID].layersUI[layerCompleted].CompleteLayer();
     }
 
     /// <summary>
@@ -205,6 +220,8 @@ public class LevelManager : MonoBehaviour
     {
         if (isThereAnotherLayer[playerID])
         {
+
+
             currentLayer[playerID]++;
             NextPos[playerID] = new Vector3(startPos[playerID].x, startPos[playerID].y, startPos[playerID].z - (layerDiffPosition * currentLayer[playerID]));
 
@@ -242,6 +259,11 @@ public class LevelManager : MonoBehaviour
         }
         //Debug.Log("NumberOfPlayers : " + playersParents.Length);
         //Debug.Log("NumberOf Layers : " + playersParents[playerID].layersParent.Length);
+
+        if (firstSetUpDone[playerID])
+        {
+            SetLayersUI(playerID, currentLayer[playerID] - 1);
+        }
 
         //BrickManager.Instance.ActivateMovingBricks(playerID);
         firstSetUpDone[playerID] = true;
@@ -326,5 +348,11 @@ public class LevelManager : MonoBehaviour
     public struct Shakers
     {
         public Shaker[] layersShaker;
+    }
+
+    [System.Serializable]
+    public struct UIlayers
+    {
+        public UI_LayerBehaviour[] layersUI;
     }
 }

@@ -1051,6 +1051,7 @@ MonoBehaviour:
   displayedScore: []
   displayedCombo: []
   resetCombo: 1
+  pV: {fileID: 0}
   finishingFirstScoreBoost: 1
 --- !u!1 &7024211451994467589
 GameObject:
@@ -1133,7 +1134,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
-  numberOfDivision: 18
+  numberOfDivision: 20
   raycastOffset: 0
   intensityModifier: 0.05
 --- !u!1 &7025568103452848686

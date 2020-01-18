@@ -48,6 +48,8 @@ public class QPlayerManager : MonoBehaviourPun
     private GameObject localPlayerRightController;
     private GameObject localPlayerLeftController;
 
+    private PlayerHand playerMainHand;
+
     public void SetLocalPlayer(GameObject localPlayer)
     {
         this.localPlayer = localPlayer;
@@ -66,9 +68,17 @@ public class QPlayerManager : MonoBehaviourPun
         }
     }
 
+    public PlayerHand GetMainHand()
+    {
+        return playerMainHand;
+    }
+
     private void SetupControllers()
     {
         localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().Get();
         localPlayerRightController = localPlayer.GetComponentInChildren<RightControllerGetter>().Get();
+
+        //Find PlayerSettings
+        playerMainHand = PlayerHand.RIGHT;
     }
 }

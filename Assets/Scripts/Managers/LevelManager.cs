@@ -138,8 +138,9 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.displayedScore = new GUIScoreData[numberOfPlayers];
         ScoreManager.Instance.displayedCombo = new GUIComboData[numberOfPlayers];
         ScoreManager.Instance.score = new float[numberOfPlayers];
-        ScoreManager.Instance.combo = new float[numberOfPlayers];
+        ScoreManager.Instance.combo = new int[numberOfPlayers];
         ScoreManager.Instance.brickCounterGauge = new int[numberOfPlayers];
+        ScoreManager.Instance.playersMaxCombo = new int[numberOfPlayers];
         FXManager.Instance.playersRadius = new float[numberOfPlayers];
 
         GameManager.Instance.timeMax = currentLevel.level.levelSpec.timeForThisLevel;
@@ -165,6 +166,7 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreData[i];
             ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];
             ScoreManager.Instance.combo[i] = 1;
+            ScoreManager.Instance.playersMaxCombo[i] = 1;
 
 
             playersHUD.layerCountParent[i].localPosition = new Vector3(0 - 0.1f * numberOfLayers, 0.5f, 0);
@@ -208,10 +210,20 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    void SetLayersUI(int playerID, int layerCompleted)
+
+    void EndOfLayerUpdates(int playerID, int layerCompleted)
     {
         playersUIlayers[playerID].layersUI[layerCompleted].CompleteLayer();
+
+        // Rajout d'animation FIN d'un layer
+
+
+        if (!isThereAnotherLayer[playerID])
+        {
+            GameManager.Instance.EndOfTheGame();
+        }
     }
+
 
     /// <summary>
     /// Set up parameters to change level position
@@ -220,8 +232,6 @@ public class LevelManager : MonoBehaviour
     {
         if (isThereAnotherLayer[playerID])
         {
-
-
             currentLayer[playerID]++;
             NextPos[playerID] = new Vector3(startPos[playerID].x, startPos[playerID].y, startPos[playerID].z - (layerDiffPosition * currentLayer[playerID]));
 
@@ -241,7 +251,7 @@ public class LevelManager : MonoBehaviour
                     }
                 }
 
-                ScoreManager.Instance.SetScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
+                //ScoreManager.Instance.SetScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
             }
 
             StartCoroutine(GoWALLgO(playerID));
@@ -252,6 +262,10 @@ public class LevelManager : MonoBehaviour
             }
         }
 
+        if (firstSetUpDone[playerID])
+        {
+            EndOfLayerUpdates(playerID, currentLayer[playerID] - 1);
+        }
 
         if (currentLayer[playerID] >= currentLevelConfig.levelWallBuilds.walls.Length - 1)
         {
@@ -260,10 +274,7 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("NumberOfPlayers : " + playersParents.Length);
         //Debug.Log("NumberOf Layers : " + playersParents[playerID].layersParent.Length);
 
-        if (firstSetUpDone[playerID])
-        {
-            SetLayersUI(playerID, currentLayer[playerID] - 1);
-        }
+
 
         //BrickManager.Instance.ActivateMovingBricks(playerID);
         firstSetUpDone[playerID] = true;
@@ -288,7 +299,6 @@ public class LevelManager : MonoBehaviour
                 {
                     go.Add(obj);
                 }
-
             }
 
             for (int i = 0; i < go.Count; i++)

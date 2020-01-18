@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GUIHUD : MonoBehaviour
 {
-    [Header ("HUD References")]
+    [Header("HUD References")]
     [SerializeField] GUIScoreData[] scoreData;
     [SerializeField] GUIComboData[] comboData;
     [SerializeField] GUIFillBarData fillBarData;
@@ -22,8 +22,6 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject timerHUD;
     [SerializeField] GameObject layerCountHUD;
     public Transform[] layerCountParent;
-
-    private bool isCompleted = false;
 
     #region Singleton
     public static GUIHUD instance;
@@ -43,7 +41,7 @@ public class GUIHUD : MonoBehaviour
 
     // ----------------------------------------------------- //
 
-    public void EnableScoreScreen ()
+    public void EnableScoreScreen()
     {
         scoreScreen.SetActive(true);
 
@@ -51,13 +49,12 @@ public class GUIHUD : MonoBehaviour
         timerHUD.SetActive(false);
         layerCountHUD.SetActive(false);
 
-        if (isCompleted)
+        if (!GameManager.Instance.hasLost)
         {
             scoreScreenCompleted.SetActive(true);
             scoreScreenFailed.SetActive(false);
         }
-
-        if (!isCompleted)
+        else
         {
             scoreScreenFailed.SetActive(true);
             scoreScreenCompleted.SetActive(false);

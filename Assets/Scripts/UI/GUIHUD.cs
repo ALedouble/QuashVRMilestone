@@ -15,7 +15,7 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GUIMaxComboData[] maxComboData;
 
     [Header("References")]
-    [SerializeField] GameObject[] scoreScreen;
+    [SerializeField] Animator[] animScoreScreen;
     [SerializeField] GameObject[] scoreScreenCompleted;
     [SerializeField] GameObject[] scoreScreenFailed;
     [SerializeField] GameObject[] scoreComboHUD;
@@ -44,9 +44,9 @@ public class GUIHUD : MonoBehaviour
 
     public void EnableScoreScreen()
     {
-        for (int i = 0; i < scoreScreen.Length; i++)
+        for (int i = 0; i < animScoreScreen.Length; i++)
         {
-            scoreScreen[i].SetActive(true);
+            animScoreScreen[i].Play("A_ScoreScreen_Appearing");
 
             scoreComboHUD[i].SetActive(false);
             timerHUD[i].SetActive(false);
@@ -72,18 +72,6 @@ public class GUIHUD : MonoBehaviour
                 scoreScreenFailed[i].SetActive(true);
                 scoreScreenCompleted[i].SetActive(false);
             }
-        }
-    }
-
-    public void DisableScoreScreen()
-    {
-        for (int i = 0; i < scoreScreen.Length; i++)
-        {
-            scoreScreen[i].SetActive(false);
-
-            scoreComboHUD[i].SetActive(true);
-            timerHUD[i].SetActive(true);
-            layerCountHUD[i].SetActive(true);
         }
     }
 }

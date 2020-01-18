@@ -2066,14 +2066,22 @@ MonoBehaviour:
   - {fileID: 1870874328645935310}
   fillBarData: {fileID: 7293421053369135923}
   timerData: {fileID: 4304867707772833607}
-  maxScoreData: {fileID: 8905695093484661469}
-  maxComboData: {fileID: 2354249298412401897}
-  scoreScreen: {fileID: 2849006568472999199}
-  scoreScreenCompleted: {fileID: 9076206475829560907}
-  scoreScreenFailed: {fileID: 6373957044782019973}
-  scoreComboHUD: {fileID: 6885061631859642014}
-  timerHUD: {fileID: 5189408402629420389}
-  layerCountHUD: {fileID: 8962468657811087157}
+  maxScoreData:
+  - {fileID: 8905695093484661469}
+  maxComboData:
+  - {fileID: 2354249298412401897}
+  scoreScreen:
+  - {fileID: 2849006568472999199}
+  scoreScreenCompleted:
+  - {fileID: 9076206475829560907}
+  scoreScreenFailed:
+  - {fileID: 6373957044782019973}
+  scoreComboHUD:
+  - {fileID: 6885061631859642014}
+  timerHUD:
+  - {fileID: 5189408402629420389}
+  layerCountHUD:
+  - {fileID: 8962468657811087157}
   layerCountParent:
   - {fileID: 4732601824730521816}
 --- !u!1 &6885061630677972959

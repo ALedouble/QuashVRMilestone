@@ -22,6 +22,8 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject timerHUD;
     [SerializeField] GameObject layerCountHUD;
 
+    private bool isCompleted = false;
+
     #region Singleton
     public static GUIHUD instance;
 
@@ -40,6 +42,34 @@ public class GUIHUD : MonoBehaviour
 
     // ----------------------------------------------------- //
 
-   
+    public void EnableScoreScreen ()
+    {
+        scoreScreen.SetActive(true);
+
+        scoreComboHUD.SetActive(false);
+        timerHUD.SetActive(false);
+        layerCountHUD.SetActive(false);
+
+        if (isCompleted)
+        {
+            scoreScreenCompleted.SetActive(true);
+            scoreScreenFailed.SetActive(false);
+        }
+
+        if (!isCompleted)
+        {
+            scoreScreenFailed.SetActive(true);
+            scoreScreenCompleted.SetActive(false);
+        }
+    }
+
+    public void DisableScoreScreen()
+    {
+        scoreScreen.SetActive(false);
+
+        scoreComboHUD.SetActive(true);
+        timerHUD.SetActive(true);
+        layerCountHUD.SetActive(true);
+    }
 
 }

@@ -11,6 +11,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
     public Vector3[] playerPositions;
     private QPlayer currentTarget;
 
+    public GameObject targetTestIndicator;
     public Vector3 CurrentTargetPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length];}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
     //public BasicRandomTargetSelector(float minRange, float maxRange, float angleSpread)
@@ -27,6 +28,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
 
     public Vector3 GetTargetPosition()
     {
+        targetTestIndicator.transform.position = CurrentTargetPosition + GetRandomRelativeTargetPoint();
         return CurrentTargetPosition + GetRandomRelativeTargetPoint();
     }
 

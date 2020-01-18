@@ -26,36 +26,36 @@ public class OneBounceMagicReturn
     public Vector3 CalculateNewVelocity(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
         double A = CalculateA();
-        Debug.Log("A: " + A);
+        //Debug.Log("A: " + A);
         double B = CalculateB(ballImpactPosition, targetPosition);
-        Debug.Log("B: " + B);
+        //Debug.Log("B: " + B);
         double C = CalculateC(ballImpactPosition, targetPosition);
-        Debug.Log("C: " + C);
+        //Debug.Log("C: " + C);
         double D = CalculateD(ballImpactPosition, targetPosition);
-        Debug.Log("D: " + D);
+        //Debug.Log("D: " + D);
 
         double E = CalculateE(A);
-        Debug.Log("E: " + E);
+        //Debug.Log("E: " + E);
         double F = CalculateF(B, C);
-        Debug.Log("F: " + F);
+        //Debug.Log("F: " + F);
         double G = CalculateG(ballImpactPosition, A, D);
-        Debug.Log("G: " + G);
+        //Debug.Log("G: " + G);
 
         double H = CalculateH(B, E, F);
-        Debug.Log("H: " + H);
+        //Debug.Log("H: " + H);
         double I = CalculateI(ballImpactPosition, B, E ,F, G);
-        Debug.Log("I: " + I);
+        //Debug.Log("I: " + I);
         double J = CalculateJ(ballImpactPosition, B, E, F, G);
-        Debug.Log("J: " + J);
+        //Debug.Log("J: " + J);
         double K = CalculateK(ballImpactPosition, B, G);
-        Debug.Log("K: " + K);
+        //Debug.Log("K: " + K);
 
         double P = CalculateP(H, I, J);
-        Debug.Log("P: " + P);
+        //Debug.Log("P: " + P);
         double Q = CalculateQ(H, I, J, K);
-        Debug.Log("Q: " + Q);
+        //Debug.Log("Q: " + Q);
         double tOne = CalculateTOne(P, Q);
-        Debug.Log("tOne: " + tOne);
+        //Debug.Log("tOne: " + tOne);
 
         double yVelocity = CalculateYVelocity(tOne, H, I);
 
@@ -65,6 +65,8 @@ public class OneBounceMagicReturn
         double xVelocity = CalculateXVelocity(ballImpactPosition, targetPosition, yVelocity, T12, Tt);
 
         Debug.Log("Velocity :: x: " + xVelocity + "  y: " + yVelocity + "  z: " + zVelocity);
+        YVelocityVerification(yVelocity, H, I, J, K);
+
         Vector3 newVelocity = new Vector3((float)xVelocity, (float)yVelocity, (float)zVelocity);
 
         return newVelocity;
@@ -138,8 +140,36 @@ public class OneBounceMagicReturn
     private double CalculateTOne(double P, double Q)
     {
         double double1 = (-Q - Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27) )) / 2;
-        double double2 = (-Q + Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27)) ) / 2;
-        return Mathf.Pow((float)double1, 1f / 3f) + Mathf.Pow((float)double2, 1f / 3f);
+        double double2 = (-Q + Mathf.Sqrt( (float)(Q * Q + 4 * P * P * P / 27) )) / 2;
+
+        Debug.Log("double1: " + double1);
+        Debug.Log("double2: " + double2);
+
+        double cubeRoot1;
+        double cubeRoot2;
+
+        if(double1 < 0)
+        {
+            cubeRoot1 = - Mathf.Pow((float)(-double1), 1f / 3f);
+        }
+        else
+        {
+            cubeRoot1 = Mathf.Pow((float)double1, 1f / 3f);
+        }
+
+        if (double2 < 0)
+        {
+            cubeRoot2 = - Mathf.Pow((float)(-double2), 1f / 3f);
+        }
+        else
+        {
+            cubeRoot2 = Mathf.Pow((float)double2, 1f / 3f);
+        }
+
+        Debug.Log("cubeRoot1:" + cubeRoot1);
+        Debug.Log("cubeRoot2:" + cubeRoot2);
+
+        return cubeRoot1 + cubeRoot2;
     }
 
     private double CalculateYVelocity(double tOne, double H, double I)
@@ -163,5 +193,13 @@ public class OneBounceMagicReturn
             return (-(xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f) + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
         else
             return (xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
+    }
+
+    private double YVelocityVerification(double yVelocity, double H, double I, double J, double K)
+    {
+        double error = H * yVelocity * yVelocity * yVelocity + I * yVelocity * yVelocity + J * yVelocity + K;
+        Debug.Log("YVelocity Error: " + error);
+
+        return error;
     }
 }

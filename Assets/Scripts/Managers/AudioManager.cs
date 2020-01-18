@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayHitSound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float hitIntensity)
     {
-        
+
         bool hasSoundAssociatedWith = false;
 
         for (int i = 0; i < soundList.sounds.Length; i++)
@@ -58,18 +58,18 @@ public class AudioManager : MonoBehaviour
         GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, spawnRotation);
         AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
 
-        if(tag == "Racket")
+        SetAudioSource(hitSoundSource, selectedSound);
+        AdjustVolume(hitSoundSource, selectedSound, hitIntensity);
+
+        if (tag == "Racket")
         {
             VibrationManager.instance.VibrateOn(hitSoundSource.clip);
         }
 
-        SetAudioSource(hitSoundSource, selectedSound);
-        AdjustVolume(hitSoundSource, selectedSound, hitIntensity);
-
         hitSoundSource.Play();
     }
 
-    public void PlaySound(string soundName,Vector3 soundPosition)
+    public void PlaySound(string soundName, Vector3 soundPosition)
     {
         for (int i = 0; i < soundList.sounds.Length; i++)
         {
@@ -91,7 +91,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero,Quaternion.identity);
+        GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero, Quaternion.identity);
         AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
 
         SetAudioSource(hitSoundSource, selectedSound);

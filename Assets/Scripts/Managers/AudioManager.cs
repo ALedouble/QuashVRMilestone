@@ -13,16 +13,12 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (instance)
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
-        
         instance = this;
-
     }
     #endregion
+
+
+
 
     public SoundClass soundList;
     private SoundSettings selectedSound;
@@ -61,6 +57,11 @@ public class AudioManager : MonoBehaviour
 
         GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, spawnRotation);
         AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
+
+        if(tag == "Racket")
+        {
+            VibrationManager.instance.VibrateOn(hitSoundSource.clip);
+        }
 
         SetAudioSource(hitSoundSource, selectedSound);
         AdjustVolume(hitSoundSource, selectedSound, hitIntensity);

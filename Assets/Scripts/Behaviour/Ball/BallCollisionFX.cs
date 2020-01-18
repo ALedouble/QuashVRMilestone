@@ -67,11 +67,6 @@ public class BallCollisionFX : MonoBehaviour
                 collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
             }
         }
-
-        if (collision.gameObject.tag == "Racket")
-        {
-            VibrationManager.instance.StartVibration();
-        }
     }
 
 

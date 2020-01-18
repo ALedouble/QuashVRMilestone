@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
     [Header("Récupération de la configuration du level")]
     public LevelsScriptable[] registeredLevels;
     public LevelsScriptable currentLevel;
-    public LevelSettings currentLevelConfig;
+    [HideInInspector] public LevelSettings currentLevelConfig;
     [HideInInspector] public string levelsPath = "Assets/ScriptableObjects/Levels";
 
 
@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     public float layerDiffPosition = 0.6f;
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
-     public Parenting[] playersParents;
+    [HideInInspector] public Parenting[] playersParents;
     [HideInInspector] public Shakers[] playersShakers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
@@ -28,7 +28,8 @@ public class LevelManager : MonoBehaviour
     public Vector3 posDiffPerPlayer;
     public EditorScriptable editorPreset;
 
-     public int[] currentLayer;
+    [HideInInspector] public int[] currentLayer;
+    public int numberOfLayers;
     bool[] isThereAnotherLayer;
     [HideInInspector] public Vector3[] startPos;
     Vector3[] NextPos;
@@ -148,7 +149,7 @@ public class LevelManager : MonoBehaviour
             isThereAnotherLayer[i] = true;
             startPos[i] = posDiffPerPlayer * i;
             playersParents[i].layersParent = new Transform[currentLevel.level.levelWallBuilds.walls.Length];
-
+            numberOfLayers = currentLevel.level.levelWallBuilds.walls.Length;
 
             Vector3 goPos = new Vector3(startPos4Player1.x + (posDiffPerPlayer.x * i), startPos4Player1.y + (posDiffPerPlayer.y * i), startPos4Player1.z + (posDiffPerPlayer.z * i));
             GameObject trans = new GameObject();
@@ -192,6 +193,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    void SetLayersUI(int playerID)
+    {
+
+    }
 
     /// <summary>
     /// Set up parameters to change level position

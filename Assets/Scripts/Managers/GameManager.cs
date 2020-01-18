@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
     private int mSeconds;
     private bool isGameStart = false;
 
+    public bool isTimerStopped = false;
+    public bool hasLost = false;
+
     [Header("Offline Mode")]
     public bool offlineMode = false;
     
@@ -90,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isGameStart)
+        if (isGameStart && !isTimerStopped && !hasLost)
         {
             UpdateTimer();
         }
@@ -111,6 +114,7 @@ public class GameManager : MonoBehaviour
         isGameStart = true;
     }
 
+
     private void UpdateTimer()
     {
         if (currentTimer >= 0)
@@ -125,6 +129,11 @@ public class GameManager : MonoBehaviour
         {
             timerData.UpdateText("00:00");
             timerData.FillImage(0);
+
+            isTimerStopped = true;
+            hasLost = true;
+
+            //GameOver STATE
         }
         else
         {

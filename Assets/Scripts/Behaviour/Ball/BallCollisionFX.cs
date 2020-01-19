@@ -10,7 +10,7 @@ public class BallCollisionFX : MonoBehaviour
     private float currentCooldown = 0f;
     public float cooldownBetweenTwoImpactFX;
     private bool canSpawn = false;
-    
+
 
     private void Update()
     {
@@ -31,7 +31,7 @@ public class BallCollisionFX : MonoBehaviour
         if (collision.gameObject.tag == "Wall")
         {
             Vector3 forward = Vector3.Cross(collision.contacts[0].normal, collision.transform.up);
-            GameObject obj = PoolManager.instance.SpawnFromPool("BounceFX", impactPosition, 
+            GameObject obj = PoolManager.instance.SpawnFromPool("BounceFX", impactPosition,
                 Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
         }
 
@@ -40,6 +40,9 @@ public class BallCollisionFX : MonoBehaviour
             ScoreManager.Instance.resetCombo = true;
 
             StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall())); //BallID
+
+            if (LevelManager.instance.numberOfPlayers > 1)
+                StartCoroutine(MiddleWallDisapearance()); 
 
             currentCooldown = 0;
 
@@ -55,7 +58,7 @@ public class BallCollisionFX : MonoBehaviour
 
         if (collision.collider.TryGetComponent<IBrick>(out IBrick brick))
         {
-            if(brick.GetBrickInfo().ColorID != 0)
+            if (brick.GetBrickInfo().ColorID != 0)
             {
                 if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1) //ColorID
                 {
@@ -79,4 +82,15 @@ public class BallCollisionFX : MonoBehaviour
             ScoreManager.Instance.ResetCombo(playerID);
         }
     }
+
+    public IEnumerator MiddleWallDisapearance()
+    {
+        LevelManager.instance.midCollider.enabled = false;
+
+        yield return new WaitForSeconds(1.5f);
+
+        LevelManager.instance.midCollider.enabled = true;
+
+    }
+
 }

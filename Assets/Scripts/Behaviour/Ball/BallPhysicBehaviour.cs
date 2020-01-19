@@ -127,7 +127,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         else if (speedState == SpeedState.SLOW)
             rigidbody.AddForce(gravity / (slowness * slowness) * Vector3.down);
 
-        ApplyForces();
+        //ApplyForces();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -140,10 +140,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "FrontWall":
             case "Brick":
-                //MagicalBounce3();
-                RandomReturnWithoutBounce();
+                MagicalBounce3();
+                //RandomReturnWithoutBounce();
                 //RandomReturnWithBounce();
-                //speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
+                speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
                 break;
             default:
                 StandardBounce(other.GetContact(0));
@@ -356,7 +356,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetTargetPosition();
         Vector3 newVelocity = oBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity/* / slowness*/, transform.position);
+        ApplyNewVelocity(newVelocity / slowness, transform.position);
     }
 
     private void RandomReturnWithoutBounce()
@@ -364,7 +364,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity/* / slowness*/, transform.position);
+        ApplyNewVelocity(newVelocity / slowness, transform.position);
     }
 
     #endregion

@@ -28,8 +28,11 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
 
     public Vector3 GetTargetPosition()
     {
-        targetTestIndicator.transform.position = CurrentTargetPosition + GetRandomRelativeTargetPoint();
-        return CurrentTargetPosition + GetRandomRelativeTargetPoint();
+        Vector3 newTarget = CurrentTargetPosition + GetRandomRelativeTargetPoint();
+        targetTestIndicator.transform.position = newTarget;
+        Debug.Log("Target: " + newTarget);
+
+        return newTarget;
     }
 
     public void SetCurrentTarget(QPlayer newTarget)

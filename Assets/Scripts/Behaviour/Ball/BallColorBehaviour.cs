@@ -146,6 +146,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         trails[colorID].SetActive(true);
         trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);       // Prevent negative value of modulo
+
+        // Changer les couleur des murs
     }
 
     [PunRPC]

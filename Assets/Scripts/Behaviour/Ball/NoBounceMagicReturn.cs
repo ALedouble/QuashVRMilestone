@@ -4,14 +4,40 @@ using UnityEngine;
 
 public class NoBounceMagicReturn : MonoBehaviour
 {
-    float zVelocity;
-    float gravity;
-    float absolteXAcceleration;
+    private float absoluteZVelocity;
+    private float gravity;
+    private float absolteXAcceleration;
 
-    public NoBounceMagicReturn(float zVelocity, float gravity, float absoluteXAcceleration)
+    private float xAcceleration;
+    private float zVelocity;
+
+
+    public NoBounceMagicReturn(float absoluteZVelocity, float gravity, float absoluteXAcceleration=0)
     {
-        this.zVelocity = zVelocity;
+        this.absoluteZVelocity = absoluteZVelocity;
         this.gravity = gravity;
         this.absolteXAcceleration = absoluteXAcceleration; 
+    }
+
+    public Vector3 CalculateNewVelocity(Vector3 ballImpactPosition, Vector3 targetPosition)
+    {
+        if (targetPosition.x - ballImpactPosition.x <= 0)
+            xAcceleration = absolteXAcceleration;
+        else
+            xAcceleration = -absolteXAcceleration;
+
+        if (targetPosition.z - ballImpactPosition.z <= 0)
+            zVelocity = -absoluteZVelocity;
+        else
+            zVelocity = absoluteZVelocity;
+
+
+        float T = (targetPosition.z - ballImpactPosition.z) / zVelocity;
+
+        float yVelocity = (targetPosition.y - ballImpactPosition.y + gravity * T * T) / T;
+        float xVelocity = (targetPosition.x - ballImpactPosition.x) / T;
+        //float xVelocity = (targetPosition.x - ballImpactPosition.x - xAcceleration * T * T) / T;
+
+        return new Vector3(xVelocity, yVelocity, zVelocity);
     }
 }

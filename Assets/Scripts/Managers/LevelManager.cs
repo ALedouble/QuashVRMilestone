@@ -23,19 +23,22 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public Shakers[] playersShakers;
     [HideInInspector] public LayerCompletedEffect[] playersLayerCompletedFX;
     [HideInInspector] public WinManagerVFX[] playersWinFX;
+    [HideInInspector] public MeshRenderer[] allMeshes;
+    [HideInInspector] public MeshRenderer midMesh;
+    [HideInInspector] public MeshCollider midCollider;
 
     /*[HideInInspector]*/
-    public UIlayers[] playersUIlayers;
+    [HideInInspector] public UIlayers[] playersUIlayers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
-    public PlayroomElements playroomElements;
+    [HideInInspector] public PlayroomElements playroomElements;
 
     public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
     public EditorScriptable editorPreset;
 
     [HideInInspector] public int[] currentLayer;
-    public int numberOfLayers;
+    [HideInInspector] public int numberOfLayers;
     UI_LayerBehaviour[] UiLayers;
     bool[] isThereAnotherLayer;
     [HideInInspector] public Vector3[] startPos;
@@ -119,6 +122,10 @@ public class LevelManager : MonoBehaviour
         playersHUD = goHUD.GetComponent<GUIHUD>();
         roomShaker = goRoom.GetComponent<Shaker>();
         playroomElements = goRoom.GetComponent<PlayroomElements>();
+
+        allMeshes = playroomElements.renderers;
+        midMesh = playroomElements.midWallRenderer;
+        midCollider = playroomElements.midCollider;
 
         GameManager.Instance.timerData = playersHUD.TimerData;
     }

@@ -86,8 +86,8 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
 
     private void Moving()
     {
-        this.transform.position = Vector3.SmoothDamp(this.transform.position, waypoints[waypointIndex], ref refVector, smoothTime,
-            speed);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, waypoints[waypointIndex],
+            speed * 0.009f);
 
         if (this.transform.position == waypoints[waypointIndex])
         {

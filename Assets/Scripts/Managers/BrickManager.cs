@@ -183,8 +183,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
         {
             LevelManager.instance.isEverythingDisplayed[playerID] = true;
         }
-
-        ActivateMovingBricks(playerID);
     }
 
     /// <summary>

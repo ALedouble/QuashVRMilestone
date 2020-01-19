@@ -169,12 +169,12 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.playersMaxCombo[i] = 1;
 
 
-            playersHUD.layerCountParent[i].localPosition = new Vector3(0 - 0.1f * numberOfLayers, 0.5f, 0);
+            playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * numberOfLayers), 0.5f, 0);
             for (int r = 0; r < numberOfLayers; r++)
             {
                 GameObject layerUI = PoolManager.instance.SpawnFromPool("LayerUI", new Vector3(0, 0), Quaternion.identity);
                 layerUI.transform.parent = playersHUD.layerCountParent[i];
-                layerUI.transform.localPosition = new Vector3(0 + 0.2f * r, 0, 0);
+                layerUI.transform.localPosition = new Vector3(0 + (0.2f * (r)), 0, 0);
                 playersUIlayers[i].layersUI[r] = layerUI.GetComponent<UI_LayerBehaviour>();
             }
 
@@ -254,12 +254,13 @@ public class LevelManager : MonoBehaviour
                 //ScoreManager.Instance.SetScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
             }
 
-            StartCoroutine(GoWALLgO(playerID));
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
+
+            StartCoroutine(GoWALLgO(playerID));
         }
 
         if (firstSetUpDone[playerID])
@@ -333,7 +334,9 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator GoWALLgO(int playerID)
     {
-        yield return new WaitForSeconds(0.95f);
+        yield return new WaitForSeconds(0.90f);
+
+        BrickManager.Instance.ActivateMovingBricks(playerID);
 
         changePositionReady[playerID] = true;
 

@@ -90,6 +90,7 @@ public class FXManager : MonoBehaviour
         }
 
         isExplosion = true;
+        AudioManager.instance.PlaySound("SFX_Ball_Impact", Vector3.zero);
     }
 
     private void Update()
@@ -195,8 +196,8 @@ public class FXManager : MonoBehaviour
     {
         for (int j = 0; j < numberOfDivision; j++)
         {
-            Debug.DrawRay(originPosition,
-                transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
+            //Debug.DrawRay(originPosition,
+            //    transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
 
             RaycastHit hit;
 

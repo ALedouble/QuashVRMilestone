@@ -24,6 +24,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         }
     }
     #endregion
+
     public GameObject racketPrefab;
     public GameObject localPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
@@ -45,8 +46,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
 
     private void AssociateRacketWithController()
     {
-        //Ajouter Les setting Droitier/Gaucher
-        RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).transform;
+        PlayerHand playerMainHand = QPlayerManager.instance.GetMainHand();
+        RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(playerMainHand).transform;
         localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
         localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
         localPlayerRacket.transform.localPosition = new Vector3(0f, 0.02f, 0.6f); //grabPosition.localPosition; 

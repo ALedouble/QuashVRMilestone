@@ -174,6 +174,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
                 if (TryGetComponent<IBrick>(out IBrick brick))
                 {
                     hasBeenHit = false;
+                    AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
                     BrickManager.Instance.DeadBrick(brick.GetBrickInfo());
                 }
             }

@@ -34,9 +34,9 @@ public class NoBounceMagicReturn : MonoBehaviour
 
         float T = (targetPosition.z - ballImpactPosition.z) / zVelocity;
 
-        float yVelocity = (targetPosition.y - ballImpactPosition.y + gravity * T * T) / T;
+        float yVelocity = (targetPosition.y - ballImpactPosition.y + gravity * T * T / 2f) / T;
         float xVelocity = (targetPosition.x - ballImpactPosition.x) / T;
-        //float xVelocity = (targetPosition.x - ballImpactPosition.x - xAcceleration * T * T) / T;
+        //float xVelocity = (targetPosition.x - ballImpactPosition.x - xAcceleration * T * T / 2f) / T;
 
         return new Vector3(xVelocity, yVelocity, zVelocity);
     }

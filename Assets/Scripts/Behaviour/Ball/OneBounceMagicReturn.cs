@@ -217,11 +217,25 @@ public class OneBounceMagicReturn
             return (xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
     }
 
-    private double YVelocityVerification(double yVelocity, double H, double I, double J, double K)
+    private double CalculateError(double value, double H, double I, double J, double K)
     {
-        double error = H * yVelocity * yVelocity * yVelocity + I * yVelocity * yVelocity + J * yVelocity + K;
+        double error = H * value * value * value + I * value * value + J * value + K;
         Debug.Log("YVelocity Error: " + error);
 
         return error;
+    }
+
+    private double SecantMethod4Order(double H, double I, double J, double K)
+    {
+        double xn = 0;
+        double xnMinus1 = 0;
+        double xnMinus2 = 0;
+        double error = CalculateError(xn, H, I, J, K);
+        while (error > 0.01)
+        {
+           
+        }
+
+        return xn;
     }
 }

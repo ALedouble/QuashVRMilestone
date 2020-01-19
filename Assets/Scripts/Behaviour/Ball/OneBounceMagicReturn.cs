@@ -13,6 +13,11 @@ public class OneBounceMagicReturn
 
     public double groundHeight;
 
+
+    private double zUsedVelocity;
+
+
+
     public OneBounceMagicReturn(float zVelocity, float xAcceleration, float gravity = 9.81f, float bounciness = 1f, float dynamicFriction = 0f, float groundHeight = 0f)
     {
         this.zVelocity = zVelocity;
@@ -25,14 +30,17 @@ public class OneBounceMagicReturn
 
     public Vector3 CalculateNewVelocity(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        double yVelocity = CalculateYVelocity(ballImpactPosition, targetPosition);
+        if (targetPosition.z - ballImpactPosition.z < 0)
+            zUsedVelocity = -zVelocity;
+        else
+            zUsedVelocity = zVelocity;
 
+        double yVelocity = CalculateYVelocity(ballImpactPosition, targetPosition);
         double xVelocity = CalculateXVelocity(ballImpactPosition, targetPosition, yVelocity);
 
-        Debug.Log("Velocity :: x: " + xVelocity + "  y: " + yVelocity + "  z: " + zVelocity);
-        Vector3 newVelocity = new Vector3((float)xVelocity, (float)yVelocity, (float)zVelocity);
+        Debug.Log("Velocity :: x: " + xVelocity + "  y: " + yVelocity + "  z: " + zUsedVelocity);
 
-        return newVelocity;
+        return new Vector3((float)xVelocity, (float)yVelocity, (float)zUsedVelocity);
     }
 
     #region YVelocity Calculation
@@ -62,11 +70,11 @@ public class OneBounceMagicReturn
         double J = CalculateJ(ballImpactPosition, B, E, F, G);
         //Debug.Log("J: " + J);
         double K = CalculateK(ballImpactPosition, B, G);
-        //Debug.Log("K: " + K);
+        Debug.Log("K: " + K);
 
        
-        //return AnalyticSolution4OrderPolynom(H, I, J, K);
-        return SecantMethod4Order(H, I, J, K);
+        AnalyticSolution3OrderPolynom(H, I, J, K);
+        return SecantMethod3Order(H, I, J, K);
     }
 
     #endregion
@@ -80,17 +88,17 @@ public class OneBounceMagicReturn
 
     private double CalculateB(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return gravity * (targetPosition.z - ballImpactPosition.z) * (2 + bounciness * (1 - dynamicFriction)) / (zVelocity * (1 - dynamicFriction) * (1 - dynamicFriction));
+        return gravity * (targetPosition.z - ballImpactPosition.z) * (2 + bounciness * (1 - dynamicFriction)) / (zUsedVelocity * (1 - dynamicFriction) * (1 - dynamicFriction));
     }
 
     private double CalculateC(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return -bounciness * (targetPosition.z - ballImpactPosition.z) / (zVelocity * (1 - dynamicFriction));
+        return -bounciness * (targetPosition.z - ballImpactPosition.z) / (zUsedVelocity * (1 - dynamicFriction));
     }
 
     private double CalculateD(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return -gravity * (targetPosition.z - ballImpactPosition.z) * (targetPosition.z - ballImpactPosition.z) / (zVelocity * zVelocity * (1 - dynamicFriction) * (1 - dynamicFriction)) + groundHeight - targetPosition.y;
+        return -gravity * (targetPosition.z - ballImpactPosition.z) * (targetPosition.z - ballImpactPosition.z) / (zUsedVelocity * zUsedVelocity * (1 - dynamicFriction) * (1 - dynamicFriction)) + groundHeight - targetPosition.y;
     }
 
     private double CalculateE(double A)
@@ -120,7 +128,7 @@ public class OneBounceMagicReturn
 
     private double CalculateJ(Vector3 ballImpactPosition, double B, double E, double F, double G)
     {
-        return 4 * (ballImpactPosition.y - groundHeight) * E * B - 2 * E * G;
+        return 4 * (ballImpactPosition.y - groundHeight) * E * B - 2 * F * G;
     }
 
     private double CalculateK(Vector3 ballImpactPosition, double B, double G)
@@ -132,7 +140,7 @@ public class OneBounceMagicReturn
 
     #region Analytic Solution
 
-    private double AnalyticSolution4OrderPolynom(double H, double I, double J, double K)
+    private double AnalyticSolution3OrderPolynom(double H, double I, double J, double K)
     {
         double P = CalculateP(H, I, J);
         //Debug.Log("P: " + P);
@@ -226,7 +234,9 @@ public class OneBounceMagicReturn
     private double CalculateXVelocity(Vector3 ballImpactPosition, Vector3 targetPosition, double yVelocity)
     {
         double T12 = CalculateT12(yVelocity, ballImpactPosition);
-        double Tt = CalculateTt(T12, zVelocity, ballImpactPosition, targetPosition);
+        Debug.Log("T12: " + T12);
+        double Tt = CalculateTt(T12, zUsedVelocity, ballImpactPosition, targetPosition);
+        Debug.Log("Tt: " + Tt);
 
         if (targetPosition.x - ballImpactPosition.x < 0)
             return (-(xAcceleration * Tt * Tt * (0.5f + (1 - dynamicFriction) * T12) + xAcceleration * T12 * T12 / 2f) + targetPosition.x - ballImpactPosition.x) / ((1 - dynamicFriction) * Tt * Tt + T12);
@@ -239,35 +249,45 @@ public class OneBounceMagicReturn
         return (yVelocity + Mathf.Sqrt((float)yVelocity * (float)yVelocity + 2 * (float)gravity * (ballImpactPosition.y - (float)groundHeight))) / gravity;
     }
 
-    private double CalculateTt(double T12, double zVelocity, Vector3 ballImpactPosition, Vector3 targetPosition)
+    private double CalculateTt(double T12, double zUsedVelocity, Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return (targetPosition.z - ballImpactPosition.z - zVelocity * T12) / ((1 - dynamicFriction) * zVelocity);
+        return (targetPosition.z - ballImpactPosition.z - zUsedVelocity * T12) / ((1 - dynamicFriction) * zUsedVelocity);
     }
 
     #endregion
 
     #region Numeric Solutions
 
-    private double SecantMethod4Order(double H, double I, double J, double K)
+    private double SecantMethod3Order(double H, double I, double J, double K)
     {
         double xn = 0;
-        double xnMinus1 = 0;
-        double xnMinus2 = 0;
-        double error = CalculateError(xn, H, I, J, K);
+        double xnMinus1 = 1;
+        double xnMinus2 = 1;
+        double error = Calculate3OrderPolynom(xn, H, I, J, K);
         
-        while (error > 0.01)
+        while (error > 0.01 || error < -0.01)
         {
             xnMinus2 = xnMinus1;
             xnMinus1 = xn;
-            xn = xnMinus1 - CalculateError(xnMinus1, H, I, J, K) * (xnMinus1 - xnMinus2) / (CalculateError(xnMinus1, H, I, J, K) - CalculateError(xnMinus2, H, I, J, K));
+            xn = xnMinus1 - Calculate3OrderPolynom(xnMinus1, H, I, J, K) * (xnMinus1 - xnMinus2) / (Calculate3OrderPolynom(xnMinus1, H, I, J, K) - Calculate3OrderPolynom(xnMinus2, H, I, J, K));
 
-            error = CalculateError(xn, H, I, J, K);
+            error = Calculate3OrderPolynom(xn, H, I, J, K);
         }
 
+        Debug.Log("xn: " + xn);
+        Debug.Log("YVelocity Error: " + error);
+        
         return xn;
     }
 
     #endregion
+
+    private double Calculate3OrderPolynom(double value, double H, double I, double J, double K)
+    {
+        double error = H * value * value * value + I * value * value + J * value + K;
+        //Debug.Log("Error criteria: " + error);
+        return error;
+    }
 
     private double CalculateError(double value, double H, double I, double J, double K)
     {

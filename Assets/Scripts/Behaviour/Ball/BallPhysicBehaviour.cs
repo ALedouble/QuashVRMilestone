@@ -140,10 +140,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "FrontWall":
             case "Brick":
-                //MagicalBounce3();
-                RandomReturnWithoutBounce();
+                MagicalBounce3();
+                //RandomReturnWithoutBounce();
                 //RandomReturnWithBounce();
-                //speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
+                speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
                 break;
             default:
                 StandardBounce(other.GetContact(0));

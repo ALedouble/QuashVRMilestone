@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 527f518b627f3ed469e47ed1fd924f24, type: 3}
-  m_Name: lvl_InsideTheSnake00_Solo
+  m_Name: lvl_TheSnake00_Solo
   m_EditorClassIdentifier: 
   level:
     levelWallBuilds:
@@ -549,14 +549,13 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 1
-          brickID: TheBrick
-          brickPosition: {x: 0.8499999, y: 3.8500001, z: 0}
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage:
-          - {x: 0.8499999, y: 3.8500001, z: 0}
+          waypointsStorage: []
           brickColorPreset: 0
           brickTypePreset: 0
           isMalus: 0
@@ -54491,5 +54490,5 @@ MonoBehaviour:
       stagePos: 0
       levelID: 0
     levelSpec:
-      timeForThisLevel: 240
+      timeForThisLevel: 300
       impactRadiusForThisLevel: 1.7

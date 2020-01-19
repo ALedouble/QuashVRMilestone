@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class NoBounceMagicReturn : MonoBehaviour
 {
-    private float zVelocity;
+    private float absoluteZVelocity;
     private float gravity;
     private float absolteXAcceleration;
 
     private float xAcceleration;
+    private float zVelocity;
 
 
-    public NoBounceMagicReturn(float zVelocity, float gravity, float absoluteXAcceleration)
+    public NoBounceMagicReturn(float absoluteZVelocity, float gravity, float absoluteXAcceleration=0)
     {
-        this.zVelocity = zVelocity;
+        this.absoluteZVelocity = absoluteZVelocity;
         this.gravity = gravity;
         this.absolteXAcceleration = absoluteXAcceleration; 
     }
@@ -24,6 +25,11 @@ public class NoBounceMagicReturn : MonoBehaviour
             xAcceleration = absolteXAcceleration;
         else
             xAcceleration = -absolteXAcceleration;
+
+        if (targetPosition.z - ballImpactPosition.z <= 0)
+            zVelocity = -absoluteZVelocity;
+        else
+            zVelocity = absoluteZVelocity;
 
 
         float T = (targetPosition.z - ballImpactPosition.z) / zVelocity;

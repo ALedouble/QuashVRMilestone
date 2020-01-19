@@ -8,7 +8,7 @@ public class LayerCompletedEffect : MonoBehaviour
     [SerializeField] Animator animator;
 
     [Button]
-    void StartEffect()
+    public void StartEffect()
     {
         animator.SetTrigger("Start");
     }

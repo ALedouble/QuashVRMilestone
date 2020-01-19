@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public LevelsScriptable currentLevel;
     [HideInInspector] public LevelSettings currentLevelConfig;
     [HideInInspector] public string levelsPath = "Assets/ScriptableObjects/Levels";
-
+    protected int AndTheWinnerIs;
 
     [Header("Level Parameters")]
     public int debugThisLevel;
@@ -21,10 +21,14 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public Transform[] levelTrans;
     [HideInInspector] public Parenting[] playersParents;
     [HideInInspector] public Shakers[] playersShakers;
+    [HideInInspector] public LayerCompletedEffect[] playersLayerCompletedFX;
+    [HideInInspector] public WinManagerVFX[] playersWinFX;
+
     /*[HideInInspector]*/
     public UIlayers[] playersUIlayers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
+    public PlayroomElements playroomElements;
 
     public Vector3 startPos4Player1;
     public Vector3 posDiffPerPlayer;
@@ -114,6 +118,8 @@ public class LevelManager : MonoBehaviour
 
         playersHUD = goHUD.GetComponent<GUIHUD>();
         roomShaker = goRoom.GetComponent<Shaker>();
+        playroomElements = goRoom.GetComponent<PlayroomElements>();
+
         GameManager.Instance.timerData = playersHUD.TimerData;
     }
 
@@ -127,6 +133,8 @@ public class LevelManager : MonoBehaviour
         isThereAnotherLayer = new bool[numberOfPlayers];
         startPos = new Vector3[numberOfPlayers];
         NextPos = new Vector3[numberOfPlayers];
+        playersLayerCompletedFX = new LayerCompletedEffect[numberOfPlayers];
+        playersWinFX = new WinManagerVFX[numberOfPlayers];
 
         changePositionReady = new bool[numberOfPlayers];
         isEverythingDisplayed = new bool[numberOfPlayers];
@@ -156,6 +164,8 @@ public class LevelManager : MonoBehaviour
             playersParents[i].layersParent = new Transform[currentLevel.level.levelWallBuilds.walls.Length];
             numberOfLayers = currentLevel.level.levelWallBuilds.walls.Length;
             playersUIlayers[i].layersUI = new UI_LayerBehaviour[numberOfLayers];
+            playersLayerCompletedFX[i] = playroomElements.playersLayersCompletedEffect[i];
+            playersWinFX[i] = playroomElements.playersWinEffect[i];
 
             Vector3 goPos = new Vector3(startPos4Player1.x + (posDiffPerPlayer.x * i), startPos4Player1.y + (posDiffPerPlayer.y * i), startPos4Player1.z + (posDiffPerPlayer.z * i));
             GameObject trans = new GameObject();
@@ -216,10 +226,12 @@ public class LevelManager : MonoBehaviour
         playersUIlayers[playerID].layersUI[layerCompleted].CompleteLayer();
 
         // Rajout d'animation FIN d'un layer
-
+        playersLayerCompletedFX[playerID].StartEffect();
 
         if (!isThereAnotherLayer[playerID])
         {
+            AndTheWinnerIs = playerID;
+            playersWinFX[playerID].PlayVFX();
             GameManager.Instance.EndOfTheGame();
         }
     }

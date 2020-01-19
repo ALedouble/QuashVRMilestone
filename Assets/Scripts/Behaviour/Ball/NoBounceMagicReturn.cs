@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class NoBounceMagicReturn : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    float zVelocity;
+    float gravity;
+    float absolteXAcceleration;
 
-    // Update is called once per frame
-    void Update()
+    public NoBounceMagicReturn(float zVelocity, float gravity, float absoluteXAcceleration)
     {
-        
+        this.zVelocity = zVelocity;
+        this.gravity = gravity;
+        this.absolteXAcceleration = absoluteXAcceleration; 
     }
 }

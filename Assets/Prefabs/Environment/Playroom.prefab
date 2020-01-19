@@ -1636,6 +1636,12 @@ MonoBehaviour:
   - {fileID: 353002351071891927}
   playersWinEffect:
   - {fileID: 4054823533399642304}
+  renderers:
+  - {fileID: 370162125671393806}
+  - {fileID: 370162124989303468}
+  - {fileID: 370162124161717104}
+  midWallRenderer: {fileID: 0}
+  midCollider: {fileID: 0}
 --- !u!1 &370162124949877298
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,7 +73,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float angleSpread;
 
     private TargetSelector targetSelector;
-    private OneBounceMagicReturn magicReturn;
+    private OneBounceMagicReturn oBMagicReturn;
+    private NoBounceMagicReturn nBMagicReturn;
 
     [Header("Switch Target Settings")]
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
@@ -108,7 +109,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         //targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
         targetSelector = GetComponent<BasicRandomTargetSelector>();
-        magicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, dynamicFriction, groundHeight);
+        oBMagicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, dynamicFriction, groundHeight);
+        nBMagicReturn = new NoBounceMagicReturn(depthVelocity, gravity, xAcceleration);
+
 
         currentTarget = startingPlayer;
 
@@ -137,9 +140,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "FrontWall":
             case "Brick":
-                MagicalBounce3();
-                //RandomReturn();
-                speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
+                //MagicalBounce3();
+                RandomReturnWithoutBounce();
+                //RandomReturnWithBounce();
+                //speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
                 break;
             default:
                 StandardBounce(other.GetContact(0));
@@ -347,12 +351,18 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #region RandomReturn
 
-    private void RandomReturn()
+    private void RandomReturnWithBounce()
     {
         Vector3 targetPosition = targetSelector.GetTargetPosition();
-        Vector3 newVelocity = magicReturn.CalculateNewVelocity(transform.position, targetPosition);
+        Vector3 newVelocity = oBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        //Slow?
+        ApplyNewVelocity(newVelocity/* / slowness*/, transform.position);
+    }
+
+    private void RandomReturnWithoutBounce()
+    {
+        Vector3 targetPosition = targetSelector.GetTargetPosition();
+        Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
         ApplyNewVelocity(newVelocity/* / slowness*/, transform.position);
     }

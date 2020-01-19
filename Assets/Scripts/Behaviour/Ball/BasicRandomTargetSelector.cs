@@ -42,8 +42,6 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
         return currentTarget;
     }
 
-
-
     private Vector3 GetRandomRelativeTargetPoint()
     {
         float randomRange = Random.Range(minRange, maxRange);

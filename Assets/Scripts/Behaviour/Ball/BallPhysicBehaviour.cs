@@ -108,7 +108,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         //targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
         targetSelector = GetComponent<BasicRandomTargetSelector>();
-        magicReturn = new OneBounceMagicReturn(-depthVelocity, xAcceleration, gravity, bounciness, groundHeight);
+        magicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, dynamicFriction, groundHeight);
 
         currentTarget = startingPlayer;
 
@@ -354,7 +354,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         //Slow?
 
-        ApplyNewVelocity(newVelocity / slowness, transform.position);
+        ApplyNewVelocity(newVelocity/* / slowness*/, transform.position);
     }
 
     #endregion

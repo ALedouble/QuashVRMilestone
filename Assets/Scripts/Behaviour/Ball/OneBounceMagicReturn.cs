@@ -83,12 +83,12 @@ public class OneBounceMagicReturn
 
     private double CalculateA()
     {
-        return -gravity * (bounciness * (1 - dynamicFriction) + 1) / ((1 - dynamicFriction) * (1 - dynamicFriction));
+        return -gravity * (2 * bounciness * (1 - dynamicFriction) + 1) / (2 * (1 - dynamicFriction) * (1 - dynamicFriction));
     }
 
     private double CalculateB(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return gravity * (targetPosition.z - ballImpactPosition.z) * (2 + bounciness * (1 - dynamicFriction)) / (zUsedVelocity * (1 - dynamicFriction) * (1 - dynamicFriction));
+        return gravity * (targetPosition.z - ballImpactPosition.z) * (1 + bounciness * (1 - dynamicFriction)) / (zUsedVelocity * (1 - dynamicFriction) * (1 - dynamicFriction));
     }
 
     private double CalculateC(Vector3 ballImpactPosition, Vector3 targetPosition)
@@ -98,7 +98,7 @@ public class OneBounceMagicReturn
 
     private double CalculateD(Vector3 ballImpactPosition, Vector3 targetPosition)
     {
-        return -gravity * (targetPosition.z - ballImpactPosition.z) * (targetPosition.z - ballImpactPosition.z) / (zUsedVelocity * zUsedVelocity * (1 - dynamicFriction) * (1 - dynamicFriction)) + groundHeight - targetPosition.y;
+        return -gravity * (targetPosition.z - ballImpactPosition.z) * (targetPosition.z - ballImpactPosition.z) / (2 * zUsedVelocity * zUsedVelocity * (1 - dynamicFriction) * (1 - dynamicFriction)) + groundHeight - targetPosition.y;
     }
 
     private double CalculateE(double A)

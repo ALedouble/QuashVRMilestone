@@ -1946,7 +1946,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1207959551
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.2784314}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6811,9 +6811,7 @@ MonoBehaviour:
   maxComboData:
   - {fileID: 7034803395433768786}
   - {fileID: 2831310057778988177}
-  scoreScreen:
-  - {fileID: 7386722838273173156}
-  - {fileID: 2203376672542869203}
+  animScoreScreen: []
   scoreScreenCompleted:
   - {fileID: 4395078492257261040}
   - {fileID: 7370140786694925872}
@@ -7108,7 +7106,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2197815295
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.50980395}
   m_enableVertexGradient: 0
   m_colorMode: 3

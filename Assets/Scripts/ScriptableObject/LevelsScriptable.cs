@@ -50,8 +50,9 @@ public struct ProgressionSettings
 {
     public bool isDone;
     public bool isUnlocked;
+    public bool isImplemented;
 
-    public LevelsScriptable[] unlockConditions;
+    public List<LevelsScriptable> unlockConditions;
 
     public Vector2 levelPos;
     public int score;

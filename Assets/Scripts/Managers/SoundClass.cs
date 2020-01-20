@@ -15,7 +15,7 @@ public class SoundClass : ScriptableObject
 public struct SoundSettings
 {
     public string soundName;
-    public enum Tags { Brick, Impact, Wall, Floor, Racket, FrontWall }
+    public enum Tags { Brick, Impact, Wall, Floor, Racket, FrontWall, None }
     public Tags tag;
 
     public AudioClip clip;

@@ -18,7 +18,11 @@ public class VibrationManager : MonoBehaviour
 
     public void VibrateOn(AudioClip clipVib)
     {
-        controllerRef = VRTK_ControllerReference.GetControllerReference((uint)QPlayerManager.instance.GetMainHand());
+        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+            controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
+        else
+            controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
+
         VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, clipVib);
     }
 

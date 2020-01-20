@@ -16,7 +16,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     [Header("Color Settings")]
     public PresetScriptable[] colorPresets;
-    public Color lineColor;
     private Material[] materials;
     private Material[] wallMats;
 
@@ -96,7 +95,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         if (RacketManager.instance.isEmpowered)
         {
-            if(PhotonNetwork.OfflineMode)
+            if (PhotonNetwork.OfflineMode)
             {
                 BallBecomeEmpowered();
             }
@@ -104,7 +103,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
             {
                 photonView.RPC("BallBecomeEmpowered", RpcTarget.All);
             }
-            
+
             //RacketManager.instance.ExitEmpoweredState();
         }
     }
@@ -135,7 +134,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
             else
             {
                 photonView.RPC("SwitchColor", RpcTarget.All);
-            }    
+            }
         }
     }
 
@@ -154,7 +153,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         {
             LevelManager.instance.allMeshes[i].sharedMaterial = wallMats[colorID];
         }
-        
+
     }
 
     [PunRPC]
@@ -164,25 +163,42 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         SetupTrails();
     }
 
+
     private void SetupMaterials()
     {
         materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
         materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
 
-        materials[0].SetColor("Color_89166C92", colorPresets[0].colorPresets[1].coreEmissiveColors);
-        materials[0].SetColor("Color_69EC7551", colorPresets[0].colorPresets[1].fresnelColors);
-        materials[0].SetColor("Color_DE7EE60A", lineColor);
+        //Glow Color
+        materials[0].SetColor("Color_89166C92", colorPresets[0].colorPresets[1].coreEmissiveColors * 6);
+        //Ball Color
+        materials[0].SetColor("Color_69EC7551", colorPresets[0].colorPresets[1].coreEmissiveColors);
+        //Line Color
+        materials[0].SetColor("Color_DE7EE60A", colorPresets[0].colorPresets[1].fresnelColors);
 
-        materials[1].SetColor("Color_89166C92", colorPresets[0].colorPresets[2].coreEmissiveColors);
-        materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].fresnelColors);
-        materials[1].SetColor("Color_DE7EE60A", lineColor);
+        //Glow Color
+        materials[1].SetColor("Color_89166C92", colorPresets[0].colorPresets[2].coreEmissiveColors * 6);
+        //Ball Color
+        materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].coreEmissiveColors);
+        //Line Color
+        materials[1].SetColor("Color_DE7EE60A", colorPresets[0].colorPresets[2].fresnelColors);
 
 
         wallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
         wallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
 
         wallMats[0].SetColor("_EmissionColor", colorPresets[0].colorPresets[1].coreEmissiveColors);
+        wallMats[0].SetFloat("_DissolveDistanceRange", 4f);
+        wallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        wallMats[0].SetFloat("_AngleRadius", 0.75f);
+        wallMats[0].renderQueue = 2800;
+
         wallMats[1].SetColor("_EmissionColor", colorPresets[0].colorPresets[2].coreEmissiveColors);
+        wallMats[1].SetFloat("_DissolveDistanceRange", 4f);
+        wallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        wallMats[1].SetFloat("_AngleRadius", 0.75f);
+        wallMats[1].renderQueue = 2800;
+
 
 
         myRenderer.sharedMaterial = materials[colorID];
@@ -196,7 +212,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         trails[0].GetComponent<TrailRenderer>().startColor = colorPresets[0].colorPresets[1].coreEmissiveColors;
         trails[1].GetComponent<TrailRenderer>().startColor = colorPresets[0].colorPresets[2].coreEmissiveColors;
-        
+
         trails[colorID].SetActive(true);
         trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
     }

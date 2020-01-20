@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -432,6 +432,12 @@ PrefabInstance:
 --- !u!1 &330787441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5250395144351929571, guid: 6a49211283d2bd349bdb21f84a9c8758,
+    type: 3}
+  m_PrefabInstance: {fileID: 330787440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &330787442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5250395144351929570, guid: 6a49211283d2bd349bdb21f84a9c8758,
     type: 3}
   m_PrefabInstance: {fileID: 330787440}
   m_PrefabAsset: {fileID: 0}
@@ -1546,6 +1552,11 @@ PrefabInstance:
       propertyPath: targetTestIndicator
       value: 
       objectReference: {fileID: 1041462130}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 330787442}
     - target: {fileID: 1758958001795561117, guid: 9138b8837b2e24e43b9a7d9f2391acae,
         type: 3}
       propertyPath: m_CollisionDetection
@@ -62912,6 +62923,7 @@ MonoBehaviour:
     levelProgression:
       isDone: 0
       isUnlocked: 0
+      isImplemented: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
       score: 0

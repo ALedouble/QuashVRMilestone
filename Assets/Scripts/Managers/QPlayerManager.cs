@@ -14,8 +14,8 @@ public enum PlayerID
 
 public enum PlayerHand
 {
-    RIGHT = 1,
-    LEFT = 2
+    RIGHT = 2,
+    LEFT = 1
 }
 
 public enum GrabState

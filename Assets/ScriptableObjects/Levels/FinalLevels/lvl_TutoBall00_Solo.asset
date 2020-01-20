@@ -17011,11 +17011,12 @@ MonoBehaviour:
     levelProgression:
       isDone: 0
       isUnlocked: 0
+      isImplemented: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
       score: 0
       stagePos: 0
       levelID: 0
     levelSpec:
-      timeForThisLevel: 240
+      timeForThisLevel: 300
       impactRadiusForThisLevel: 1.7

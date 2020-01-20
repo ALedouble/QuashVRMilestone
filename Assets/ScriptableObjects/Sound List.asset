@@ -41,7 +41,7 @@ MonoBehaviour:
     lastPlayTime: 0
   - soundName: SFX_Ball_Impact
     tag: 5
-    clip: {fileID: 8300000, guid: 447e2b43b74016241bb6ec8954542afb, type: 3}
+    clip: {fileID: 8300000, guid: 7c2ec555a51f0cc4da39d2bb207484af, type: 3}
     cooldown: 0
     volume: 1
     pitch: 1
@@ -81,6 +81,19 @@ MonoBehaviour:
   - soundName: Ball Hit Front Wall
     tag: 5
     clip: {fileID: 8300000, guid: 9170750b3948b1d43bda616c9b1701bd, type: 3}
+    cooldown: 0
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    spatialBlend: 0
+    panStereo: 0
+    maxHitMagnitude: 15
+    minVolume: 0.879
+    maxVolume: 1
+    lastPlayTime: 0
+  - soundName: Victory
+    tag: 6
+    clip: {fileID: 8300000, guid: 64f7957ecce4ce44ab00dfc74c790961, type: 3}
     cooldown: 0
     volume: 0.2
     pitch: 1

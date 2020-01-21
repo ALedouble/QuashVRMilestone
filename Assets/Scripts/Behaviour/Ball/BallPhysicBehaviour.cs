@@ -154,9 +154,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             OnBallCollision(other.gameObject.tag);
         }
-        else if (PhotonNetwork.IsMasterClient)
+        else if(other.gameObject.tag == "Racket")
         {
             photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
+        }
+        else
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
+            }
         }
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system?

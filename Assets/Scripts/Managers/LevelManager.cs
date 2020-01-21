@@ -125,12 +125,12 @@ public class LevelManager : MonoBehaviour
 
         allMeshes = playroomElements.renderers;
 
-        if(numberOfPlayers > 1)
+        if (numberOfPlayers > 1)
         {
             midMesh = playroomElements.midWallRenderer;
             midCollider = playroomElements.midCollider;
         }
-        
+
         GameManager.Instance.timerData = playersHUD.TimerData;
     }
 
@@ -179,7 +179,7 @@ public class LevelManager : MonoBehaviour
             playersWinFX[i] = playroomElements.playersWinEffect[i];
 
             Vector3 goPos = new Vector3(startPos4Player1.x + (posDiffPerPlayer.x * i), startPos4Player1.y + (posDiffPerPlayer.y * i), startPos4Player1.z + (posDiffPerPlayer.z * i));
-            GameObject trans = new GameObject();
+            GameObject trans = PoolManager.instance.SpawnFromPool("LevelParents", new Vector3(0, 0, 0), Quaternion.identity);
             trans.transform.position = goPos;
             trans.name = "Wall_Of_Player_" + i;
             levelTrans[i] = trans.transform;
@@ -206,7 +206,7 @@ public class LevelManager : MonoBehaviour
             //Spawn les PARENTS pour chaque LAYER du mur d'un joueur
             for (int j = 0; j < playersParents[i].layersParent.Length; j++)
             {
-                GameObject obj = new GameObject();
+                GameObject obj = PoolManager.instance.SpawnFromPool("LayerParents", new Vector3(0, 0, 0), Quaternion.identity);
                 obj.transform.parent = levelTrans[i];
                 obj.transform.localPosition = Vector3.zero;
                 obj.name = i + "_" + j;
@@ -247,6 +247,24 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Deactivate all layers
+    /// </summary>
+    public void CleanWalls()
+    {
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
+            for (int j = 0; j < levelTrans[i].childCount; j++)
+            {
+                for (int k = 0; k < levelTrans[i].GetChild(j).childCount; k++)
+                    levelTrans[i].GetChild(j).GetChild(k).gameObject.SetActive(false);
+
+                levelTrans[i].GetChild(j).gameObject.SetActive(false);
+            }
+
+            levelTrans[i].gameObject.SetActive(false);
+        }
+    }
 
     /// <summary>
     /// Set up parameters to change level position

@@ -31,6 +31,10 @@ public class ScoreManager : MonoBehaviour
 
     public float finishingFirstScoreBoost;
 
+    //Delegate
+    public delegate void ScoreManagerDelegate();
+    public event ScoreManagerDelegate OnComboReset;
+
 
     public static ScoreManager Instance;
 
@@ -103,5 +107,7 @@ public class ScoreManager : MonoBehaviour
 
         //Trigger de l'anim
         GUIComboAnim.instance.PlayAnimComboBreak();
+
+        OnComboReset(); //Combo reset delegate
     }
 }

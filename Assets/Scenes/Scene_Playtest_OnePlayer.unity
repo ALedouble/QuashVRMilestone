@@ -435,6 +435,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 330787440}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &330787442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5250395144351929570, guid: 6a49211283d2bd349bdb21f84a9c8758,
+    type: 3}
+  m_PrefabInstance: {fileID: 330787440}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &380570807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,7 +1313,7 @@ PrefabInstance:
         type: 3}
       propertyPath: registeredLevels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 7757b9feaf1d70742b0e4d4cf7149495,
+      objectReference: {fileID: 11400000, guid: c16dd03125feaa94aa118078ba7ec293,
         type: 2}
     - target: {fileID: 2209770158421474803, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
@@ -1482,65 +1488,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: xReturnsPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 88240746}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: xReturnsPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 88240746}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: zReturnPoints
-      value: 
-      objectReference: {fileID: 1800475239}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: hitMaxSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: hitSpeedMultiplier
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: xAcceleration
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4646906268572400308, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: groundHeight
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 323053201, guid: 9138b8837b2e24e43b9a7d9f2391acae, type: 3}
       propertyPath: viewIdField
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
         type: 3}
-      propertyPath: playerPositions.Array.data[0].x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.data[0].y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.data[0].z
-      value: -9
-      objectReference: {fileID: 0}
+      propertyPath: playerPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 330787442}
     - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
         type: 3}
       propertyPath: targetTestIndicator
@@ -1650,10 +1606,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 29da3a28c6737e243bc0f203b0a67841, type: 2}
   - {fileID: 11400000, guid: 69fed06933276fa4da3d0c1ceb5b0def, type: 2}
   - {fileID: 11400000, guid: 90e4369e3dce3a441951f8e5679c5c41, type: 2}
-  - {fileID: 11400000, guid: ebf49c32eca204345a0319adb9819aee, type: 2}
-  - {fileID: 11400000, guid: c4cd556ab16540749b797e146e95bdf3, type: 2}
-  - {fileID: 11400000, guid: d3249b48f72a0fb4eaae232d879711fd, type: 2}
-  - {fileID: 11400000, guid: 6ded3ea46b2f56749b61b8f79716da82, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: add9abe7614f40e4cbaf04ba1f513042, type: 2}
   - {fileID: 11400000, guid: b059a84deaf48ec469490d054291fb48, type: 2}
   - {fileID: 11400000, guid: e2ef5ea2322645e4dabe95e9b0f7480e, type: 2}

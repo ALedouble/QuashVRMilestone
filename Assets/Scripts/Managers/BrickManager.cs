@@ -7,6 +7,7 @@ using TMPro;
 
 public class BrickManager : MonoBehaviourPunCallbacks
 {
+
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig = new WallBuilds();
     public GameObject prefabBase;
@@ -36,12 +37,16 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
     public static BrickManager Instance;
 
+    BrickInfo currentBrickInfo;
+
+    private PhotonView photonView;
 
 
 
     private void Awake()
     {
         Instance = this;
+        photonView = GetComponent<PhotonView>();
     }
 
 
@@ -76,10 +81,10 @@ public class BrickManager : MonoBehaviourPunCallbacks
         if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
         if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
 
-        
+        currentBrickInfo = touchedBrick;
         if (!GameManager.Instance.offlineMode){
-            ScoreManager.Instance.pV.RPC("SetScore", RpcTarget.All, touchedBrick.ScoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-            ScoreManager.Instance.pV.RPC("SetCombo", RpcTarget.All, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+            photonView.RPC("SetScoreRPC", RpcTarget.All); //BallID
+            photonView.RPC("SetComboRPC", RpcTarget.All); //BallID
         }
         else{
             ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
@@ -92,7 +97,17 @@ public class BrickManager : MonoBehaviourPunCallbacks
         //AudioManager.instance.PlayHitSound(soundName, touchedBrick.Transform.position, touchedBrick.Transform.rotation, hitIntensity);
     }
 
+    [PunRPC]
+    private void SetScoreRPC()
+    {
+        ScoreManager.Instance.SetScore(currentBrickInfo.ScoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+    }
 
+    [PunRPC]
+    private void SetComboRPC()
+    {
+        ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+    }
     /// <summary>
     /// Check the number of Bricks on the current layer and call the next one when it hits 0
     /// </summary>

@@ -121,6 +121,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         InitialiseTargetSwitchType();
 
         ResetBall();
+        ApplyBaseGravity();
     }
 
     private void FixedUpdate()
@@ -137,6 +138,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             case "Racket":
                 RacketInteraction(other);
                 ChangeSpeedState(SpeedState.NORMAL, false);                                         //La?
+                LevelManager.instance.midCollider.enabled = true;
                 break;
             case "FrontWall":
             case "Brick":
@@ -144,6 +146,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 RandomReturnWithoutBounce();
                 //RandomReturnWithBounce();
                 ChangeSpeedState(SpeedState.SLOW, true);           // Pourquoi pas dans la méthode?
+                LevelManager.instance.midCollider.enabled = false;
                 break;
             case "BackWall":
                 BallManager.instance.LoseBall();
@@ -286,9 +289,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
-        if (switchTargetIsRacketBased && !PhotonNetwork.OfflineMode)
+        if (switchTargetIsRacketBased)
         {
-            photonView.RPC("SwitchTarget", RpcTarget.All);
+            if(PhotonNetwork.OfflineMode)
+            {
+                SwitchTarget();
+            }
+            else
+            {
+                photonView.RPC("SwitchTarget", RpcTarget.All);
+            }
         }
 
         BallManager.instance.TransferEmpowerement();
@@ -349,31 +359,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private void SwitchTarget()
     {
         targetSelector.SwitchTarget();
-
-        //if (currentTarget == QPlayer.PLAYER1)
-        //    currentTarget = QPlayer.PLAYER2;
-        //else if (currentTarget == QPlayer.PLAYER2)
-        //    currentTarget = QPlayer.PLAYER1;
-        //currentTarget = (Target)(((int)currentTarget + 1) % PhotonNetwork.PlayerList.Length);
     }
-
-    //private Vector3 GetCurrentTargetPositionX()
-    //{
-    //    return targetSelector.GetTargetPlayerPosition();
-    //    //if (currentTarget == QPlayer.PLAYER1)
-    //    //{
-    //    //    return xReturnsPoints[0].position;
-    //    //}
-    //    //else
-    //    //{
-    //    //    return xReturnsPoints[1].position;
-    //    //}
-    //}
-
-    //private Vector3 GetCurrentTargetPositionZ()
-    //{
-    //    return zReturnPoints.position;
-    //}
     #endregion
 
     #region RandomReturn

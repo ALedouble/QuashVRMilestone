@@ -37,6 +37,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void Start()
     {
+        photonView = PhotonView.Get(this);
         myRenderer = gameObject.GetComponent<Renderer>();
 
         materials = new Material[2];
@@ -48,12 +49,10 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         }
         else /*if(PhotonNetwork.IsMasterClient)*/
         {
-            photonView.RPC("SetupColor", RpcTarget.AllBuffered);
+            photonView.RPC("SetupColors", RpcTarget.AllBuffered);
         }
 
         InitializeSwitchColor();
-
-        photonView = PhotonView.Get(this);
     }
 
     public int GetBallColor()

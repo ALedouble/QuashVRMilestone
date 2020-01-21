@@ -23,7 +23,9 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 
     public void SwitchTarget()
     {
-        currentTarget = (QPlayer)(((int)currentTarget + 1) % (System.Enum.GetNames(typeof(QPlayer)).Length) - 1);         // -1 Car PlayerIDCon
+        //currentTarget = (QPlayer)( ((int)currentTarget + 1) % ( (System.Enum.GetNames(typeof(QPlayer)).Length) - 1 ) );
+        currentTarget = (QPlayer)( ((int)currentTarget + 1) % 2 );         
+        Debug.Log("Switch Target - newCurrentPlayer: " + (int)currentTarget);
     }
 
     public Vector3 GetTargetPlayerPosition()
@@ -35,7 +37,8 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     {
         Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint();
         targetTestIndicator.transform.position = newTarget;
-        Debug.Log("Target: " + newTarget);
+        Debug.Log("PlayerTargetPosition: " + CurrentTargetPlayerPosition);
+        Debug.Log("TargetPosition: " + newTarget);
 
         return newTarget;
     }

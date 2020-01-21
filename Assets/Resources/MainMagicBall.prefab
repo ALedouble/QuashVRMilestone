@@ -592,9 +592,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsUsed: 1
-  hitMaxSpeed: 30
+  hitMaxSpeed: 20
   hitMinSpeed: 0.5
-  hitSpeedMultiplier: 2
+  hitSpeedMultiplier: 1.5
   racketFriction: 1
   mixRatio: 0
   maxYAngle: 0
@@ -602,20 +602,16 @@ MonoBehaviour:
   magnitudeSlope: 0
   minMagnitude: 0
   maxMagnitude: 0
-  slowness: 2
-  gravity: 9.81
+  slowness: 1.5
+  baseGravity: 9.81
   depthVelocity: 10
   xAcceleration: 0
-  groundHeight: 0
+  groundHeight: 0.1
   minRange: 0
   maxRange: 0
   angleSpread: 0
   switchType: 0
-  startingPlayer: 0
-  xReturnsPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  zReturnPoints: {fileID: 0}
+  startingPlayer: 1
   bounciness: 0.8
   dynamicFriction: 0
 --- !u!114 &4786920642494746230
@@ -633,7 +629,9 @@ MonoBehaviour:
   minRange: 0.8
   maxRange: 1.5
   angleSpread: 240
-  playerPositions: []
+  playerPositions:
+  - {fileID: 0}
+  - {fileID: 0}
   targetTestIndicator: {fileID: 0}
 --- !u!114 &323053201
 MonoBehaviour:

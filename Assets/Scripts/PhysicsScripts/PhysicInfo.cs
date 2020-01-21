@@ -17,6 +17,24 @@ public class PhysicInfo : MonoBehaviour
 
     private float dTMinus1;
 
+    
+    #region Save properties
+
+    private Vector3 savedPositionTMinus1;
+    private Quaternion savedRotationTMinus1;
+
+    private Vector3 savedVelocityTMinus3Half;
+    private Vector3 savedVelocityTMinusHalf;
+    private Vector3 savedAngularVelocityTMinus3half;
+    private Vector3 savedAngularVelocityTMinusHalf;
+
+    private Vector3 savedAccelerationTMinus1;
+    private Vector3 savedAngularAccelerationTMinus1;
+
+    private float savedDTMinus1;
+
+    #endregion
+
     private void Start()
     {
         positionTMinus1 = transform.position;
@@ -50,6 +68,8 @@ public class PhysicInfo : MonoBehaviour
 
         dTMinus1 = Time.fixedDeltaTime;
     }
+
+    #region Calculation Methods
 
     private Vector3 CalculateVelocity(Vector3 currentPosition, Vector3 previousPosition, float deltaTime)
     {
@@ -94,5 +114,39 @@ public class PhysicInfo : MonoBehaviour
     public Vector3 GetAngularAcceleration()
     {
         return angularAccelerationTMinus1;
+    }
+
+    #endregion
+
+    public void SaveCurrentState()
+    {
+        savedPositionTMinus1 = positionTMinus1;
+        savedRotationTMinus1 = rotationTMinus1;
+
+        savedVelocityTMinus3Half = velocityTMinus3Half;
+        savedVelocityTMinusHalf = velocityTMinusHalf;
+        savedAngularVelocityTMinus3half = angularVelocityTMinus3half;
+        savedAngularVelocityTMinusHalf = angularVelocityTMinusHalf;
+
+        savedAccelerationTMinus1 = accelerationTMinus1;
+        savedAngularAccelerationTMinus1 = angularAccelerationTMinus1;
+
+        savedDTMinus1 = dTMinus1;
+    }
+
+    public void RestoreSavedState()
+    {
+        positionTMinus1 = savedPositionTMinus1;
+        rotationTMinus1 = savedRotationTMinus1;
+
+        velocityTMinus3Half = savedVelocityTMinus3Half;
+        velocityTMinusHalf = savedVelocityTMinusHalf;
+        angularVelocityTMinus3half = savedAngularVelocityTMinus3half;
+        angularVelocityTMinusHalf = savedAngularVelocityTMinusHalf;
+
+        accelerationTMinus1 = savedAccelerationTMinus1;
+        angularAccelerationTMinus1 = savedAngularAccelerationTMinus1;
+
+        dTMinus1 = savedDTMinus1;
     }
 }

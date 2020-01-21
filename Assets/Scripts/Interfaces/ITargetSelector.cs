@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface TargetSelector
+public interface ITargetSelector
 {
     void SwitchTarget();
-    Vector3 GetTargetPosition();
+    Vector3 GetTargetPlayerPosition();
+    Vector3 GetNewTargetPosition();
     void SetCurrentTarget(QPlayer newTarget);
     QPlayer GetCurrentTarget();
 }

@@ -10,6 +10,7 @@ public enum QPlayer          //Util?
     PLAYER1 = 0,
     PLAYER2 = 1
 }
+
 public enum RacketInteractionType
 {
     BASICARCADE,
@@ -59,10 +60,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float slowness;
 
     [Header("Gravity Settings")]
-    public float gravity;
+    public float baseGravity;
+    private float currentGravity;
 
     [Header("MagicBounce Settings")]
-    private QPlayer currentTarget;
     public float depthVelocity;
 
     public float xAcceleration;
@@ -72,7 +73,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float maxRange;
     public float angleSpread;
 
-    private TargetSelector targetSelector;
+    private ITargetSelector targetSelector;
     private OneBounceMagicReturn oBMagicReturn;
     private NoBounceMagicReturn nBMagicReturn;
 
@@ -81,53 +82,52 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public QPlayer startingPlayer = QPlayer.PLAYER1;                  // Sera modifier!
     private bool switchTargetIsRacketBased;
 
-    public Transform[] xReturnsPoints = new Transform[8];
-    public Transform zReturnPoints;
+    //public Transform[] xReturnsPoints = new Transform[];
+    //public Transform zReturnPoints;
 
     [Header("Standard Bounce Settings")]
     public float bounciness;
     public float dynamicFriction;
 
-
+    private PhotonView photonView;
     private Rigidbody rigidbody;
+    private Collider ballCollider;
+
     private SpeedState speedState;
+    private Vector3 velocityBeforeFreeze = Vector3.zero;
+    private float gravityBeforeFreeze = 0;
     private Vector3 lastVelocity;
 
     private QPlayer lastPlayerWhoHitTheBall;
 
     private List<Vector3> forcesToApply;
 
-    private PhotonView photonView;
+    
 
     void Start()
     {
         photonView = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
+        ballCollider = GetComponent<Collider>();
 
-        speedState = SpeedState.NORMAL;
-
-
-        //targetSelector = new BasicRandomTargetSelector(minRange, maxRange, angleSpread);
         targetSelector = GetComponent<BasicRandomTargetSelector>();
-        oBMagicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, gravity, bounciness, dynamicFriction, groundHeight);
-        nBMagicReturn = new NoBounceMagicReturn(depthVelocity, gravity, xAcceleration);
+        targetSelector.SetCurrentTarget(startingPlayer);
 
+        oBMagicReturn = new OneBounceMagicReturn(depthVelocity, xAcceleration, baseGravity, bounciness, dynamicFriction, groundHeight);
+        nBMagicReturn = new NoBounceMagicReturn(depthVelocity, baseGravity, xAcceleration);
 
-        currentTarget = startingPlayer;
+        forcesToApply = new List<Vector3>();
 
         InitialiseTargetSwitchType();
+
+        ResetBall();
     }
 
     private void FixedUpdate()
     {
         lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour les calculs de rebond
         
-        if (speedState == SpeedState.NORMAL)
-            rigidbody.AddForce(gravity * Vector3.down);
-        else if (speedState == SpeedState.SLOW)
-            rigidbody.AddForce(gravity / (slowness * slowness) * Vector3.down);
-
-        //ApplyForces();
+        ApplyForces();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -136,14 +136,17 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             case "Racket":
                 RacketInteraction(other);
-                speedState = SpeedState.NORMAL;                                         //La?
+                ChangeSpeedState(SpeedState.NORMAL, false);                                         //La?
                 break;
             case "FrontWall":
             case "Brick":
                 //MagicalBounce3();
                 RandomReturnWithoutBounce();
                 //RandomReturnWithBounce();
-                speedState = SpeedState.SLOW;           // Pourquoi pas dans la méthode?
+                ChangeSpeedState(SpeedState.SLOW, true);           // Pourquoi pas dans la méthode?
+                break;
+            case "BackWall":
+                BallManager.instance.DespawnBall();
                 break;
             default:
                 StandardBounce(other.GetContact(0));
@@ -152,7 +155,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         if (PhotonNetwork.OfflineMode)
         {
-            //OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal, lastVelocity));
             OnBallCollision(other.gameObject.tag);
         }
         else if (PhotonNetwork.IsMasterClient)
@@ -164,17 +166,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 
-    //[PunRPC]
-    //private void OnBallCollision(BallCollisionInfo ballCollisionInfo)
-    //{
-    //    //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
-    //    BallEventManager.instance?.OnBallCollision(ballCollisionInfo);
-    //}
-
     [PunRPC]
     private void OnBallCollision(string tag)
     {
-        //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
         BallEventManager.instance.OnBallCollision(tag);
     }
 
@@ -188,13 +182,59 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void ApplyForces()
     {
-        //if(forcesToApply.Count>0)
-        //{
-        //    foreach(Vector3 force in forcesToApply)
-        //    {
-        //        rigidbody.AddForce(force);
-        //    }
-        //}
+        ApplyGravity();
+
+        if (forcesToApply.Count > 0)
+        {
+            foreach (Vector3 force in forcesToApply)
+            {
+                rigidbody.AddForce(force);
+            }
+        }
+    }
+
+    private void ApplyGravity()
+    {
+            rigidbody.AddForce(currentGravity * Vector3.down);
+    }
+
+    private void FreezeBall()
+    {
+        velocityBeforeFreeze = rigidbody.velocity;
+        gravityBeforeFreeze = currentGravity;
+
+        rigidbody.velocity = Vector3.zero;
+        currentGravity = 0;
+
+        BallManager.instance.GetBallPhysicInfo().SaveCurrentState();
+        ballCollider.enabled = false;
+    }
+
+    private void UnFreezeBall()
+    {
+        rigidbody.velocity = velocityBeforeFreeze;
+        currentGravity = gravityBeforeFreeze;
+
+        BallManager.instance.GetBallPhysicInfo().RestoreSavedState();
+        ballCollider.enabled = true;
+    }
+
+    private void ChangeSpeedState(SpeedState newSpeedState, bool doesSpeedNeedToChange)
+    {
+        if(newSpeedState == SpeedState.NORMAL && speedState != SpeedState.NORMAL)
+        {
+            if(doesSpeedNeedToChange)
+                rigidbody.velocity *= slowness;
+
+            speedState = SpeedState.NORMAL;
+        }
+        else if(newSpeedState == SpeedState.SLOW && speedState != SpeedState.SLOW)
+        {
+            if(doesSpeedNeedToChange)
+                rigidbody.velocity /= slowness;
+
+            speedState = SpeedState.SLOW;
+        }
     }
 
     #region RacketInteraction
@@ -252,22 +292,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
 
         BallManager.instance.TransferEmpowerement();
-
-        //if (PhotonNetwork.OfflineMode)
-        //{
-        //    RacketApplyNewVelocity(newVelocity, transform.position);
-        //    RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
-        //}
-        //else //if(other.gameObject.GetComponent<PhotonView>().IsMine)
-        //{
-        //    photonView.RPC("RacketApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
-        //    RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
-
-        //    if (switchIsRacketBased)
-        //    {
-        //        photonView.RPC("SwitchTarget", RpcTarget.All);
-        //    }
-        //}
     }
 
     #endregion
@@ -311,12 +335,12 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private float CalculateVerticalBounceVelocity()
     {
-        return (gravity * (GetCurrentTargetPositionZ().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (GetCurrentTargetPositionZ().z - transform.position.z));
+        return (baseGravity * (targetSelector.GetTargetPlayerPosition().z - transform.position.z) / -depthVelocity / 2) - (transform.position.y * -depthVelocity / (targetSelector.GetTargetPlayerPosition().z - transform.position.z));
     }
 
     private float CalculateSideBounceVelocity()
     {
-        Vector3 returnHorizontalDirection = new Vector3(GetCurrentTargetPositionX().x - transform.position.x, 0, GetCurrentTargetPositionX().z - transform.position.z);
+        Vector3 returnHorizontalDirection = new Vector3(targetSelector.GetTargetPlayerPosition().x - transform.position.x, 0, targetSelector.GetTargetPlayerPosition().z - transform.position.z);
         returnHorizontalDirection = Vector3.Normalize(returnHorizontalDirection);
         return (Vector3.Dot(Vector3.right, returnHorizontalDirection) / Vector3.Dot(Vector3.back, returnHorizontalDirection)) * depthVelocity;
     }
@@ -324,36 +348,39 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     [PunRPC]
     private void SwitchTarget()
     {
-        if (currentTarget == QPlayer.PLAYER1)
-            currentTarget = QPlayer.PLAYER2;
-        else if (currentTarget == QPlayer.PLAYER2)
-            currentTarget = QPlayer.PLAYER1;
+        targetSelector.SwitchTarget();
+
+        //if (currentTarget == QPlayer.PLAYER1)
+        //    currentTarget = QPlayer.PLAYER2;
+        //else if (currentTarget == QPlayer.PLAYER2)
+        //    currentTarget = QPlayer.PLAYER1;
         //currentTarget = (Target)(((int)currentTarget + 1) % PhotonNetwork.PlayerList.Length);
     }
 
-    private Vector3 GetCurrentTargetPositionX()
-    {
-        if (currentTarget == QPlayer.PLAYER1)
-        {
-            return xReturnsPoints[0].position;
-        }
-        else
-        {
-            return xReturnsPoints[1].position;
-        }
-    }
+    //private Vector3 GetCurrentTargetPositionX()
+    //{
+    //    return targetSelector.GetTargetPlayerPosition();
+    //    //if (currentTarget == QPlayer.PLAYER1)
+    //    //{
+    //    //    return xReturnsPoints[0].position;
+    //    //}
+    //    //else
+    //    //{
+    //    //    return xReturnsPoints[1].position;
+    //    //}
+    //}
 
-    private Vector3 GetCurrentTargetPositionZ()
-    {
-        return zReturnPoints.position;
-    }
+    //private Vector3 GetCurrentTargetPositionZ()
+    //{
+    //    return zReturnPoints.position;
+    //}
     #endregion
 
     #region RandomReturn
 
     private void RandomReturnWithBounce()
     {
-        Vector3 targetPosition = targetSelector.GetTargetPosition();
+        Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = oBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
         ApplyNewVelocity(newVelocity / slowness, transform.position);
@@ -361,7 +388,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void RandomReturnWithoutBounce()
     {
-        Vector3 targetPosition = targetSelector.GetTargetPosition();
+        Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
         ApplyNewVelocity(newVelocity / slowness, transform.position);
@@ -446,6 +473,20 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     #endregion
 
     #region UilityMethods
+
+    public void ResetBall()
+    {
+        speedState = SpeedState.NORMAL;
+        rigidbody.velocity = Vector3.zero;
+        currentGravity = 0;
+    }
+
+    public void ApplyBaseGravity()
+    {
+        currentGravity = baseGravity;
+    }
+
+    
 
     private void InitialiseTargetSwitchType()
     {

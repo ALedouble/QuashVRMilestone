@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
+public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 {
     public float minRange;
     public float maxRange;
     public float angleSpread;
 
-    public Vector3[] playerPositions;
+    public Transform[] playerPositions;
     private QPlayer currentTarget;
 
     public GameObject targetTestIndicator;
-    public Vector3 CurrentTargetPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length];}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
+    public Vector3 CurrentTargetPlayerPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
     //public BasicRandomTargetSelector(float minRange, float maxRange, float angleSpread)
     //{
@@ -26,9 +26,14 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
         currentTarget = (QPlayer)(((int)currentTarget + 1) % (System.Enum.GetNames(typeof(QPlayer)).Length) - 1);         // -1 Car PlayerIDCon
     }
 
-    public Vector3 GetTargetPosition()
+    public Vector3 GetTargetPlayerPosition()
     {
-        Vector3 newTarget = CurrentTargetPosition + GetRandomRelativeTargetPoint();
+        return CurrentTargetPlayerPosition;
+    }
+
+    public Vector3 GetNewTargetPosition()
+    {
+        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint();
         targetTestIndicator.transform.position = newTarget;
         Debug.Log("Target: " + newTarget);
 
@@ -51,7 +56,6 @@ public class BasicRandomTargetSelector : MonoBehaviour, TargetSelector
         float randomAngle = Random.Range(0f, angleSpread);
 
         randomAngle = ((randomAngle - angleSpread / 2f) + 90f) * Mathf.PI / 180f;
-
 
         return new Vector3(randomRange * Mathf.Cos(randomAngle), randomRange * Mathf.Sin(randomAngle), 0);
     }

@@ -120,6 +120,11 @@ public class GameManager : MonoBehaviour
         isGameStart = false;
     }
 
+    public bool GetGameStatus()
+    {
+        return isGameStart;
+    }
+
     private void UpdateTimer()
     {
         if (currentTimer >= 0)

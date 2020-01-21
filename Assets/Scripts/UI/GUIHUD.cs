@@ -19,7 +19,7 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject[] scoreScreenCompleted;
     [SerializeField] GameObject[] scoreScreenFailed;
     [SerializeField] GameObject[] scoreComboHUD;
-    [SerializeField] GameObject[] timerHUD;
+    [SerializeField] GameObject timerHUD;
     [SerializeField] GameObject[] layerCountHUD;
 
     public Transform[] layerCountParent;
@@ -49,12 +49,13 @@ public class GUIHUD : MonoBehaviour
             animScoreScreen[i].Play("A_ScoreScreen_Appearing");
 
             scoreComboHUD[i].SetActive(false);
-            timerHUD[i].SetActive(false);
             layerCountHUD[i].SetActive(false);
 
             maxComboData[i].UpdateText(ScoreManager.Instance.playersMaxCombo[i].ToString());
             maxScoreData[i].UpdateText(ScoreManager.Instance.score[i].ToString());
         }
+
+        timerHUD.SetActive(false);
 
         if (!GameManager.Instance.hasLost)
         {

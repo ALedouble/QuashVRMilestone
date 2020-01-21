@@ -30,11 +30,15 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public float deltaHitTime = 0.5f; //Valeur A twik
     public bool isEmpowered = false;
 
+    public Material[] racketMats;
+
     private Transform grabPosition;
 
     private void Start()
     {
         grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
+
+        SetUpRacketColor();
     }
 
     public void SetLocalRacket(GameObject localRacket)
@@ -53,6 +57,25 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         localPlayerRacket.transform.localPosition = new Vector3(0f, 0.02f, 0.6f); //grabPosition.localPosition; 
         localPlayerRacket.transform.localEulerAngles = new Vector3(0f, 180f, 90f); //grabPosition.localRotation;
         //localPlayerRacket.tag = "Racket";
+    }
+
+    void SetUpRacketColor()
+    {
+        racketMats = new Material[3];
+
+        for (int i = 0; i < racketMats.Length; i++)
+        {
+            racketMats[i] = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
+        }
+
+        racketMats[0].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[0].fresnelColors);
+        racketMats[1].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[1].fresnelColors);
+        racketMats[2].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[2].fresnelColors);
+    }
+
+    void SwitchRacketColor()
+    {
+        
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////

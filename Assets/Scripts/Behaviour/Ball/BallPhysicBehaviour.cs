@@ -30,8 +30,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     //Ajouter Le slow en RPC
     private enum SpeedState
     {
-        NORMAL,
-        SLOW
+        NORMAL = 0,
+        SLOW = 1
     }
 
     [Header("Racket Settings")]
@@ -137,16 +137,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             case "Racket":
                 RacketInteraction(other);
-                ChangeSpeedState(SpeedState.NORMAL, false);                                         //La?
-                LevelManager.instance.midCollider.enabled = true;
                 break;
             case "FrontWall":
             case "Brick":
-                //MagicalBounce3();
-                RandomReturnWithoutBounce();
-                //RandomReturnWithBounce();
-                ChangeSpeedState(SpeedState.SLOW, true);           // Pourquoi pas dans la méthode?
-                LevelManager.instance.midCollider.enabled = false;
+                ReturnInteration();
                 break;
             case "BackWall":
                 BallManager.instance.LoseBall();
@@ -176,11 +170,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     }
 
     [PunRPC]
-    private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit)
+    private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState)
     {
         transform.position = positionWhenHit;
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
+
+        SetSpeedState((SpeedState)newSpeedState, true);
     }
 
     private void ApplyForces()
@@ -222,19 +218,27 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         ballCollider.enabled = true;
     }
 
-    private void ChangeSpeedState(SpeedState newSpeedState, bool doesSpeedNeedToChange)
+    private void SetSpeedState(SpeedState newSpeedState, bool doesSpeedNeedToChange)
     {
         if(newSpeedState == SpeedState.NORMAL && speedState != SpeedState.NORMAL)
         {
             if(doesSpeedNeedToChange)
+            {
                 rigidbody.velocity *= slowness;
+                lastVelocity = rigidbody.velocity;
+                currentGravity = baseGravity;
+            }
 
             speedState = SpeedState.NORMAL;
         }
         else if(newSpeedState == SpeedState.SLOW && speedState != SpeedState.SLOW)
         {
             if(doesSpeedNeedToChange)
+            {
                 rigidbody.velocity /= slowness;
+                lastVelocity = rigidbody.velocity;
+                currentGravity = baseGravity / (slowness * slowness);
+            }
 
             speedState = SpeedState.SLOW;
         }
@@ -243,6 +247,19 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     #region RacketInteraction
 
     private void RacketInteraction(Collision other)
+    {
+        ApplyRacketPhysic(other);
+
+        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+
+        SetLastPlayerWhoHitTheBall();
+        RacketBasedSwitchTarget();
+        SetMidWallStatus(true);
+
+        BallManager.instance.TransferEmpowerement();
+    }
+
+    private void ApplyRacketPhysic(Collision other)
     {
         Vector3 newVelocity = Vector3.zero;
 
@@ -267,31 +284,52 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
+        if (PhotonNetwork.OfflineMode)
+        {
+            ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.NORMAL);
+        }
+        else
+        {
+            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity, transform.position, (int)SpeedState.NORMAL);
+        }
+    }
+    
+    private void SetLastPlayerWhoHitTheBall()
+    {
         if(PhotonNetwork.OfflineMode)
         {
-            ApplyNewVelocity(newVelocity, transform.position);
-
             lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
         }
         else
         {
-            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity, transform.position);
-
-            if(PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)
             {
-                lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
+                photonView.RPC("SetLastPlayerToHitTheBallToPlayer1", RpcTarget.All);
             }
             else
             {
-                lastPlayerWhoHitTheBall = QPlayer.PLAYER2;
+                photonView.RPC("SetLastPlayerToHitTheBallToPlayer2", RpcTarget.All);
             }
         }
+    }
 
-        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+    [PunRPC]
+    private void SetLastPlayerToHitTheBallToPlayer1()
+    {
+        lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
+    }
 
+    [PunRPC]
+    private void SetLastPlayerToHitTheBallToPlayer2()
+    {
+        lastPlayerWhoHitTheBall = QPlayer.PLAYER2;
+    }
+
+    private void RacketBasedSwitchTarget()
+    {
         if (switchTargetIsRacketBased)
         {
-            if(PhotonNetwork.OfflineMode)
+            if (PhotonNetwork.OfflineMode)                                              // Really?
             {
                 SwitchTarget();
             }
@@ -300,8 +338,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 photonView.RPC("SwitchTarget", RpcTarget.All);
             }
         }
-
-        BallManager.instance.TransferEmpowerement();
     }
 
     #endregion
@@ -320,12 +356,22 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
         float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
 
-        ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal), transform.position);
+        ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal), transform.position, (int)speedState);
     }
 
     #endregion
 
+
+
     #region ReturnMechanics
+
+    private void ReturnInteration()
+    {
+        //MagicalBounce3();
+        RandomReturnWithoutBounce();
+        //RandomReturnWithBounce();
+        SetMidWallStatus(false);
+    }
 
     #region BasicMagicReturn
     private void MagicalBounce3()           //Question: Repère par raport au terrain
@@ -340,7 +386,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         float verticalVelocity = CalculateVerticalBounceVelocity();
         float sideVelocity = CalculateSideBounceVelocity();
 
-        ApplyNewVelocity(new Vector3(sideVelocity, verticalVelocity, -depthVelocity) / slowness, transform.position);
+        ApplyNewVelocity(new Vector3(sideVelocity, verticalVelocity, -depthVelocity), transform.position, (int)SpeedState.SLOW);
     }
 
     private float CalculateVerticalBounceVelocity()
@@ -369,7 +415,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = oBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity / slowness, transform.position);
+        ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.SLOW);
     }
 
     private void RandomReturnWithoutBounce()
@@ -377,7 +423,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity / slowness, transform.position);
+        ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.SLOW);
     }
 
     #endregion
@@ -507,6 +553,41 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         return lastPlayerWhoHitTheBall;
     }
+
+    #endregion
+
+    #region MidWallInterraction
+
+    private void SetMidWallStatus(bool isCollidable)
+    {
+        if(PhotonNetwork.OfflineMode)
+        {
+            if (isCollidable)
+                ActivateMidWall();
+            else
+                DisactivateMidWall();
+        }
+        else
+        {
+            if (isCollidable)
+                photonView.RPC("ActivateMidWall", RpcTarget.All);
+            else
+                photonView.RPC("DisactivateMidWall", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void ActivateMidWall()
+    {
+        LevelManager.instance.midCollider.enabled = true;
+    }
+
+    [PunRPC]
+    private void DisactivateMidWall()
+    {
+        LevelManager.instance.midCollider.enabled = false;
+    }
+
 
     #endregion
 

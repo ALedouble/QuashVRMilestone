@@ -332,7 +332,6 @@ GameObject:
   - component: {fileID: 4786920642494746230}
   - component: {fileID: 323053201}
   - component: {fileID: 323053215}
-  - component: {fileID: -8053101754471880488}
   - component: {fileID: -6548133154734702371}
   m_Layer: 9
   m_Name: MainMagicBall
@@ -602,7 +601,7 @@ MonoBehaviour:
   magnitudeSlope: 0
   minMagnitude: 0
   maxMagnitude: 0
-  slowness: 1.5
+  slowness: 2
   baseGravity: 9.81
   depthVelocity: 10
   xAcceleration: 0
@@ -652,7 +651,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 323053215}
-  - {fileID: -8053101754471880488}
   - {fileID: 4646906268572400308}
   - {fileID: -6548133154734702371}
   viewIdField: 0
@@ -673,19 +671,6 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &-8053101754471880488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758958001795561110}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35144820bcc25444bb8f0fd767d9423e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SmoothingDelay: 5
 --- !u!114 &-6548133154734702371
 MonoBehaviour:
   m_ObjectHideFlags: 0

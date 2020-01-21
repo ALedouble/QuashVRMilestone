@@ -146,7 +146,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 ChangeSpeedState(SpeedState.SLOW, true);           // Pourquoi pas dans la méthode?
                 break;
             case "BackWall":
-                BallManager.instance.DespawnBall();
+                BallManager.instance.LoseBall();
                 break;
             default:
                 StandardBounce(other.GetContact(0));
@@ -485,8 +485,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         currentGravity = baseGravity;
     }
-
-    
 
     private void InitialiseTargetSwitchType()
     {

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
+using Photon.Pun;
 
 
 public class BallManager : MonoBehaviour
@@ -23,6 +25,7 @@ public class BallManager : MonoBehaviour
     public float floatAmplitude;
     public float floatPeriod;
 
+    private PhotonView photonView;
     private BallColorBehaviour ballColorBehaviour;
     private BallPhysicBehaviour ballPhysicBehaviour;
     private PhysicInfo ballPhysicInfo;
@@ -46,6 +49,31 @@ public class BallManager : MonoBehaviour
 
     #region Gameplay
 
+    public void LoseBall()
+    {
+        if(PhotonNetwork.OfflineMode)
+        {
+            DespawnBall();
+        }
+        else if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("DespawnBall", RpcTarget.All);
+        }
+
+        if (GameManager.Instance.GetGameStatus())
+        {
+            if (PhotonNetwork.OfflineMode)
+            {
+                SpawnBall();
+            }
+            else if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("SpawnBall", RpcTarget.All);
+            }
+        }
+    }
+
+    [PunRPC]
     public void SpawnBall()
     {
         ResetBall();
@@ -57,17 +85,14 @@ public class BallManager : MonoBehaviour
         isSpawned = true;
     }
 
+    [PunRPC]
     public void DespawnBall()
     {
         ResetBall();
         ball.SetActive(false);
 
-        if(GameManager.Instance.GetGameStatus())
-        {
-            //Remettre le spawn
-        }
-
         isInPlay = false;
+        isSpawned = false;
     }
 
     private void ResetBall()
@@ -75,6 +100,27 @@ public class BallManager : MonoBehaviour
         ballPhysicBehaviour.ResetBall();
     }
 
+    
+    public void BallBecomeInPlay()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            SetBallInPlay();
+        }
+        else
+        {
+            photonView.RPC("SetBallInPlay", RpcTarget.All);
+        }
+    }
+
+    private void SetBallInPlay()
+    {
+        isInPlay = true;
+        ballPhysicBehaviour.ApplyBaseGravity();
+
+        BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
+        StopCoroutine(floatCoroutine);
+    }
     #endregion
 
     #region Color
@@ -132,19 +178,11 @@ public class BallManager : MonoBehaviour
         return isInPlay;
     }
 
-    public void BallBecomeInPlay()
-    {
-        isInPlay = true;
-        ballPhysicBehaviour.ApplyBaseGravity();
-        StopCoroutine(floatCoroutine);
-    }
-
     public IEnumerator FloatCoroutine()
     {
         float t = 0;
         Vector3 startPosition = ball.transform.position;
         ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
-
 
         while (true)
         {
@@ -156,5 +194,4 @@ public class BallManager : MonoBehaviour
     }
 
     #endregion
-
 }

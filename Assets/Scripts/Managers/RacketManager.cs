@@ -27,6 +27,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
 
     public GameObject racketPrefab;
     public GameObject localPlayerRacket;
+    public GameObject foreignPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
     public bool isEmpowered = false;
 
@@ -46,6 +47,11 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         localPlayerRacket = localRacket;
 
         AssociateRacketWithController();
+    }
+
+    public void SetForeignPlayerRacket(GameObject foreignRacket)
+    {
+        foreignPlayerRacket = foreignRacket;
     }
 
     private void AssociateRacketWithController()

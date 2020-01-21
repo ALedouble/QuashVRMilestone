@@ -61,5 +61,10 @@ MonoBehaviour:
   - SpawnBall
   - SetScoreRPC
   - SetComboRPC
+  - ApplyNewVelocityWithPosition
+  - ActivateMidWall
+  - DisactivateMidWall
+  - SetLastPlayerToHitTheBallToPlayer1
+  - SetLastPlayerToHitTheBallToPlayer2
   DisableAutoOpenWizard: 1
   ShowSettings: 1

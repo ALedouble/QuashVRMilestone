@@ -124,9 +124,13 @@ public class LevelManager : MonoBehaviour
         playroomElements = goRoom.GetComponent<PlayroomElements>();
 
         allMeshes = playroomElements.renderers;
-        midMesh = playroomElements.midWallRenderer;
-        midCollider = playroomElements.midCollider;
 
+        if(numberOfPlayers > 1)
+        {
+            midMesh = playroomElements.midWallRenderer;
+            midCollider = playroomElements.midCollider;
+        }
+        
         GameManager.Instance.timerData = playersHUD.TimerData;
     }
 

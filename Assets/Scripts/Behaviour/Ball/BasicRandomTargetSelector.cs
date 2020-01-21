@@ -24,7 +24,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public void SwitchTarget()
     {
         //currentTarget = (QPlayer)( ((int)currentTarget + 1) % ( (System.Enum.GetNames(typeof(QPlayer)).Length) - 1 ) );
-        currentTarget = (QPlayer)( ((int)currentTarget + 1) % 2 );         
+        currentTarget = (QPlayer)( ((int)currentTarget + 1) % LevelManager.instance.numberOfPlayers);         
         Debug.Log("Switch Target - newCurrentPlayer: " + (int)currentTarget);
     }
 

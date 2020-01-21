@@ -30,7 +30,7 @@ public class GameplayInputManager : IInputable
         if(mainHand == MainHand.RIGHTHANDED)
         {
             RacketManager.instance.EnterEmpoweredState();
-            //Anime de malade!!!
+            RacketManager.instance.SwitchRacketColor();
         }
     }
 
@@ -39,7 +39,7 @@ public class GameplayInputManager : IInputable
         if (mainHand == MainHand.LEFTHANDED)
         {
             RacketManager.instance.EnterEmpoweredState();
-            //Anime de malade!!!
+            RacketManager.instance.EndSwitchRacketColor();
         }
     }
 

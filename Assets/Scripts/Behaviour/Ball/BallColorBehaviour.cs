@@ -153,6 +153,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
             LevelManager.instance.allMeshes[i].sharedMaterial = wallMats[colorID];
         }
 
+        if (RacketManager.instance.isEmpowered)
+            RacketManager.instance.SwitchRacketColor();
     }
 
     [PunRPC]

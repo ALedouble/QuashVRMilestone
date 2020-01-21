@@ -30,13 +30,18 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public GameObject foreignPlayerRacket;
     public float deltaHitTime = 0.5f; //Valeur A twik
     public bool isEmpowered = false;
+    private MeshRenderer localRacketRenderer;
+    private MeshRenderer foreignRacketRenderer;
 
     public Material[] racketMats;
 
     private Transform grabPosition;
+    private PhotonView photonView;
 
     private void Start()
     {
+        photonView = GetComponent<PhotonView>();
+
         grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
 
         SetUpRacketColor();
@@ -47,11 +52,15 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         localPlayerRacket = localRacket;
 
         AssociateRacketWithController();
+
+        localRacketRenderer = localPlayerRacket.GetComponentInChildren<MeshRenderer>();
     }
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
     {
         foreignPlayerRacket = foreignRacket;
+
+        foreignRacketRenderer = foreignPlayerRacket.GetComponentInChildren<MeshRenderer>();
     }
 
     private void AssociateRacketWithController()
@@ -79,9 +88,44 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         racketMats[2].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[2].fresnelColors);
     }
 
-    void SwitchRacketColor()
+    public void SwitchRacketColor()
     {
-        
+        SwitchLocalRacketColor();
+        if (!PhotonNetwork.OfflineMode)
+        {
+            photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
+        }
+    }
+
+    public void EndSwitchRacketColor()
+    {
+        EndLocalSwitchColor();
+        if (!PhotonNetwork.OfflineMode)
+        {
+            photonView.RPC("EndForeignSwitchColor", RpcTarget.Others);
+        }
+    }
+
+    void EndLocalSwitchColor()
+    {
+        localRacketRenderer.sharedMaterials[1] = racketMats[0];
+    }
+
+    [PunRPC]
+    void EndForeignSwitchColor()
+    {
+        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+    }
+
+    private void SwitchLocalRacketColor()
+    {
+        localRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+    }
+
+    [PunRPC]
+    private void SwitchForeignRacketColor()
+    {
+        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////

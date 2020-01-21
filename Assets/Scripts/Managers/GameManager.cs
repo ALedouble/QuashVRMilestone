@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour
     {
         LevelManager.instance.playersHUD.EnableScoreScreen();
         isGameStart = false;
+        LevelManager.instance.CleanWalls();
     }
 
     public bool GetGameStatus()

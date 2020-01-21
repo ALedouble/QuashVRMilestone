@@ -35,7 +35,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 
     public Vector3 GetNewTargetPosition()
     {
-        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint();
+        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint() + Vector3.up;  //Beurk c'est pas beau....
         targetTestIndicator.transform.position = newTarget;
         Debug.Log("PlayerTargetPosition: " + CurrentTargetPlayerPosition);
         Debug.Log("TargetPosition: " + newTarget);

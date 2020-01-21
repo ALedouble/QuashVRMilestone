@@ -186,6 +186,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         SetSpeedState((SpeedState)newSpeedState, true);
     }
 
+    private void ApplyNewVelocity(Vector3 newVelocity)
+    {
+        rigidbody.velocity = newVelocity;
+    }
+
     private void ApplyForces()
     {
         ApplyGravity();
@@ -227,7 +232,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void SetSpeedState(SpeedState newSpeedState, bool doesSpeedNeedToChange)
     {
-        if(newSpeedState == SpeedState.NORMAL && speedState != SpeedState.NORMAL)
+        if(newSpeedState == SpeedState.NORMAL)
         {
             if(doesSpeedNeedToChange)
             {
@@ -238,7 +243,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
             speedState = SpeedState.NORMAL;
         }
-        else if(newSpeedState == SpeedState.SLOW && speedState != SpeedState.SLOW)
+        else if(newSpeedState == SpeedState.SLOW)
         {
             if(doesSpeedNeedToChange)
             {
@@ -363,7 +368,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
         float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
 
-        ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal), transform.position, (int)speedState);
+        ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal));
     }
 
     #endregion

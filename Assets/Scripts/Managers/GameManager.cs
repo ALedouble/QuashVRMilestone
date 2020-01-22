@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
                 if(gameMod == GameMod.GAMEPLAY)
                 {
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
-                    
                 }
             }
             else

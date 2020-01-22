@@ -626,10 +626,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minRange: 0.8
-  maxRange: 1.5
+  maxRange: 1
   angleSpread: 240
+  offset: {x: 0, y: 1, z: 0}
   playerPositions:
-  - {fileID: 0}
   - {fileID: 0}
   targetTestIndicator: {fileID: 0}
 --- !u!114 &323053201
@@ -653,7 +653,7 @@ MonoBehaviour:
   - {fileID: 323053215}
   - {fileID: 4646906268572400308}
   - {fileID: -6548133154734702371}
-  viewIdField: 0
+  viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &323053215

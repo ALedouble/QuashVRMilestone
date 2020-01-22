@@ -15,14 +15,6 @@ public class GUILevelFade : MonoBehaviour
     }
     #endregion
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            FadeToLevel(1);
-        }
-    }
-
     public void FadeToLevel (int levelIndex)
     {
         levelToLoad = levelIndex;

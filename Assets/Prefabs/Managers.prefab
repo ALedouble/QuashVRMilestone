@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2113905627460504248}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8645785853228551081
 MonoBehaviour:
@@ -72,7 +72,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2113905627460504248}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &406213135775075109
 MonoBehaviour:
@@ -638,6 +638,7 @@ MonoBehaviour:
     levelProgression:
       isDone: 0
       isUnlocked: 0
+      isImplemented: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
       score: 0
@@ -656,12 +657,20 @@ MonoBehaviour:
   - {fileID: 0}
   playersParents: []
   playersShakers: []
+  playersLayerCompletedFX: []
+  playersWinFX: []
+  allMeshes: []
+  midMesh: {fileID: 0}
+  midCollider: {fileID: 0}
+  playersUIlayers: []
   roomShaker: {fileID: 0}
   playersHUD: {fileID: 0}
+  playroomElements: {fileID: 0}
   startPos4Player1: {x: 0, y: 0, z: 0}
   posDiffPerPlayer: {x: 5, y: 0, z: 0}
   editorPreset: {fileID: 11400000, guid: 0a36c470dd78c134e906ec9a44c43a18, type: 2}
   currentLayer: 
+  numberOfLayers: 0
   startPos: []
   isEverythingDisplayed: 
   smoothTime: 0.015
@@ -851,6 +860,8 @@ MonoBehaviour:
   timerData: {fileID: 0}
   currentTimer: 0
   timeMax: 0
+  isTimerStopped: 0
+  hasLost: 0
   offlineMode: 1
 --- !u!1 &3387151942383946479
 GameObject:
@@ -898,8 +909,10 @@ MonoBehaviour:
   racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
     type: 3}
   localPlayerRacket: {fileID: 0}
+  foreignPlayerRacket: {fileID: 0}
   deltaHitTime: 2
   isEmpowered: 0
+  racketMats: []
 --- !u!1 &3387151942400940763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,6 +1019,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 0}
+  spawnOffset: {x: 0, y: 0, z: 0}
+  floatAmplitude: 0
+  floatPeriod: 0
 --- !u!1 &6572958010756774014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,9 +1104,9 @@ MonoBehaviour:
   maxCounter: 30
   score:
   - 1
-  combo:
-  - 1
+  combo: 01000000
   brickCounterGauge: 01000000
+  playersMaxCombo: 
   displayedScore: []
   displayedCombo: []
   resetCombo: 1
@@ -1217,63 +1233,12 @@ Transform:
   - {fileID: 6072903425059365076}
   - {fileID: 8250716455277317718}
   - {fileID: 7402069474708333501}
-  - {fileID: 1233794728123763699}
   - {fileID: 25199465875745926}
   - {fileID: 2723403188578103699}
   - {fileID: 4923605409697620730}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8085710098519066703
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1233794728123763699}
-  - component: {fileID: 7950363768114181836}
-  m_Layer: 0
-  m_Name: SkinManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1233794728123763699
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8085710098519066703}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2113905627460504248}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7950363768114181836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8085710098519066703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd106207f6ed504e931cd5d8f94d0a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinSlots:
-  - racketSkinAsset: {fileID: 11400000, guid: 2d43f42ab8082ab4d9d1874024717cac, type: 2}
-    isLocked: 0
-  - racketSkinAsset: {fileID: 11400000, guid: 7660f5420afae30448da8c066626e4be, type: 2}
-    isLocked: 1
-  - racketSkinAsset: {fileID: 11400000, guid: 594844480e4652549a1875c9553e6628, type: 2}
-    isLocked: 1
 --- !u!1 &9081694686153800070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,7 +1268,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2113905627460504248}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7541079638858394785
 MonoBehaviour:

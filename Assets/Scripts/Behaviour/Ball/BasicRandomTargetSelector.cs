@@ -7,6 +7,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public float minRange;
     public float maxRange;
     public float angleSpread;
+    public Vector3 offset = Vector3.up;
 
     public Transform[] playerPositions;
     private QPlayer currentTarget;
@@ -35,7 +36,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 
     public Vector3 GetNewTargetPosition()
     {
-        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint() + Vector3.up;  //Beurk c'est pas beau....
+        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint() + offset;  //Beurk c'est pas beau....
         targetTestIndicator.transform.position = newTarget;
         Debug.Log("PlayerTargetPosition: " + CurrentTargetPlayerPosition);
         Debug.Log("TargetPosition: " + newTarget);

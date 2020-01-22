@@ -123,17 +123,21 @@ public class GameManager : MonoBehaviour
 
     public void StartTheGame()
     {
-        StartCoroutine(StartGameDelay());
+        StartCoroutine(StartGameCoroutine());
     }
 
-    private IEnumerator StartGameDelay()
+    private IEnumerator StartGameCoroutine()
     {
         yield return new WaitForFixedUpdate();
 
         isGameStart = true;
 
         if (BallManager.instance.isBallInstatiated)
-            BallManager.instance.SpawnBall();
+        {
+            BallManager.instance.SetupBall();
+            BallManager.instance.SpawnTheBall();
+        }
+            
     }
 
     public void EndOfTheGame()
@@ -141,7 +145,7 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.playersHUD.EnableScoreScreen();
         isGameStart = false;
         LevelManager.instance.CleanWalls();
-        BallManager.instance.DespawnBall();
+        BallManager.instance.DespawnTheBall();
     }
 
     public bool GetGameStatus()

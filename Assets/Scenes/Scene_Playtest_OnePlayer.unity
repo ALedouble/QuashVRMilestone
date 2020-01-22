@@ -1301,6 +1301,21 @@ PrefabInstance:
       propertyPath: spawnJ2
       value: 
       objectReference: {fileID: 330787441}
+    - target: {fileID: 1846513081278596601, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: offlineMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311103135868463605, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311103135868463606, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cafc84c8b9784354dbebb17817711e61, type: 3}
 --- !u!1001 &1792578905

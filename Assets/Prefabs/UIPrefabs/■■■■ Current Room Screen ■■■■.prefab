@@ -2366,11 +2366,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4507639600841012521}
     m_Modifications:
-    - target: {fileID: 9096969518043264125, guid: ba64e6d5357ed3f449b0eb7a6ba15cbd,
-        type: 3}
-      propertyPath: m_Name
-      value: "\u25A0\u25A0\u25A0\u25A0 Mic Settings \u25A0\u25A0\u25A0\u25A0"
-      objectReference: {fileID: 0}
     - target: {fileID: 7323631587957398621, guid: ba64e6d5357ed3f449b0eb7a6ba15cbd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2475,6 +2470,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096969518043264125, guid: ba64e6d5357ed3f449b0eb7a6ba15cbd,
+        type: 3}
+      propertyPath: m_Name
+      value: "\u25A0\u25A0\u25A0\u25A0 Mic Settings \u25A0\u25A0\u25A0\u25A0"
       objectReference: {fileID: 0}
     - target: {fileID: 3223258435794126482, guid: ba64e6d5357ed3f449b0eb7a6ba15cbd,
         type: 3}

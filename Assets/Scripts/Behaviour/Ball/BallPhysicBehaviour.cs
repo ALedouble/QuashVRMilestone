@@ -138,6 +138,22 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void OnCollisionEnter(Collision other)
     {
+        if (PhotonNetwork.OfflineMode)
+        {
+            OnBallCollision(other.gameObject.tag);
+        }
+        else if (other.gameObject.tag == "Racket")
+        {
+            photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
+        }
+        else
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
+            }
+        }
+
         switch (other.gameObject.tag)
         {
             case "Racket":
@@ -153,22 +169,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             default:
                 StandardBounce(other.GetContact(0));
                 break;
-        }
-
-        if (PhotonNetwork.OfflineMode)
-        {
-            OnBallCollision(other.gameObject.tag);
-        }
-        else if(other.gameObject.tag == "Racket")
-        {
-            photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
-        }
-        else
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("OnBallCollision", RpcTarget.All, other.gameObject.tag);
-            }
         }
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system?

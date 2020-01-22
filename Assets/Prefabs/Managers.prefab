@@ -911,6 +911,8 @@ MonoBehaviour:
   localPlayerRacket: {fileID: 0}
   foreignPlayerRacket: {fileID: 0}
   deltaHitTime: 1
+  racketOffset: {x: 0, y: 0.02, z: 0.505}
+  racketRotationOffset: {x: 0, y: 180, z: 90}
   isEmpowered: 0
   racketMats: []
 --- !u!1 &3387151942400940763

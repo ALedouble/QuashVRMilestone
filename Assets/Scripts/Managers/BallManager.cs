@@ -9,13 +9,10 @@ public class BallManager : MonoBehaviour
 {
     #region Singleton
     public static BallManager instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
     #endregion
 
+    public bool isBallInstatiated;
+    public GameObject ballPrefab;
     public GameObject ball;
 
     [Header("Spawn Settings")]
@@ -35,8 +32,30 @@ public class BallManager : MonoBehaviour
     private bool isSpawned;
     private Coroutine floatCoroutine;
 
+
+    private void Awake()
+    {
+        instance = this;
+
+        
+    }
+
     private void Start()
     {
+        if (isBallInstatiated)
+        {
+            if (PhotonNetwork.OfflineMode)
+            {
+                ball = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+            }
+            else if (PhotonNetwork.IsMasterClient)
+            {
+                ball = PhotonNetwork.Instantiate(ballPrefab.name, Vector3.zero, Quaternion.identity) as GameObject;
+            }
+
+            ball.SetActive(false);
+        }
+
         ballColorBehaviour = ball.GetComponent<BallColorBehaviour>();
         ballPhysicBehaviour = ball.GetComponent<BallPhysicBehaviour>();
         ballPhysicInfo = ball.GetComponent<PhysicInfo>();
@@ -60,6 +79,8 @@ public class BallManager : MonoBehaviour
             photonView.RPC("DespawnBall", RpcTarget.All);
         }
 
+        targetSelector.SwitchTarget();
+
         if (GameManager.Instance.GetGameStatus())
         {
             if (PhotonNetwork.OfflineMode)
@@ -76,9 +97,11 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     public void SpawnBall()
     {
-        ResetBall();
         ball.transform.position = targetSelector.GetTargetPlayerPosition() + spawnOffset;
         ball.SetActive(true);
+
+        
+        ResetBall();
 
         BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
         floatCoroutine = StartCoroutine(FloatCoroutine());
@@ -103,7 +126,7 @@ public class BallManager : MonoBehaviour
     
     public void BallBecomeInPlay()
     {
-        if(PhotonNetwork.IsMasterClient)
+        if(PhotonNetwork.OfflineMode)
         {
             SetBallInPlay();
         }
@@ -113,6 +136,7 @@ public class BallManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     private void SetBallInPlay()
     {
         isInPlay = true;

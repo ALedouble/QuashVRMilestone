@@ -5,6 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameMod
+{
+    MENU = 0,
+    GAMEPLAY = 1
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +21,9 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
     #endregion
+
+    [Header("Mode Settings")]
+    public GameMod gameMod = GameMod.GAMEPLAY;
 
     [Header("Player Settings")]
     public GameObject playerPrefab;
@@ -57,22 +65,26 @@ public class GameManager : MonoBehaviour
             {
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject);
 
-                RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
-
-                //  PhotonNetwork.Instantiate(prefabBall.name, prefabBall.transform.position, Quaternion.identity, 0);
+                if(gameMod == GameMod.GAMEPLAY)
+                {
+                    RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
+                    
+                }
             }
             else
             {
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject);
 
-                RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
+                if (gameMod == GameMod.GAMEPLAY)
+                    RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
             }
         }
         else
         {
             QPlayerManager.instance.SetLocalPlayer(Instantiate(playerPrefab, spawnJ2.transform.position, Quaternion.identity));
 
-            RacketManager.instance.SetLocalRacket(Instantiate(racketPrefab, Vector3.zero, Quaternion.identity));
+            if (gameMod == GameMod.GAMEPLAY)                                                                                    
+                RacketManager.instance.SetLocalRacket(Instantiate(racketPrefab, Vector3.zero, Quaternion.identity));
         }
         
 
@@ -111,7 +123,17 @@ public class GameManager : MonoBehaviour
 
     public void StartTheGame()
     {
+        StartCoroutine(StartGameDelay());
+    }
+
+    private IEnumerator StartGameDelay()
+    {
+        yield return new WaitForFixedUpdate();
+
         isGameStart = true;
+
+        if (BallManager.instance.isBallInstatiated)
+            BallManager.instance.SpawnBall();
     }
 
     public void EndOfTheGame()
@@ -119,6 +141,7 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.playersHUD.EnableScoreScreen();
         isGameStart = false;
         LevelManager.instance.CleanWalls();
+        BallManager.instance.DespawnBall();
     }
 
     public bool GetGameStatus()

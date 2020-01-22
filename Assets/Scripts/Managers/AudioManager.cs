@@ -100,6 +100,46 @@ public class AudioManager : MonoBehaviour
         hitSoundSource.Play();
     }
 
+    public void PlayRacketSound(string soundName, Vector3 soundPosition)
+    {
+        for (int i = 0; i < soundList.sounds.Length; i++)
+        {
+            if (soundName == soundList.sounds[i].soundName)
+            {
+                selectedSound = soundList.sounds[i];
+                break;
+            }
+        }
+
+        if (selectedSound.clip == null)
+        {
+            Debug.LogWarning("SOUND NOT FOUND");
+            return;
+        }
+
+        if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
+        {
+            return;
+        }
+
+        GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero, Quaternion.identity);
+        AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
+
+        SetAudioSource(hitSoundSource, selectedSound);
+        AdjustVolume(hitSoundSource, selectedSound, selectedSound.volume);
+
+        if(RacketManager.instance.isEmpowered == true)
+        {
+            hitSoundSource.Play();
+        }
+        else
+        {
+            hitSoundSource.Stop();
+        }
+
+    }
+
+
     private void SetAudioSource(AudioSource source, SoundSettings sound)
     {
         source.clip = sound.clip;

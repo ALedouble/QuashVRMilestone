@@ -48,6 +48,10 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     private Transform grabPosition;
     private PhotonView photonView;
 
+    public AudioSource sound;
+    private bool isPlaying = false;
+
+
     private void Start()
     {
         photonView = GetComponent<PhotonView>();
@@ -55,6 +59,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
 
         SetUpRacketColor();
+
+
     }
 
     public void SetLocalRacket(GameObject localRacket)
@@ -158,11 +164,13 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public void EnterEmpoweredState()
     {
         isEmpowered = true;
+        sound.Play();
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
+        sound.Stop();
     }
 }
 

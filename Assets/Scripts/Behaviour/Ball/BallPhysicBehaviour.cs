@@ -592,16 +592,23 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private void ActivateMidWall()
     {
         if (LevelManager.instance.numberOfPlayers > 1)
-            LevelManager.instance.midCollider.enabled = true;
+        {
+            //LevelManager.instance.midCollider.enabled = true;
+            LevelManager.instance.midCollider.gameObject.SetActive(true);
+
+        }
+            
     }
 
     [PunRPC]
     private void DisactivateMidWall()
     {
         if(LevelManager.instance.numberOfPlayers > 1)
-            LevelManager.instance.midCollider.enabled = false;
+        {
+            //LevelManager.instance.midCollider.enabled = false;
+            LevelManager.instance.midCollider.gameObject.SetActive(false);
+        }
     }
-
 
     #endregion
 

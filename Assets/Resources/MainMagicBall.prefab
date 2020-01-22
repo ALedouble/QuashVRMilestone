@@ -625,8 +625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f35a4588ad228034289b2d0838b88a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRange: 0.8
-  maxRange: 1
+  minRange: 0.85
+  maxRange: 1.4
   angleSpread: 240
   offset: {x: 0, y: 1, z: 0}
   playerPositions:
@@ -653,7 +653,7 @@ MonoBehaviour:
   - {fileID: 323053215}
   - {fileID: 4646906268572400308}
   - {fileID: -6548133154734702371}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &323053215

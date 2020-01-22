@@ -170,7 +170,6 @@ GameObject:
   - component: {fileID: 2976157486923388716}
   - component: {fileID: 3756047804768948490}
   - component: {fileID: 4095865524759889599}
-  - component: {fileID: 5101687769634252781}
   m_Layer: 0
   m_Name: RacketMesh
   m_TagString: Untagged
@@ -240,26 +239,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &5101687769634252781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2444276548167439230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e53911c41ed90bd47a2b7ffc291823c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshFilter: {fileID: 3756047804768948490}
-  meshRenderer: {fileID: 4095865524759889599}
-  currentSkinID: 0
-  racketSkinAsset: {fileID: 0}
-  loadSkinOnStart: 1
-  debugMode: 0
-  debugID: 0
-  debugSkinAsset: {fileID: 0}
 --- !u!1 &2569889133062377144
 GameObject:
   m_ObjectHideFlags: 0

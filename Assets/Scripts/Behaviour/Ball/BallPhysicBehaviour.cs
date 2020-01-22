@@ -102,9 +102,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private List<Vector3> forcesToApply;
 
-    
 
-    void Start()
+    private void Awake()
     {
         photonView = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
@@ -119,9 +118,15 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         forcesToApply = new List<Vector3>();
 
         InitialiseTargetSwitchType();
+    }
 
-        ResetBall();
-        ApplyBaseGravity();
+    void Start()
+    {
+        if(!BallManager.instance.isBallInstatiated)
+        {
+            ResetBall();
+            ApplyBaseGravity();
+        }
     }
 
     private void FixedUpdate()

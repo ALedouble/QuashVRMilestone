@@ -9,11 +9,11 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public float angleSpread;
     public Vector3 offset = Vector3.up;
 
-    public Transform[] playerPositions;
+    public Vector3[] playerPositions;
     private QPlayer currentTarget;
 
     public GameObject targetTestIndicator;
-    public Vector3 CurrentTargetPlayerPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
+    public Vector3 CurrentTargetPlayerPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length];}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
     //public BasicRandomTargetSelector(float minRange, float maxRange, float angleSpread)
     //{
@@ -25,8 +25,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public void SwitchTarget()
     {
         //currentTarget = (QPlayer)( ((int)currentTarget + 1) % ( (System.Enum.GetNames(typeof(QPlayer)).Length) - 1 ) );
-        currentTarget = (QPlayer)( ((int)currentTarget + 1) % LevelManager.instance.numberOfPlayers);         
-        Debug.Log("Switch Target - newCurrentPlayer: " + (int)currentTarget);
+        currentTarget = (QPlayer)( ((int)currentTarget + 1) % LevelManager.instance.numberOfPlayers);
     }
 
     public Vector3 GetTargetPlayerPosition()
@@ -37,9 +36,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public Vector3 GetNewTargetPosition()
     {
         Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint() + offset;  //Beurk c'est pas beau....
-        targetTestIndicator.transform.position = newTarget;
-        Debug.Log("PlayerTargetPosition: " + CurrentTargetPlayerPosition);
-        Debug.Log("TargetPosition: " + newTarget);
+        //targetTestIndicator.transform.position = newTarget;
 
         return newTarget;
     }

@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredLevels:
-  - {fileID: 11400000, guid: 90e4369e3dce3a441951f8e5679c5c41, type: 2}
+  - {fileID: 11400000, guid: 7757b9feaf1d70742b0e4d4cf7149495, type: 2}
   currentLevel: {fileID: 0}
   currentLevelConfig:
     levelWallBuilds:
@@ -831,8 +831,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3387151941726231197}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.04485, y: -0.3177619, z: -1.8417454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2113905627460504248}
@@ -850,6 +850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11512f2645d1465469c3226de07b66b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMod: 1
   playerPrefab: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
     type: 3}
   racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
@@ -862,7 +863,7 @@ MonoBehaviour:
   timeMax: 0
   isTimerStopped: 0
   hasLost: 0
-  offlineMode: 1
+  offlineMode: 0
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3387151942400940765}
   - component: {fileID: 3387151942400940764}
+  - component: {fileID: 2634689587581286034}
   m_Layer: 0
   m_Name: BrickManager
   m_TagString: Untagged
@@ -939,8 +941,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3387151942400940763}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.096771, y: -3.5624392, z: 15.269785}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2113905627460504248}
@@ -977,6 +979,28 @@ MonoBehaviour:
   roomShaker: {fileID: 0}
   soundName: 
   hitIntensity: 0
+--- !u!114 &2634689587581286034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3387151942400940763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3497771482991583141
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +1011,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8250716455277317718}
   - component: {fileID: 2288591201531972125}
+  - component: {fileID: 2634689587581286033}
   m_Layer: 0
   m_Name: BallManager
   m_TagString: Untagged
@@ -1020,10 +1045,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae22826cfe6131d47be37fb1abd02fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBallInstatiated: 1
+  ballPrefab: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
+    type: 3}
   ball: {fileID: 0}
-  spawnOffset: {x: 0, y: 0, z: 0}
-  floatAmplitude: 0
-  floatPeriod: 0
+  spawnOffset: {x: 0.5, y: 1, z: 0.2}
+  floatAmplitude: 0.2
+  floatPeriod: 2
+--- !u!114 &2634689587581286033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3497771482991583141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6572958010756774014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1153,7 @@ MonoBehaviour:
   minTextSize: 0.25
   maxTextSize: 0.35
   maxScoreValue: 6000
-  maxCounter: 30
+  maxCounter: 10
   score:
   - 1
   combo: 01000000
@@ -1125,7 +1175,7 @@ GameObject:
   - component: {fileID: 7402069474708333501}
   - component: {fileID: 1412457064529820932}
   m_Layer: 0
-  m_Name: ImpactManager
+  m_Name: FXManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

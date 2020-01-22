@@ -140,8 +140,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [PunRPC]
     private void SwitchColor()
     {
-        Debug.Log("ColorID : " + colorID);
-
         colorID = (colorID + 1) % materials.Length;
         myRenderer.sharedMaterial = materials[colorID];
 

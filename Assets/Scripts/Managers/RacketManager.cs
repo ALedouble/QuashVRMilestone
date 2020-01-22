@@ -26,13 +26,23 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     #endregion
 
     public GameObject racketPrefab;
+    [HideInInspector]
     public GameObject localPlayerRacket;
+    [HideInInspector]
     public GameObject foreignPlayerRacket;
+
     public float deltaHitTime = 0.5f; //Valeur A twik
+    
+    [Header("Racket Grab Position/Rotation")]
+    public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
+    public Vector3 racketRotationOffset = new Vector3(0f, 180f, 90f);
+
+    [HideInInspector]
     public bool isEmpowered = false;
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
 
+    [Header("Material")]
     public Material[] racketMats;
 
     private Transform grabPosition;
@@ -69,8 +79,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(playerMainHand).transform;
         localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
         localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
-        localPlayerRacket.transform.localPosition = new Vector3(0f, 0.02f, 0.6f); //grabPosition.localPosition; 
-        localPlayerRacket.transform.localEulerAngles = new Vector3(0f, 180f, 90f); //grabPosition.localRotation;
+        localPlayerRacket.transform.localPosition = racketOffset; //grabPosition.localPosition; 
+        localPlayerRacket.transform.localEulerAngles = racketRotationOffset; //grabPosition.localRotation;
         //localPlayerRacket.tag = "Racket";
     }
 

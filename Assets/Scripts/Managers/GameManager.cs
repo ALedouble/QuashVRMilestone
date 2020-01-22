@@ -181,15 +181,14 @@ public class GameManager : MonoBehaviour
     public void Restart(int view)
     {
         Scene sceneLoaded = SceneManager.GetActiveScene();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.LoadLevel(sceneLoaded.buildIndex);
-        }
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel(sceneLoaded.buildIndex);
     }
 
     public void ReturnMenu()
-    {
+    {   
+        PhotonNetwork.Disconnect();
         SceneManager.LoadScene(0);
     }
 }

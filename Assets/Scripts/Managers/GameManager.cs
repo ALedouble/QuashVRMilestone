@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     private int seconds;
     private int mSeconds;
     private bool isGameStart = false;
+    PhotonView photonView;
 
     public bool isTimerStopped = false;
     public bool hasLost = false;
@@ -203,13 +204,29 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [PunRPC]
-    public void Restart(int view)
+    public void RestartGame()
     {
-        Scene sceneLoaded = SceneManager.GetActiveScene();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(ReloaSceneCor());  
+        }
+    }
 
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.LoadLevel(sceneLoaded.buildIndex);
+    IEnumerator ReloaSceneCor()
+    {
+        //send RPC to other clients to load my scene
+        photonView.RPC("LoadMyScene", RpcTarget.Others, SceneManager.GetActiveScene().name);
+        yield return null;
+        PhotonNetwork.IsMessageQueueRunning = false;
+        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name); //restart the game
+        PhotonNetwork.DestroyAll();
+    }
+
+    [PunRPC]
+    public void LoadMyScene(string sceneName)
+    {
+        Debug.Log("REcieved RPC " + sceneName);
+        PhotonNetwork.LoadLevel(sceneName); //restart the game
     }
 
     public void ReturnMenu()

@@ -61,10 +61,12 @@ public class AudioManager : MonoBehaviour
         SetAudioSource(hitSoundSource, selectedSound);
         AdjustVolume(hitSoundSource, selectedSound, hitIntensity);
 
+        /*
         if (tag == "Racket")
         {
             VibrationManager.instance.VibrateOn(hitSoundSource.clip);
         }
+        */
 
         hitSoundSource.Play();
     }

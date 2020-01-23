@@ -60,8 +60,6 @@ public class BallManager : MonoBehaviour
                 PhotonNetwork.Instantiate(ballPrefab.name, Vector3.zero, Quaternion.identity);
                 photonView.RPC("SetOnlineBall", RpcTarget.All);
             }
-
-            Sh_GlobalDissolvePosition.Setup();
         }
     }
 
@@ -71,6 +69,7 @@ public class BallManager : MonoBehaviour
         ball = GameObject.FindGameObjectWithTag("Ball");
         SetupBallManager();
         ball.SetActive(false);
+        Sh_GlobalDissolvePosition.Setup();
     }
 
     private void SetupBallManager()

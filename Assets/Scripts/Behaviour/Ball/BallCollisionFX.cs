@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
@@ -10,7 +11,12 @@ public class BallCollisionFX : MonoBehaviour
     private float currentCooldown = 0f;
     public float cooldownBetweenTwoImpactFX;
     private bool canSpawn = false;
+    PhotonView photonView;
 
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();    
+    }
 
     private void Update()
     {
@@ -22,6 +28,11 @@ public class BallCollisionFX : MonoBehaviour
         {
             canSpawn = true;
         }
+    }
+    
+    [PunRPC]
+    void SetExplosionRPC(Vector3 position, float magnitude, int lastPlayer) {
+        FXManager.Instance.SetExplosion(position, magnitude, lastPlayer);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -47,7 +58,14 @@ public class BallCollisionFX : MonoBehaviour
 
             if (canSpawn)
             {
-                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+                 //BallID
+                if (PhotonNetwork.OfflineMode)
+                {
+                    FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+                }
+                else if (PhotonNetwork.IsMasterClient){
+                    photonView.RPC("SetExplosionRPC", RpcTarget.All, pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+                }
 
                 canSpawn = false;
             }

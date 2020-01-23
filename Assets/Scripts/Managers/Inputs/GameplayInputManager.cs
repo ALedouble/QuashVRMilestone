@@ -48,7 +48,7 @@ public class GameplayInputManager : IInputable
         if (mainHand == MainHand.RIGHTHANDED)
         {
             RacketManager.instance.ExitEmpoweredState();
-            RacketManager.instance.EndSwitchRacketColor();
+            //RacketManager.instance.EndSwitchRacketColor();
         }
     }
 
@@ -57,7 +57,7 @@ public class GameplayInputManager : IInputable
         if (mainHand == MainHand.LEFTHANDED)
         {
             RacketManager.instance.ExitEmpoweredState();
-            RacketManager.instance.EndSwitchRacketColor();
+            //RacketManager.instance.EndSwitchRacketColor();
         }
     }
 

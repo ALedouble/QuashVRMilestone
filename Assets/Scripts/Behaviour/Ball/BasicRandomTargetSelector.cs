@@ -9,11 +9,10 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public float angleSpread;
     public Vector3 offset = Vector3.up;
 
-    public Vector3[] playerPositions;
     private QPlayer currentTarget;
 
     public GameObject targetTestIndicator;
-    public Vector3 CurrentTargetPlayerPosition {get {return playerPositions[(int)currentTarget % playerPositions.Length];}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
+    public Vector3 CurrentTargetPlayerPosition {get {return GameManager.Instance.GetPlayerSpawn()[(int)currentTarget % GameManager.Instance.GetPlayerSpawn().Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
     //public BasicRandomTargetSelector(float minRange, float maxRange, float angleSpread)
     //{

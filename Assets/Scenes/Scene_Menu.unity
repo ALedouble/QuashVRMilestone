@@ -8143,8 +8143,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 8976967245826851535, guid: f74565dd8bbecd347ac68e59bdd6fd2c,
     type: 3}
   racketPrefab: {fileID: 0}
-  spawnJ1: {fileID: 1096231840}
-  spawnJ2: {fileID: 1096231840}
+  playerSpawn:
+  - {fileID: 1096231841}
   timerSpeedModifier: 0
   timerData: {fileID: 0}
   currentTimer: 0

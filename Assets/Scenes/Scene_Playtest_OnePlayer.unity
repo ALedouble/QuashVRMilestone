@@ -435,6 +435,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 330787440}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &330787442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5250395144351929570, guid: 6a49211283d2bd349bdb21f84a9c8758,
+    type: 3}
+  m_PrefabInstance: {fileID: 330787440}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &380570807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1299,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1846513081278596601, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
+      propertyPath: playerSpawn.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846513081278596601, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
       propertyPath: spawnJ1
       value: 
       objectReference: {fileID: 330787441}
@@ -1306,6 +1317,11 @@ PrefabInstance:
       propertyPath: offlineMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1846513081278596601, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: playerSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 330787442}
     - target: {fileID: 1311103135868463605, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: viewIdField

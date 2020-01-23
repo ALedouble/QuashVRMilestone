@@ -29,8 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject racketPrefab;
 
-    public GameObject spawnJ1;
-    public GameObject spawnJ2;
+    public Transform[] playerSpawn;
 
     [Header("Timer Settings")]
     public float timerSpeedModifier = 1f;
@@ -64,7 +63,7 @@ public class GameManager : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject);
+                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].transform.position, Quaternion.identity, 0) as GameObject);
 
                 if(gameMod == GameMod.GAMEPLAY)
                 {
@@ -73,7 +72,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject);
+                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].transform.position, Quaternion.identity, 0) as GameObject);
 
                 if (gameMod == GameMod.GAMEPLAY)
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
@@ -81,7 +80,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            QPlayerManager.instance.SetLocalPlayer(Instantiate(playerPrefab, spawnJ2.transform.position, Quaternion.identity));
+            QPlayerManager.instance.SetLocalPlayer(Instantiate(playerPrefab, playerSpawn[0].transform.position, Quaternion.identity));
 
             if (gameMod == GameMod.GAMEPLAY)                                                                                    
                 RacketManager.instance.SetLocalRacket(Instantiate(racketPrefab, Vector3.zero, Quaternion.identity));
@@ -99,6 +98,10 @@ public class GameManager : MonoBehaviour
 
 
 
+    public Transform[] GetPlayerSpawn()
+    {
+        return playerSpawn;
+    }
 
 
     //////////////// TIMER ////////////////

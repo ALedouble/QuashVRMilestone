@@ -59,13 +59,14 @@ public class BallCollisionFX : MonoBehaviour
             if (canSpawn)
             {
                  //BallID
-                if (PhotonNetwork.OfflineMode)
-                {
+                //if (PhotonNetwork.OfflineMode)
+                //{
                     FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                }
-                else if (PhotonNetwork.IsMasterClient){
-                    photonView.RPC("SetExplosionRPC", RpcTarget.All, pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                }
+                //}
+                //else if (PhotonNetwork.IsMasterClient){
+                //    //photonView.RPC("SetExplosionRPC", RpcTarget.All, pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+                //    FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+                //}
 
                 canSpawn = false;
             }

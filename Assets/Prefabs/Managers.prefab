@@ -43,6 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a48518529b1db46830df367420ee01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vibrations:
+  - audioClip: {fileID: 8300000, guid: c2aec0b15b45e3340a114ffa703c7033, type: 3}
+    vibrationName: Vibration_Racket_Hit
 --- !u!1 &932248709358301179
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,8 +858,7 @@ MonoBehaviour:
     type: 3}
   racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
     type: 3}
-  spawnJ1: {fileID: 0}
-  spawnJ2: {fileID: 0}
+  playerSpawn: []
   timerSpeedModifier: 1
   timerData: {fileID: 0}
   currentTimer: 0

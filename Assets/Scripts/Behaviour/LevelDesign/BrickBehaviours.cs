@@ -53,6 +53,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
     [Header("Saved Value")]
     public int savedInIndex; //index de la Brick dans la couche
 
+    PhotonView photonView;
 
 
     public bool IsBonus { get => isBonus; }
@@ -74,6 +75,8 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
                 waypointIndex++;
             }
         }
+
+        photonView = GetComponent<PhotonView>();
     }
 
     private void Update()
@@ -159,6 +162,19 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
     }
 
 
+    //public void HitBrick(int p_dmgPoints = 1)
+    //{
+    //    if(PhotonNetwork.OfflineMode)
+    //    {
+    //        HitBrickRPC(p_dmgPoints);
+    //    }
+    //    else if(PhotonNetwork.IsMasterClient)
+    //    {
+    //        photonView.RPC("HitBrickRPC", RpcTarget.All, p_dmgPoints);
+    //    }
+    //}
+
+    [PunRPC]
     public void HitBrick(int p_dmgPoints = 1)
     {
         if (!hasBeenHit)

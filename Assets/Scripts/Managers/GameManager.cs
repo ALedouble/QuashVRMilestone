@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].transform.position, Quaternion.identity, 0) as GameObject);
+                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].position, Quaternion.identity, 0) as GameObject);
 
                 if(gameMod == GameMod.GAMEPLAY)
                 {
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].transform.position, Quaternion.identity, 0) as GameObject);
+                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].position, Quaternion.identity, 0) as GameObject);
 
                 if (gameMod == GameMod.GAMEPLAY)
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);

@@ -67,6 +67,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: ballPrefab
+      value: 
+      objectReference: {fileID: 6331605414613609801}
+    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: registeredLevels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe125d84b0091f4daafd318845b9974,
+        type: 2}
+    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: numberOfPlayers
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: maxCounter
@@ -86,37 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: playersRadius.Array.data[0]
       value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: ballPrefab
-      value: 
-      objectReference: {fileID: 6331605414613609801}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: spawnOffset.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: spawnOffset.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: spawnOffset.z
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: registeredLevels.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8fe125d84b0091f4daafd318845b9974,
-        type: 2}
-    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: numberOfPlayers
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58f791378df5ec443a772977301f5bc8, type: 3}

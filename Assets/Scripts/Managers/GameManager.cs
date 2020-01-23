@@ -29,8 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject racketPrefab;
 
-    public GameObject spawnJ1;
-    public GameObject spawnJ2;
+    public Transform[] playerSpawn;
 
     [Header("Timer Settings")]
     public float timerSpeedModifier = 1f;
@@ -41,6 +40,7 @@ public class GameManager : MonoBehaviour
     private int seconds;
     private int mSeconds;
     private bool isGameStart = false;
+    PhotonView photonView;
 
     public bool isTimerStopped = false;
     public bool hasLost = false;
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, spawnJ1.transform.position, Quaternion.identity, 0) as GameObject);
+                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].transform.position, Quaternion.identity, 0) as GameObject);
 
                 if(gameMod == GameMod.GAMEPLAY)
                 {
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, spawnJ2.transform.position, Quaternion.identity, 0) as GameObject);
+                QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].transform.position, Quaternion.identity, 0) as GameObject);
 
                 if (gameMod == GameMod.GAMEPLAY)
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            QPlayerManager.instance.SetLocalPlayer(Instantiate(playerPrefab, spawnJ2.transform.position, Quaternion.identity));
+            QPlayerManager.instance.SetLocalPlayer(Instantiate(playerPrefab, playerSpawn[0].transform.position, Quaternion.identity));
 
             if (gameMod == GameMod.GAMEPLAY)                                                                                    
                 RacketManager.instance.SetLocalRacket(Instantiate(racketPrefab, Vector3.zero, Quaternion.identity));
@@ -98,6 +98,10 @@ public class GameManager : MonoBehaviour
 
 
 
+    public Transform[] GetPlayerSpawn()
+    {
+        return playerSpawn;
+    }
 
 
     //////////////// TIMER ////////////////
@@ -203,13 +207,29 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [PunRPC]
-    public void Restart(int view)
+    public void RestartGame()
     {
-        Scene sceneLoaded = SceneManager.GetActiveScene();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(ReloaSceneCor());  
+        }
+    }
 
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.LoadLevel(sceneLoaded.buildIndex);
+    IEnumerator ReloaSceneCor()
+    {
+        //send RPC to other clients to load my scene
+        photonView.RPC("LoadMyScene", RpcTarget.Others, SceneManager.GetActiveScene().name);
+        yield return null;
+        PhotonNetwork.IsMessageQueueRunning = false;
+        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name); //restart the game
+        PhotonNetwork.DestroyAll();
+    }
+
+    [PunRPC]
+    public void LoadMyScene(string sceneName)
+    {
+        Debug.Log("REcieved RPC " + sceneName);
+        PhotonNetwork.LoadLevel(sceneName); //restart the game
     }
 
     public void ReturnMenu()

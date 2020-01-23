@@ -20,6 +20,7 @@ public class BallEventManager : MonoBehaviour
     public event OnCollisionDelegate OnCollisionWithFrontWall;
     public event OnCollisionDelegate OnCollisionWithWall;
     public event OnCollisionDelegate OnCollisionWithRacket;
+    public event OnCollisionDelegate OnCollisionWithBackWall;
 
 
     //public void OnBallCollision(BallCollisionInfo ballCollisionInfo)
@@ -42,6 +43,10 @@ public class BallEventManager : MonoBehaviour
             case "Brick":
                 if (OnCollisionWithBrick != null)
                     OnCollisionWithBrick();
+                break;
+            case "BackWall":
+                if (OnCollisionWithBackWall != null)
+                    OnCollisionWithBackWall();
                 break;
             default:
                 break;

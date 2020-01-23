@@ -3900,7 +3900,7 @@ GameObject:
   - component: {fileID: 8824904660659810249}
   m_Layer: 0
   m_Name: EnviroRoom_BackWall
-  m_TagString: Untagged
+  m_TagString: BackWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5963,11 +5963,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 370162124747881594}
     m_Modifications:
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
-      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6023,6 +6018,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}
 --- !u!4 &4054823533399642305 stripped
@@ -6050,11 +6050,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 370162124747881594}
     m_Modifications:
-    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
-        type: 3}
-      propertyPath: m_Name
-      value: LayerEffect
-      objectReference: {fileID: 0}
     - target: {fileID: 8487549815786722163, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6109,6 +6104,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
+        type: 3}
+      propertyPath: m_Name
+      value: LayerEffect
       objectReference: {fileID: 0}
     - target: {fileID: 8487549817151244820, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}

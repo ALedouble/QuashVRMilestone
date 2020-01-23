@@ -8,7 +8,7 @@ public class Sh_GlobalDissolvePosition : MonoBehaviour
 
     private void Start()
     {
-        Setup(); // Sera peut être appeler dans un manager plus tard
+        //Setup(); // Sera peut être appeler dans un manager plus tard
     }
 
     private void Update()

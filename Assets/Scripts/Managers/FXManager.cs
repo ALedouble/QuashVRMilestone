@@ -212,6 +212,10 @@ public class FXManager : MonoBehaviour
                         {
                             hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                         }
+                        else 
+                        {
+                            StartCoroutine(DeactivateBrickCollider(hit.collider, impactMaxTime));
+                        }
                     }
                     else
                     {
@@ -221,4 +225,13 @@ public class FXManager : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator DeactivateBrickCollider(Collider brickCollider, float duration)
+    {
+        brickCollider.enabled = false;
+        yield return new WaitForSeconds(duration);
+        brickCollider.enabled = true;
+    }
 }
+
+

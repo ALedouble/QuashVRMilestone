@@ -111,6 +111,9 @@ public class ScoreManager : MonoBehaviour
         //Trigger de la vibration
         VibrationManager.instance.VibrateOn("Vibration_Mistake");
 
+        //Trigger du son
+        AudioManager.instance.PlaySound("Mistake", Vector3.zero);
+
         OnComboReset(); //Combo reset delegate
     }
 }

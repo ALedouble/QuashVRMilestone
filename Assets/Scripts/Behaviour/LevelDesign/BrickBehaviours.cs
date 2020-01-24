@@ -76,7 +76,14 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IBrick, IPunObservable
             }
         }
 
+    }
+    
+    void Start()
+    {
+        
         photonView = GetComponent<PhotonView>();
+
+        PhotonNetwork.AllocateViewID(photonView);
     }
 
     private void Update()

@@ -165,6 +165,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     {
         isEmpowered = true;
         sound.Play();
+        VibrationManager.instance.VibrateOn("Vibration_Racket_Empowered");
     }
 
     public void ExitEmpoweredState()

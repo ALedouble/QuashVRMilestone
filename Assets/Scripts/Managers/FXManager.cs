@@ -85,7 +85,7 @@ public class FXManager : MonoBehaviour
             {
                 ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
 
-                ps[i].Play();
+                ps[i].Play();                                                                           
             }
         }
 

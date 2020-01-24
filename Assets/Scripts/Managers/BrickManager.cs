@@ -7,13 +7,14 @@ using TMPro;
 
 public class BrickManager : MonoBehaviourPunCallbacks
 {
-
+    
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig = new WallBuilds();
     public GameObject prefabBase;
     [HideInInspector] public string prefabPath = "Assets/Prefabs/Bricks";
 
     public PresetScriptable[] colorPresets;
+
     [HideInInspector] public string presetPath = "Assets/ScriptableObjects/ColorPresets";
 
     public BrickTypesScriptable[] brickPresets;
@@ -37,82 +38,36 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
     public static BrickManager Instance;
 
-    BrickInfo currentBrickInfo;
+    //BrickInfo currentBrickInfo;
 
     private PhotonView photonView;
+    private List<GameObject> AllBricks;
 
 
 
     private void Awake()
     {
         Instance = this;
+        AllBricks = new List<GameObject>();
+
         photonView = GetComponent<PhotonView>();
     }
 
-
-    /// <summary>
-    /// Détruit la brique
-    /// </summary>
-    /// <param name="brickToDestroy">Brick that will be detroyed</param>
-    /// <param name="brickValue">Brick value for the score</param>
-    public void DeadBrick(BrickInfo touchedBrick)
+    public void AddBrick(GameObject newBrick)
     {
-        Vector3 brickPos = touchedBrick.Transform.position;
-        touchedBrick.Transform.gameObject.SetActive(false);
-        touchedBrick.Transform.parent = null;
-
-        Vector3 cross = Vector3.Cross(touchedBrick.Transform.up, touchedBrick.Transform.right);
-
-        PoolManager.instance.SpawnFromPool("CubeImpactFX", brickPos, Quaternion.LookRotation(cross, Vector3.up));
-        PoolManager.instance.SpawnFromPool("CubeDeathFX", brickPos, Quaternion.LookRotation(cross, Vector3.up));
-
-
-        GameObject score = PoolManager.instance.SpawnFromPool("ScoreText", brickPos, Quaternion.identity);
-
-        float newScore = touchedBrick.ScoreValue * ScoreManager.Instance.combo[(int)BallManager.instance.GetLastPlayerWhoHitTheBall()]; //BallID
-
-        score.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, colorPresets[0].colorPresets[touchedBrick.ColorID].coreEmissiveColors);
-
-        LevelManager levelManager = LevelManager.instance;
-        levelManager.playersShakers[touchedBrick.WallID].layersShaker[levelManager.currentLayer[touchedBrick.WallID]].PlayShake(layerShake);
-        roomShaker?.PlayShake();
-
-        //Bonus & malus case
-        if (touchedBrick.IsBonus) BonusManager.instance.SpawnRandomObject(touchedBrick.Transform);
-        if (touchedBrick.IsMalus) MalusManager.instance.SpawnRandomObject(touchedBrick.Transform);
-
-        currentBrickInfo = touchedBrick;
-        if (!GameManager.Instance.offlineMode){
-            photonView.RPC("SetScoreRPC", RpcTarget.All); //BallID
-            photonView.RPC("SetComboRPC", RpcTarget.All); //BallID
+        if(newBrick.GetComponent<BrickBehaviours>().BrickID != AllBricks.Count)
+        {
+            Debug.Log("Bad BrickID");
         }
-        else{
-            ScoreManager.Instance.SetScore(touchedBrick.ScoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        }
-       
-        ScoreManager.Instance.resetCombo = false;
-        UpdateBrickLevel(touchedBrick.WallID);
+        AllBricks.Add(newBrick);
 
-        //AudioManager.instance.PlayHitSound(soundName, touchedBrick.Transform.position, touchedBrick.Transform.rotation, hitIntensity);
     }
 
-    [PunRPC]
-    private void SetScoreRPC()
-    {
-        ScoreManager.Instance.SetScore(currentBrickInfo.ScoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-    }
-
-    [PunRPC]
-    private void SetComboRPC()
-    {
-        ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-    }
     /// <summary>
     /// Check the number of Bricks on the current layer and call the next one when it hits 0
     /// </summary>
     /// <param name="playerID"></param>
-    void UpdateBrickLevel(int playerID)
+    public void UpdateBrickLevel(int playerID)
     {
         SetCurrentBrickOnLayer(playerID);
 
@@ -141,6 +96,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
                 GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.instance.levelTrans[playerID].position, Quaternion.identity);
                 BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
+                BrickInfo brickInfo = obj.GetComponent<BrickInfo>();
                 MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
                 Material[] mats = objMesh.sharedMaterials;
 
@@ -148,8 +104,8 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 mats[1].SetFloat("_Metallic", 0.75f);
 
                 mats[0] = new Material(Shader.Find("Shader Graphs/Sh_CubeCore01"));
-                mats[0].SetColor("_FresnelColor", colorPresets[0].colorPresets[layerToSpawn.wallBricks[i].brickColorPreset].fresnelColors);
-                mats[0].SetColor("_CoreEmissiveColor", colorPresets[0].colorPresets[layerToSpawn.wallBricks[i].brickColorPreset].coreEmissiveColors);
+                mats[0].SetColor("_FresnelColor", LevelManager.instance.colorPresets[0].colorPresets[layerToSpawn.wallBricks[i].brickColorPreset].fresnelColors);
+                mats[0].SetColor("_CoreEmissiveColor", LevelManager.instance.colorPresets[0].colorPresets[layerToSpawn.wallBricks[i].brickColorPreset].coreEmissiveColors);
                 mats[0].SetFloat("_XFrameThickness", 0.75f);
                 mats[0].SetFloat("_YFrameThickness", 0.75f);
 
@@ -165,14 +121,15 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
 
 
-                objBehaviours.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
-                objBehaviours.scoreValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].scoreValue;
+                //brickInfo.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
+                brickInfo.armorValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
+                brickInfo.scoreValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].scoreValue;
 
-                objBehaviours.isBonus = layerToSpawn.wallBricks[i].isBonus;
-                objBehaviours.isMalus = layerToSpawn.wallBricks[i].isMalus;
+                brickInfo.isBonus = layerToSpawn.wallBricks[i].isBonus;
+                brickInfo.isMalus = layerToSpawn.wallBricks[i].isMalus;
 
-                objBehaviours.colorID = layerToSpawn.wallBricks[i].brickColorPreset;
-                objBehaviours.wallID = playerID;
+                brickInfo.colorID = layerToSpawn.wallBricks[i].brickColorPreset;
+                brickInfo.wallID = playerID;
                 objBehaviours.savedInIndex = i;
 
                 if (layerToSpawn.wallBricks[i].isMoving)
@@ -198,6 +155,26 @@ public class BrickManager : MonoBehaviourPunCallbacks
         {
             LevelManager.instance.isEverythingDisplayed[playerID] = true;
         }
+    }
+
+    public void DestroyBrickByID(int brickID)
+    {
+        if(brickID < AllBricks.Count && brickID >= 0)
+        {
+            if (PhotonNetwork.OfflineMode)
+            {
+                AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
+            }
+            else if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("DestroyBrickByIDRPC", RpcTarget.All, brickID);
+            }
+        }
+    }
+
+    private void DestroyBrickByIDRPC(int brickID)
+    {
+        AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
     }
 
     /// <summary>
@@ -238,5 +215,32 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public void SetCurrentBrickOnLayer(int playerID)
     {
         currentBricksOnLayer[playerID] = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount;
+    }
+
+
+    public void ScorePoints(BrickInfo brickInfo)
+    {
+        /// Score
+
+        ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
+
+        if (!GameManager.Instance.offlineMode)
+        {
+            photonView.RPC("SetScoreAndComboRPC", RpcTarget.All, brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); 
+        }
+        else
+        {
+            ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+        }
+
+        ScoreManager.Instance.resetCombo = false;
+    }
+
+    [PunRPC]
+    private void SetScoreAndComboRPC(int scoreValue, int playerID)
+    {
+        ScoreManager.Instance.SetScore(scoreValue, playerID);
+        ScoreManager.Instance.SetCombo(playerID);
     }
 }

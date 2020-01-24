@@ -12,6 +12,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMagicBall2P
       objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[0].x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[0].z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[1].x
+      value: 7.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
+        type: 3}
+      propertyPath: playerPositions.Array.data[1].z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 323053201, guid: 9138b8837b2e24e43b9a7d9f2391acae, type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1758958001795561121, guid: 9138b8837b2e24e43b9a7d9f2391acae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,35 +94,6 @@ PrefabInstance:
     - target: {fileID: 1758958001795561121, guid: 9138b8837b2e24e43b9a7d9f2391acae,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.data[0].x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.data[0].z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.data[1].x
-      value: 7.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786920642494746230, guid: 9138b8837b2e24e43b9a7d9f2391acae,
-        type: 3}
-      propertyPath: playerPositions.Array.data[1].z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 323053201, guid: 9138b8837b2e24e43b9a7d9f2391acae, type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -607,6 +607,7 @@ MonoBehaviour:
   levelsPath: Assets/ScriptableObjects/Levels
   debugThisLevel: 0
   numberOfPlayers: 2
+  layerShake: {fileID: 0}
   layerDiffPosition: 0.6
   numberOfLayerToDisplay: 3
   levelTrans:
@@ -820,6 +821,7 @@ MonoBehaviour:
   isTimerStopped: 0
   hasLost: 0
   offlineMode: 0
+  levelIndex: 0
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,7 +874,6 @@ MonoBehaviour:
   racketOffset: {x: 0, y: 0.02, z: 0.505}
   racketRotationOffset: {x: 0, y: 180, z: 90}
   isEmpowered: 0
-  racketMats: []
   sound: {fileID: 3061726032867124475}
 --- !u!82 &3061726032867124475
 AudioSource:
@@ -1100,7 +1101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBallInstatiated: 1
-  ballPrefab: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
+  ballPrefab: {fileID: 1879682636780936543, guid: 94da849b8190dd74bb42113a588a181f,
     type: 3}
   ball: {fileID: 0}
   spawnOffset: {x: 0, y: 1.25, z: 1}

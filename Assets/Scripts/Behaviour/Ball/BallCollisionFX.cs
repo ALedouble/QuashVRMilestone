@@ -46,45 +46,55 @@ public class BallCollisionFX : MonoBehaviour
                 Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
         }
 
-        if (collision.gameObject.tag == "Brick" || collision.gameObject.tag == "FrontWall")
+        if(collision.gameObject.tag == "FrontWall")
         {
-            ScoreManager.Instance.resetCombo = true;
-
-            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall())); //BallID
-
-            currentCooldown = 0;
-
-            Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
-
-            if (canSpawn)
-            {
-                 //BallID
-                //if (PhotonNetwork.OfflineMode)
-                //{
-                    FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                //}
-                //else if (PhotonNetwork.IsMasterClient){
-                //    //photonView.RPC("SetExplosionRPC", RpcTarget.All, pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                //    FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                //}
-
-                canSpawn = false;
-            }
+            CallExplosion(collision);
         }
 
-        if (collision.collider.TryGetComponent<IBrick>(out IBrick brick))
+        if (collision.gameObject.tag == "Brick"  )
         {
-            if (brick.GetBrickInfo().ColorID != 0)
+            CallExplosion(collision);
+            BrickInfo brickInfo = collision.gameObject.GetComponent<BrickInfo>();
+            if (brickInfo.colorID != 0)
             {
-                if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1) //ColorID
+                if (brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
                 {
-                    collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                    collision.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                 }
             }
             else
             {
                 collision.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
             }
+        }
+
+        
+    }
+
+    private void CallExplosion(Collision collision)
+    {
+        ScoreManager.Instance.resetCombo = true;
+
+        StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall())); //BallID
+
+        currentCooldown = 0;
+
+        Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
+
+        if (canSpawn)
+        {
+            //BallID
+            if (PhotonNetwork.OfflineMode)
+            {
+                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+            }
+            else if (PhotonNetwork.IsMasterClient)
+            {
+                //photonView.RPC("SetExplosionRPC", RpcTarget.All, pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+            }
+
+            canSpawn = false;
         }
     }
 

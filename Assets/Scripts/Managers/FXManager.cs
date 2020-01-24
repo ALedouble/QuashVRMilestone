@@ -200,15 +200,16 @@ public class FXManager : MonoBehaviour
             //    transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
 
             RaycastHit hit;
+            BrickInfo brickInfo;
 
             if (Physics.Raycast(originPosition, transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized,
                 out hit, impactPercent, layerMask))
             {
-                if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
+                if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brick.GetBrickInfo().ColorID != 0)
+                    if (brickInfo.colorID != 0)
                     {
-                        if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1)
+                        if (brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
                         {
                             hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                         }

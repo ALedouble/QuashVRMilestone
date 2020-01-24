@@ -31,6 +31,18 @@ public class VibrationManager : MonoBehaviour
         VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, strength);
     }
 
+    public void VibrateOn(float strength, float duration, float pulseInterval)
+    {
+        controllerRef = VRTK_ControllerReference.GetControllerReference((uint)QPlayerManager.instance.GetMainHand());
+        VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, strength, duration, pulseInterval);
+    }
+
+    public void VibrationOff(VRTK_ControllerReference controller)
+    {
+        controllerRef = controller;
+        VRTK_ControllerHaptics.CancelHapticPulse(controllerRef);
+    }
+
     public void VibrateOn(string vibrationName)
     {
         bool vibrationFound = false;

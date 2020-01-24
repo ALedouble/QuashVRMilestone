@@ -165,13 +165,19 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     {
         isEmpowered = true;
         sound.Play();
-        VibrationManager.instance.VibrateOn("Vibration_Racket_Empowered");
+
+        //VibrationManager.instance.VibrateOnRepeat("Vibration_Impacted");
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
         sound.Stop();
+
+        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
+        else
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
     }
 }
 

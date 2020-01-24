@@ -2380,11 +2380,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7806225095510252413}
     m_Modifications:
-    - target: {fileID: 5306798916506615021, guid: 6ff5dd42f39b50d4ebe15f701e774ccf,
-        type: 3}
-      propertyPath: m_Name
-      value: Canvas
-      objectReference: {fileID: 0}
     - target: {fileID: 4747381730244209315, guid: 6ff5dd42f39b50d4ebe15f701e774ccf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2490,6 +2485,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5306798916506615021, guid: 6ff5dd42f39b50d4ebe15f701e774ccf,
+        type: 3}
+      propertyPath: m_Name
+      value: Canvas
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ff5dd42f39b50d4ebe15f701e774ccf, type: 3}
 --- !u!1001 &7801512561467637509
@@ -2562,10 +2562,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7801512560820574300}
     m_Modifications:
-    - target: {fileID: 1000013941130086, guid: be540b97364be0a4890e39e62ac89ed1, type: 3}
-      propertyPath: m_Name
-      value: '[VRSimulator_CameraRig]'
-      objectReference: {fileID: 0}
     - target: {fileID: 4000011401111930, guid: be540b97364be0a4890e39e62ac89ed1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2609,6 +2605,10 @@ PrefabInstance:
     - target: {fileID: 4000011401111930, guid: be540b97364be0a4890e39e62ac89ed1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013941130086, guid: be540b97364be0a4890e39e62ac89ed1, type: 3}
+      propertyPath: m_Name
+      value: '[VRSimulator_CameraRig]'
       objectReference: {fileID: 0}
     - target: {fileID: 4792609850358454, guid: be540b97364be0a4890e39e62ac89ed1, type: 3}
       propertyPath: m_LocalScale.x

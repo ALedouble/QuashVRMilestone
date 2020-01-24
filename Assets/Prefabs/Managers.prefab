@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredLevels:
-  - {fileID: 11400000, guid: 7757b9feaf1d70742b0e4d4cf7149495, type: 2}
+  - {fileID: 11400000, guid: 8fe125d84b0091f4daafd318845b9974, type: 2}
   currentLevel: {fileID: 0}
   currentLevelConfig:
     levelWallBuilds:
@@ -813,7 +813,9 @@ MonoBehaviour:
     type: 3}
   racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
     type: 3}
-  playerSpawn: []
+  playerSpawn:
+  - {fileID: 0}
+  - {fileID: 0}
   timerSpeedModifier: 1
   timerData: {fileID: 0}
   currentTimer: 0
@@ -1101,7 +1103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBallInstatiated: 1
-  ballPrefab: {fileID: 1879682636780936543, guid: 94da849b8190dd74bb42113a588a181f,
+  ballPrefab: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
     type: 3}
   ball: {fileID: 0}
   spawnOffset: {x: 0, y: 1.25, z: 1}

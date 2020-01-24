@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
-public class BrickBehaviours : MonoBehaviourPunCallbacks, IPunObservable
+public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 {
 
     public static int brickCount = 0;
@@ -44,7 +44,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IPunObservable
 
     BrickInfo brickInfo;
     bool hasBeenHit;
-    PhotonView myPhotonView;
+    //PhotonView myPhotonView;
 
 
 
@@ -68,9 +68,9 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IPunObservable
     
     void Start()
     {
-        myPhotonView = GetComponent<PhotonView>();
+        //myPhotonView = GetComponent<PhotonView>();
 
-        PhotonNetwork.AllocateViewID(photonView);
+        //PhotonNetwork.AllocateViewID(myPhotonView);
 
         SetupBallID();
 
@@ -201,7 +201,8 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IPunObservable
             {
                 hasBeenHit = false;
                 AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
-                DestroyBrick();
+                //DestroyBrick();
+                BrickManager.Instance.DestroyBrickByID(brickID);
             }
             else
             {
@@ -262,31 +263,31 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IPunObservable
 
         ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
 
-        if (!GameManager.Instance.offlineMode)
-        {
-            photonView.RPC("SetScoreRPC", RpcTarget.All); //BallID
-            photonView.RPC("SetComboRPC", RpcTarget.All); //BallID
-        }
-        else
-        {
+        //if (!GameManager.Instance.offlineMode)
+        //{
+        //    myPhotonView.RPC("SetScoreRPC", RpcTarget.All); //BallID
+        //    myPhotonView.RPC("SetComboRPC", RpcTarget.All); //BallID
+        //}
+        //else
+        //{
             ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
             ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        }
+        //}
 
         ScoreManager.Instance.resetCombo = false;
     }
 
-    [PunRPC]
-    private void SetScoreRPC()
-    {
-        ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-    }
+    //[PunRPC]
+    //private void SetScoreRPC()
+    //{
+    //    ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+    //}
 
-    [PunRPC]
-    private void SetComboRPC()
-    {
-        ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-    }
+    //[PunRPC]
+    //private void SetComboRPC()
+    //{
+    //    ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+    //}
 
     private void DropBonusMalus()
     {
@@ -296,19 +297,19 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     #region IPunObservable implementation
-    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
+    //void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(transform.position);
+    //        stream.SendNext(transform.rotation);
 
-        }
-        else
-        {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-        }
-    }
+    //    }
+    //    else
+    //    {
+    //        transform.position = (Vector3)stream.ReceiveNext();
+    //        transform.rotation = (Quaternion)stream.ReceiveNext();
+    //    }
+    //}
     #endregion
 }

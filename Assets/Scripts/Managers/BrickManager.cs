@@ -159,11 +159,12 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
     public void DestroyBrickByID(int brickID)
     {
+        Debug.Log("DestroyBrickByID");
         if(brickID < AllBricks.Count && brickID >= 0)
         {
             if (PhotonNetwork.OfflineMode)
             {
-                AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
+                AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
             }
             else if (PhotonNetwork.IsMasterClient)
             {
@@ -172,9 +173,10 @@ public class BrickManager : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
     private void DestroyBrickByIDRPC(int brickID)
     {
-        AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
+        AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
     }
 
     /// <summary>
@@ -221,7 +223,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public void ScorePoints(BrickInfo brickInfo)
     {
         /// Score
-
+        Debug.Log("ScorePoints");
         ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
 
         if (!GameManager.Instance.offlineMode)
@@ -240,6 +242,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetScoreAndComboRPC(int scoreValue, int playerID)
     {
+        Debug.Log("ScorePointsRPC");
         ScoreManager.Instance.SetScore(scoreValue, playerID);
         ScoreManager.Instance.SetCombo(playerID);
     }

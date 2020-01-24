@@ -107,6 +107,9 @@ public class BallManager : MonoBehaviour
                 photonView.RPC("SpawnBall", RpcTarget.All);
             }
         }
+
+        // ---- Vibration Perte de Ball ---- // (vous pouvez le changer d'endroit si c'est pas propre! xD)
+        VibrationManager.instance.VibrateOn("Vibration_Mistake");
     }
 
     public void SpawnTheBall()

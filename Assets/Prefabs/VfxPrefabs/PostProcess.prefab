@@ -73,7 +73,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   minBloomIntensity: 0
-  maxBloomIntensity: 10
+  maxBloomIntensity: 30
   bloomTargetColor: {r: 1, g: 0, b: 0, a: 1}
   bloomIniColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4502151907430273128
@@ -317,7 +317,7 @@ MonoBehaviour:
   minBloomIntensity: 0
   maxBloomIntensity: 50
   bloomTargetColor: {r: 1, g: 0, b: 0, a: 1}
-  bloomIniColor: {r: 0, g: 0, b: 0, a: 0}
+  bloomIniColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6937498788346901310
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,7 +87,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    void SetLevel(Button button){
+    public void SetLevel(Button button){
         if (button.name == "Level"){
             numLevel = 0;
         } else if (button.name == "Level (1)"){

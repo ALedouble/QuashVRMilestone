@@ -9,15 +9,18 @@ using TMPro;
 
 public class CreateRoom : MonoBehaviourPunCallbacks
 {
+    public static CreateRoom Instance;
     [SerializeField]
-    private TextMeshProUGUI _roomName;
+    [HideInInspector]
+    public TextMeshProUGUI _roomName;
     private RoomCanvasGroup roomCanvases;
     
     public Button buttonCreate;
 
     void Awake(){
- 
+        Instance = this;
     }
+
     public void FirstInitialize(RoomCanvasGroup canvases){
         roomCanvases = canvases;
     }

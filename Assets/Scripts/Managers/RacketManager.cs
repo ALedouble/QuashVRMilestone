@@ -128,7 +128,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        if (foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
     }
 
     private void SwitchLocalRacketColor()
@@ -139,7 +140,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        if(foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
@@ -163,13 +165,19 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     {
         isEmpowered = true;
         sound.Play();
-        VibrationManager.instance.VibrateOn("Vibration_Racket_Empowered");
+
+        //VibrationManager.instance.VibrateOnRepeat("Vibration_Impacted");
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
         sound.Stop();
+
+        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
+        else
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
     }
 }
 

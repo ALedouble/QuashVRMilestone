@@ -17,7 +17,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [Header("Color Settings")]
     public PresetScriptable[] colorPresets;
     private Material[] materials;
-    private Material[] wallMats;
+    private Material[] sideWallMats;
+    private Material[] midWallMats;
 
     [Header("Trail Settings")]
     public GameObject[] trails;
@@ -41,7 +42,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         myRenderer = gameObject.GetComponent<Renderer>();
 
         materials = new Material[2];
-        wallMats = new Material[2];
+        sideWallMats = new Material[2];
+        midWallMats = new Material[2];
 
         if (GameManager.Instance.offlineMode)
         {
@@ -148,7 +150,12 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
         {
-            LevelManager.instance.allMeshes[i].sharedMaterial = wallMats[colorID];
+            LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
+        }
+
+        if (LevelManager.instance.numberOfPlayers > 1)
+        {
+            LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
         }
 
         //if (RacketManager.instance.isEmpowered)
@@ -183,27 +190,49 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         materials[1].SetColor("Color_DE7EE60A", colorPresets[0].colorPresets[2].fresnelColors);
 
 
-        wallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
-        wallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+        sideWallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+        sideWallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
 
-        wallMats[0].SetColor("_EmissionColor", colorPresets[0].colorPresets[1].coreEmissiveColors);
-        wallMats[0].SetFloat("_DissolveDistanceRange", 4f);
-        wallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
-        wallMats[0].SetFloat("_AngleRadius", 0.75f);
-        wallMats[0].renderQueue = 2800;
+        sideWallMats[0].SetColor("_EmissionColor", colorPresets[0].colorPresets[1].coreEmissiveColors);
+        sideWallMats[0].SetFloat("_DissolveDistanceRange", 4f);
+        sideWallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        sideWallMats[0].SetFloat("_AngleRadius", 0.75f);
+        sideWallMats[1].SetFloat("_GridAlpha", 0.5f);
+        sideWallMats[0].renderQueue = 2800;
 
-        wallMats[1].SetColor("_EmissionColor", colorPresets[0].colorPresets[2].coreEmissiveColors);
-        wallMats[1].SetFloat("_DissolveDistanceRange", 4f);
-        wallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
-        wallMats[1].SetFloat("_AngleRadius", 0.75f);
-        wallMats[1].renderQueue = 2800;
+        sideWallMats[1].SetColor("_EmissionColor", colorPresets[0].colorPresets[2].coreEmissiveColors);
+        sideWallMats[1].SetFloat("_DissolveDistanceRange", 4f);
+        sideWallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        sideWallMats[1].SetFloat("_AngleRadius", 0.75f);
+        sideWallMats[1].SetFloat("_GridAlpha", 0.5f);
+        sideWallMats[1].renderQueue = 2800;
 
+
+        midWallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+        midWallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+
+        midWallMats[0].SetColor("_EmissionColor", colorPresets[0].colorPresets[1].coreEmissiveColors);
+        midWallMats[0].SetFloat("_DissolveDistanceRange", 4f);
+        midWallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        midWallMats[0].SetFloat("_AngleRadius", 0.75f);
+        midWallMats[0].renderQueue = 3000;
+
+        midWallMats[1].SetColor("_EmissionColor", colorPresets[0].colorPresets[2].coreEmissiveColors);
+        midWallMats[1].SetFloat("_DissolveDistanceRange", 4f);
+        midWallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        midWallMats[1].SetFloat("_AngleRadius", 0.75f);
+        midWallMats[1].renderQueue = 3000;
 
 
         myRenderer.sharedMaterial = materials[colorID];
         for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
         {
-            LevelManager.instance.allMeshes[i].sharedMaterial = wallMats[colorID];
+            LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
+        }
+
+        if(LevelManager.instance.numberOfPlayers > 1)
+        {
+            LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
         }
     }
 

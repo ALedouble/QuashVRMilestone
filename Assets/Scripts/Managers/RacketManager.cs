@@ -128,7 +128,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        if (foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
     }
 
     private void SwitchLocalRacketColor()
@@ -139,7 +140,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        if(foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////

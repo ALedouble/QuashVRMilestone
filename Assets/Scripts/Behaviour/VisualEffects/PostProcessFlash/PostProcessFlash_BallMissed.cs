@@ -10,12 +10,14 @@ public class PostProcessFlash_BallMissed : PostProcessFlash
     protected override void Start()
     {
         base.Start();
+        BallEventManager.instance.OnCollisionWithBackWall += StartAnim;
         bloomIniColor = bloom.color.value;
     }
 
     protected override void StartAnim()
     {
         base.StartAnim();
+        Debug.Log("Ball killed");
         //maxBloomIntensity = minBloomIntensity;
     }
 

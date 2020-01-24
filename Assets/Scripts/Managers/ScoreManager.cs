@@ -108,6 +108,9 @@ public class ScoreManager : MonoBehaviour
         //Trigger de l'anim
         GUIComboAnim.instance.PlayAnimComboBreak();
 
+        //Trigger de la vibration
+        VibrationManager.instance.VibrateOn("Vibration_Mistake");
+
         OnComboReset(); //Combo reset delegate
     }
 }

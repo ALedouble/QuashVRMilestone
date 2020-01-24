@@ -42,8 +42,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
 
-    [Header("Material")]
-    public Material[] racketMats;
+    //[Header("Material")]
+    private Material[] racketMats;
 
     private Transform grabPosition;
     private PhotonView photonView;
@@ -59,8 +59,6 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
 
         SetUpRacketColor();
-
-
     }
 
     public void SetLocalRacket(GameObject localRacket)
@@ -130,7 +128,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        if (foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
     }
 
     private void SwitchLocalRacketColor()
@@ -141,7 +140,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        if(foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////

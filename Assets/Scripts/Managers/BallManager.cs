@@ -108,7 +108,6 @@ public class BallManager : MonoBehaviour
             }
         }
 
-        // ---- Vibration/Son Perte de Ball ---- // (vous pouvez le changer d'endroit si c'est pas propre! xD)
         VibrationManager.instance.VibrateOn("Vibration_Mistake");
         AudioManager.instance.PlaySound("Mistake", Vector3.zero);
     }

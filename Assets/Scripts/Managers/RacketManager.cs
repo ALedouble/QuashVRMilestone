@@ -42,8 +42,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
 
-    [Header("Material")]
-    public Material[] racketMats;
+    //[Header("Material")]
+    private Material[] racketMats;
 
     private Transform grabPosition;
     private PhotonView photonView;
@@ -59,8 +59,6 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
 
         SetUpRacketColor();
-
-
     }
 
     public void SetLocalRacket(GameObject localRacket)

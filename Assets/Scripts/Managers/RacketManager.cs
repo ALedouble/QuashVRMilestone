@@ -117,6 +117,7 @@ public class RacketManager : MonoBehaviour
                 Debug.LogError("NullException : ForeignPlayerRacket not set");
         }
     }
+
     public void EndSwitchRacketColor()
     {
         EndLocalSwitchColor();
@@ -131,24 +132,24 @@ public class RacketManager : MonoBehaviour
 
     private void SwitchLocalRacketColor()
     {
-        localRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        localRacketRenderer.materials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        foreignRacketRenderer.materials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     void EndLocalSwitchColor()
     {
-        localRacketRenderer.sharedMaterials[1] = racketMats[0];
+        localRacketRenderer.materials[1] = racketMats[0];
     }
 
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        foreignRacketRenderer.materials[1] = racketMats[0];
     }
 
     #endregion

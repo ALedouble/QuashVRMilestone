@@ -18,34 +18,34 @@ public class VibrationManager : MonoBehaviour
     }
 
 
-    public void VibrateOn(AudioClip clipVib)
+    public void VibrateOn(AudioClip clipVib, float modifier = 1f)
     {
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
 
-        VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, clipVib);
+        VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, clipVib, modifier);
     }
 
-    public void VibrateOnDuration(AudioClip clipVib, float duration)
+    public void VibrateOnDuration(AudioClip clipVib, float duration, float modifier = 1f)
     {
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
 
-        VRTK_ControllerHaptics.TriggerHapticPulseOnDuration(controllerRef, clipVib, duration);
+        VRTK_ControllerHaptics.TriggerHapticPulseOnDuration(controllerRef, clipVib, duration, modifier);
     }
 
-    public void VibrateOnRepeat(AudioClip clipVib)
+    public void VibrateOnRepeat(AudioClip clipVib, float modifier = 1f)
     {
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
 
-        VRTK_ControllerHaptics.TriggerHapticPulseOnRepeat(controllerRef, clipVib);
+        VRTK_ControllerHaptics.TriggerHapticPulseOnRepeat(controllerRef, clipVib, modifier);
     }
 
 
@@ -91,7 +91,7 @@ public class VibrationManager : MonoBehaviour
     /// Lancer une vibration selon un string faisant référence à une array
     /// </summary>
     /// <param name="vibrationName"></param>
-    public void VibrateOn(string vibrationName)
+    public void VibrateOn(string vibrationName, float modifier = 1f)
     {
         bool vibrationFound = false;
         int index = 0;
@@ -117,14 +117,14 @@ public class VibrationManager : MonoBehaviour
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
 
-        VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, vibrations[index].audioClip);
+        VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, vibrations[index].audioClip, modifier);
     }
 
     /// <summary>
     /// Lancer une vibration selon un string faisant référence à une array
     /// </summary>
     /// <param name="vibrationName"></param>
-    public void VibrateOnDuration(string vibrationName, float duration)
+    public void VibrateOnDuration(string vibrationName, float duration, float modifier = 1f)
     {
         bool vibrationFound = false;
         int index = 0;
@@ -150,14 +150,14 @@ public class VibrationManager : MonoBehaviour
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
 
-        VRTK_ControllerHaptics.TriggerHapticPulseOnDuration(controllerRef, vibrations[index].audioClip, duration);
+        VRTK_ControllerHaptics.TriggerHapticPulseOnDuration(controllerRef, vibrations[index].audioClip, duration, modifier);
     }
 
     /// <summary>
     /// Lancer une vibration selon un string faisant référence à une array
     /// </summary>
     /// <param name="vibrationName"></param>
-    public void VibrateOnRepeat(string vibrationName)
+    public void VibrateOnRepeat(string vibrationName, float modifier = 1f)
     {
         bool vibrationFound = false;
         int index = 0;
@@ -183,7 +183,7 @@ public class VibrationManager : MonoBehaviour
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
 
-        VRTK_ControllerHaptics.TriggerHapticPulseOnRepeat(controllerRef, vibrations[index].audioClip);
+        VRTK_ControllerHaptics.TriggerHapticPulseOnRepeat(controllerRef, vibrations[index].audioClip, modifier);
     }
 
 
@@ -194,7 +194,6 @@ public class VibrationManager : MonoBehaviour
     /// <param name="controller">Controller cencerné</param>
     public void VibrationOff(VRTK_ControllerReference controller)
     {
-        Debug.Log("Vibration OFF");
         VRTK_ControllerHaptics.CancelHapticPulse(controller);
     }
 
@@ -210,10 +209,10 @@ public class VibrationManager : MonoBehaviour
 
         VibrationOff(controller);
     }
-
-
-
 }
+
+
+
 
 [System.Serializable]
 public class Vibration

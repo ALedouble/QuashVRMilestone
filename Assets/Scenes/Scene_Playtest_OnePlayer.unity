@@ -1332,6 +1332,12 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: registeredLevels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cafc84c8b9784354dbebb17817711e61, type: 3}
 --- !u!1001 &1792578905
@@ -1522,7 +1528,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e2ef5ea2322645e4dabe95e9b0f7480e, type: 2}
   - {fileID: 11400000, guid: cff9fe16a92defe4a824fa84cf463889, type: 2}
   - {fileID: 11400000, guid: 7757b9feaf1d70742b0e4d4cf7149495, type: 2}
-  - {fileID: 11400000, guid: 6e475be2d97e8874cacdc89764f7244a, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: c16dd03125feaa94aa118078ba7ec293, type: 2}
   - {fileID: 11400000, guid: 932ff6bba7df54a429f9f692d3930fe0, type: 2}
   - {fileID: 11400000, guid: abd0a0e442e31cd4dbfdf7f3d4c94d9b, type: 2}
@@ -32966,6 +32972,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -33020,11 +33031,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}

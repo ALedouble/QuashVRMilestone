@@ -180,7 +180,8 @@ public class RacketManager : MonoBehaviour
         empoweredSound.Play();
         SwitchRacketColor();
 
-        //VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered");
+        Debug.Log("Start Vibration");
+        VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered", 0.05f);
     }
 
     public void ExitEmpoweredState()

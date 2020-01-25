@@ -5569,7 +5569,7 @@ GameObject:
   - component: {fileID: 5982883600685926424}
   - component: {fileID: 725632904919360883}
   - component: {fileID: 3288063854254588509}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: RaycastBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6637,6 +6637,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6692,11 +6697,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}
 --- !u!4 &6675329557556171914 stripped
@@ -6724,6 +6724,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6779,11 +6784,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}
 --- !u!4 &8265611025872606259 stripped
@@ -6811,6 +6811,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
+        type: 3}
+      propertyPath: m_Name
+      value: LayerEffect
+      objectReference: {fileID: 0}
     - target: {fileID: 8487549815786722163, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6866,11 +6871,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
-        type: 3}
-      propertyPath: m_Name
-      value: LayerEffect
-      objectReference: {fileID: 0}
     - target: {fileID: 8487549817151244820, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: playOnAwake
@@ -6903,6 +6903,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
+        type: 3}
+      propertyPath: m_Name
+      value: LayerEffect (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8487549815786722163, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6957,11 +6962,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
-        type: 3}
-      propertyPath: m_Name
-      value: LayerEffect (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8487549817151244820, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}

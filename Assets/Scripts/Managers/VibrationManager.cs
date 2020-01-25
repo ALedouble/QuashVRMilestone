@@ -196,10 +196,6 @@ public class VibrationManager : MonoBehaviour
     {
         Debug.Log("Vibration OFF");
         VRTK_ControllerHaptics.CancelHapticPulse(controller);
-
-
-        //if(vibrationOnRepeat)
-            
     }
 
     /// <summary>

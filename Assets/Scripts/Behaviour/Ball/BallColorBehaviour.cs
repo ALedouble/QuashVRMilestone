@@ -15,10 +15,12 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
 
     [Header("Color Settings")]
-    public PresetScriptable[] colorPresets;
     private Material[] materials;
-    private Material[] sideWallMats;                                                //Euh... Ca devrait pas etre la...
-    private Material[] midWallMats;                                                 //Euh... Ca devrait pas etre la...
+
+    ///////////////////////////////
+    private Material[] sideWallMats;                                        // Ca devrait pas etre la!
+    private Material[] midWallMats;                                         // Ca devrait pas etre la!
+    ///////////////////////////////
 
     [Header("Trail Settings")]
     public GameObject[] trails;
@@ -33,27 +35,16 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
 
 
-
+    private void Awake()
+    {
+        photonView = PhotonView.Get(this);
+        myRenderer = gameObject.GetComponent<Renderer>();
+    }
 
 
     private void Start()
     {
-        photonView = PhotonView.Get(this);
-        myRenderer = gameObject.GetComponent<Renderer>();
-
-        materials = new Material[2];
-        sideWallMats = new Material[2];
-        midWallMats = new Material[2];
-
-        if (GameManager.Instance.offlineMode)                                                           // Besoin de mise en reseau?
-        {
-            SetupColors();
-        }
-        else if(PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("SetupColors", RpcTarget.AllBuffered);
-        }
-
+        SetupColors();
         InitializeSwitchColor();
     }
 
@@ -147,6 +138,15 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         UpdateTrail();
 
+        SwitchWallColors();
+
+        if (RacketManager.instance.isEmpowered)
+            RacketManager.instance.SwitchRacketColor();
+    }
+
+
+    private void SwitchWallColors()
+    {
         for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
         {
             LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
@@ -156,9 +156,112 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         {
             LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
         }
+    }
+    public void SetupColors()
+    {
+        //if (GameManager.Instance.offlineMode)                                                           // Besoin de mise en reseau?
+        //{
+            SetupColorsLocaly();
+        //}
+        //else if (PhotonNetwork.IsMasterClient)
+        //{
+        //    photonView.RPC("SetupColors", RpcTarget.AllBuffered);
+        //}
+    }
+    
+    [PunRPC]
+    private void SetupColorsLocaly()
+    {
+        SetupMaterials();
+        /////////////////////
+        SetupWallMaterials();                                       // Ca devrait pas être la!
+        /////////////////////
+        SetupTrails();
+    }
 
-        //if (RacketManager.instance.isEmpowered)
-        //    RacketManager.instance.SwitchRacketColor();
+
+    private void SetupMaterials()
+    {
+        materials = new Material[2];
+
+        materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
+        materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
+
+        //Glow Color
+        materials[0].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors * 6);
+        //Ball Color
+        materials[0].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors);
+        //Line Color
+        materials[0].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors);
+
+        //Glow Color
+        materials[1].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 6);
+        //Ball Color
+        materials[1].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors);
+        //Line Color
+        materials[1].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[2].fresnelColors);
+
+
+        myRenderer.sharedMaterial = materials[colorID];
+        
+    }
+
+    public void SetupWallMaterials()                                                                                                        // Ca devrait pas être la!
+    {
+        sideWallMats = new Material[2];
+        midWallMats = new Material[2];
+
+        sideWallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+        sideWallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+
+        sideWallMats[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors);
+        sideWallMats[0].SetFloat("_DissolveDistanceRange", 4f);
+        sideWallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        sideWallMats[0].SetFloat("_AngleRadius", 0.75f);
+        sideWallMats[1].SetFloat("_GridAlpha", 0.5f);
+        sideWallMats[0].renderQueue = 2800;
+
+        sideWallMats[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors);
+        sideWallMats[1].SetFloat("_DissolveDistanceRange", 4f);
+        sideWallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        sideWallMats[1].SetFloat("_AngleRadius", 0.75f);
+        sideWallMats[1].SetFloat("_GridAlpha", 0.5f);
+        sideWallMats[1].renderQueue = 2800;
+
+
+        midWallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+        midWallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
+
+        midWallMats[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors);
+        midWallMats[0].SetFloat("_DissolveDistanceRange", 4f);
+        midWallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        midWallMats[0].SetFloat("_AngleRadius", 0.75f);
+        midWallMats[0].renderQueue = 3000;
+
+        midWallMats[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors);
+        midWallMats[1].SetFloat("_DissolveDistanceRange", 4f);
+        midWallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
+        midWallMats[1].SetFloat("_AngleRadius", 0.75f);
+        midWallMats[1].renderQueue = 3000;
+
+        for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
+        {
+            LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
+        }
+
+        if (LevelManager.instance.numberOfPlayers > 1)
+        {
+            LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
+        }
+    }
+
+    private void SetupTrails()
+    {
+        trails[0].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors;
+        trails[1].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors;
+
+        trails[colorID].SetActive(true);
+        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
     }
 
     public void UpdateTrail()
@@ -171,97 +274,4 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         trails[colorID].SetActive(false);
     }
-
-    [PunRPC]
-    private void SetupColors()
-    {
-        SetupMaterials();
-        SetupTrails();
-    }
-
-
-    private void SetupMaterials()
-    {
-        materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
-        materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
-
-        //Glow Color
-        materials[0].SetColor("Color_89166C92", colorPresets[0].colorPresets[1].coreEmissiveColors * 6);
-        //Ball Color
-        materials[0].SetColor("Color_69EC7551", colorPresets[0].colorPresets[1].coreEmissiveColors);
-        //Line Color
-        materials[0].SetColor("Color_DE7EE60A", colorPresets[0].colorPresets[1].fresnelColors);
-
-        //Glow Color
-        materials[1].SetColor("Color_89166C92", colorPresets[0].colorPresets[2].coreEmissiveColors * 6);
-        //Ball Color
-        materials[1].SetColor("Color_69EC7551", colorPresets[0].colorPresets[2].coreEmissiveColors);
-        //Line Color
-        materials[1].SetColor("Color_DE7EE60A", colorPresets[0].colorPresets[2].fresnelColors);
-
-
-        sideWallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
-        sideWallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
-
-        sideWallMats[0].SetColor("_EmissionColor", colorPresets[0].colorPresets[1].coreEmissiveColors);
-        sideWallMats[0].SetFloat("_DissolveDistanceRange", 4f);
-        sideWallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
-        sideWallMats[0].SetFloat("_AngleRadius", 0.75f);
-        sideWallMats[1].SetFloat("_GridAlpha", 0.5f);
-        sideWallMats[0].renderQueue = 2800;
-
-        sideWallMats[1].SetColor("_EmissionColor", colorPresets[0].colorPresets[2].coreEmissiveColors);
-        sideWallMats[1].SetFloat("_DissolveDistanceRange", 4f);
-        sideWallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
-        sideWallMats[1].SetFloat("_AngleRadius", 0.75f);
-        sideWallMats[1].SetFloat("_GridAlpha", 0.5f);
-        sideWallMats[1].renderQueue = 2800;
-
-
-        midWallMats[0] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
-        midWallMats[1] = new Material(Shader.Find("Shader Graphs/Sh_SideWalls02"));
-
-        midWallMats[0].SetColor("_EmissionColor", colorPresets[0].colorPresets[1].coreEmissiveColors);
-        midWallMats[0].SetFloat("_DissolveDistanceRange", 4f);
-        midWallMats[0].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
-        midWallMats[0].SetFloat("_AngleRadius", 0.75f);
-        midWallMats[0].renderQueue = 3000;
-
-        midWallMats[1].SetColor("_EmissionColor", colorPresets[0].colorPresets[2].coreEmissiveColors);
-        midWallMats[1].SetFloat("_DissolveDistanceRange", 4f);
-        midWallMats[1].SetVector("_Tiling", new Vector4(3, 3, 0, 0));
-        midWallMats[1].SetFloat("_AngleRadius", 0.75f);
-        midWallMats[1].renderQueue = 3000;
-
-
-        myRenderer.sharedMaterial = materials[colorID];
-        for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
-        {
-            LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
-        }
-
-        if(LevelManager.instance.numberOfPlayers > 1)
-        {
-            LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
-        }
-    }
-
-    private void SetupTrails()
-    {
-        trails[0].GetComponent<TrailRenderer>().startColor = colorPresets[0].colorPresets[1].coreEmissiveColors;
-        trails[1].GetComponent<TrailRenderer>().startColor = colorPresets[0].colorPresets[2].coreEmissiveColors;
-
-        trails[colorID].SetActive(true);
-        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
-    }
-
-
-
-    //Ne plus jamais refaire ça!!!!!!!!!!!
-    /*
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        throw new System.NotImplementedException();
-    }
-    */
 }

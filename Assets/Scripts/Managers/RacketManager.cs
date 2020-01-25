@@ -117,6 +117,7 @@ public class RacketManager : MonoBehaviour
                 Debug.LogError("NullException : ForeignPlayerRacket not set");
         }
     }
+
     public void EndSwitchRacketColor()
     {
         EndLocalSwitchColor();
@@ -179,7 +180,8 @@ public class RacketManager : MonoBehaviour
         empoweredSound.Play();
         SwitchRacketColor();
 
-        //VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered");
+        Debug.Log("Start Vibration");
+        VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered", 0.05f);
     }
 
     public void ExitEmpoweredState()

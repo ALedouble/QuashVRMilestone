@@ -3,9 +3,19 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
+    #region Singleton
+    public static PlayerListingsMenu Instance;
+
+    void Awake()
+    {
+        Instance = this;
+        GetCurrentRoomPlayers();
+    }
+    #endregion
      [SerializeField]
     private Transform content;
     [SerializeField]
@@ -14,10 +24,15 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+    [SerializeField]
+    public int numLevel;
 
-
-    private void Awake(){
-        GetCurrentRoomPlayers();
+    void Update()
+    {
+        if(Input.GetKey(KeyCode.P)){
+            PlayerPrefs.SetInt("level", numLevel);
+            PhotonNetwork.LoadLevel(1);           
+        }  
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -69,6 +84,18 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible= false;
             PhotonNetwork.LoadLevel(1);
+        }
+    }
+
+    public void SetLevel(Button button){
+        if (button.name == "Level"){
+            numLevel = 0;
+        } else if (button.name == "Level (1)"){
+            numLevel = 1;
+        } else if (button.name == "Level (2)"){
+            numLevel = 2;
+        } else if (button.name == "Level (3)"){
+            numLevel = 3;
         }
     }
 }

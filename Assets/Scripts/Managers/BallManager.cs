@@ -107,6 +107,9 @@ public class BallManager : MonoBehaviour
                 photonView.RPC("SpawnBall", RpcTarget.All);
             }
         }
+
+        VibrationManager.instance.VibrateOn("Vibration_Mistake");
+        AudioManager.instance.PlaySound("Mistake", Vector3.zero);
     }
 
     public void SpawnTheBall()

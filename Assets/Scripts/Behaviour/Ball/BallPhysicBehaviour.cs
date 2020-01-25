@@ -158,6 +158,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             case "Racket":
                 RacketInteraction(other);
+                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
                 break;
             case "FrontWall":
             case "Brick":

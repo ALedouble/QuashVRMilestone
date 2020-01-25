@@ -1043,6 +1043,7 @@ public class LevelInspectorScript : Editor
 
         GameObject obj = Instantiate(prefabBase) as GameObject;
         BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
+        BrickInfo objBrickInfo = obj.GetComponent<BrickInfo>();
         MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
         Material[] mats = objMesh.sharedMaterials;
 
@@ -1066,8 +1067,8 @@ public class LevelInspectorScript : Editor
         obj.transform.position = currentLayer.wallBricks[brickPos].brickPosition;
 
 
-        objBehaviours.armorPoints = myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[currentLayer.wallBricks[brickPos].brickTypePreset].armorValue;
-        objBehaviours.scoreValue = myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[currentLayer.wallBricks[brickPos].brickTypePreset].scoreValue;
+        objBrickInfo.armorValue = myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[currentLayer.wallBricks[brickPos].brickTypePreset].armorValue;
+        objBrickInfo.scoreValue = myTarget.brickPresets[myTarget.brickPresetSelected].brickPresets[currentLayer.wallBricks[brickPos].brickTypePreset].scoreValue;
 
         if (currentLayer.wallBricks[brickPos].isMoving)
         {

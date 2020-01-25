@@ -17329,14 +17329,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
       - wallBricks:
-        - isBrickHere: 1
-          brickID: TheBrick
-          brickPosition: {x: 1.15, y: 3.5500002, z: 0}
-          isMoving: 1
-          speed: 6
-          smoothTime: 0.01
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
+          isMoving: 0
+          speed: 0
+          smoothTime: 0
           waypointsStorage: []
-          brickColorPreset: 1
+          brickColorPreset: 0
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0

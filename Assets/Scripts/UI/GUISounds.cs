@@ -27,5 +27,6 @@ public class GUISounds : MonoBehaviour
     public void PlayOnHover()
     {
         AudioManager.instance.PlaySound("UI_On_Hover", Vector3.zero);
+        VibrationManager.instance.VibrateOn("Vibration_UI_OnHover");
     }
 }

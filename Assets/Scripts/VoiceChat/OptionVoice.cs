@@ -19,7 +19,7 @@ public class OptionVoice : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(comms.IsMuted);
+        
     }
 
     private void IsMuted()

@@ -40,8 +40,9 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        pV = GetComponent<PhotonView>();
         Instance = this;
+
+        pV = GetComponent<PhotonView>();
     }
 
 
@@ -108,6 +109,19 @@ public class ScoreManager : MonoBehaviour
         //Trigger de l'anim
         GUIComboAnim.instance.PlayAnimComboBreak();
 
+        //Trigger de la vibration
+        VibrationManager.instance.VibrateOn("Vibration_Mistake");
+
+        //Trigger du son
+        AudioManager.instance.PlaySound("Mistake", Vector3.zero);
+
         OnComboReset(); //Combo reset delegate
+    }
+
+    public void BuildScoreText(int scoreValue, int colorID, Vector3 position, Quaternion rotation)
+    {
+        GameObject scoreText = PoolManager.instance.SpawnFromPool("ScoreText", position, rotation);
+        float newScore = scoreValue * combo[(int)BallManager.instance.GetLastPlayerWhoHitTheBall()];
+        scoreText.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, LevelManager.instance.colorPresets[0].colorPresets[colorID].coreEmissiveColors);
     }
 }

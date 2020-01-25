@@ -42,8 +42,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
 
-    [Header("Material")]
-    public Material[] racketMats;
+    //[Header("Material")]
+    private Material[] racketMats;
 
     private Transform grabPosition;
     private PhotonView photonView;
@@ -59,8 +59,6 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
 
         SetUpRacketColor();
-
-
     }
 
     public void SetLocalRacket(GameObject localRacket)
@@ -99,9 +97,9 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
             racketMats[i] = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
         }
 
-        racketMats[0].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[0].fresnelColors);
-        racketMats[1].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[1].fresnelColors);
-        racketMats[2].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[2].fresnelColors);
+        racketMats[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].fresnelColors);
+        racketMats[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors);
+        racketMats[2].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].fresnelColors);
     }
 
     public void SwitchRacketColor()
@@ -130,7 +128,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        if (foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
     }
 
     private void SwitchLocalRacketColor()
@@ -141,7 +140,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        if(foreignPlayerRacket)
+            foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
     //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
@@ -165,12 +165,19 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     {
         isEmpowered = true;
         sound.Play();
+
+        //VibrationManager.instance.VibrateOnRepeat("Vibration_Impacted");
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
         sound.Stop();
+
+        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
+        else
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
     }
 }
 

@@ -201,24 +201,28 @@ public class LevelScript : MonoBehaviour
         {
             if (currentLayer.wallBricks[x].isMoving)
             {
-                for (int j = 0; j < currentLayer.wallBricks[x].waypointsStorage.Count - 1; j++)
+                if (currentLayer.wallBricks[x].waypointsStorage.Count > 1)
                 {
-                    Gizmos.DrawLine(new Vector3(currentLayer.wallBricks[x].waypointsStorage[j].x,
-                currentLayer.wallBricks[x].waypointsStorage[j].y,
-                currentLayer.wallBricks[x].waypointsStorage[j].z),
+                    for (int j = 0; j < currentLayer.wallBricks[x].waypointsStorage.Count - 1; j++)
+                    {
+                        Gizmos.DrawLine(new Vector3(currentLayer.wallBricks[x].waypointsStorage[j].x,
+                    currentLayer.wallBricks[x].waypointsStorage[j].y,
+                    currentLayer.wallBricks[x].waypointsStorage[j].z),
 
-                new Vector3(currentLayer.wallBricks[x].waypointsStorage[j + 1].x,
-                currentLayer.wallBricks[x].waypointsStorage[j + 1].y,
-                currentLayer.wallBricks[x].waypointsStorage[j + 1].z));
+                    new Vector3(currentLayer.wallBricks[x].waypointsStorage[j + 1].x,
+                    currentLayer.wallBricks[x].waypointsStorage[j + 1].y,
+                    currentLayer.wallBricks[x].waypointsStorage[j + 1].z));
+                    }
+
+                    Gizmos.DrawLine(new Vector3(currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].x,
+                    currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].y,
+                    currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].z),
+
+                    new Vector3(currentLayer.wallBricks[x].waypointsStorage[0].x,
+                    currentLayer.wallBricks[x].waypointsStorage[0].y,
+                    currentLayer.wallBricks[x].waypointsStorage[0].z));
                 }
 
-                Gizmos.DrawLine(new Vector3(currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].x,
-                currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].y,
-                currentLayer.wallBricks[x].waypointsStorage[currentLayer.wallBricks[x].waypointsStorage.Count - 1].z),
-
-                new Vector3(currentLayer.wallBricks[x].waypointsStorage[0].x,
-                currentLayer.wallBricks[x].waypointsStorage[0].y,
-                currentLayer.wallBricks[x].waypointsStorage[0].z));
             }
         }
     }

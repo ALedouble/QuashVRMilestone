@@ -89,29 +89,12 @@ public class BallManager : MonoBehaviour
     {
         if(PhotonNetwork.OfflineMode)
         {
-            DespawnBallLocaly();
+            LoseBallLocaly();
         }
         else if(PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("DespawnBallLocaly", RpcTarget.All);
+            photonView.RPC("LoseBallLocaly", RpcTarget.All);
         }
-
-        targetSelector.SwitchTarget();                                                      //Pas en reseau
-
-        if (GameManager.Instance.GetGameStatus())
-        {
-            if (PhotonNetwork.OfflineMode)
-            {
-                SpawnBallLocaly();
-            }
-            else if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("SpawnBallLocaly", RpcTarget.All);
-            }
-        }
-
-        VibrationManager.instance.VibrateOn("Vibration_Mistake");
-        AudioManager.instance.PlaySound("Mistake", Vector3.zero);
     }
 
     [PunRPC]

@@ -79,5 +79,9 @@ MonoBehaviour:
   - DestroyBrickByID
   - DestroyBrickByIDRPC
   - SetupOnlineBall
+  - DespawnBallLocaly
+  - HitBrickOnlineRPC
+  - LoseBallLocaly
+  - SpawnBallLocaly
   DisableAutoOpenWizard: 1
   ShowSettings: 1

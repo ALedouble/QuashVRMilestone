@@ -71,6 +71,7 @@ public class RacketManager : MonoBehaviour
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
     {
+        Debug.Log("Set foreignRacket in RacketManager");
         foreignPlayerRacket = foreignRacket;
 
         foreignRacketRenderer = foreignPlayerRacket.GetComponentInChildren<MeshRenderer>();
@@ -178,7 +179,7 @@ public class RacketManager : MonoBehaviour
         empoweredSound.Play();
         SwitchRacketColor();
 
-        //VibrationManager.instance.VibrateOnRepeat("Vibration_Impacted");
+        //VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered");
     }
 
     public void ExitEmpoweredState()
@@ -186,6 +187,8 @@ public class RacketManager : MonoBehaviour
         isEmpowered = false;
         empoweredSound.Stop();
         EndSwitchRacketColor();
+
+        Debug.Log("Cancel Vibration");
 
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));

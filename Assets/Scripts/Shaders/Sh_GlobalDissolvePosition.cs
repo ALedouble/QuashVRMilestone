@@ -20,6 +20,8 @@ public class Sh_GlobalDissolvePosition : MonoBehaviour
     public static void Setup()
     {
         if (BallManager.instance)
-            ballTransform = BallManager.instance.ball.transform;
+        {
+                ballTransform = BallManager.instance.ball.transform;
+        }
     }
 }

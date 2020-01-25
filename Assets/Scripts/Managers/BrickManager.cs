@@ -171,6 +171,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
     public void HitBrickOnlineRPC(int brickID)
     {
         AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();

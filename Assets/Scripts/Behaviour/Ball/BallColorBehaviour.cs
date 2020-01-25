@@ -134,7 +134,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private void SwitchColor()
     {
         colorID = (colorID + 1) % materials.Length;
-        myRenderer.material = materials[colorID];
+        myRenderer.sharedMaterial = materials[colorID];
 
         UpdateTrail();
 

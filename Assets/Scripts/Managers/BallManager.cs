@@ -32,6 +32,8 @@ public class BallManager : MonoBehaviour
     private bool isSpawned;
     private Coroutine floatCoroutine;
 
+    public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
+
 
     private void Awake()
     {
@@ -54,17 +56,18 @@ public class BallManager : MonoBehaviour
                 ball = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity) as GameObject;
                 SetupBallManager();
                 ball.SetActive(false);
+                Sh_GlobalDissolvePosition.Setup();
             }
             else if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Instantiate(ballPrefab.name, Vector3.zero, Quaternion.identity);
-                photonView.RPC("SetOnlineBall", RpcTarget.All);
+                photonView.RPC("SetupOnlineBall", RpcTarget.All);
             }
         }
     }
 
     [PunRPC]
-    private void SetOnlineBall()
+    private void SetupOnlineBall()
     {
         ball = GameObject.FindGameObjectWithTag("Ball");
         SetupBallManager();
@@ -80,57 +83,50 @@ public class BallManager : MonoBehaviour
         targetSelector = ball.GetComponent<ITargetSelector>();
     }
 
-    
     #region Gameplay
 
     public void LoseBall()
     {
         if(PhotonNetwork.OfflineMode)
         {
-            DespawnBall();
+            LoseBallLocaly();
         }
         else if(PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("DespawnBall", RpcTarget.All);
+            photonView.RPC("LoseBallLocaly", RpcTarget.All);
         }
+    }
 
+    [PunRPC]
+    private void LoseBallLocaly()
+    {
+        DespawnBallLocaly();
         targetSelector.SwitchTarget();
+        SpawnBallLocaly();
 
-        if (GameManager.Instance.GetGameStatus())
+        if(IsTheLastPlayerWhoHitTheBall)
         {
-            if (PhotonNetwork.OfflineMode)
-            {
-                SpawnBall();
-            }
-            else if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("SpawnBall", RpcTarget.All);
-            }
+            VibrationManager.instance.VibrateOn("Vibration_Mistake");
         }
-
-        VibrationManager.instance.VibrateOn("Vibration_Mistake");
+        
         AudioManager.instance.PlaySound("Mistake", Vector3.zero);
     }
 
     public void SpawnTheBall()
     {
         if (PhotonNetwork.OfflineMode)
-        {
-            SpawnBall();
-        }
+            SpawnBallLocaly();
         else if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("SpawnBall", RpcTarget.All);
-        }
+            photonView.RPC("SpawnBallLocaly", RpcTarget.All);
     }
 
     [PunRPC]
-    private void SpawnBall()
+    private void SpawnBallLocaly()
     {
         ball.transform.position = targetSelector.GetTargetPlayerPosition() + spawnOffset;
+        ballColorBehaviour.DeactivateTrail();
         ball.SetActive(true);
 
-        
         ResetBall();
 
         BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
@@ -141,15 +137,13 @@ public class BallManager : MonoBehaviour
     public void DespawnTheBall()
     {
         if (PhotonNetwork.OfflineMode)
-            DespawnBall();
+            DespawnBallLocaly();
         else if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("DespawnBall", RpcTarget.All);
-        }
+            photonView.RPC("DespawnBallLocaly", RpcTarget.All);
     }
 
     [PunRPC]
-    private void DespawnBall()
+    private void DespawnBallLocaly()
     {
         ResetBall();
         ball.SetActive(false);
@@ -173,10 +167,11 @@ public class BallManager : MonoBehaviour
     {
         isInPlay = true;
         ballPhysicBehaviour.ApplyBaseGravity();
-
+        ballColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
         StopCoroutine(floatCoroutine);
     }
+
     #endregion
 
     #region Color

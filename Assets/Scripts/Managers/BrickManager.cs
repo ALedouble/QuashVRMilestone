@@ -60,7 +60,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
             Debug.Log("Bad BrickID");
         }
         AllBricks.Add(newBrick);
-
     }
 
     /// <summary>
@@ -157,27 +156,48 @@ public class BrickManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void DestroyBrickByID(int brickID)
+    public void HitBrickByID(int brickID)
     {
-        Debug.Log("DestroyBrickByID");
-        if(brickID < AllBricks.Count && brickID >= 0)
+        if (brickID < AllBricks.Count && brickID >= 0)
         {
-            if (PhotonNetwork.OfflineMode)
+            if(PhotonNetwork.OfflineMode)
             {
-                AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
+                AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
             }
             else if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("DestroyBrickByIDRPC", RpcTarget.All, brickID);
+                photonView.RPC("HitBrickOnlineRPC", RpcTarget.All, brickID);
             }
         }
     }
 
     [PunRPC]
-    private void DestroyBrickByIDRPC(int brickID)
+    public void HitBrickOnlineRPC(int brickID)
     {
-        AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
+        AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
     }
+
+    //public void DestroyBrickByID(int brickID)
+    //{
+    //    Debug.Log("DestroyBrickByID");
+    //    if (brickID < AllBricks.Count && brickID >= 0)
+    //    {
+    //        if (PhotonNetwork.OfflineMode)
+    //        {
+    //            AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
+    //        }
+    //        else if (PhotonNetwork.IsMasterClient)
+    //        {
+    //            photonView.RPC("DestroyBrickByIDRPC", RpcTarget.All, brickID);
+    //        }
+    //    }
+    //}
+
+    //[PunRPC]
+    //private void DestroyBrickByIDRPC(int brickID)
+    //{
+    //    AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
+    //}
 
     /// <summary>
     /// Activate bricks movement on the current front layer

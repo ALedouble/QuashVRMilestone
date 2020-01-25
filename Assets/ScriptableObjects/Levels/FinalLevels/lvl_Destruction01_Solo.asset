@@ -13207,14 +13207,15 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 0
-          brickID: 
-          brickPosition: {x: 0, y: 0, z: 0}
+        - isBrickHere: 1
+          brickID: TheBrick
+          brickPosition: {x: 3.55, y: 2.65, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage: []
-          brickColorPreset: 0
+          waypointsStorage:
+          - {x: 3.55, y: 2.65, z: 0}
+          brickColorPreset: 1
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0

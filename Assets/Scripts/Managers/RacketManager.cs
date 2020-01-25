@@ -6,7 +6,7 @@ using VRTK;
 using Photon.Pun;
 
 
-public class RacketManager : MonoBehaviour//, //IGrabCaller
+public class RacketManager : MonoBehaviour
 {
     #region Singleton
     public static RacketManager instance;
@@ -31,7 +31,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [HideInInspector]
     public GameObject foreignPlayerRacket;
 
-    public float deltaHitTime = 0.5f; //Valeur A twik
+    public float deltaHitTime = 0.5f;
     
     [Header("Racket Grab Position/Rotation")]
     public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
@@ -45,10 +45,9 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     //[Header("Material")]
     private Material[] racketMats;
 
-    private Transform grabPosition;
     private PhotonView photonView;
 
-    public AudioSource sound;
+    public AudioSource empoweredSound;
     private bool isPlaying = false;
 
 
@@ -56,10 +55,10 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     {
         photonView = GetComponent<PhotonView>();
 
-        grabPosition = racketPrefab.GetComponentInChildren<GrabPositionGetter>().transform;
-
         SetUpRacketColor();
     }
+
+    #region Set Methods
 
     public void SetLocalRacket(GameObject localRacket)
     {
@@ -72,6 +71,7 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
     {
+        Debug.Log("Set foreignRacket in RacketManager");
         foreignPlayerRacket = foreignRacket;
 
         foreignRacketRenderer = foreignPlayerRacket.GetComponentInChildren<MeshRenderer>();
@@ -83,10 +83,14 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(playerMainHand).transform;
         localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
         localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
-        localPlayerRacket.transform.localPosition = racketOffset; //grabPosition.localPosition; 
-        localPlayerRacket.transform.localEulerAngles = racketRotationOffset; //grabPosition.localRotation;
+        localPlayerRacket.transform.localPosition = racketOffset;
+        localPlayerRacket.transform.localEulerAngles = racketRotationOffset;
         //localPlayerRacket.tag = "Racket";
     }
+
+    #endregion
+
+    #region RacketColor
 
     void SetUpRacketColor()
     {
@@ -107,29 +111,22 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         SwitchLocalRacketColor();
         if (!PhotonNetwork.OfflineMode)
         {
-            photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
+            if (foreignPlayerRacket)
+                photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
+            else
+                Debug.LogError("NullException : ForeignPlayerRacket not set");
         }
     }
-
     public void EndSwitchRacketColor()
     {
         EndLocalSwitchColor();
         if (!PhotonNetwork.OfflineMode)
         {
-            photonView.RPC("EndForeignSwitchColor", RpcTarget.Others);
+            if (foreignPlayerRacket)
+                photonView.RPC("EndForeignSwitchColor", RpcTarget.Others);
+            else
+                Debug.LogError("NullException : ForeignPlayerRacket not set");
         }
-    }
-
-    void EndLocalSwitchColor()
-    {
-        localRacketRenderer.sharedMaterials[1] = racketMats[0];
-    }
-
-    [PunRPC]
-    void EndForeignSwitchColor()
-    {
-        if (foreignPlayerRacket)
-            foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
     }
 
     private void SwitchLocalRacketColor()
@@ -140,11 +137,23 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        if(foreignPlayerRacket)
-            foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
     }
 
-    //////////////////////////////////////////////     Other Methods     //////////////////////////////////////////////
+    void EndLocalSwitchColor()
+    {
+        localRacketRenderer.sharedMaterials[1] = racketMats[0];
+    }
+
+    [PunRPC]
+    void EndForeignSwitchColor()
+    {
+        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+    }
+
+    #endregion
+
+    #region HitEvent
 
     public void OnHitEvent(GameObject hitObject)                        // Faire Un vrai event?
     {
@@ -161,10 +170,14 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
     }
 
+    #endregion
+
+    #region EmpoweredState Methods
     public void EnterEmpoweredState()
     {
         isEmpowered = true;
-        sound.Play();
+        empoweredSound.Play();
+        SwitchRacketColor();
 
         //VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered");
     }
@@ -172,7 +185,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
-        sound.Stop();
+        empoweredSound.Stop();
+        EndSwitchRacketColor();
 
         Debug.Log("Cancel Vibration");
 
@@ -181,6 +195,8 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
     }
+
+    #endregion
 }
 
 

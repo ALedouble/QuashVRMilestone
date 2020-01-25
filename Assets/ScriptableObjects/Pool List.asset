@@ -19,14 +19,18 @@ MonoBehaviour:
   - tag: BounceFX
     prefab: {fileID: 565995459955419888, guid: 1871c528be518d1418d139ffbaf1537d, type: 3}
     size: 5
-  - tag: CubeDeathFX
-    prefab: {fileID: 5170862702514152613, guid: 15c9a258f05c0bd46a7baca3257ea527,
-      type: 3}
-    size: 20
-  - tag: CubeImpactFX
+  - tag: Brick_Destroyed_Green
     prefab: {fileID: 5227381701002517277, guid: c36e5b9fcb419a64e90e961470c5ba1d,
       type: 3}
-    size: 35
+    size: 60
+  - tag: Brick_Destroyed_Blue
+    prefab: {fileID: 4652409518643171911, guid: 5a077c41f660f8f468178f5e1714f593,
+      type: 3}
+    size: 60
+  - tag: Brick_Destroyed_White
+    prefab: {fileID: 5227381701002517277, guid: 9c015efcb7eb3df4d9c69e230847330c,
+      type: 3}
+    size: 60
   - tag: Brick
     prefab: {fileID: 6638883875395251446, guid: 7ca0fe2ad1189764eb393824dbf6740b,
       type: 3}

@@ -44,7 +44,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     BrickInfo brickInfo;
     bool hasBeenHit;
-    //PhotonView myPhotonView;
 
 
 
@@ -68,10 +67,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     
     void Start()
     {
-        //myPhotonView = GetComponent<PhotonView>();
-
-        //PhotonNetwork.AllocateViewID(myPhotonView);
-
         SetupBallID();
 
         isWaiting = false;
@@ -172,21 +167,10 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     }
 
 
-    //public void HitBrick(int p_dmgPoints = 1)
-    //{
-    //    if (PhotonNetwork.OfflineMode)
-    //    {
-    //        HitBrickRPC(p_dmgPoints);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("Envoi Destruction");
-    //        photonView.RPC("HitBrickRPC", RpcTarget.All, p_dmgPoints);
-    //    }
-    //}
+    
 
     [PunRPC]
-    /*private*/public void HitBrick/*RPC*/(int p_dmgPoints = 1)
+    public void HitBrick(int p_dmgPoints = 1)
     {
         Debug.Log("Destruction brick");
         if (!hasBeenHit)
@@ -201,8 +185,8 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
             {
                 hasBeenHit = false;
                 AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
-                //DestroyBrick();
-                BrickManager.Instance.DestroyBrickByID(brickID);
+                DestroyBrick();
+                //BrickManager.Instance.DestroyBrickByID(brickID);
             }
             else
             {
@@ -245,17 +229,14 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     private void SendBreakFeedbacks()
     {
         /// FX
-        PoolManager.instance.SpawnFromPool("CubeImpactFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-        PoolManager.instance.SpawnFromPool("CubeDeathFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+        PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+        //PoolManager.instance.SpawnFromPool("CubeDeathFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
 
         ///Skake
         LevelManager.instance.ShakeLayer(brickInfo.wallID);         //WTF?
     }
 
-    //private void ScorePoints()
-    //{
-    //    BrickManager.Instance.ScorePoints(brickInfo);
-    //}
+    
 
     private void ScorePoints()
     {
@@ -263,31 +244,13 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
         ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
 
-        //if (!GameManager.Instance.offlineMode)
-        //{
-        //    myPhotonView.RPC("SetScoreRPC", RpcTarget.All); //BallID
-        //    myPhotonView.RPC("SetComboRPC", RpcTarget.All); //BallID
-        //}
-        //else
-        //{
-            ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        //}
+        
+        ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+        ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+        
 
         ScoreManager.Instance.resetCombo = false;
     }
-
-    //[PunRPC]
-    //private void SetScoreRPC()
-    //{
-    //    ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-    //}
-
-    //[PunRPC]
-    //private void SetComboRPC()
-    //{
-    //    ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-    //}
 
     private void DropBonusMalus()
     {

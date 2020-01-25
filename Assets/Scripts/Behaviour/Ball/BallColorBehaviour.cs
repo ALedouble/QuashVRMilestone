@@ -17,7 +17,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [Header("Color Settings")]
     public PresetScriptable[] colorPresets;
     private Material[] materials;
-    private Material[] sideWallMats;
+    private Material[] sideWallMats;                                                //Euh pourquoi c'est la?
     private Material[] midWallMats;
 
     [Header("Trail Settings")]

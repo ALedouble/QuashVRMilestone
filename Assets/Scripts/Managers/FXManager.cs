@@ -209,20 +209,14 @@ public class FXManager : MonoBehaviour
             {
                 if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brickInfo.colorID != 0)
+                    if (brickInfo.colorID != 0 || brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
                     {
-                        if (brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
-                        {
-                            hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
-                        }
-                        else 
-                        {
-                            StartCoroutine(DeactivateBrickCollider(hit.collider, impactMaxTime));
-                        }
+                        //hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                        BrickManager.Instance.HitBrickByID(hit.collider.gameObject.GetComponent<BrickBehaviours>().BrickID);
                     }
                     else
                     {
-                        hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
+                        StartCoroutine(DeactivateBrickCollider(hit.collider, impactMaxTime));
                     }
                 }
             }

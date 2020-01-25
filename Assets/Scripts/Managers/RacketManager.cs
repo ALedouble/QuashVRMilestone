@@ -71,6 +71,7 @@ public class RacketManager : MonoBehaviour
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
     {
+        Debug.Log("Set foreignRacket in RacketManager");
         foreignPlayerRacket = foreignRacket;
 
         foreignRacketRenderer = foreignPlayerRacket.GetComponentInChildren<MeshRenderer>();

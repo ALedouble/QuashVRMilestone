@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,8 @@ public class MultiLevel : MonoBehaviour
     public static MultiLevel Instance;
 
     [HideInInspector]
-    public int levelIndex; 
+    public int levelIndex;
+
 
     private void Awake() {
         Instance = this;
@@ -24,4 +26,7 @@ public class MultiLevel : MonoBehaviour
     {
         
     }
+
+
+
 }

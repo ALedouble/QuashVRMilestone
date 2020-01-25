@@ -27,7 +27,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     public int numLevel;
 
-    void Update()
+    void Start()
     {
         
     }

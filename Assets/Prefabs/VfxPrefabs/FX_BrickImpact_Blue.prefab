@@ -14532,8 +14532,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 24568226511664964}
+  - component: {fileID: 4696706033310030536}
   m_Layer: 0
-  m_Name: FX_BrickImpact blue
+  m_Name: FX_BrickImpact_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14558,6 +14559,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4696706033310030536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652409518643171911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb32d79debbb494da9f9342b5214a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles:
+  - {fileID: 3568181025403155192}
+  - {fileID: 2329044486065466057}
+  - {fileID: 3541206192676771992}
+  - {fileID: 7174556315735837982}
+  - {fileID: 795588315636168149}
 --- !u!1 &4662419283463359876
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class RacketManager : MonoBehaviour
     public GameObject racketPrefab;
     //[HideInInspector]
     public GameObject localPlayerRacket;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject foreignPlayerRacket;
 
     public float deltaHitTime = 0.5f;
@@ -176,10 +176,8 @@ public class RacketManager : MonoBehaviour
 
     private void SwitchLocalRacketColor()
     {
-        Debug.Log("number of materials : " + localRacketRenderer.sharedMaterials.Length);
         //localRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
         localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
-        Debug.Log("Switch racket Color 2 " + ((BallManager.instance.GetBallColorID() + 1) % 2 + 1));
     }
 
     [PunRPC]
@@ -197,7 +195,7 @@ public class RacketManager : MonoBehaviour
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        //foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        foreignRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
     }
 
     #endregion

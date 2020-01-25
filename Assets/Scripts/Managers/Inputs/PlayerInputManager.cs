@@ -33,7 +33,7 @@ public class PlayerInputManager : MonoBehaviour
     private IInputable gameplayAction = new GameplayInputManager();
     private IInputable menuAction = new MenuInputManager();
 
-    private void Start()
+    public void SetupInputMod()
     {
         SetInputMod(inputMod);
     }

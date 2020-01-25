@@ -45,10 +45,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     BrickInfo brickInfo;
     bool hasBeenHit;
 
-
-
-
-
     private void Awake()
     {
         
@@ -229,7 +225,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     private void SendBreakFeedbacks()
     {
         /// FX
-        PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+        PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
         //PoolManager.instance.SpawnFromPool("CubeDeathFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
 
         ///Skake

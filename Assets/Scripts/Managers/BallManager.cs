@@ -124,6 +124,7 @@ public class BallManager : MonoBehaviour
     private void SpawnBallLocaly()
     {
         ball.transform.position = targetSelector.GetTargetPlayerPosition() + spawnOffset;
+        ballColorBehaviour.DeactivateTrail();
         ball.SetActive(true);
 
         ResetBall();
@@ -166,7 +167,7 @@ public class BallManager : MonoBehaviour
     {
         isInPlay = true;
         ballPhysicBehaviour.ApplyBaseGravity();
-
+        ballColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
         StopCoroutine(floatCoroutine);
     }

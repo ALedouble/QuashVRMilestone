@@ -194,8 +194,8 @@ public class VibrationManager : MonoBehaviour
     /// <param name="controller">Controller cencerné</param>
     public void VibrationOff(VRTK_ControllerReference controller)
     {
-        controllerRef = controller;
-        VRTK_ControllerHaptics.CancelHapticPulse(controllerRef);
+        Debug.Log("Vibration OFF");
+        VRTK_ControllerHaptics.CancelHapticPulse(controller);
 
 
         //if(vibrationOnRepeat)

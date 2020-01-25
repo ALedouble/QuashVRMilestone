@@ -68,6 +68,8 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        
+
         for (int i = 0; i < numberOfPlayers; i++)
         {
             SetNextLayer(i);

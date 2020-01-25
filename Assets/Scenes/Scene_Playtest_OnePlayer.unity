@@ -1128,6 +1128,21 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 767c53f8724e1ae4191f13ae5bf369d9, type: 2}
+    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: a26b374e45777c34b8742157ebc64eaa, type: 2}
+    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6e7716352b04968419f36e7980a5327a, type: 2}
     - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: registeredLevels.Array.data[0]

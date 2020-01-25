@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class LeftControllerGetter : ObjectGetter
 {
-
+    public GameObject Get()
+    {
+        return gameObject;
+    }
 }

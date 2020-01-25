@@ -26,13 +26,13 @@ public class RacketManager : MonoBehaviour
     #endregion
 
     public GameObject racketPrefab;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject localPlayerRacket;
     [HideInInspector]
     public GameObject foreignPlayerRacket;
 
     public float deltaHitTime = 0.5f;
-    
+
     [Header("Racket Grab Position/Rotation")]
     public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
     public Vector3 racketRotationOffset = new Vector3(0f, 180f, 90f);
@@ -43,7 +43,8 @@ public class RacketManager : MonoBehaviour
     private MeshRenderer foreignRacketRenderer;
 
     //[Header("Material")]
-    private Material[] racketMats;
+    public Material MaterialPrefab;
+    public RacketMaterials[] racketMats;
 
     private PhotonView photonView;
 
@@ -67,6 +68,8 @@ public class RacketManager : MonoBehaviour
         AssociateRacketWithController();
 
         localRacketRenderer = localPlayerRacket.GetComponentInChildren<MeshRenderer>();
+
+        //SetUpRacketColor();
     }
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
@@ -94,20 +97,61 @@ public class RacketManager : MonoBehaviour
 
     void SetUpRacketColor()
     {
-        racketMats = new Material[3];
+        //racketMats = new RacketMaterials[3];
 
         for (int i = 0; i < racketMats.Length; i++)
         {
-            racketMats[i] = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
+            //racketMats[i].racketMaterial = new Material[3];
+
+            //for (int j = 0; j < racketMats[i].racketMaterial.Length; j++)
+            //{
+            //    racketMats[i].racketMaterial[j] = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
+            //}
+
+
+            //racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors);
+            //racketMats[i].racketMaterial[1].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors);
+
+            switch (i)
+            {
+                case 0:
+                    racketMats[i].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors);
+                    racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors);
+                    //racketMats[i].racketMaterial[2].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors);
+                    //racketMats[i].racketMaterial[0].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors);
+                    //racketMats[i].racketMaterial[1].SetFloat("_Cutoff", 0);
+                    //racketMats[i].racketMaterial[1].SetFloat("_Smoothness", 0.261f);
+                    //racketMats[i].racketMaterial[1].SetInt("_EMISSION", 1);
+                    break;
+
+                case 1:
+                    racketMats[i].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors * 1.5f);
+                    racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors * 1.5f);
+                    //racketMats[i].racketMaterial[2].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors);
+                    //racketMats[i].racketMaterial[0].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors);
+                    //racketMats[i].racketMaterial[1].SetFloat("_Cutoff", 0);
+                    //racketMats[i].racketMaterial[1].SetFloat("_Smoothness", 0.424f);
+                    //racketMats[i].racketMaterial[1].SetInt("_EMISSION", 1);
+                    break;
+
+                case 2:
+                    racketMats[i].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors * 3);
+                    racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors * 3);
+                    //racketMats[i].racketMaterial[2].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors);
+                    //racketMats[i].racketMaterial[0].SetColor("_BaseColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors);
+                    //racketMats[i].racketMaterial[1].SetFloat("_Cutoff", 1);
+                    //racketMats[i].racketMaterial[1].SetFloat("_Smoothness", 0.74f);
+                    //racketMats[i].racketMaterial[1].SetInt("_EMISSION", 1);
+                    break;
+            }
         }
 
-        racketMats[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].fresnelColors);
-        racketMats[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors);
-        racketMats[2].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].fresnelColors);
+
     }
 
     public void SwitchRacketColor()
     {
+        Debug.Log("Switch racket Color");
         SwitchLocalRacketColor();
         if (!PhotonNetwork.OfflineMode)
         {
@@ -132,24 +176,28 @@ public class RacketManager : MonoBehaviour
 
     private void SwitchLocalRacketColor()
     {
-        localRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        Debug.Log("number of materials : " + localRacketRenderer.sharedMaterials.Length);
+        //localRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
+        localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+        Debug.Log("Switch racket Color 2 " + ((BallManager.instance.GetBallColorID() + 1) % 2 + 1));
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1];
+        foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
     }
 
     void EndLocalSwitchColor()
     {
-        localRacketRenderer.sharedMaterials[1] = racketMats[0];
+        Debug.Log("End Switch Color");
+        localRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
     }
 
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
+        //foreignRacketRenderer.sharedMaterials[1] = racketMats[0];
     }
 
     #endregion
@@ -199,6 +247,12 @@ public class RacketManager : MonoBehaviour
     }
 
     #endregion
+}
+
+[System.Serializable]
+public struct RacketMaterials
+{
+    public Material[] racketMaterial;
 }
 
 

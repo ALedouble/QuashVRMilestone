@@ -13,6 +13,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     void Awake()
     {
         Instance = this;
+        photonView = GetComponent<PhotonView>();
         GetCurrentRoomPlayers();
     }
     #endregion
@@ -27,10 +28,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     public int numLevel;
 
-    void Start()
-    {
-        
-    }
+    PhotonView photonView;
 
     public void FirstInitialize(RoomCanvasGroup canvases){
         _roomsCanvases = canvases;
@@ -87,18 +85,22 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public void SetLevel(Button button){
         if (button.name == "Level 01"){
             numLevel = 0;
-            MultiLevel.Instance.levelIndex = numLevel;
+            photonView.RPC("SelectLevel", numLevel);
         } else if (button.name == "Level 02"){
             numLevel = 1;
-            MultiLevel.Instance.levelIndex = numLevel;
-            Debug.Log(numLevel);
+            photonView.RPC("SelectLevel", numLevel);
         } else if (button.name == "Level 03"){
             numLevel = 2;
-            MultiLevel.Instance.levelIndex = numLevel;
+            photonView.RPC("SelectLevel", numLevel);
         } else if (button.name == "Level 04"){
             numLevel = 3;
-            MultiLevel.Instance.levelIndex = numLevel;
+            photonView.RPC("SelectLevel", numLevel);
         }
+    }
+
+    [PunRPC]
+    public void SelectLevel(int number){
+        MultiLevel.Instance.levelIndex = number;
     }
 }
 

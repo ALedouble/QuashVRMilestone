@@ -225,7 +225,20 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     private void SendBreakFeedbacks()
     {
         /// FX
-        PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
+        switch (brickInfo.colorID)
+        {
+            case 0:
+                PoolManager.instance.SpawnFromPool("Brick_Destroyed_White", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
+                break;
+
+            case 1:
+                PoolManager.instance.SpawnFromPool("Brick_Destroyed_Blue", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
+                break;
+
+            case 2:
+                PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
+                break;
+        }
         //PoolManager.instance.SpawnFromPool("CubeDeathFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
 
         ///Skake

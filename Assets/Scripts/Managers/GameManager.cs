@@ -53,18 +53,9 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        
-        if (offlineMode)
-        {
-            PhotonNetwork.OfflineMode = true;
-        }
-        else
-        {
-            PhotonNetwork.OfflineMode = false;
-            
-        }
-        
-        if(!PhotonNetwork.OfflineMode)
+        SetupOfflineMod();
+
+        if (!PhotonNetwork.OfflineMode)
         {
             
             if (PhotonNetwork.IsMasterClient)
@@ -106,9 +97,18 @@ public class GameManager : MonoBehaviour
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
-       
+    }
 
-        
+    private void SetupOfflineMod()
+    {
+        if (offlineMode)
+        {
+            PhotonNetwork.OfflineMode = true;
+        }
+        else
+        {
+            PhotonNetwork.OfflineMode = false;
+        }
     }
 
     public void RestartScene()

@@ -61,6 +61,10 @@ public class GameManager : MonoBehaviour
         else
         {
             PhotonNetwork.OfflineMode = false;
+
+            if(gameMod == GameMod.GAMEPLAY){
+                photonView.RPC("SyncLevelRPC", RpcTarget.All);
+            }
         }
         
         if(!PhotonNetwork.OfflineMode)
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
                 
                 if(gameMod == GameMod.GAMEPLAY)
                 {
-                    SelectionLevel(PlayerPrefs.GetInt("level"));
+                    
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
             }
@@ -82,7 +86,8 @@ public class GameManager : MonoBehaviour
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].position, Quaternion.identity, 0) as GameObject);
                 if (gameMod == GameMod.GAMEPLAY)
                 {
-                    SelectionLevel(PlayerPrefs.GetInt("level"));
+                    
+                    
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
                    
@@ -106,6 +111,11 @@ public class GameManager : MonoBehaviour
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    [PunRPC]
+    public void SyncLevelRPC(){
+        SelectionLevel(MultiLevel.Instance.levelIndex);
     }
 
    

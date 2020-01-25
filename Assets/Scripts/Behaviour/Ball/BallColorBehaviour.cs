@@ -49,7 +49,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         {
             SetupColors();
         }
-        else //if(PhotonNetwork.IsMasterClient)
+        else if(PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("SetupColors", RpcTarget.AllBuffered);
         }
@@ -169,7 +169,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     public void DeactivateTrail()
     {
-        trails[colorID].SetActive(true);
+        trails[colorID].SetActive(false);
     }
 
     [PunRPC]

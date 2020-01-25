@@ -65,23 +65,27 @@ public class GameManager : MonoBehaviour
         
         if(!PhotonNetwork.OfflineMode)
         {
-            SelectionLevel(PlayerPrefs.GetInt("level"));
+            
             if (PhotonNetwork.IsMasterClient)
             {
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].position, Quaternion.identity, 0) as GameObject);
                 
                 if(gameMod == GameMod.GAMEPLAY)
                 {
-                    
+                    SelectionLevel(PlayerPrefs.GetInt("level"));
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
             }
             else
             {
-                
+               
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].position, Quaternion.identity, 0) as GameObject);
                 if (gameMod == GameMod.GAMEPLAY)
+                {
+                    SelectionLevel(PlayerPrefs.GetInt("level"));
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
+                }
+                   
             }
         }
         else
@@ -104,7 +108,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-
+   
 
     public Transform[] GetPlayerSpawn()
     {

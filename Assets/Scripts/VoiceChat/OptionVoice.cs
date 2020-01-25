@@ -14,7 +14,7 @@ public class OptionVoice : MonoBehaviour
         comms = dissonance.GetComponent<DissonanceComms>();
         vbt = dissonance.GetComponent<VoiceBroadcastTrigger>();
 
-        IsMuted();
+      //  IsMuted();
     }
 
     private void Update()

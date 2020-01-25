@@ -97,9 +97,9 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
             racketMats[i] = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
         }
 
-        racketMats[0].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[0].fresnelColors);
-        racketMats[1].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[1].fresnelColors);
-        racketMats[2].SetColor("_EmissionColor", BrickManager.Instance.colorPresets[0].colorPresets[2].fresnelColors);
+        racketMats[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].fresnelColors);
+        racketMats[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors);
+        racketMats[2].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].fresnelColors);
     }
 
     public void SwitchRacketColor()
@@ -165,13 +165,19 @@ public class RacketManager : MonoBehaviour//, //IGrabCaller
     {
         isEmpowered = true;
         sound.Play();
-        VibrationManager.instance.VibrateOn("Vibration_Racket_Empowered");
+
+        //VibrationManager.instance.VibrateOnRepeat("Vibration_Impacted");
     }
 
     public void ExitEmpoweredState()
     {
         isEmpowered = false;
         sound.Stop();
+
+        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
+        else
+            VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
     }
 }
 

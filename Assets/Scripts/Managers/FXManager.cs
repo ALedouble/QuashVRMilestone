@@ -40,60 +40,7 @@ public class FXManager : MonoBehaviour
         ps = new List<ParticleSystem>();
     }
 
-
-    public float SetFXscale(float impulse)
-    {
-        float scale = impulse * intensityModifier;
-        return scale;
-    }
-
-    public void SetExplosion(Vector3 origin, float intensity, int playerID)
-    {
-        
-
-        originPos = origin;
-        //maxRadius = intensity * intensityModifier;
-        maxRadius = playersRadius[playerID];
-
-
-        switch (BallManager.instance.GetBallColorID())
-        {
-            case 0:
-                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", originPos, Quaternion.identity);
-
-                break;
-
-            case 1:
-                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", originPos, Quaternion.identity);
-
-                break;
-        }
-
-
-        impactGo.transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
-
-        ps.Clear();
-
-        if (impactGo.transform.childCount > 0)
-        {
-            for (int i = 0; i < impactGo.transform.childCount; i++)
-            {
-                ps.Add(impactGo.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>());
-            }
-
-            for (int i = 0; i < ps.Count; i++)
-            {
-                ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
-
-                ps[i].Play();                                                                           
-            }
-        }
-
-        isExplosion = true;
-        AudioManager.instance.PlaySound("SFX_Ball_Impact", Vector3.zero);
-    }
-
-    private void Update()
+    private void FixedUpdate()
     {
         if (isExplosion)
         {
@@ -192,6 +139,61 @@ public class FXManager : MonoBehaviour
         #endregion
     }
 
+
+    public float SetFXscale(float impulse)
+    {
+        float scale = impulse * intensityModifier;
+        return scale;
+    }
+
+    public void SetExplosion(Vector3 origin, float intensity, int playerID)
+    {
+        
+
+        originPos = origin;
+        //maxRadius = intensity * intensityModifier;
+        maxRadius = playersRadius[playerID];
+
+
+        switch (BallManager.instance.GetBallColorID())
+        {
+            case 0:
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", originPos, Quaternion.identity);
+
+                break;
+
+            case 1:
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", originPos, Quaternion.identity);
+
+                break;
+        }
+
+
+        impactGo.transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
+
+        ps.Clear();
+
+        if (impactGo.transform.childCount > 0)
+        {
+            for (int i = 0; i < impactGo.transform.childCount; i++)
+            {
+                ps.Add(impactGo.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>());
+            }
+
+            for (int i = 0; i < ps.Count; i++)
+            {
+                ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
+
+                ps[i].Play();                                                                           
+            }
+        }
+
+        isExplosion = true;
+        AudioManager.instance.PlaySound("SFX_Ball_Impact", Vector3.zero);
+    }
+
+    
+
     void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)
     {
         for (int j = 0; j < numberOfDivision; j++)
@@ -200,15 +202,16 @@ public class FXManager : MonoBehaviour
             //    transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
 
             RaycastHit hit;
+            BrickInfo brickInfo;
 
             if (Physics.Raycast(originPosition, transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized,
                 out hit, impactPercent, layerMask))
             {
-                if (hit.collider.TryGetComponent<IBrick>(out IBrick brick))
+                if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brick.GetBrickInfo().ColorID != 0)
+                    if (brickInfo.colorID != 0)
                     {
-                        if (brick.GetBrickInfo().ColorID == BallManager.instance.GetBallColorID() + 1)
+                        if (brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
                         {
                             hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                         }

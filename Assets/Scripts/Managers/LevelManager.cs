@@ -16,6 +16,9 @@ public class LevelManager : MonoBehaviour
     public int debugThisLevel;
     public int numberOfPlayers;
 
+    [Header("Shaking")]
+    public Shake layerShake;
+
     public float layerDiffPosition = 0.6f;
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
@@ -51,10 +54,9 @@ public class LevelManager : MonoBehaviour
     [Range(0.01f, 1f)] public float smoothTime;
     [Range(2f, 10f)] public float sMaxSpeed;
 
+    public PresetScriptable[] colorPresets { get => BrickManager.Instance.colorPresets; set => BrickManager.Instance.colorPresets = value; }            // Desole...
 
     public static LevelManager instance;
-
-
 
     private void Awake()
     {
@@ -361,6 +363,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void ShakeLayer(int wallID)
+    {
+        LevelManager.instance.playersShakers[wallID].layersShaker[currentLayer[wallID]].PlayShake(layerShake);
+        roomShaker?.PlayShake();
+    }
 
     /// <summary>
     /// Attribute data to corresponding managers

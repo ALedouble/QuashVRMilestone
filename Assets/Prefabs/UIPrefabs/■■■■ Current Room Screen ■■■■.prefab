@@ -1110,8 +1110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105d3af4e453d0b4187644c4a8c26866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomNameCreated: {fileID: 0}
-  roomNameDisplay: {fileID: 4507639601303316800}
 --- !u!1 &4507639601338666827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,6 +2350,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5003041118443918264, guid: 88569ebc61c920640ac741802b3b7ee5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2568815870245207920, guid: 88569ebc61c920640ac741802b3b7ee5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6527706025005057870, guid: 88569ebc61c920640ac741802b3b7ee5,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -2421,16 +2429,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5003041118443918264, guid: 88569ebc61c920640ac741802b3b7ee5,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568815870245207920, guid: 88569ebc61c920640ac741802b3b7ee5,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88569ebc61c920640ac741802b3b7ee5, type: 3}

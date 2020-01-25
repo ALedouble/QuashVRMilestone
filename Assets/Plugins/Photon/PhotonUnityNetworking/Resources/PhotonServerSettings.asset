@@ -75,5 +75,8 @@ MonoBehaviour:
   - SetExplosionRPC
   - HitBrick
   - HitBrickRPC
+  - SetScoreAndComboRPC
+  - DestroyBrickByID
+  - DestroyBrickByIDRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1

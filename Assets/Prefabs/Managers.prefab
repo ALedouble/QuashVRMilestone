@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredLevels:
-  - {fileID: 11400000, guid: 7757b9feaf1d70742b0e4d4cf7149495, type: 2}
+  - {fileID: 11400000, guid: 8fe125d84b0091f4daafd318845b9974, type: 2}
   currentLevel: {fileID: 0}
   currentLevelConfig:
     levelWallBuilds:
@@ -607,6 +607,7 @@ MonoBehaviour:
   levelsPath: Assets/ScriptableObjects/Levels
   debugThisLevel: 0
   numberOfPlayers: 2
+  layerShake: {fileID: 11400000, guid: 8a9dd23c5930d2643aefe6bb4e462518, type: 2}
   layerDiffPosition: 0.6
   numberOfLayerToDisplay: 3
   levelTrans:
@@ -812,7 +813,9 @@ MonoBehaviour:
     type: 3}
   racketPrefab: {fileID: 48287640105163683, guid: 48189c4779bbd744298fc3681bfe5196,
     type: 3}
-  playerSpawn: []
+  playerSpawn:
+  - {fileID: 0}
+  - {fileID: 0}
   timerSpeedModifier: 1
   timerData: {fileID: 0}
   currentTimer: 0
@@ -820,6 +823,7 @@ MonoBehaviour:
   isTimerStopped: 0
   hasLost: 0
   offlineMode: 0
+  levelIndex: 0
 --- !u!1 &3387151942383946479
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,7 +876,6 @@ MonoBehaviour:
   racketOffset: {x: 0, y: 0.02, z: 0.505}
   racketRotationOffset: {x: 0, y: 180, z: 90}
   isEmpowered: 0
-  racketMats: []
   sound: {fileID: 3061726032867124475}
 --- !u!82 &3061726032867124475
 AudioSource:

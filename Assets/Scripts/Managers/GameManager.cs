@@ -70,10 +70,10 @@ public class GameManager : MonoBehaviour
             if (PhotonNetwork.IsMasterClient)
             {
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].position, Quaternion.identity, 0) as GameObject);
-                SelectionLevel(MultiLevel.Instance.levelIndex);
+               
                 if(gameMod == GameMod.GAMEPLAY)
                 {
-                    
+                   
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
             }
@@ -83,11 +83,17 @@ public class GameManager : MonoBehaviour
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].position, Quaternion.identity, 0) as GameObject);
                 if (gameMod == GameMod.GAMEPLAY)
                 {
-
+                     
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
                    
             }
+
+            if(gameMod == GameMod.GAMEPLAY){
+                Debug.Log(MultiLevel.Instance.levelIndex);
+                SelectionLevel(MultiLevel.Instance.levelIndex);
+            }
+                
         }
         else
         {
@@ -100,6 +106,7 @@ public class GameManager : MonoBehaviour
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
+       
 
         
     }
@@ -109,10 +116,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    [PunRPC]
-    public void SyncLevelRPC(){
-        
-    }
 
    
 

@@ -17,6 +17,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         GetCurrentRoomPlayers();
     }
     #endregion
+
      [SerializeField]
     private Transform content;
     [SerializeField]
@@ -29,6 +30,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public int numLevel;
 
     PhotonView photonView;
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.A)){
+            MultiLevel.Instance.levelIndex = 1;
+            PhotonNetwork.LoadLevel(1);
+        }
+    }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
         _roomsCanvases = canvases;

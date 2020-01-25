@@ -212,7 +212,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void ApplyGravity()
     {
-            rigidbody.AddForce(currentGravity * Vector3.down);
+        rigidbody.AddForce(currentGravity * Vector3.down);
     }
 
     private void FreezeBall()

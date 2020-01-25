@@ -17,8 +17,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [Header("Color Settings")]
     public PresetScriptable[] colorPresets;
     private Material[] materials;
-    private Material[] sideWallMats;                                                //Euh pourquoi c'est la?
-    private Material[] midWallMats;
+    private Material[] sideWallMats;                                                //Euh... Ca devrait pas etre la...
+    private Material[] midWallMats;                                                 //Euh... Ca devrait pas etre la...
 
     [Header("Trail Settings")]
     public GameObject[] trails;
@@ -45,11 +45,11 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         sideWallMats = new Material[2];
         midWallMats = new Material[2];
 
-        if (GameManager.Instance.offlineMode)
+        if (GameManager.Instance.offlineMode)                                                           // Besoin de mise en reseau?
         {
             SetupColors();
         }
-        else /*if(PhotonNetwork.IsMasterClient)*/
+        else //if(PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("SetupColors", RpcTarget.AllBuffered);
         }
@@ -145,8 +145,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         colorID = (colorID + 1) % materials.Length;
         myRenderer.sharedMaterial = materials[colorID];
 
-        trails[colorID].SetActive(true);
-        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);       // Prevent negative value of modulo
+        UpdateTrail();
 
         for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
         {
@@ -160,6 +159,17 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         //if (RacketManager.instance.isEmpowered)
         //    RacketManager.instance.SwitchRacketColor();
+    }
+
+    public void UpdateTrail()
+    {
+        trails[colorID].SetActive(true);
+        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);
+    }
+
+    public void DeactivateTrail()
+    {
+        trails[colorID].SetActive(true);
     }
 
     [PunRPC]

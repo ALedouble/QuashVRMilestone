@@ -75,8 +75,8 @@ public class QPlayerManager : MonoBehaviourPun
 
     private void SetupControllers()
     {
-        localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().Get();
-        localPlayerRightController = localPlayer.GetComponentInChildren<RightControllerGetter>().Get();
+        localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().gameObject;
+        localPlayerRightController = localPlayer.GetComponentInChildren<RightControllerGetter>().gameObject;
 
         //Find PlayerSettings
         playerMainHand = PlayerHand.RIGHT;

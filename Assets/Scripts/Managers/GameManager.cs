@@ -53,30 +53,18 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        
-        if (offlineMode)
-        {
-            PhotonNetwork.OfflineMode = true;
-        }
-        else
-        {
-            PhotonNetwork.OfflineMode = false;
+        SetupOfflineMod();
 
-            if(gameMod == GameMod.GAMEPLAY){
-                photonView.RPC("SyncLevelRPC", RpcTarget.All);
-            }
-        }
-        
-        if(!PhotonNetwork.OfflineMode)
+        if (!PhotonNetwork.OfflineMode)
         {
             
             if (PhotonNetwork.IsMasterClient)
             {
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[0].position, Quaternion.identity, 0) as GameObject);
-                
+               
                 if(gameMod == GameMod.GAMEPLAY)
                 {
-                    
+                   
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
             }
@@ -86,12 +74,17 @@ public class GameManager : MonoBehaviour
                 QPlayerManager.instance.SetLocalPlayer(PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn[1].position, Quaternion.identity, 0) as GameObject);
                 if (gameMod == GameMod.GAMEPLAY)
                 {
-                    
-                    
+                     
                     RacketManager.instance.SetLocalRacket(PhotonNetwork.Instantiate("RacketPlayer", Vector3.zero, Quaternion.identity) as GameObject);
                 }
                    
             }
+
+            if(gameMod == GameMod.GAMEPLAY){
+                Debug.Log(MultiLevel.Instance.levelIndex);
+                SelectionLevel(MultiLevel.Instance.levelIndex);
+            }
+                
         }
         else
         {
@@ -104,8 +97,18 @@ public class GameManager : MonoBehaviour
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 60;
+    }
 
-        
+    private void SetupOfflineMod()
+    {
+        if (offlineMode)
+        {
+            PhotonNetwork.OfflineMode = true;
+        }
+        else
+        {
+            PhotonNetwork.OfflineMode = false;
+        }
     }
 
     public void RestartScene()
@@ -113,10 +116,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    [PunRPC]
-    public void SyncLevelRPC(){
-        SelectionLevel(MultiLevel.Instance.levelIndex);
-    }
 
    
 

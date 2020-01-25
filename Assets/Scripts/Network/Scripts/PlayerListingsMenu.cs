@@ -29,7 +29,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A)){
+            MultiLevel.Instance.levelIndex = 1;
+            PhotonNetwork.LoadLevel(1);
+        }
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -87,17 +90,17 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public void SetLevel(Button button){
         if (button.name == "Level 01"){
             numLevel = 0;
-            PlayerPrefs.SetInt("level", numLevel);
+            MultiLevel.Instance.levelIndex = numLevel;
         } else if (button.name == "Level 02"){
             numLevel = 1;
-            PlayerPrefs.SetInt("level", numLevel);
+            MultiLevel.Instance.levelIndex = numLevel;
             Debug.Log(numLevel);
         } else if (button.name == "Level 03"){
             numLevel = 2;
-            PlayerPrefs.SetInt("level", numLevel);
+            MultiLevel.Instance.levelIndex = numLevel;
         } else if (button.name == "Level 04"){
             numLevel = 3;
-            PlayerPrefs.SetInt("level", numLevel);
+            MultiLevel.Instance.levelIndex = numLevel;
         }
     }
 }

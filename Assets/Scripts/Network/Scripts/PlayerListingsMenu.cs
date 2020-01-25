@@ -29,10 +29,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)){
-            MultiLevel.Instance.levelIndex = 1;
-            PhotonNetwork.LoadLevel(1);
-        }
+        
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){

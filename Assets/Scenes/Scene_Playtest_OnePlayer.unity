@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1118,6 +1118,11 @@ PrefabInstance:
       propertyPath: offlineMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1846513081278596601, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: ballSpawnDelay
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1311103135868463605, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: viewIdField
@@ -1128,6 +1133,21 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 767c53f8724e1ae4191f13ae5bf369d9, type: 2}
+    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: a26b374e45777c34b8742157ebc64eaa, type: 2}
+    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6e7716352b04968419f36e7980a5327a, type: 2}
     - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: registeredLevels.Array.size
@@ -1216,21 +1236,6 @@ PrefabInstance:
       propertyPath: debugThisLevel
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
-        type: 3}
-      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[3]
-      value: 
-      objectReference: {fileID: 2100000, guid: 767c53f8724e1ae4191f13ae5bf369d9, type: 2}
-    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
-        type: 3}
-      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[4]
-      value: 
-      objectReference: {fileID: 2100000, guid: a26b374e45777c34b8742157ebc64eaa, type: 2}
-    - target: {fileID: 1846513081945232791, guid: cafc84c8b9784354dbebb17817711e61,
-        type: 3}
-      propertyPath: racketMats.Array.data[1].racketMaterial.Array.data[5]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6e7716352b04968419f36e7980a5327a, type: 2}
     - target: {fileID: 4607270332783340453, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: registeredLevels.Array.size
@@ -1240,6 +1245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: viewIdField
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636696967727470970, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: viewIdField
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cafc84c8b9784354dbebb17817711e61, type: 3}

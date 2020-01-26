@@ -45,6 +45,8 @@ public class BallManager : MonoBehaviour
     {
         isInPlay = false;
         isSpawned = false;
+
+        //SetupBall();
     }
 
     public void InitializeBall()
@@ -61,14 +63,14 @@ public class BallManager : MonoBehaviour
             }
         }
 
-        if (GameManager.Instance.offlineMode)
-        {
-            SetupBall();
-        }
-        else if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("SetupOnlineBall", RpcTarget.All);
-        }
+        //if (GameManager.Instance.offlineMode)
+        //{
+        //    SetupBall();
+        //}
+        //else if (PhotonNetwork.IsMasterClient)
+        //{
+        //    photonView.RPC("SetupOnlineBall", RpcTarget.All);
+        //}
     }
 
     [PunRPC]
@@ -78,14 +80,18 @@ public class BallManager : MonoBehaviour
         SetupBall();
     }
 
-    private void SetupBall()
+    public void SetupBall()
     {
+        if(!ball)
+        {
+            ball = GameObject.FindGameObjectWithTag("Ball");
+        }
+
         SetupBallManager();
         ball.SetActive(false);
         Sh_GlobalDissolvePosition.Setup();
 
         BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;
-        BallManager.instance.SpawnTheBall();
     }
 
     private void SetupBallManager()
@@ -129,7 +135,7 @@ public class BallManager : MonoBehaviour
     {
         if (GameManager.Instance.offlineMode)
             SpawnBallLocaly();
-        else if (PhotonNetwork.IsMasterClient)
+        else /*if (PhotonNetwork.IsMasterClient)*/
             photonView.RPC("SpawnBallLocaly", RpcTarget.All);
     }
 

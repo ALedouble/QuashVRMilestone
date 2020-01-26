@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
 
     public Transform[] playerSpawn;
 
+    [Header("BallSpawnSettings")]
+    public float ballSpawnDelay;
+
     [Header("Timer Settings")]
     public float timerSpeedModifier = 1f;
     [HideInInspector] public GUITimerData timerData;
@@ -133,10 +136,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void InstanciateBall()
+    public void InstanciateBall()                   //Rename
     {
-        if(gameMod == GameMod.GAMEPLAY && PhotonNetwork.IsMasterClient)
+        if(gameMod == GameMod.GAMEPLAY /*&& PhotonNetwork.IsMasterClient*/)
+        {
             StartCoroutine(InstantiateBallWithDelay());
+            if(offlineMode || PhotonNetwork.IsMasterClient)
+                SpawnTheBallForTheFirstTime();
+        }
     }
    
     private IEnumerator InstantiateBallWithDelay()
@@ -144,6 +151,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForFixedUpdate();
 
         BallManager.instance.InitializeBall();
+    }
+
+    private void SpawnTheBallForTheFirstTime()
+    {
+        StartCoroutine(DelayFirstSpawn());
+    }
+
+    private IEnumerator DelayFirstSpawn()
+    {
+        yield return new WaitForSeconds(ballSpawnDelay);
+        BallManager.instance.SpawnTheBall();
     }
 
     public void RestartScene()

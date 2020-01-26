@@ -122,7 +122,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     void Start()
     {
-        if(!BallManager.instance.isBallInstatiated)
+        BallManager.instance.SetupBall();
+
+        if (!BallManager.instance.isBallInstatiated)
         {
             ResetBall();
             ApplyBaseGravity();

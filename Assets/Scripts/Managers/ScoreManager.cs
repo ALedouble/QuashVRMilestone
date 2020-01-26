@@ -139,8 +139,10 @@ public class ScoreManager : MonoBehaviour
 
     public void BuildScoreText(int scoreValue, int colorID, Vector3 position, Quaternion rotation)
     {
-        GameObject scoreText = PoolManager.instance.SpawnFromPool("ScoreText", position, rotation);
-        float newScore = scoreValue * combo[(int)BallManager.instance.GetLastPlayerWhoHitTheBall()];
-        scoreText.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, LevelManager.instance.colorPresets[0].colorPresets[colorID].coreEmissiveColors);
+        //GameObject scoreText = PoolManager.instance.SpawnFromPool("ScoreText", position, rotation);
+        //float newScore = scoreValue * combo[(int)BallManager.instance.GetLastPlayerWhoHitTheBall()];
+        //scoreText.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, LevelManager.instance.colorPresets[0].colorPresets[colorID].coreEmissiveColors);
+
+        PoolManager.instance.SpawnFromPool("ScoreText", position, rotation).GetComponent<HitScoreBehaviour>().SetHitValues(scoreValue * combo[(int)BallManager.instance.GetLastPlayerWhoHitTheBall()], LevelManager.instance.colorPresets[0].colorPresets[colorID].coreEmissiveColors);
     }
 }

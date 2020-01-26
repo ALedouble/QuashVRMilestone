@@ -168,10 +168,8 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     [PunRPC]
     public void HitBrick(int p_dmgPoints = 1)
     {
-        Debug.Log("Destruction brick");
         if (!hasBeenHit)
         {
-            //Debug.Log("damage of " + p_dmgPoints);
             hasBeenHit = true;
 
             brickInfo.armorValue--;
@@ -182,23 +180,22 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
                 hasBeenHit = false;
                 AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
                 DestroyBrick();
-                //BrickManager.Instance.DestroyBrickByID(brickID);
             }
-            else
-            {
-                StartCoroutine(HitRecoverDelay(1));
-            }
+            //else
+            //{
+            //    StartCoroutine(HitRecoverDelay(1));
+            //}
 
         }
         //other case scenario
     }
 
-    IEnumerator HitRecoverDelay(float recoverTime)
-    {
-        yield return new WaitForSeconds(recoverTime);
+    //IEnumerator HitRecoverDelay(float recoverTime)
+    //{
+    //    yield return new WaitForSeconds(recoverTime);
 
-        hasBeenHit = false;
-    }
+    //    hasBeenHit = false;
+    //}
 
     /// <summary>
     /// Détruit la brique, augmente le score, renvoie les feedbacks et spawn les bonus/malus

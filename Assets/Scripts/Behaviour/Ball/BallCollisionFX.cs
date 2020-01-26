@@ -8,31 +8,13 @@ public class BallCollisionFX : MonoBehaviour
 {
     private Vector3 impactPosition;
 
-    private float currentCooldown = 0f;
     public float cooldownBetweenTwoImpactFX;
-    private bool canSpawn = false;
+    private float lastExplosionTime = -10f;         //Safety Value
     PhotonView photonView;
 
     private void Awake()
     {
         photonView = GetComponent<PhotonView>();    
-    }
-
-    private void Update()
-    {
-        if (currentCooldown < cooldownBetweenTwoImpactFX)
-        {
-            currentCooldown += Time.deltaTime;
-        }
-        else
-        {
-            canSpawn = true;
-        }
-    }
-    
-    [PunRPC]
-    void SetExplosionRPC(Vector3 position, float magnitude, int lastPlayer) {
-        FXManager.Instance.SetExplosion(position, magnitude, lastPlayer);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -41,19 +23,15 @@ public class BallCollisionFX : MonoBehaviour
 
         if (collision.gameObject.tag == "Wall")
         {
-           //Vector3 forward = Vector3.Cross(collision.contacts[0].normal, collision.transform.up);
-            PoolManager.instance.SpawnFromPool("BounceFX", impactPosition,
-                Quaternion.LookRotation(collision.contacts[0].normal, Vector3.up));
+            FXManager.Instance.PlayWallBounceFX(impactPosition, collision.contacts[0].normal);
         }
-
-        if(collision.gameObject.tag == "FrontWall")
+        else if(collision.gameObject.tag == "FrontWall")
         {
-            CallExplosion(collision);
+            ExecuteFrontWallBrickInterraction(collision);
         }
-
-        if (collision.gameObject.tag == "Brick"  )
+        else if (collision.gameObject.tag == "Brick"  )
         {
-            CallExplosion(collision);
+            ExecuteFrontWallBrickInterraction(collision);
             BrickInfo brickInfo = collision.gameObject.GetComponent<BrickInfo>();
 
             if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
@@ -65,41 +43,27 @@ public class BallCollisionFX : MonoBehaviour
         
     }
 
-    private void CallExplosion(Collision collision)
+    private void ExecuteFrontWallBrickInterraction(Collision collision)
     {
-        ScoreManager.Instance.resetCombo = true;
+        ScoreManager.Instance.CheckForComboBreak();
 
-        StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall())); //BallID
-
-        currentCooldown = 0;
-
-        Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
-
-        if (canSpawn)
+        if (Time.time > lastExplosionTime + cooldownBetweenTwoImpactFX)
         {
-            //BallID
-            if (PhotonNetwork.OfflineMode)
-            {
-                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-            }
-            else if (PhotonNetwork.IsMasterClient)
-            {
-                //photonView.RPC("SetExplosionRPC", RpcTarget.All, pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                FXManager.Instance.SetExplosion(pos, collision.relativeVelocity.magnitude, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-            }
-
-            canSpawn = false;
+            CallForExplosion(collision);
         }
     }
 
-
-    public IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)
+    private void CallForExplosion(Collision collision)
     {
-        yield return new WaitForSeconds(timeBeforeCheck);
-
-        if (ScoreManager.Instance.resetCombo)
+        Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
+        
+        if (PhotonNetwork.OfflineMode)                                                                                                              // Faire remonter pour englobé le score?
         {
-            ScoreManager.Instance.ResetCombo(playerID);
+            FXManager.Instance.SetExplosion(pos, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            FXManager.Instance.SetExplosion(pos, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
         }
     }
 }

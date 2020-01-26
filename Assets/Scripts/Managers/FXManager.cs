@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class FXManager : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class FXManager : MonoBehaviour
 
 
     public static FXManager Instance;
-
+    private PhotonView photonView;
 
 
     private void Awake()
@@ -139,6 +140,11 @@ public class FXManager : MonoBehaviour
         #endregion
     }
 
+    public void PlayWallBounceFX(Vector3 impactPosition, Vector3 normal)
+    {
+        //Vector3 forward = Vector3.Cross(collision.contacts[0].normal, collision.transform.up);
+        PoolManager.instance.SpawnFromPool("BounceFX", impactPosition, Quaternion.LookRotation(normal, Vector3.up));
+    }
 
     public float SetFXscale(float impulse)
     {
@@ -146,10 +152,23 @@ public class FXManager : MonoBehaviour
         return scale;
     }
 
-    public void SetExplosion(Vector3 origin, float intensity, int playerID)
+    public void SetExplosion(Vector3 origin, int playerID)
     {
-        
+        if(PhotonNetwork.OfflineMode)
+        {
+            PlayExplosionFX(origin, playerID);
+        }
+        else if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("PlayExplosionFX", RpcTarget.All, origin, playerID);
+        }
 
+        isExplosion = true;
+    }
+
+    [PunRPC]
+    private void PlayExplosionFX(Vector3 origin, int playerID)
+    {
         originPos = origin;
         //maxRadius = intensity * intensityModifier;
         maxRadius = playersRadius[playerID];
@@ -184,15 +203,12 @@ public class FXManager : MonoBehaviour
             {
                 ps[i].transform.localScale = new Vector3(maxRadius, maxRadius, maxRadius);
 
-                ps[i].Play();                                                                           
+                ps[i].Play();
             }
         }
 
-        isExplosion = true;
         AudioManager.instance.PlaySound("SFX_Ball_Impact", Vector3.zero);
     }
-
-    
 
     void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)
     {

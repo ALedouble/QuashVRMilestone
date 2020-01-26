@@ -58,23 +58,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
-
         if (offlineMode)
         {
             SelectionLevel(CampaignLevel.Instance.levelSelected);
         }
-
-            
 
         InstantiatePlayers();
 
         SpawnLevel();
 
         InstanciateBall();
-
-        
-
     }
 
     private void SetupOfflineMod()
@@ -178,7 +171,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(levelIndex);
     }
 
-    [PunRPC]
+    
     public void StartTheGame()
     {
         if(offlineMode)
@@ -191,6 +184,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     private void StartTheGameRPC()
     {
         isGameStart = true;

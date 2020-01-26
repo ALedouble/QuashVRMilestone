@@ -60,8 +60,13 @@ public class GUIHUD : MonoBehaviour
         if (!GameManager.Instance.hasLost)
         {
             // ------------------------- VICTORY ------------------------- //
+            if(scoreScreenFailed.Length > 1)
+            {
+                scoreScreenFailed[1].SetActive(true);
+            }
+
             scoreScreenCompleted[0].SetActive(true);
-            scoreScreenFailed[1].SetActive(true);
+
 
             // ------- PLAY SOUND ------- //
             AudioManager.instance.PlaySound("Victory", Vector3.zero);
@@ -70,8 +75,12 @@ public class GUIHUD : MonoBehaviour
         else
         {
             // ------------------------- DEFEAT ------------------------- //
+            if (scoreScreenCompleted.Length > 1)
+            {
+                scoreScreenCompleted[1].SetActive(true);
+            }
+
             scoreScreenFailed[0].SetActive(true);
-            scoreScreenCompleted[1].SetActive(true);
         }
 
 

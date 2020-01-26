@@ -292,6 +292,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SelectionLevel(int selection){
-        LevelManager.instance.ConfigDistribution(selection);
+        //LevelManager.instance.ConfigDistribution(selection);
+        LevelManager.instance.StartLevelInitialization(selection);
     }
 }

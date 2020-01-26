@@ -111,8 +111,8 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 objMesh.sharedMaterials = mats;
 
 
-                Debug.Log("playerID : " + playerID);
-                Debug.Log("playersParents LENGTH : " + LevelManager.instance.playersParents.Length);
+                //Debug.Log("playerID : " + playerID);
+                //Debug.Log("playersParents LENGTH : " + LevelManager.instance.playersParents.Length);
 
                 Debug.Log("currentDisplacement : " + currentDisplacement);
                 Debug.Log("currentLayer[playerID] : " + LevelManager.instance.currentLayer[playerID]);

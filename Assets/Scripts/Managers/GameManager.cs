@@ -39,7 +39,10 @@ public class GameManager : MonoBehaviour
 
     private int seconds;
     private int mSeconds;
+
+    private bool isReady = false;
     private bool isGameStart = false;
+    public bool IsReady { get => isReady; }
     public bool IsGameStarted { get => isGameStart; }
     PhotonView photonView;
 
@@ -142,7 +145,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(InstantiateBallWithDelay());
             if(offlineMode || PhotonNetwork.IsMasterClient)
-                SpawnTheBallForTheFirstTime();
+                SynchronizeStart();
         }
     }
    
@@ -153,15 +156,24 @@ public class GameManager : MonoBehaviour
         BallManager.instance.InitializeBall();
     }
 
-    private void SpawnTheBallForTheFirstTime()
+    private void SynchronizeStart()
     {
-        StartCoroutine(DelayFirstSpawn());
+        StartCoroutine(DelaySynchStart());
     }
 
-    private IEnumerator DelayFirstSpawn()
+    private IEnumerator DelaySynchStart()
     {
         yield return new WaitForSeconds(ballSpawnDelay);
         BallManager.instance.SpawnTheBall();
+
+        if (offlineMode || PhotonNetwork.IsMasterClient)
+            StartBrickMovement();
+    }
+
+    [PunRPC]
+    private void StartBrickMovement()
+    {
+        isReady = true;
     }
 
     public void RestartScene()

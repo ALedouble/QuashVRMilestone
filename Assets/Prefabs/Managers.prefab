@@ -835,6 +835,7 @@ GameObject:
   - component: {fileID: 3387151942383946481}
   - component: {fileID: 3387151942383946480}
   - component: {fileID: 3061726032867124475}
+  - component: {fileID: 671593344121173186}
   m_Layer: 0
   m_Name: RacketManager
   m_TagString: RacketManager
@@ -876,7 +877,21 @@ MonoBehaviour:
   racketOffset: {x: 0, y: 0.02, z: 0.505}
   racketRotationOffset: {x: 0, y: 180, z: 90}
   isEmpowered: 0
-  sound: {fileID: 3061726032867124475}
+  MaterialPrefab: {fileID: 0}
+  racketMats:
+  - racketMaterial:
+    - {fileID: 2100000, guid: 690903eebdeb7c84eb42a56c755573df, type: 2}
+    - {fileID: 2100000, guid: d8298b16608afda459475cbc38eac948, type: 2}
+    - {fileID: 2100000, guid: 0a94608d5fd9ef045922135380f6c821, type: 2}
+  - racketMaterial:
+    - {fileID: 2100000, guid: 767c53f8724e1ae4191f13ae5bf369d9, type: 2}
+    - {fileID: 2100000, guid: a26b374e45777c34b8742157ebc64eaa, type: 2}
+    - {fileID: 2100000, guid: 6e7716352b04968419f36e7980a5327a, type: 2}
+  - racketMaterial:
+    - {fileID: 2100000, guid: c7962604d192e8f4c9b06f31f2ac7123, type: 2}
+    - {fileID: 2100000, guid: 0d006efa3346e24489061735d6ecfcfe, type: 2}
+    - {fileID: 2100000, guid: 97439b2486fbb7c4897f1e2c9fde090c, type: 2}
+  empoweredSound: {fileID: 0}
 --- !u!82 &3061726032867124475
 AudioSource:
   m_ObjectHideFlags: 0
@@ -973,6 +988,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &671593344121173186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3387151942383946479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3387151942400940763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,6 +1495,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
+        type: 3}
+      propertyPath: vibrations.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
+        type: 3}
+      propertyPath: vibrations.Array.data[2].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 594fcc038ab06f147b918a2a69e91e7b, type: 3}
+    - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
+        type: 3}
+      propertyPath: vibrations.Array.data[2].vibrationName
+      value: Vibration_Racket_Empowered
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1e23665ef36bd24cb7b06349dfe3316, type: 3}

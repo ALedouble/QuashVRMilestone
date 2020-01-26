@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum InputMod
 {
-    MENU,
-    GAMEPLAY
+    MENU = 0,
+    GAMEPLAY = 1
 }
 
 public class PlayerInputManager : MonoBehaviour
@@ -33,15 +33,21 @@ public class PlayerInputManager : MonoBehaviour
     private IInputable gameplayAction = new GameplayInputManager();
     private IInputable menuAction = new MenuInputManager();
 
-    private void Start()
+    public void SetupInputMod()
     {
-        //SetInputMod(inputMod);
+        StartCoroutine(DelayInputSetup());
+        
     }
 
+    private IEnumerator DelayInputSetup()
+    {
+        yield return new WaitForEndOfFrame();                           // ...
+        SetInputMod(inputMod);
+    }
     public void SetInputMod(InputMod inputMod)
     {
         this.inputMod = inputMod;
-
+        Debug.Log("InputMod : " + inputMod);
         if (inputMod == InputMod.GAMEPLAY)
         {
             gameplayAction.EnterInputMod();
@@ -107,6 +113,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnPauseButtonPress()
     {
+        SetInputMod((InputMod)(((int)inputMod + 1) % 2));
         GUIMenuPause.guiMenuPause.GamePaused();
     }
 }

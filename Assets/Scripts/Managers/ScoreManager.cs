@@ -118,6 +118,25 @@ public class ScoreManager : MonoBehaviour
         OnComboReset(); //Combo reset delegate
     }
 
+    public void CheckForComboBreak()
+    {
+        if(PhotonNetwork.OfflineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
+        {
+            resetCombo = true;
+            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()));          //BallID
+        }
+    }
+    
+    private IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)
+    {
+        yield return new WaitForSeconds(timeBeforeCheck);
+
+        if (resetCombo)
+        {
+            ResetCombo(playerID);
+        }
+    }
+
     public void BuildScoreText(int scoreValue, int colorID, Vector3 position, Quaternion rotation)
     {
         GameObject scoreText = PoolManager.instance.SpawnFromPool("ScoreText", position, rotation);

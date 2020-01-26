@@ -92,8 +92,6 @@ public class LevelManager : MonoBehaviour
 
             BrickManager.Instance.SetCurrentBrickOnLayer(i);
         }
-
-        GameManager.Instance.StartTheGame();
     }
 
     private void Update()

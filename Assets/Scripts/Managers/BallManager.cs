@@ -47,22 +47,27 @@ public class BallManager : MonoBehaviour
         isSpawned = false;
     }
 
-    public void SetupBall()
+    public void InitializeBall()
     {
         if (isBallInstatiated)
         {
             if (PhotonNetwork.OfflineMode)
             {
                 ball = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-                SetupBallManager();
-                ball.SetActive(false);
-                Sh_GlobalDissolvePosition.Setup();
             }
             else if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Instantiate(ballPrefab.name, Vector3.zero, Quaternion.identity);
-                photonView.RPC("SetupOnlineBall", RpcTarget.All);
             }
+        }
+
+        if (PhotonNetwork.OfflineMode)
+        {
+            SetupBall();
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("SetupOnlineBall", RpcTarget.All);
         }
     }
 
@@ -70,6 +75,11 @@ public class BallManager : MonoBehaviour
     private void SetupOnlineBall()
     {
         ball = GameObject.FindGameObjectWithTag("Ball");
+        SetupBall();
+    }
+
+    private void SetupBall()
+    {
         SetupBallManager();
         ball.SetActive(false);
         Sh_GlobalDissolvePosition.Setup();

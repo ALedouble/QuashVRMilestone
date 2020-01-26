@@ -167,8 +167,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(ballSpawnDelay);
         BallManager.instance.SpawnTheBall();
 
-        if (offlineMode || PhotonNetwork.IsMasterClient)
+        if (offlineMode)
             StartBrickMovement();
+        else if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("StartBrickMovement", RpcTarget.All);
+        }
     }
 
     [PunRPC]

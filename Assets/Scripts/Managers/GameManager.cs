@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         SetupOfflineMod();
+        photonView = GetComponent<PhotonView>();
     }
 
     void Start()

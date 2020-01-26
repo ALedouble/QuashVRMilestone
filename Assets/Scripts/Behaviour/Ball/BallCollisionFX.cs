@@ -45,10 +45,10 @@ public class BallCollisionFX : MonoBehaviour
 
     private void ExecuteFrontWallBrickInterraction(Collision collision)
     {
-        ScoreManager.Instance.CheckForComboBreak();
-
         if (Time.time > lastExplosionTime + cooldownBetweenTwoImpactFX)
         {
+            ScoreManager.Instance.CheckForComboBreak();
+
             CallForExplosion(collision);
         }
     }

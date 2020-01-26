@@ -35,13 +35,19 @@ public class PlayerInputManager : MonoBehaviour
 
     public void SetupInputMod()
     {
-        SetInputMod(inputMod);
+        StartCoroutine(DelayInputSetup());
+        
     }
 
+    private IEnumerator DelayInputSetup()
+    {
+        yield return new WaitForEndOfFrame();                           // ...
+        SetInputMod(inputMod);
+    }
     public void SetInputMod(InputMod inputMod)
     {
         this.inputMod = inputMod;
-
+        Debug.Log("InputMod : " + inputMod);
         if (inputMod == InputMod.GAMEPLAY)
         {
             gameplayAction.EnterInputMod();

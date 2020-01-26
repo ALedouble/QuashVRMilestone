@@ -78,7 +78,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void Update()
     {
-        if (isMoving)
+        if (isMoving && GameManager.Instance.IsGameStarted)
         {
             Moving();
         }

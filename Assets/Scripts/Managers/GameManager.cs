@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     public void InstanciateBall()
     {
-        if(gameMod == GameMod.GAMEPLAY)
+        if(gameMod == GameMod.GAMEPLAY && PhotonNetwork.IsMasterClient)
             StartCoroutine(InstantiateBallWithDelay());
     }
    
@@ -144,8 +144,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForFixedUpdate();
 
         BallManager.instance.InitializeBall();
-        BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
-        BallManager.instance.SpawnTheBall();
     }
 
     public void RestartScene()

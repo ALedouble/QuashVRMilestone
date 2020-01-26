@@ -83,6 +83,9 @@ public class BallManager : MonoBehaviour
         SetupBallManager();
         ball.SetActive(false);
         Sh_GlobalDissolvePosition.Setup();
+
+        BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;
+        BallManager.instance.SpawnTheBall();
     }
 
     private void SetupBallManager()

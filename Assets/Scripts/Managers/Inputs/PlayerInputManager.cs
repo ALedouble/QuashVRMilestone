@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRTK;
 
 public enum InputMod
 {
@@ -28,6 +29,7 @@ public class PlayerInputManager : MonoBehaviour
     }
     #endregion
 
+    public float inputSetupDelay = 1f;
     public InputMod inputMod = InputMod.GAMEPLAY;       //A cacher dans l'inspector
 
     private IInputable gameplayAction = new GameplayInputManager();
@@ -35,13 +37,14 @@ public class PlayerInputManager : MonoBehaviour
 
     public void SetupInputMod()
     {
+        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = false;
+        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = false;
         StartCoroutine(DelayInputSetup());
-        
     }
 
     private IEnumerator DelayInputSetup()
     {
-        yield return new WaitForEndOfFrame();                           // ...
+        yield return new WaitForSeconds(inputSetupDelay);                           // ...
         SetInputMod(inputMod);
     }
     public void SetInputMod(InputMod inputMod)

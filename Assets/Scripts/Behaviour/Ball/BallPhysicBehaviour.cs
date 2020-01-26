@@ -194,7 +194,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
 
-        Debug.LogError("Velocity applied : " + rigidbody.velocity);
         SetSpeedState((SpeedState)newSpeedState, true);
     }
 
@@ -307,8 +306,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
-
-        Debug.LogError("New Velocity : " + newVelocity);
 
         if (GameManager.Instance.offlineMode)
         {

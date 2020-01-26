@@ -39,6 +39,7 @@ public class FXManager : MonoBehaviour
     {
         Instance = this;
         ps = new List<ParticleSystem>();
+        photonView = GetComponent<PhotonView>();
     }
 
     private void FixedUpdate()

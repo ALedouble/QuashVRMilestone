@@ -120,7 +120,7 @@ public class ScoreManager : MonoBehaviour
 
     public void CheckForComboBreak()
     {
-        if(PhotonNetwork.OfflineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
+        if(GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
         {
             resetCombo = true;
             StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()));          //BallID

@@ -154,7 +154,7 @@ public class FXManager : MonoBehaviour
 
     public void SetExplosion(Vector3 origin, int playerID)
     {
-        if(PhotonNetwork.OfflineMode)
+        if(GameManager.Instance.offlineMode)
         {
             PlayExplosionFX(origin, playerID);
         }

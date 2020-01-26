@@ -300,6 +300,7 @@ public class LevelManager : MonoBehaviour
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
+                Debug.Log("numberOfLayerToDisplay - 1 : " + (numberOfLayerToDisplay - 1));
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
 

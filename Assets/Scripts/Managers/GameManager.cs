@@ -16,10 +16,7 @@ public class GameManager : MonoBehaviour
     #region Singleton
     public static GameManager Instance;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+   
     #endregion
 
     [Header("Mode Settings")]
@@ -51,10 +48,23 @@ public class GameManager : MonoBehaviour
     
     [HideInInspector]
     public int levelIndex;
-    
+
+    void Awake()
+    {
+        Instance = this;
+        SetupOfflineMod();
+    }
+
     void Start()
     {
-        SetupOfflineMod();
+        
+
+        if (offlineMode)
+        {
+            SelectionLevel(CampaignLevel.Instance.levelSelected);
+        }
+
+            
 
         InstantiatePlayers();
 
@@ -62,8 +72,7 @@ public class GameManager : MonoBehaviour
 
         InstanciateBall();
 
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 60;
+        
 
     }
 
@@ -71,18 +80,22 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
-            SelectionLevel(CampaignLevel.Instance.levelSelected);
-            PhotonNetwork.OfflineMode = true;
+            PhotonNetwork.Disconnect();
+            //Debug.Log(PhotonNetwork.OfflineMode);
+           // PhotonNetwork.OfflineMode = true;
+            
         }
         else
         {
             PhotonNetwork.OfflineMode = false;
+            PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 60;
         }
     }
 
     private void InstantiatePlayers()
     {
-        if (!PhotonNetwork.OfflineMode)
+        if (!offlineMode)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -116,7 +129,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnLevel()
     {
-        if (!PhotonNetwork.OfflineMode)
+        if (!offlineMode)
         {
             if (gameMod == GameMod.GAMEPLAY)
             {
@@ -128,7 +141,8 @@ public class GameManager : MonoBehaviour
 
     public void InstanciateBall()
     {
-        StartCoroutine(InstantiateBallWithDelay());
+        if(gameMod == GameMod.GAMEPLAY)
+            StartCoroutine(InstantiateBallWithDelay());
     }
    
     private IEnumerator InstantiateBallWithDelay()
@@ -166,7 +180,7 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     public void StartTheGame()
     {
-        if(PhotonNetwork.OfflineMode)
+        if(offlineMode)
         {
             StartTheGameRPC();
         }

@@ -57,7 +57,7 @@ public class BallCollisionFX : MonoBehaviour
     {
         Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
         
-        if (PhotonNetwork.OfflineMode)                                                                                                              // Faire remonter pour englobé le score?
+        if (GameManager.Instance.offlineMode)                                                                                                              // Faire remonter pour englobé le score?
         {
             FXManager.Instance.SetExplosion(pos, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
         }

@@ -164,7 +164,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void SendBallCollisionEvent(Collision other)
     {
-        if (PhotonNetwork.OfflineMode)
+        if (GameManager.Instance.offlineMode)
         {
             OnBallCollisionRPC(other.gameObject.tag);
         }
@@ -194,6 +194,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
 
+        Debug.LogError("Velocity applied : " + rigidbody.velocity);
         SetSpeedState((SpeedState)newSpeedState, true);
     }
 
@@ -307,7 +308,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
-        if (PhotonNetwork.OfflineMode)
+        Debug.LogError("New Velocity : " + newVelocity);
+
+        if (GameManager.Instance.offlineMode)
         {
             ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.NORMAL);
         }
@@ -319,7 +322,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     
     private void SetLastPlayerWhoHitTheBall()
     {
-        if(PhotonNetwork.OfflineMode)
+        if(GameManager.Instance.offlineMode)
         {
             lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
         }
@@ -352,7 +355,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         if (switchTargetIsRacketBased)
         {
-            if (PhotonNetwork.OfflineMode)                                              // Really?
+            if (GameManager.Instance.offlineMode)                                              // Really?
             {
                 SwitchTarget();
             }
@@ -583,7 +586,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void SetMidWallStatus(bool isCollidable)
     {
-        if(PhotonNetwork.OfflineMode)
+        if(GameManager.Instance.offlineMode)
         {
             if (isCollidable)
                 ActivateMidWall();

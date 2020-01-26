@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
+            SelectionLevel(CampaignLevel.Instance.levelSelected);
             PhotonNetwork.OfflineMode = true;
         }
         else

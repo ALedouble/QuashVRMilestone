@@ -53,27 +53,21 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         SetupOfflineMod();
+        photonView = GetComponent<PhotonView>();
     }
 
     void Start()
     {
-        
-
         if (offlineMode)
         {
             SelectionLevel(CampaignLevel.Instance.levelSelected);
         }
-
-            
 
         InstantiatePlayers();
 
         SpawnLevel();
 
         InstanciateBall();
-
-        
-
     }
 
     private void SetupOfflineMod()
@@ -141,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     public void InstanciateBall()
     {
-        if(gameMod == GameMod.GAMEPLAY)
+        if(gameMod == GameMod.GAMEPLAY && PhotonNetwork.IsMasterClient)
             StartCoroutine(InstantiateBallWithDelay());
     }
    
@@ -150,8 +144,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForFixedUpdate();
 
         BallManager.instance.InitializeBall();
-        BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
-        BallManager.instance.SpawnTheBall();
     }
 
     public void RestartScene()
@@ -177,7 +169,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(levelIndex);
     }
 
-    [PunRPC]
+    
     public void StartTheGame()
     {
         if(offlineMode)
@@ -190,6 +182,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     private void StartTheGameRPC()
     {
         isGameStart = true;
@@ -292,6 +285,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SelectionLevel(int selection){
-        LevelManager.instance.ConfigDistribution(selection);
+        //LevelManager.instance.ConfigDistribution(selection);
+        LevelManager.instance.StartLevelInitialization(selection);
     }
 }

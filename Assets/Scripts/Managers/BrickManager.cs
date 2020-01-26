@@ -114,11 +114,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 //Debug.Log("playerID : " + playerID);
                 //Debug.Log("playersParents LENGTH : " + LevelManager.instance.playersParents.Length);
 
-                Debug.Log("currentDisplacement : " + currentDisplacement);
-                Debug.Log("currentLayer[playerID] : " + LevelManager.instance.currentLayer[playerID]);
-
-                Debug.Log("layersParent INDEX : " + (LevelManager.instance.currentLayer[playerID] + currentDisplacement));
-                Debug.Log("layersParent LENGTH : " + LevelManager.instance.playersParents[playerID].layersParent.Length);
 
                 obj.transform.parent = LevelManager.instance.playersParents[playerID].layersParent[(LevelManager.instance.currentLayer[playerID] + currentDisplacement)];
 
@@ -168,6 +163,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     {
         if (brickID < AllBricks.Count && brickID >= 0)
         {
+            Debug.Log("hhhhhhhhhhhhhhhhhhhhhh");
             if(GameManager.Instance.offlineMode)
             {
                 AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();

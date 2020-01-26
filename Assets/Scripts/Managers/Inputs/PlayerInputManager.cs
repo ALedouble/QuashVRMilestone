@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRTK;
 
 public enum InputMod
@@ -116,7 +118,18 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnPauseButtonPress()
     {
-        SetInputMod((InputMod)(((int)inputMod + 1) % 2));
-        GUIMenuPause.guiMenuPause.GamePaused();
+        Debug.LogError("salut Timothée c'est cool");
+
+        if (GameManager.Instance.offlineMode)
+        {
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene(0);
+        } else
+        {
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene(0);
+        }
+      //SetInputMod((InputMod)(((int)inputMod + 1) % 2));
+      //  GUIMenuPause.guiMenuPause.GamePaused();
     }
 }

@@ -204,7 +204,6 @@ namespace VRTK
             Coroutine currentHapticLoopRoutine = VRTK_SharedMethods.GetDictionaryValue(hapticLoopCoroutines, controllerReference);
             if (currentHapticLoopRoutine != null)
             {
-                Debug.Log("Stop coroutines");
                 StopCoroutine(currentHapticLoopRoutine);
                 hapticLoopCoroutines.Remove(controllerReference);
             }

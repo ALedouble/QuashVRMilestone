@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        BrickBehaviours.ResetBrickCount();
         Instance = this;
         SetupOfflineMod();
         photonView = GetComponent<PhotonView>();
@@ -308,11 +309,7 @@ public class GameManager : MonoBehaviour
         PhotonNetwork.LoadLevel(sceneName); //restart the game
     }
 
-    public void ReturnMenu()
-    {   
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(0);
-    }
+
 
     public void SelectionLevel(int selection){
         //LevelManager.instance.ConfigDistribution(selection);

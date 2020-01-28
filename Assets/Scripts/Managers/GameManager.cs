@@ -16,10 +16,7 @@ public class GameManager : MonoBehaviour
     #region Singleton
     public static GameManager Instance;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+   
     #endregion
 
     [Header("Mode Settings")]
@@ -31,6 +28,9 @@ public class GameManager : MonoBehaviour
 
     public Transform[] playerSpawn;
 
+    [Header("BallSpawnSettings")]
+    public float ballSpawnDelay;
+
     [Header("Timer Settings")]
     public float timerSpeedModifier = 1f;
     [HideInInspector] public GUITimerData timerData;
@@ -39,7 +39,10 @@ public class GameManager : MonoBehaviour
 
     private int seconds;
     private int mSeconds;
+
+    private bool isReady = false;
     private bool isGameStart = false;
+    public bool IsReady { get => isReady; }
     public bool IsGameStarted { get => isGameStart; }
     PhotonView photonView;
 
@@ -51,38 +54,49 @@ public class GameManager : MonoBehaviour
     
     [HideInInspector]
     public int levelIndex;
-    
+
+    void Awake()
+    {
+        BrickBehaviours.ResetBrickCount();
+        Instance = this;
+        SetupOfflineMod();
+        photonView = GetComponent<PhotonView>();
+    }
+
     void Start()
     {
-        SetupOfflineMod();
+        if (offlineMode)
+        {
+            SelectionLevel(CampaignLevel.Instance.levelSelected);
+        }
 
         InstantiatePlayers();
 
         SpawnLevel();
 
         InstanciateBall();
-
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 60;
-
     }
 
     private void SetupOfflineMod()
     {
         if (offlineMode)
         {
-            SelectionLevel(CampaignLevel.Instance.levelSelected);
-            PhotonNetwork.OfflineMode = true;
+            PhotonNetwork.Disconnect();
+            //Debug.Log(PhotonNetwork.OfflineMode);
+           // PhotonNetwork.OfflineMode = true;
+            
         }
         else
         {
             PhotonNetwork.OfflineMode = false;
+            PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 60;
         }
     }
 
     private void InstantiatePlayers()
     {
-        if (!PhotonNetwork.OfflineMode)
+        if (!offlineMode)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -116,7 +130,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnLevel()
     {
-        if (!PhotonNetwork.OfflineMode)
+        if (!offlineMode)
         {
             if (gameMod == GameMod.GAMEPLAY)
             {
@@ -126,9 +140,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void InstanciateBall()
+    public void InstanciateBall()                   //Rename
     {
-        StartCoroutine(InstantiateBallWithDelay());
+        if(gameMod == GameMod.GAMEPLAY /*&& PhotonNetwork.IsMasterClient*/)
+        {
+            StartCoroutine(InstantiateBallWithDelay());
+            if(offlineMode || PhotonNetwork.IsMasterClient)
+                SynchronizeStart();
+        }
     }
    
     private IEnumerator InstantiateBallWithDelay()
@@ -136,8 +155,30 @@ public class GameManager : MonoBehaviour
         yield return new WaitForFixedUpdate();
 
         BallManager.instance.InitializeBall();
-        BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
+    }
+
+    private void SynchronizeStart()
+    {
+        StartCoroutine(DelaySynchStart());
+    }
+
+    private IEnumerator DelaySynchStart()
+    {
+        yield return new WaitForSeconds(ballSpawnDelay);
         BallManager.instance.SpawnTheBall();
+
+        if (offlineMode)
+            StartBrickMovement();
+        else if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("StartBrickMovement", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void StartBrickMovement()
+    {
+        isReady = true;
     }
 
     public void RestartScene()
@@ -163,10 +204,10 @@ public class GameManager : MonoBehaviour
         Debug.Log(levelIndex);
     }
 
-    [PunRPC]
+    
     public void StartTheGame()
     {
-        if(PhotonNetwork.OfflineMode)
+        if(offlineMode)
         {
             StartTheGameRPC();
         }
@@ -176,6 +217,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     private void StartTheGameRPC()
     {
         isGameStart = true;
@@ -271,13 +313,10 @@ public class GameManager : MonoBehaviour
         PhotonNetwork.LoadLevel(sceneName); //restart the game
     }
 
-    public void ReturnMenu()
-    {   
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(0);
-    }
+
 
     public void SelectionLevel(int selection){
-        LevelManager.instance.ConfigDistribution(selection);
+        //LevelManager.instance.ConfigDistribution(selection);
+        LevelManager.instance.StartLevelInitialization(selection);
     }
 }

@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using VRTK;
 
 public enum InputMod
 {
@@ -28,6 +31,7 @@ public class PlayerInputManager : MonoBehaviour
     }
     #endregion
 
+    public float inputSetupDelay = 1f;
     public InputMod inputMod = InputMod.GAMEPLAY;       //A cacher dans l'inspector
 
     private IInputable gameplayAction = new GameplayInputManager();
@@ -35,13 +39,14 @@ public class PlayerInputManager : MonoBehaviour
 
     public void SetupInputMod()
     {
+        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = false;
+        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = false;
         StartCoroutine(DelayInputSetup());
-        
     }
 
     private IEnumerator DelayInputSetup()
     {
-        yield return new WaitForEndOfFrame();                           // ...
+        yield return new WaitForSeconds(inputSetupDelay);                           // ...
         SetInputMod(inputMod);
     }
     public void SetInputMod(InputMod inputMod)
@@ -113,7 +118,18 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnPauseButtonPress()
     {
-        SetInputMod((InputMod)(((int)inputMod + 1) % 2));
-        GUIMenuPause.guiMenuPause.GamePaused();
+        Debug.LogError("salut Timothée c'est cool");
+
+        if (GameManager.Instance.offlineMode)
+        {
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene(0);
+        } else
+        {
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene(0);
+        }
+      //SetInputMod((InputMod)(((int)inputMod + 1) % 2));
+      //  GUIMenuPause.guiMenuPause.GamePaused();
     }
 }

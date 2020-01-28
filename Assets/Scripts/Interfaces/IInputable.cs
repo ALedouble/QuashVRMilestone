@@ -6,6 +6,8 @@ public interface IInputable
 {
     void EnterInputMod();
 
+    void ExitInputMod();
+
     void OnRightTriggerPress();
 
     void OnRightTriggerRelease();

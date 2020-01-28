@@ -78,7 +78,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void Update()
     {
-        if (isMoving && GameManager.Instance.IsGameStarted)
+        if (isMoving && GameManager.Instance.IsReady)
         {
             Moving();
         }
@@ -168,42 +168,42 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     [PunRPC]
     public void HitBrick(int p_dmgPoints = 1)
     {
-        Debug.Log("Destruction brick");
+        Debug.Log("Hit" + hasBeenHit);
         if (!hasBeenHit)
         {
-            //Debug.Log("damage of " + p_dmgPoints);
             hasBeenHit = true;
 
             brickInfo.armorValue--;
 
-
+            Debug.Log("Armor" + brickInfo.armorValue);
             if (brickInfo.armorValue <= 0)
             {
+                Debug.Log("Go to destroy");
                 hasBeenHit = false;
                 AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
                 DestroyBrick();
-                //BrickManager.Instance.DestroyBrickByID(brickID);
             }
-            else
-            {
-                StartCoroutine(HitRecoverDelay(1));
-            }
+            //else
+            //{
+            //    StartCoroutine(HitRecoverDelay(1));
+            //}
 
         }
         //other case scenario
     }
 
-    IEnumerator HitRecoverDelay(float recoverTime)
-    {
-        yield return new WaitForSeconds(recoverTime);
+    //IEnumerator HitRecoverDelay(float recoverTime)
+    //{
+    //    yield return new WaitForSeconds(recoverTime);
 
-        hasBeenHit = false;
-    }
+    //    hasBeenHit = false;
+    //}
 
     /// <summary>
     /// Détruit la brique, augmente le score, renvoie les feedbacks et spawn les bonus/malus
     public void DestroyBrick()
     {
+        Debug.Log("Destroy");
         DespawnBrick();
 
         SendBreakFeedbacks();
@@ -217,6 +217,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void DespawnBrick()
     {
+        Debug.Log("Despawn");
         gameObject.SetActive(false);
         transform.parent = null;
         BrickManager.Instance.UpdateBrickLevel(brickInfo.wallID);
@@ -266,6 +267,11 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
         //Bonus & malus case
         if (brickInfo.isBonus) BonusManager.instance.SpawnRandomObject(transform);
         if (brickInfo.isMalus) MalusManager.instance.SpawnRandomObject(transform);
+    }
+
+    public static void ResetBrickCount()
+    {
+        brickCount = 0;
     }
 
     #region IPunObservable implementation

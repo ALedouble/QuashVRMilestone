@@ -87,7 +87,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         if (RacketManager.instance.isEmpowered)
         {
-            if (PhotonNetwork.OfflineMode)
+            if (GameManager.Instance.offlineMode)
             {
                 BallBecomeEmpowered();
             }
@@ -119,7 +119,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         if (RacketManager.instance.isEmpowered)
         {
-            if (PhotonNetwork.OfflineMode)
+            if (GameManager.Instance.offlineMode)
             {
                 SwitchColor();
             }

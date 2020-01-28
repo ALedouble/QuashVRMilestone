@@ -62,14 +62,18 @@ public class LevelManager : MonoBehaviour
     {
         instance = this;
 
-        ConfigDistribution(debugThisLevel);
+        //StartLevelInitialization(debugThisLevel);
+    }
+
+
+    public void StartLevelInitialization(int levelToInit)
+    {
+        ConfigDistribution(levelToInit);
         InitValues();
     }
 
     private void Start()
     {
-        
-
         for (int i = 0; i < numberOfPlayers; i++)
         {
             SetNextLayer(i);
@@ -174,8 +178,13 @@ public class LevelManager : MonoBehaviour
             currentLayer[i] = -1;
             isThereAnotherLayer[i] = true;
             startPos[i] = posDiffPerPlayer * i;
+
+            Debug.Log("Walls LENGTH : " + currentLevel.level.levelWallBuilds.walls.Length);
             playersParents[i].layersParent = new Transform[currentLevel.level.levelWallBuilds.walls.Length];
+
             numberOfLayers = currentLevel.level.levelWallBuilds.walls.Length;
+            Debug.Log("numberOfLayers : " + numberOfLayers);
+
             playersUIlayers[i].layersUI = new UI_LayerBehaviour[numberOfLayers];
             playersLayerCompletedFX[i] = playroomElements.playersLayersCompletedEffect[i];
             playersWinFX[i] = playroomElements.playersWinEffect[i];
@@ -300,6 +309,7 @@ public class LevelManager : MonoBehaviour
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
+                Debug.Log("numberOfLayerToDisplay - 1 : " + (numberOfLayerToDisplay - 1));
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
 

@@ -153,7 +153,7 @@ public class RacketManager : MonoBehaviour
     {
         Debug.Log("Switch racket Color");
         SwitchLocalRacketColor();
-        if (!PhotonNetwork.OfflineMode)
+        if (!GameManager.Instance.offlineMode)
         {
             if (foreignPlayerRacket)
                 photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
@@ -165,7 +165,7 @@ public class RacketManager : MonoBehaviour
     public void EndSwitchRacketColor()
     {
         EndLocalSwitchColor();
-        if (!PhotonNetwork.OfflineMode)
+        if (!GameManager.Instance.offlineMode)
         {
             if (foreignPlayerRacket)
                 photonView.RPC("EndForeignSwitchColor", RpcTarget.Others);

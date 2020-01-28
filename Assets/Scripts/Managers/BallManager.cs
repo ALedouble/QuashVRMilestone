@@ -45,13 +45,15 @@ public class BallManager : MonoBehaviour
     {
         isInPlay = false;
         isSpawned = false;
+
+        //SetupBall();
     }
 
     public void InitializeBall()
     {
         if (isBallInstatiated)
         {
-            if (PhotonNetwork.OfflineMode)
+            if (GameManager.Instance.offlineMode)
             {
                 ball = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity) as GameObject;
             }
@@ -61,14 +63,14 @@ public class BallManager : MonoBehaviour
             }
         }
 
-        if (PhotonNetwork.OfflineMode)
-        {
-            SetupBall();
-        }
-        else if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("SetupOnlineBall", RpcTarget.All);
-        }
+        //if (GameManager.Instance.offlineMode)
+        //{
+        //    SetupBall();
+        //}
+        //else if (PhotonNetwork.IsMasterClient)
+        //{
+        //    photonView.RPC("SetupOnlineBall", RpcTarget.All);
+        //}
     }
 
     [PunRPC]
@@ -78,11 +80,18 @@ public class BallManager : MonoBehaviour
         SetupBall();
     }
 
-    private void SetupBall()
+    public void SetupBall()
     {
+        if(!ball)
+        {
+            ball = GameObject.FindGameObjectWithTag("Ball");
+        }
+
         SetupBallManager();
         ball.SetActive(false);
         Sh_GlobalDissolvePosition.Setup();
+
+        BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;
     }
 
     private void SetupBallManager()
@@ -97,7 +106,7 @@ public class BallManager : MonoBehaviour
 
     public void LoseBall()
     {
-        if(PhotonNetwork.OfflineMode)
+        if(GameManager.Instance.offlineMode)
         {
             LoseBallLocaly();
         }
@@ -124,9 +133,9 @@ public class BallManager : MonoBehaviour
 
     public void SpawnTheBall()
     {
-        if (PhotonNetwork.OfflineMode)
+        if (GameManager.Instance.offlineMode)
             SpawnBallLocaly();
-        else if (PhotonNetwork.IsMasterClient)
+        else /*if (PhotonNetwork.IsMasterClient)*/
             photonView.RPC("SpawnBallLocaly", RpcTarget.All);
     }
 
@@ -146,7 +155,7 @@ public class BallManager : MonoBehaviour
 
     public void DespawnTheBall()
     {
-        if (PhotonNetwork.OfflineMode)
+        if (GameManager.Instance.offlineMode)
             DespawnBallLocaly();
         else if (PhotonNetwork.IsMasterClient)
             photonView.RPC("DespawnBallLocaly", RpcTarget.All);
@@ -170,9 +179,15 @@ public class BallManager : MonoBehaviour
     
     public void BallBecomeInPlay()
     {
-        SetBallInPlay();
+        //if(GameManager.Instance.offlineMode)
+            SetBallInPlay();
+        //else
+        //{
+        //    photonView.RPC("SetBallInPlay", RpcTarget.All);
+        //}
     }
 
+    [PunRPC]
     private void SetBallInPlay()
     {
         isInPlay = true;

@@ -32,13 +32,14 @@ public class FXManager : MonoBehaviour
 
 
     public static FXManager Instance;
-    private PhotonView photonView;
+    private PhotonView photonView;                                  // A enlever
 
 
     private void Awake()
     {
         Instance = this;
         ps = new List<ParticleSystem>();
+        photonView = GetComponent<PhotonView>();
     }
 
     private void FixedUpdate()
@@ -152,22 +153,35 @@ public class FXManager : MonoBehaviour
         return scale;
     }
 
-    public void SetExplosion(Vector3 origin, int playerID)
+    public void PlayExplosion(Vector3 origin, int playerID)
     {
-        if(PhotonNetwork.OfflineMode)
-        {
-            PlayExplosionFX(origin, playerID);
-        }
-        else if(PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("PlayExplosionFX", RpcTarget.All, origin, playerID);
-        }
+        //if(GameManager.Instance.offlineMode)
+        //{
+        //    PlayExplosionFX(origin, playerID);
+        //}
+        //else if(PhotonNetwork.IsMasterClient)
+        //{
+        //    photonView.RPC("PlayExplosionFX", RpcTarget.All, origin, playerID);
+        //}
 
+        PlayExplosionFX(origin, playerID);
         isExplosion = true;
     }
 
-    [PunRPC]
     private void PlayExplosionFX(Vector3 origin, int playerID)
+    {
+        if(GameManager.Instance.offlineMode)
+        {
+            PlayExplosionFXRPC(origin, playerID);
+        }
+        else
+        {
+            photonView.RPC("PlayExplosionFXRPC", RpcTarget.All, origin, playerID);
+        }
+    }
+
+    [PunRPC]
+    private void PlayExplosionFXRPC(Vector3 origin, int playerID)
     {
         originPos = origin;
         //maxRadius = intensity * intensityModifier;
@@ -214,8 +228,8 @@ public class FXManager : MonoBehaviour
     {
         for (int j = 0; j < numberOfDivision; j++)
         {
-            //Debug.DrawRay(originPosition,
-            //    transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
+            Debug.DrawRay(originPosition,
+                transform.TransformDirection(new Vector3(destination.x + evolution.x * j, destination.y + evolution.y * j, zOffset)).normalized * impactPercent, Color.blue);
 
             RaycastHit hit;
             BrickInfo brickInfo;

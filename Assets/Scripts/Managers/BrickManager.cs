@@ -111,8 +111,11 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 objMesh.sharedMaterials = mats;
 
 
+                //Debug.Log("playerID : " + playerID);
+                //Debug.Log("playersParents LENGTH : " + LevelManager.instance.playersParents.Length);
 
-                obj.transform.parent = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID] + currentDisplacement];
+
+                obj.transform.parent = LevelManager.instance.playersParents[playerID].layersParent[(LevelManager.instance.currentLayer[playerID] + currentDisplacement)];
 
                 obj.name = layerToSpawn.wallBricks[i].brickID;
 
@@ -160,7 +163,8 @@ public class BrickManager : MonoBehaviourPunCallbacks
     {
         if (brickID < AllBricks.Count && brickID >= 0)
         {
-            if(PhotonNetwork.OfflineMode)
+            Debug.Log("hhhhhhhhhhhhhhhhhhhhhh");
+            if(GameManager.Instance.offlineMode)
             {
                 AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
             }

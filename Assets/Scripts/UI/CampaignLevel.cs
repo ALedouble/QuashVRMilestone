@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
-
+using Photon.Pun;
 
 public class CampaignLevel : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class CampaignLevel : MonoBehaviour
     [HideInInspector]
     public int levelSelected;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        Instance = this;
         DontDestroyOnLoad(transform.gameObject);    
     }
 
@@ -23,5 +25,7 @@ public class CampaignLevel : MonoBehaviour
 
     public void SelectLevel(int levelIndex){
         levelSelected = levelIndex;
+        PhotonNetwork.LoadLevel(2);
+      
     }
 }

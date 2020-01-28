@@ -17,7 +17,14 @@ public class GameplayInputManager : IInputable
     public void EnterInputMod()
     {
         QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_Pointer>().Toggle(false);
+        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = false;
         QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_Pointer>().Toggle(false);
+        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = false;
+    }
+
+    public void ExitInputMod()
+    {
+        return;
     }
 
     public void OnRightTriggerPress()

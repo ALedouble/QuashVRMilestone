@@ -102,8 +102,15 @@ namespace TalesFromTheRift
 			}
 			else
 			{
-				text += keyString;
+
+                if(text.Length < 8)
+                {
+                    text += keyString;
+                }
+				
 			}
+
+            
 
 			// Workaround: Restore focus to input fields (because Unity UI buttons always steal focus)
 			ReactivateInputField(inputObject.GetComponent<InputField>());

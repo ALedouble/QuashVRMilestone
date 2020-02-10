@@ -26,10 +26,18 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+    public GameObject buttonLaunch;
+
     [SerializeField]
     public int numLevel;
 
     PhotonView photonView;
+
+    private void Start() {
+        if (PhotonNetwork.IsMasterClient){
+            buttonLaunch.SetActive(true);
+        }
+    }
 
     private void Update() {
         Debug.Log(_listings.Count);

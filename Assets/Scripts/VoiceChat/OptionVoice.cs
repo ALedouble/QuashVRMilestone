@@ -2,19 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionVoice : MonoBehaviour
 {
     public GameObject dissonance;
     DissonanceComms comms;
     VoiceBroadcastTrigger vbt;
+    public Toggle muteToggle;
 
     private void Awake()
     {
         comms = dissonance.GetComponent<DissonanceComms>();
         vbt = dissonance.GetComponent<VoiceBroadcastTrigger>();
-
-      //  IsMuted();
+        IsMuted();
     }
 
     private void Update()
@@ -22,13 +23,10 @@ public class OptionVoice : MonoBehaviour
         
     }
 
-    private void IsMuted()
+    public void IsMuted()
     {
-        comms.IsMuted = true;
+        comms.IsMuted = muteToggle.isOn;
     }
 
-    private void SoundVolume()
-    {
-        comms.RemoteVoiceVolume = 0.5f;
-    }
+
 }

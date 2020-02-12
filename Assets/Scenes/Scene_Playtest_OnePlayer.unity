@@ -1157,19 +1157,19 @@ PrefabInstance:
         type: 3}
       propertyPath: registeredLevels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: cd9106b90196ae84783bb538d034444e,
+      objectReference: {fileID: 11400000, guid: 349111aafcc4fa94fb0ed83049b26ce5,
         type: 2}
     - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: registeredLevels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: cd9106b90196ae84783bb538d034444e,
+      objectReference: {fileID: 11400000, guid: 349111aafcc4fa94fb0ed83049b26ce5,
         type: 2}
     - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: registeredLevels.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: abd0a0e442e31cd4dbfdf7f3d4c94d9b,
+      objectReference: {fileID: 11400000, guid: d0166d5d43806fc438371e4442365d35,
         type: 2}
     - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
@@ -25396,6 +25396,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25450,11 +25455,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}

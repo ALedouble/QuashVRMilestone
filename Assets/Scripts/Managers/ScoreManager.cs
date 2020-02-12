@@ -110,7 +110,7 @@ public class ScoreManager : MonoBehaviour
         GUIComboAnim.instance.PlayAnimComboBreak();
 
         //Trigger de la vibration
-        VibrationManager.instance.VibrateOn("Vibration_Mistake");
+        //VibrationManager.instance.VibrateOn("Vibration_Mistake");
 
         //Trigger du son
         AudioManager.instance.PlaySound("Mistake", Vector3.zero);

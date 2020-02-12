@@ -4,6 +4,8 @@ using UnityEngine;
 using Malee;
 
 
+public enum CompleteConditionType { Score, Combo, Timing }
+
 /////////////////////////////  LEVEL  ////////////////////////////////
 
 [CreateAssetMenu(fileName = "SC_Level_", menuName = "Custom/Level", order = 120)]
@@ -44,22 +46,39 @@ public struct LevelSpecifics
 }
 
 ///////////////////////////  PROGRESSION  //////////////////////////////
-
 [System.Serializable]
-public struct ProgressionSettings
+public class ProgressionSettings
 {
     public bool isDone;
     public bool isUnlocked;
+    public int starsRequired;
     public bool isImplemented;
+
+    public int maxScore;
+    public int maxCombo;
+    public int maxTiming;
 
     public List<LevelsScriptable> unlockConditions;
 
     public Vector2 levelPos;
-    public int score;
-    public int stagePos;
     public int levelID;
+
+    public LevelConditions[] conditionsToComplete;
+    public int numberOfConditionCompleted;
+
+    public ProgressionSettings()
+    {
+        conditionsToComplete = new LevelConditions[3];
+    }
 }
 
+
+[System.Serializable]
+public struct LevelConditions
+{
+    public CompleteConditionType conditionType;
+    public int conditionReachedAt;
+}
 
 
 /////////////////////////////  BRICKS  ////////////////////////////////

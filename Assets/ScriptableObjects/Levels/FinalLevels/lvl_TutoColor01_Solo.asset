@@ -20232,12 +20232,22 @@ MonoBehaviour:
     levelProgression:
       isDone: 0
       isUnlocked: 0
+      starsRequired: 0
       isImplemented: 0
+      maxScore: 0
+      maxCombo: 0
+      maxTiming: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
-      score: 0
-      stagePos: 0
       levelID: 0
+      conditionsToComplete:
+      - conditionType: 0
+        conditionReachedAt: 0
+      - conditionType: 0
+        conditionReachedAt: 0
+      - conditionType: 0
+        conditionReachedAt: 0
+      numberOfConditionCompleted: 0
     levelSpec:
       timeForThisLevel: 240
       impactRadiusForThisLevel: 1.7

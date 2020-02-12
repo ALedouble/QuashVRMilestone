@@ -95,17 +95,17 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetLevel(Button button){
-        if (button.name == "Level 01"){
+    public void SetLevel(Toggle toggle){
+        if (toggle.name == "Level 01"){
             numLevel = 0;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
-        } else if (button.name == "Level 02"){
+        } else if (toggle.name == "Level 02"){
             numLevel = 1;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
-        } else if (button.name == "Level 03"){
+        } else if (toggle.name == "Level 03"){
             numLevel = 2;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
-        } else if (button.name == "Level 04"){
+        } else if (toggle.name == "Level 04"){
             numLevel = 3;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
         }

@@ -36,10 +36,10 @@ public class LevelScript : MonoBehaviour
     public LevelSettings levelCategories;
 
     public PresetScriptable[] colorPresets;
-    private string presetPath = "Assets/ScriptableObjects/ColorPresets";
+    //private string presetPath = "Assets/ScriptableObjects/ColorPresets";
 
     public BrickTypesScriptable[] brickPresets;
-    private string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
+    //private string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
     public int colorPresetSelected = 0;
     public int brickPresetSelected = 0;
@@ -58,8 +58,8 @@ public class LevelScript : MonoBehaviour
     public int numberOfLayers;
     public int totalLayersDisplayed;
 
-    private GameObject prefabBase;
-    private string prefabPath = "Assets/Prefabs/Bricks";
+    //private GameObject prefabBase;
+    //private string prefabPath = "Assets/Prefabs/Bricks";
 
 
 

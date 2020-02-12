@@ -30,17 +30,10 @@ public class LevelsProgressionWindow : EditorWindow
 
     bool isCheckForPosition;
     bool isLeftClick;
-
-    bool isInArea;
-
-    bool showLevels = true;
-    string status = "Levels in Campaign";
+    private bool isInArea;
 
     private GUIStyle labelStyle;
     private GUIStyle selectedStyle;
-
-    string t = "This is a string inside a Scroll view!";
-
 
 
 
@@ -438,13 +431,13 @@ public class LevelsProgressionWindow : EditorWindow
 
         float xStart = 0;
         float yStart = 0;
-        float xStartOff = 0;
-        float yStartOff = 0;
+        //float xStartOff = 0;
+        //float yStartOff = 0;
 
         float xEnd = 0;
         float yEnd = 0;
-        float xEndOff = 0;
-        float yEndOff = 0;
+        //float xEndOff = 0;
+        //float yEndOff = 0;
 
 
         //Start Line of Condition

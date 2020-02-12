@@ -26,16 +26,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+    public GameObject buttonLaunch;
+
     [SerializeField]
     public int numLevel;
 
     PhotonView photonView;
 
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.A)){
-            MultiLevel.Instance.levelIndex = 1;
-            PhotonNetwork.LoadLevel(1);
+    private void Start() {
+        if (PhotonNetwork.IsMasterClient){
+            buttonLaunch.SetActive(true);
         }
+    }
+
+    private void Update() {
+        Debug.Log(_listings.Count);
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -83,7 +88,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public void OnClick_StartGame(){
-        if(PhotonNetwork.IsMasterClient){
+        if(PhotonNetwork.IsMasterClient && _listings.Count == 1){
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible= false;
             PhotonNetwork.LoadLevel(1);

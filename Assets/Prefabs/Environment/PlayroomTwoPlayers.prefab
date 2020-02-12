@@ -1685,7 +1685,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -2103,7 +2103,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3020,7 +3020,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -5032,7 +5032,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -5682,7 +5682,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -6515,55 +6515,55 @@ MonoBehaviour:
   - m_Vertices: 0b0000000e00000012000000
   m_SharedTextures: []
   m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0.1, y: 0, z: 0}
-  - {x: 0, y: 7, z: 0}
-  - {x: 0.1, y: 7, z: 0}
-  - {x: 0.1, y: 0, z: 0}
-  - {x: 0.1, y: 0, z: -15}
-  - {x: 0.1, y: 7, z: 0}
-  - {x: 0.1, y: 7, z: -15}
-  - {x: 0.1, y: 0, z: -15}
-  - {x: 0, y: 0, z: -15}
-  - {x: 0.1, y: 7, z: -15}
-  - {x: 0, y: 7, z: -15}
-  - {x: 0, y: 0, z: -15}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 7, z: -15}
-  - {x: 0, y: 7, z: 0}
-  - {x: 0, y: 7, z: 0}
-  - {x: 0.1, y: 7, z: 0}
-  - {x: 0, y: 7, z: -15}
-  - {x: 0.1, y: 7, z: -15}
-  - {x: 0, y: 0, z: -15}
-  - {x: 0.1, y: 0, z: -15}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0.1, y: 0, z: 0}
+  - {x: 0.04000044, y: 0, z: 0}
+  - {x: 0.06000042, y: 0, z: 0}
+  - {x: 0.04000044, y: 7, z: 0}
+  - {x: 0.06000042, y: 7, z: 0}
+  - {x: 0.06000042, y: 0, z: 0}
+  - {x: 0.06000042, y: 0, z: -15}
+  - {x: 0.06000042, y: 7, z: 0}
+  - {x: 0.06000042, y: 7, z: -15}
+  - {x: 0.06000042, y: 0, z: -15}
+  - {x: 0.04000044, y: 0, z: -15}
+  - {x: 0.06000042, y: 7, z: -15}
+  - {x: 0.04000044, y: 7, z: -15}
+  - {x: 0.04000044, y: 0, z: -15}
+  - {x: 0.04000044, y: 0, z: 0}
+  - {x: 0.04000044, y: 7, z: -15}
+  - {x: 0.04000044, y: 7, z: 0}
+  - {x: 0.04000044, y: 7, z: 0}
+  - {x: 0.06000042, y: 7, z: 0}
+  - {x: 0.04000044, y: 7, z: -15}
+  - {x: 0.06000042, y: 7, z: -15}
+  - {x: 0.04000044, y: 0, z: -15}
+  - {x: 0.06000042, y: 0, z: -15}
+  - {x: 0.04000044, y: 0, z: 0}
+  - {x: 0.06000042, y: 0, z: 0}
   m_Textures0:
-  - {x: 0, y: 0}
-  - {x: -0.1, y: 0}
-  - {x: 0, y: 7}
-  - {x: -0.1, y: 7}
+  - {x: -0.04000044, y: 0}
+  - {x: -0.06000042, y: 0}
+  - {x: -0.04000044, y: 7}
+  - {x: -0.06000042, y: 7}
   - {x: 0, y: 0}
   - {x: -15, y: 0}
   - {x: 0, y: 7}
   - {x: -15, y: 7}
-  - {x: 0.1, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0.1, y: 7}
-  - {x: 0, y: 7}
+  - {x: 0.06000042, y: 0}
+  - {x: 0.04000044, y: 0}
+  - {x: 0.06000042, y: 7}
+  - {x: 0.04000044, y: 7}
   - {x: 15, y: 0}
   - {x: 0, y: 0}
   - {x: 15, y: 7}
   - {x: 0, y: 7}
-  - {x: 0, y: 0}
-  - {x: 0.1, y: 0}
-  - {x: 0, y: -15}
-  - {x: 0.1, y: -15}
-  - {x: 0, y: -15}
-  - {x: -0.1, y: -15}
-  - {x: 0, y: 0}
-  - {x: -0.1, y: 0}
+  - {x: 0.04000044, y: 0}
+  - {x: 0.06000042, y: 0}
+  - {x: 0.04000044, y: -15}
+  - {x: 0.06000042, y: -15}
+  - {x: -0.04000044, y: -15}
+  - {x: -0.06000042, y: -15}
+  - {x: -0.04000044, y: 0}
+  - {x: -0.06000042, y: 0}
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
@@ -6602,7 +6602,7 @@ MonoBehaviour:
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
-  m_SelectedVertices: 
+  m_SelectedVertices: 000000000d00000016000000
 --- !u!64 &311433066238409732
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6636,6 +6636,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6691,11 +6696,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}
 --- !u!4 &6675329557556171914 stripped
@@ -6723,6 +6723,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6778,11 +6783,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}
 --- !u!4 &8265611025872606259 stripped
@@ -6810,6 +6810,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
+        type: 3}
+      propertyPath: m_Name
+      value: LayerEffect
+      objectReference: {fileID: 0}
     - target: {fileID: 8487549815786722163, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6865,11 +6870,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
-        type: 3}
-      propertyPath: m_Name
-      value: LayerEffect
-      objectReference: {fileID: 0}
     - target: {fileID: 8487549817151244820, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: playOnAwake
@@ -6902,6 +6902,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724817507822973499}
     m_Modifications:
+    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
+        type: 3}
+      propertyPath: m_Name
+      value: LayerEffect (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 8487549815786722163, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6956,11 +6961,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
-        type: 3}
-      propertyPath: m_Name
-      value: LayerEffect (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8487549817151244820, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}

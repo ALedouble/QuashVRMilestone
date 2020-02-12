@@ -10,7 +10,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     public static int brickCount = 0;
     private int brickID;
     public int BrickID { get => brickID; }
-    
+
 
     [Header("Waypoint")]
     public bool isMoving;
@@ -18,7 +18,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     public List<Vector3> waypoints;
 
     private int waypointIndex;
-    private Vector3 refVector;
 
     [Header("Waiting Parameters")]
     public bool hasToWait;
@@ -37,6 +36,9 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     [Tooltip("Is the brick going backward when reaching its last waypoint ?")]
     public bool turningBack;
     private bool onItsWayBack;
+    private float distanceTravelled;
+    Vector3 currentPosition;
+    Vector3 nextPosition;
 
     [Header("Saved Value")]
     public int savedInIndex; //index de la Brick dans la couche
@@ -47,7 +49,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void Awake()
     {
-        
+
 
         if (isMoving)
         {
@@ -60,7 +62,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
         }
 
     }
-    
+
     void Start()
     {
         SetupBallID();
@@ -86,14 +88,43 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void Moving()
     {
-        if(!isWaiting)
+        /// Passage du SmoothDamp au Towards
+        float newSpeed = speed * 0.009f;
+
+        if (!isWaiting)
         {
+            nextPosition = Vector3.MoveTowards(this.transform.position, waypoints[waypointIndex], newSpeed);
+
+            if (nextPosition == waypoints[waypointIndex])
+            {
+                distanceTravelled = Vector3.Distance(this.transform.position, waypoints[waypointIndex]);
+                if (hasToWait)
+                {
+                    isWaiting = true;
+                    StartCoroutine(WaitUntil(waitFor));
+                }
+                else
+                {
+                    NextWaypoint();
+                }
+
+                if (distanceTravelled < newSpeed)
+                {
+                    nextPosition = Vector3.MoveTowards(nextPosition, waypoints[waypointIndex], newSpeed - distanceTravelled);
+                }
+            }
+
+            this.transform.position = nextPosition;
+
+            #region Old Moving System
+            ///////OLD Version/////////
+            /*
             this.transform.position = Vector3.MoveTowards(this.transform.position, waypoints[waypointIndex],
-            speed * 0.009f); 
+            speed * 0.009f);
 
             if (this.transform.position == waypoints[waypointIndex])
             {
-                Debug.Log("Reached");
+                distanceTravelled = Vector3.Distance(this.transform.position, waypoints[waypointIndex]);
                 if (hasToWait)
                 {
                     isWaiting = true;
@@ -104,8 +135,10 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
                     NextWaypoint();
                 }
             }
+            */
+            #endregion
         }
-        
+
     }
 
     /// <summary>
@@ -163,7 +196,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     }
 
 
-    
+
 
     [PunRPC]
     public void HitBrick(int p_dmgPoints = 1)
@@ -246,7 +279,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
         LevelManager.instance.ShakeLayer(brickInfo.wallID);         //WTF?
     }
 
-    
+
 
     private void ScorePoints()
     {
@@ -254,10 +287,10 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
         ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
 
-        
+
         ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
         ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        
+
 
         ScoreManager.Instance.resetCombo = false;
     }

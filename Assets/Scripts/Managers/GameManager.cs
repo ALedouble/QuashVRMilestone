@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         InstantiatePlayers();
 
         SpawnLevel();
-
+        
         InstanciateBall();
     }
 
@@ -138,6 +138,7 @@ public class GameManager : MonoBehaviour
                 SelectionLevel(MultiLevel.Instance.levelIndex);
             }
         }
+        UpdateTimeText();
     }
 
     public void InstanciateBall()                   //Rename
@@ -242,24 +243,32 @@ public class GameManager : MonoBehaviour
         if (currentTimer >= 0)
         {
             currentTimer -= Time.deltaTime * timerSpeedModifier;
-
-            seconds = (int)(currentTimer / 60);
-            mSeconds = (int)(currentTimer - (seconds * 60));
         }
 
-        if (currentTimer < 0)
+        if(currentTimer < 0)
         {
-            timerData.UpdateText("00:00");
-            timerData.FillImage(0);
-
             isTimerStopped = true;
             hasLost = true;
 
             EndOfTheGame();
             //GameOver STATE
         }
+
+        UpdateTimeText();
+    }
+
+    private void UpdateTimeText()
+    {
+        if (currentTimer < 0)
+        {
+            timerData.UpdateText("00:00");
+            timerData.FillImage(0);
+        }
         else
         {
+            seconds = (int)(currentTimer / 60);
+            mSeconds = (int)(currentTimer - (seconds * 60));
+
             if (seconds < 10)
             {
                 if (mSeconds < 10)
@@ -286,7 +295,6 @@ public class GameManager : MonoBehaviour
             timerData.FillImage(currentTimer / timeMax);
         }
     }
-
 
     public void RestartGame()
     {

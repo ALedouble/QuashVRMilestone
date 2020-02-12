@@ -26,16 +26,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+    public GameObject buttonLaunch;
+
     [SerializeField]
     public int numLevel;
 
     PhotonView photonView;
 
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.A)){
-            MultiLevel.Instance.levelIndex = 1;
-            PhotonNetwork.LoadLevel(1);
+    private void Start() {
+        if (PhotonNetwork.IsMasterClient){
+            buttonLaunch.SetActive(true);
         }
+    }
+
+    private void Update() {
+        Debug.Log(_listings.Count);
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -83,24 +88,24 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public void OnClick_StartGame(){
-        if(PhotonNetwork.IsMasterClient){
+        if(PhotonNetwork.IsMasterClient && _listings.Count == 1){
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible= false;
             PhotonNetwork.LoadLevel(1);
         }
     }
 
-    public void SetLevel(Button button){
-        if (button.name == "Level 01"){
+    public void SetLevel(Toggle toggle){
+        if (toggle.name == "Level 01"){
             numLevel = 0;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
-        } else if (button.name == "Level 02"){
+        } else if (toggle.name == "Level 02"){
             numLevel = 1;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
-        } else if (button.name == "Level 03"){
+        } else if (toggle.name == "Level 03"){
             numLevel = 2;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
-        } else if (button.name == "Level 04"){
+        } else if (toggle.name == "Level 04"){
             numLevel = 3;
             photonView.RPC("SelectLevel", RpcTarget.All, numLevel);
         }

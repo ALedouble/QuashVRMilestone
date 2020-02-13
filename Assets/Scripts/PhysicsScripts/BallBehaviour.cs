@@ -114,7 +114,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks/*, IPunObservable*/
         }
 
         //BallEventManager.instance?.OnBallCollision(new BallCollisionInfo(other.gameObject.tag, other.GetContact(0).point, other.GetContact(0).normal,lastVelocity));
-        BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
+        //BallEventManager.instance?.OnBallCollision(other.gameObject.tag);
     }
 
     /////////////////////////////////////////////    Racket Interaction Interaction     /////////////////////////////////////////////////

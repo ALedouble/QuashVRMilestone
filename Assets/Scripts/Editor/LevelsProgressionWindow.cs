@@ -141,31 +141,49 @@ public class LevelsProgressionWindow : EditorWindow
 
 
             //1st condition
-            currentLevel.level.levelProgression.conditionsToComplete[0].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(250, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[0].conditionType);
+            //currentLevel.level.levelProgression.conditionsToComplete[0].conditionType =
+            //    (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(250, 15)),
+            //    currentLevel.level.levelProgression.conditionsToComplete[0].conditionType);
 
-            currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt =
-                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 65), new Vector2(250, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt);
+            //currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt =
+            //    EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 65), new Vector2(250, 15)),
+            //    currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt);
 
             //2nd condition
             currentLevel.level.levelProgression.conditionsToComplete[1].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 85), new Vector2(250, 15)),
+                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(250, 15)),
                 currentLevel.level.levelProgression.conditionsToComplete[1].conditionType);
 
             currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt =
-                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 100), new Vector2(250, 15)),
+                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 65), new Vector2(250, 15)),
                 currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt);
 
             //3rd condition
             currentLevel.level.levelProgression.conditionsToComplete[2].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 120), new Vector2(250, 15)),
+                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 85), new Vector2(250, 15)),
                 currentLevel.level.levelProgression.conditionsToComplete[2].conditionType);
 
             currentLevel.level.levelProgression.conditionsToComplete[2].conditionReachedAt =
-                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 135), new Vector2(250, 15)),
+                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 100), new Vector2(250, 15)),
                 currentLevel.level.levelProgression.conditionsToComplete[2].conditionReachedAt);
+
+
+            ///Level Specifics (exotic rules)
+            currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 120), new Vector2(110, 15)),
+                currentLevel.level.levelSpec.noWallsMode, " No Walls Mode");
+
+            currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + 120), new Vector2(100, 15)),
+                            currentLevel.level.levelSpec.mandatoryBounce, " Bounce Mode");
+
+            currentLevel.level.levelSpec.changingBrickColorEveryXseconds = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 140), new Vector2(170, 15)),
+                currentLevel.level.levelSpec.changingBrickColorEveryXseconds, " Brick Color Change Mode");
+
+
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 160), new Vector2(130, 15)), "Switch Behaviour");
+
+            currentLevel.level.levelSpec.switchColorBehaviourForThisLevel =
+                (ColorSwitchBehaviour)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 120, position.height - boxSize.y + 160), new Vector2(130, 15)),
+                currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
         }
         else
         {
@@ -281,7 +299,7 @@ public class LevelsProgressionWindow : EditorWindow
 
     void ImplementLevel(LevelsScriptable level)
     {
-        Debug.Log("Level Added");
+        //Debug.Log("Level Added");
         levelsToDisplay.Add(level);
         level.level.levelProgression.levelPos = new Vector2(position.width / 2, position.height / 2);
         level.level.levelProgression.isImplemented = true;
@@ -395,14 +413,14 @@ public class LevelsProgressionWindow : EditorWindow
 
         if (currentLevel != null)
         {
-            levelsScrollPos = GUI.BeginScrollView(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 95 + 60), new Vector2(256, boxSize.y - 115 - 60)), levelsScrollPos,
-            new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 95), new Vector2(256, space * levelsToDisplay.Count)), false, false);
+            levelsScrollPos = GUI.BeginScrollView(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 125 + 60), new Vector2(256, boxSize.y - 145 - 60)), levelsScrollPos,
+            new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 125), new Vector2(256, space * levelsToDisplay.Count)), false, false);
 
-            GUI.Box(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 95), new Vector2(256, boxSize.y)), " ");
+            GUI.Box(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 125), new Vector2(256, boxSize.y)), " ");
 
             for (int i = 0; i < levelsToDisplay.Count; i++)
             {
-                if (GUI.Button(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + 100 + (space * i)), new Vector2(250, 20)), ""))
+                if (GUI.Button(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + 130 + (space * i)), new Vector2(250, 20)), ""))
                 {
                     currentLevel = levelsToDisplay[i];
                     //GUI.ScrollTo(new Rect(levelsToDisplay[i].level.levelProgression.levelPos, new Vector2(windowSize.x, treeDelimitation.y)));
@@ -410,13 +428,13 @@ public class LevelsProgressionWindow : EditorWindow
 
                 if (levelsToDisplay[i] == currentLevel)
                 {
-                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + 100 + (space * i)), new Vector2(250, 20)), Color.Lerp(Color.white, Color.black, 0.75f));
-                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + 100 + (space * i)), new Vector2(250, 20)), levelsToDisplay[i].name, selectedStyle);
+                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + 130 + (space * i)), new Vector2(250, 20)), Color.Lerp(Color.white, Color.black, 0.75f));
+                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + 130 + (space * i)), new Vector2(250, 20)), levelsToDisplay[i].name, selectedStyle);
                 }
                 else
                 {
-                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + 100 + (space * i)), new Vector2(250, 20)), Color.grey);
-                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + 100 + (space * i)), new Vector2(250, 20)), levelsToDisplay[i].name, labelStyle);
+                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + 130 + (space * i)), new Vector2(250, 20)), Color.grey);
+                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + 130 + (space * i)), new Vector2(250, 20)), levelsToDisplay[i].name, labelStyle);
                 }
             }
 

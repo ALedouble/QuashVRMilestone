@@ -10,6 +10,12 @@ public enum ColorSwitchTrigerType
     WALLBASED
 }
 
+public enum ColorSwitchBehaviour
+{
+    NORMAL,
+    MANDATORY
+}
+
 public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 {
     public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;

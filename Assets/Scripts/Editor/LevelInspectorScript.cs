@@ -530,6 +530,13 @@ public class LevelInspectorScript : Editor
             {
                 EditorGUILayout.HelpBox("L'impact est égale à 0", MessageType.Warning);
             }
+
+            currentLevel.level.levelSpec.balleSpeedForThisLevel = EditorGUILayout.FloatField("Modifier pour la vitesse de la balle", currentLevel.level.levelSpec.balleSpeedForThisLevel);
+
+            if (currentLevel.level.levelSpec.balleSpeedForThisLevel == 0)
+            {
+                EditorGUILayout.HelpBox("La vitesse de la balle ne peut être est égale à 0 ... pauvre fou", MessageType.Warning);
+            }
         }
         else
             myTarget.levelCategories = null;

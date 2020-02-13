@@ -39,10 +39,28 @@ public class LevelSettings
 ///////////////////////////  PARAMETRES du level  //////////////////////////////
 
 [System.Serializable]
-public struct LevelSpecifics
+public class LevelSpecifics
 {
     public float timeForThisLevel;
     public float impactRadiusForThisLevel;
+    public float balleSpeedForThisLevel;
+
+    public ColorSwitchBehaviour switchColorBehaviourForThisLevel;
+    public bool changingBrickColorEveryXseconds;
+    public bool noWallsMode;
+    public bool mandatoryBounce;
+
+    public LevelSpecifics()
+    {
+        timeForThisLevel = 0f;
+        impactRadiusForThisLevel = 1.7f;
+        balleSpeedForThisLevel = 1f;
+
+        switchColorBehaviourForThisLevel = ColorSwitchBehaviour.NORMAL;
+        changingBrickColorEveryXseconds = false;
+        noWallsMode = false;
+        mandatoryBounce = false;
+    }
 }
 
 ///////////////////////////  PROGRESSION  //////////////////////////////

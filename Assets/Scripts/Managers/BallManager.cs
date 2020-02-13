@@ -11,6 +11,8 @@ public class BallManager : MonoBehaviour
     public static BallManager instance;
     #endregion
 
+    public int spawnColorID = 0;
+
     public bool isBallInstatiated;
     public GameObject ballPrefab;
     public GameObject ball;
@@ -26,6 +28,7 @@ public class BallManager : MonoBehaviour
     private BallColorBehaviour ballColorBehaviour;
     private BallPhysicBehaviour ballPhysicBehaviour;
     private PhysicInfo ballPhysicInfo;
+    private BallInfo ballInfo;
     private ITargetSelector targetSelector;
     
     private bool isInPlay;
@@ -88,6 +91,7 @@ public class BallManager : MonoBehaviour
         }
 
         SetupBallManager();
+        ballColorBehaviour.SetBallColor(spawnColorID);
         ball.SetActive(false);
         Sh_GlobalDissolvePosition.Setup();
 
@@ -99,7 +103,9 @@ public class BallManager : MonoBehaviour
         ballColorBehaviour = ball.GetComponent<BallColorBehaviour>();
         ballPhysicBehaviour = ball.GetComponent<BallPhysicBehaviour>();
         ballPhysicInfo = ball.GetComponent<PhysicInfo>();
-        targetSelector = ball.GetComponent<ITargetSelector>();
+        targetSelector = ballPhysicBehaviour?.GetTargetSelector();
+        ballInfo = ball.GetComponent<BallInfo>();
+        ballInfo.SetupBallInfo();
     }
 
     #region Gameplay
@@ -120,7 +126,14 @@ public class BallManager : MonoBehaviour
     private void LoseBallLocaly()
     {
         DespawnBallLocaly();
-        targetSelector.SwitchTarget();
+
+        switch(ballInfo.CurrentBallStatus)                                              // A tester
+        {
+            case BallStatus.HitState :
+                targetSelector.SwitchTarget();
+                break;
+        }
+
         SpawnBallLocaly();
 
         if(IsTheLastPlayerWhoHitTheBall)
@@ -234,6 +247,11 @@ public class BallManager : MonoBehaviour
         return ballPhysicInfo;
     }
 
+    public void SetGlobalSpeedMultiplier(float newValue)
+    {
+        ballPhysicBehaviour.SetGlobalSpeedMultiplier(newValue);
+    }
+
     #endregion
 
     #region Utility
@@ -270,4 +288,9 @@ public class BallManager : MonoBehaviour
     }
 
     #endregion
+
+    public int GetSpawnColorID()
+    {
+        return spawnColorID;
+    }
 }

@@ -56,7 +56,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float minMagnitude;
     public float maxMagnitude;
 
-    [Header("Slow Return Settings")]
+    [Header("Speed Settings")]
+    public float globalSpeedMultiplier = 1;
     public float slowness;
 
     [Header("Gravity Settings")]
@@ -251,22 +252,27 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             {
                 rigidbody.velocity *= slowness;
                 lastVelocity = rigidbody.velocity;
-                currentGravity = baseGravity;
+                currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier;
             }
 
             speedState = SpeedState.NORMAL;
         }
-        else if(newSpeedState == SpeedState.SLOW)
+        else if(newSpeedState == SpeedState.SLOW && speedState != SpeedState.SLOW)
         {
             if(doesSpeedNeedToChange)
             {
                 rigidbody.velocity /= slowness;
                 lastVelocity = rigidbody.velocity;
-                currentGravity = baseGravity / (slowness * slowness);
+                currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
             }
 
             speedState = SpeedState.SLOW;
         }
+    }
+
+    public void SetGlobalSpeedMultiplier(float newValue)
+    {
+        globalSpeedMultiplier = newValue;
     }
 
     #region RacketInteraction
@@ -311,11 +317,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         if (GameManager.Instance.offlineMode)
         {
-            ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.NORMAL);
+            ApplyNewVelocity(newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL);                                  // Modif globalSpeedMultiplier
         }
         else
         {
-            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity, transform.position, (int)SpeedState.NORMAL);
+            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL);     // Modif globalSpeedMultiplier
         }
     }
     
@@ -386,8 +392,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #endregion
 
-
-
     #region ReturnMechanics
 
     private void ReturnInteration()
@@ -448,7 +452,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.SLOW);
+        ApplyNewVelocity(newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW);
     }
 
     #endregion
@@ -577,6 +581,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public QPlayer GetLastPlayerWhoHitTheBall()
     {
         return lastPlayerWhoHitTheBall;
+    }
+
+    public ITargetSelector GetTargetSelector()
+    {
+        return targetSelector;
     }
 
     #endregion

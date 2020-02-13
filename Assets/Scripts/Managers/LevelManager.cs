@@ -179,11 +179,11 @@ public class LevelManager : MonoBehaviour
             isThereAnotherLayer[i] = true;
             startPos[i] = posDiffPerPlayer * i;
 
-            Debug.Log("Walls LENGTH : " + currentLevel.level.levelWallBuilds.walls.Length);
+            //Debug.Log("Walls LENGTH : " + currentLevel.level.levelWallBuilds.walls.Length);
             playersParents[i].layersParent = new Transform[currentLevel.level.levelWallBuilds.walls.Length];
 
             numberOfLayers = currentLevel.level.levelWallBuilds.walls.Length;
-            Debug.Log("numberOfLayers : " + numberOfLayers);
+            //Debug.Log("numberOfLayers : " + numberOfLayers);
 
             playersUIlayers[i].layersUI = new UI_LayerBehaviour[numberOfLayers];
             playersLayerCompletedFX[i] = playroomElements.playersLayersCompletedEffect[i];

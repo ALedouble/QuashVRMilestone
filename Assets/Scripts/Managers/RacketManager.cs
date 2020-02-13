@@ -146,13 +146,13 @@ public class RacketManager : MonoBehaviour
             }
         }
 
-
+        StartCoroutine(StartDelayRacketColor());
     }
 
     public void SwitchRacketColor()
     {
-        Debug.Log("Switch racket Color");
         SwitchLocalRacketColor();
+
         if (!GameManager.Instance.offlineMode)
         {
             if (foreignPlayerRacket)
@@ -165,6 +165,7 @@ public class RacketManager : MonoBehaviour
     public void EndSwitchRacketColor()
     {
         EndLocalSwitchColor();
+
         if (!GameManager.Instance.offlineMode)
         {
             if (foreignPlayerRacket)
@@ -176,7 +177,6 @@ public class RacketManager : MonoBehaviour
 
     private void SwitchLocalRacketColor()
     {
-        //localRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
         localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
     }
 
@@ -188,14 +188,13 @@ public class RacketManager : MonoBehaviour
 
     void EndLocalSwitchColor()
     {
-        Debug.Log("End Switch Color");
-        localRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
+        localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
     }
 
     [PunRPC]
     void EndForeignSwitchColor()
     {
-        foreignRacketRenderer.sharedMaterials = racketMats[0].racketMaterial;
+        foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
     }
 
     #endregion
@@ -226,7 +225,6 @@ public class RacketManager : MonoBehaviour
         empoweredSound.Play();
         SwitchRacketColor();
 
-        Debug.Log("Start Vibration");
         VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered", 0.05f);
     }
 
@@ -236,8 +234,6 @@ public class RacketManager : MonoBehaviour
         empoweredSound.Stop();
         EndSwitchRacketColor();
 
-        Debug.Log("Cancel Vibration");
-
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
         else
@@ -245,6 +241,13 @@ public class RacketManager : MonoBehaviour
     }
 
     #endregion
+
+    IEnumerator StartDelayRacketColor()
+    {
+        yield return new WaitForSeconds(0.05f); // Ceci est très sale ... BEURK !
+
+        EndLocalSwitchColor();
+    }
 }
 
 [System.Serializable]

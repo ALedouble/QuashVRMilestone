@@ -244,7 +244,7 @@ public class RacketManager : MonoBehaviour
 
     IEnumerator StartDelayRacketColor()
     {
-        yield return new WaitForSeconds(0.05f); // Ceci est très sale ... BEURK !
+        yield return new WaitForSeconds(0.01f); // Ceci est très sale ... BEURK !
 
         EndLocalSwitchColor();
     }

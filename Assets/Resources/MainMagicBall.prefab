@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 4513035634878747323}
   - component: {fileID: 4646906268572400308}
   - component: {fileID: 4786920642494746230}
+  - component: {fileID: 1768327930624934501}
   - component: {fileID: 323053201}
   - component: {fileID: 323053215}
   - component: {fileID: -6548133154734702371}
@@ -573,8 +574,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorSwitchTrigerType: 0
-  colorPresets:
-  - {fileID: 11400000, guid: 13777aa392caf5542bdc3239152fa2eb, type: 2}
   trails:
   - {fileID: 1758958001167005412}
   - {fileID: 1758958001423848000}
@@ -601,6 +600,7 @@ MonoBehaviour:
   magnitudeSlope: 0
   minMagnitude: 0
   maxMagnitude: 0
+  globalSpeedMultiplier: 1
   slowness: 2
   baseGravity: 9.81
   depthVelocity: 10
@@ -629,9 +629,19 @@ MonoBehaviour:
   maxRange: 1.4
   angleSpread: 240
   offset: {x: 0, y: 1, z: 0}
-  playerPositions:
-  - {fileID: 0}
   targetTestIndicator: {fileID: 0}
+--- !u!114 &1768327930624934501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8972a9faa2b4234a8e702fd565ecc92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &323053201
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,6 +24,11 @@ public class BallManager : MonoBehaviour
     public float floatAmplitude;
     public float floatPeriod;
 
+    [Header("Reset Settings")]
+    public float delayBeforeReset;
+
+    public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
+
     private PhotonView photonView;
     private BallColorBehaviour ballColorBehaviour;
     private BallPhysicBehaviour ballPhysicBehaviour;
@@ -34,8 +39,7 @@ public class BallManager : MonoBehaviour
     private bool isInPlay;
     private bool isSpawned;
     private Coroutine floatCoroutine;
-
-    public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
+    private Coroutine resetCoroutine;
 
 
     private void Awake()
@@ -93,6 +97,7 @@ public class BallManager : MonoBehaviour
         SetupBallManager();
         ballColorBehaviour.SetBallColor(spawnColorID);
         ball.SetActive(false);
+        ballColorBehaviour.DeactivateTrail();
         Sh_GlobalDissolvePosition.Setup();
 
         BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;
@@ -112,36 +117,32 @@ public class BallManager : MonoBehaviour
 
     public void LoseBall()
     {
-        if(GameManager.Instance.offlineMode)
+        int nextPlayerTarget = (int)GetNextPlayerTarget();
+
+        if (GameManager.Instance.offlineMode)
         {
-            LoseBallLocaly();
+            LoseBallLocaly(nextPlayerTarget);
         }
         else if(PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("LoseBallLocaly", RpcTarget.All);
+            photonView.RPC("LoseBallLocaly", RpcTarget.All, nextPlayerTarget);
         }
     }
 
     [PunRPC]
-    private void LoseBallLocaly()
+    private void LoseBallLocaly(int nextPlayerTargetID)
     {
-        DespawnBallLocaly();
-
-        switch(ballInfo.CurrentBallStatus)                                              // A tester
-        {
-            case BallStatus.HitState :
-                targetSelector.SwitchTarget();
-                break;
-        }
-
-        SpawnBallLocaly();
-
-        if(IsTheLastPlayerWhoHitTheBall)
+        if (GetPlayerWhoLostTheBall() == QPlayerManager.instance.LocalPlayerID)
         {
             VibrationManager.instance.VibrateOn("Vibration_Mistake");
         }
-        
+
         AudioManager.instance.PlaySound("Mistake", Vector3.zero);
+
+        DespawnBallLocaly();
+
+        targetSelector.SetCurrentTarget((QPlayer)nextPlayerTargetID);
+        SpawnBallLocaly();
     }
 
     public void SpawnTheBall()
@@ -210,6 +211,66 @@ public class BallManager : MonoBehaviour
         StopCoroutine(floatCoroutine);
     }
 
+    private QPlayer GetNextPlayerTarget()
+    {
+        QPlayer nextPlayerTarget;
+        switch (ballInfo.CurrentBallStatus)                                              // A tester
+        {
+            case BallStatus.HitState:
+                nextPlayerTarget = targetSelector.GetCurrentTarget();
+                break;
+            case BallStatus.ReturnState:
+                nextPlayerTarget = targetSelector.GetPreviousTarget();
+                break;
+            default:
+                nextPlayerTarget = targetSelector.GetCurrentTarget();
+                break;
+        }
+        return nextPlayerTarget;
+    }
+
+    private QPlayer GetPlayerWhoLostTheBall()
+    {
+        QPlayer playerWhoLostTheBall;
+        switch (ballInfo.CurrentBallStatus)                                              // A tester
+        {
+            case BallStatus.HitState:
+                playerWhoLostTheBall = targetSelector.GetPreviousTarget();
+                break;
+            case BallStatus.ReturnState:
+                playerWhoLostTheBall = targetSelector.GetCurrentTarget();
+                break;
+            default:
+                playerWhoLostTheBall = QPlayer.NONE;
+                break;
+        }
+        return playerWhoLostTheBall;
+    }
+
+    public void StartBallResetCountdown()
+    {
+        BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
+
+        resetCoroutine = StartCoroutine(BallResetCoroutine());
+    }
+
+    private void StopBallResetCountdown()
+    {
+        BallEventManager.instance.OnCollisionExitWithFloor -= StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
+
+        StopCoroutine(resetCoroutine);
+    }
+
+    private IEnumerator BallResetCoroutine()
+    {
+        float resetTime = Time.time + delayBeforeReset;
+        while (Time.time < resetTime)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+    }
     #endregion
 
     #region Color
@@ -232,7 +293,6 @@ public class BallManager : MonoBehaviour
     {
         return ballColorBehaviour.GetBallMaterials();
     }
-
     #endregion
 
     #region Physics

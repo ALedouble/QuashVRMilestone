@@ -7,25 +7,64 @@ using Malee;
 
 public class AudioManager : MonoBehaviour
 {
-    #region SingletonPart
     public static AudioManager instance;
 
+    public SoundClass soundList;
+    public SoundPreset soundPreset;
+    private SoundSettings selectedSound;
+    private Dictionary<string, SoundPool> soundDictionary;
 
     private void Awake()
     {
         instance = this;
+
+        InitSoundDictionary();
     }
-    #endregion
 
+    private void InitSoundDictionary()
+    {
+        soundDictionary = new Dictionary<string, SoundPool>();
 
+        foreach(SoundPool soundPool in soundPreset.soundPool)
+        {
+            string soundTag = soundPool.tag.ToString();
+            if (!soundDictionary.ContainsKey(soundTag))
+            {
+                soundDictionary.Add(soundTag, soundPool);
+            }
+            else
+            {
+                Debug.LogError("SoundPoolKey " + tag + " already Exist!");
+            }
+        }
+    }
 
-
-    public SoundClass soundList;
-    private SoundSettings selectedSound;
-
-    public void PlayHitSound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float hitIntensity)
+    public void NewPlaySound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float soundIntensity)                 // A modifier pour permettre passage RPC. Attention RandomSound pour réseau...?
     {
 
+        if (soundDictionary.ContainsKey(tag))
+        {
+            if (Time.time < soundDictionary[tag].NextPlayableTime)
+            {
+                return;
+            }
+
+            GameObject audioSourceGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, spawnRotation);
+            AudioSource audioSource = audioSourceGameObject?.GetComponent<AudioSource>();
+
+            if (audioSource != null)
+            {
+                soundDictionary[tag].PlayRandomSound(audioSource, soundIntensity);
+            }
+        }
+        else
+        {
+            Debug.LogError("Sound tag " + tag + " has no SoundPool associated with!");
+        }
+    }
+
+    public void PlayHitSound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float hitIntensity = 1)
+    {
         bool hasSoundAssociatedWith = false;
 
         for (int i = 0; i < soundList.sounds.Length; i++)
@@ -130,7 +169,7 @@ public class AudioManager : MonoBehaviour
         SetAudioSource(hitSoundSource, selectedSound);
         AdjustVolume(hitSoundSource, selectedSound, selectedSound.volume);
 
-        if(RacketManager.instance.isEmpowered == true)
+        if(RacketManager.instance.isEmpowered == true)                                                                                                      // IMPORTANT!!! (RENDRE PROPRE AVEC NEW SYSTEM!)
         {
             hitSoundSource.Play();
         }

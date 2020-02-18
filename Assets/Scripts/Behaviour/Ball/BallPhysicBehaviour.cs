@@ -90,6 +90,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float bounciness;
     public float dynamicFriction;
 
+    [Header("Sound Settings")]
+    public float soundMaxHitMagnitude = 15f;                            // A Changer!
+
     private PhotonView photonView;
     private Rigidbody rigidbody;
     private Collider ballCollider;
@@ -167,6 +170,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+        // New Version
+        //AudioManager.instance?.NewPlaySound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude / soundMaxHitMagnitude);
     }
 
     private void OnCollisionExit(Collision collision)

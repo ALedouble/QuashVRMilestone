@@ -7,8 +7,7 @@ public class CampaignSetUp : MonoBehaviour
     public Transform CampaignTrans;
     public LevelsScriptable[] levelsToCheck;
     private LevelsScriptable[] levelsImplemented;
-
-    public float ik;
+    public LevelRecap levelRecapValues;
 
     private void Start()
     {
@@ -29,14 +28,15 @@ public class CampaignSetUp : MonoBehaviour
                 float yPos = ((levelsToCheck[i].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
 
                 Vector2 startPos = new Vector2(xPos, yPos);
-                
+
 
                 level.rectTransform.anchoredPosition3D = new Vector3(xPos, yPos, 0);
 
 
                 level.text.text = levelsToCheck[i].name;
 
-                level.button.onClick.AddListener(() => CampaignLevel.Instance.SelectLevel(levelsToCheck[i]));
+                LevelsScriptable lvl = levelsToCheck[i];
+                level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
                 for (int y = 0; y < levelsToCheck[i].level.levelProgression.unlockConditions.Count; y++)
                 {
@@ -68,6 +68,89 @@ public class CampaignSetUp : MonoBehaviour
                         line.SetPosition((x + 1), new Vector3(endDiffPos.x, endDiffPos.y, 0));
                     }
                 }
+            }
+        }
+    }
+
+    public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)
+    {
+        levelRecapValues.levelTitle.text = selectedLevel.level.levelSpec.levelName;
+
+        levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete.ToString();
+        levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete.ToString();
+
+        levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
+        levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
+
+        levelRecapValues.bestTime.text = selectedLevel.level.levelProgression.minTiming.ToString();
+        levelRecapValues.highScore.text = selectedLevel.level.levelProgression.maxScore.ToString();
+        levelRecapValues.bestCombo.text = selectedLevel.level.levelProgression.maxCombo.ToString();
+
+        if (selectedLevel.level.levelProgression.isDone)
+        {
+            levelRecapValues.stars[0].color = Color.yellow;
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionComparator == 0)
+                {
+                    switch (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionType)
+                    {
+                        case CompleteConditionType.Score:
+                            if (selectedLevel.level.levelProgression.maxScore < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                                levelRecapValues.stars[i + 1].color = Color.yellow;
+                            else
+                                levelRecapValues.stars[i + 1].color = Color.white;
+                            break;
+
+                        case CompleteConditionType.Combo:
+                            if (selectedLevel.level.levelProgression.maxCombo < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                                levelRecapValues.stars[i + 1].color = Color.yellow;
+                            else
+                                levelRecapValues.stars[i + 1].color = Color.white;
+                            break;
+
+                        case CompleteConditionType.Timing:
+                            if (selectedLevel.level.levelProgression.minTiming < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                                levelRecapValues.stars[i + 1].color = Color.yellow;
+                            else
+                                levelRecapValues.stars[i + 1].color = Color.white;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionType)
+                    {
+                        case CompleteConditionType.Score:
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.maxScore)
+                                levelRecapValues.stars[i + 1].color = Color.yellow;
+                            else
+                                levelRecapValues.stars[i + 1].color = Color.white;
+                            break;
+
+                        case CompleteConditionType.Combo:
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.maxCombo)
+                                levelRecapValues.stars[i + 1].color = Color.yellow;
+                            else
+                                levelRecapValues.stars[i + 1].color = Color.white;
+                            break;
+
+                        case CompleteConditionType.Timing:
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.minTiming)
+                                levelRecapValues.stars[i + 1].color = Color.yellow;
+                            else
+                                levelRecapValues.stars[i + 1].color = Color.white;
+                            break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < levelRecapValues.stars.Length; i++)
+            {
+                levelRecapValues.stars[i].color = Color.white;
             }
         }
     }

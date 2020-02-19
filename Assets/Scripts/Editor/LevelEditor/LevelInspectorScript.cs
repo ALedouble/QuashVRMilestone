@@ -537,6 +537,13 @@ public class LevelInspectorScript : Editor
             {
                 EditorGUILayout.HelpBox("La vitesse de la balle ne peut être est égale à 0 ... pauvre fou", MessageType.Warning);
             }
+
+            currentLevel.level.levelSpec.musicForThisLevel = (AudioClip)EditorGUILayout.ObjectField("Musique", currentLevel.level.levelSpec.musicForThisLevel, typeof(AudioClip), false);
+
+            if (currentLevel.level.levelSpec.musicForThisLevel == null)
+            {
+                EditorGUILayout.HelpBox("Il n'y a pas de musique ! Désormais le jeu est mu..", MessageType.Warning);
+            }
         }
         else
             myTarget.levelCategories = null;

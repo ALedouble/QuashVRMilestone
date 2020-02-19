@@ -8,13 +8,16 @@ using Photon.Pun;
 public class CampaignLevel : MonoBehaviour
 {
     public static CampaignLevel Instance;
+
     [HideInInspector]
     public int levelSelected;
-    // Start is called before the first frame update
+    public LevelsScriptable levelScriptSelected;
+
+
     void Awake()
     {
         Instance = this;
-        DontDestroyOnLoad(transform.gameObject);    
+        DontDestroyOnLoad(transform.gameObject);
     }
 
     // Update is called once per frame
@@ -26,6 +29,10 @@ public class CampaignLevel : MonoBehaviour
     public void SelectLevel(int levelIndex){
         levelSelected = levelIndex;
         PhotonNetwork.LoadLevel(2);
-      
+    }
+
+    public void SelectLevel(LevelsScriptable levelIndex)
+    {
+        PhotonNetwork.LoadLevel(2);
     }
 }

@@ -15,6 +15,7 @@ public class BallEventManager : MonoBehaviour
     #endregion
 
     public delegate void OnCollisionDelegate();
+    public delegate void OnCollisionExitDelegate();
     public delegate void OnSpawnDespawnDelegate();
 
     public event OnCollisionDelegate OnCollisionWithBrick;
@@ -23,6 +24,8 @@ public class BallEventManager : MonoBehaviour
     public event OnCollisionDelegate OnCollisionWithFloor;
     public event OnCollisionDelegate OnCollisionWithRacket;
     public event OnCollisionDelegate OnCollisionWithBackWall;
+
+    public event OnCollisionExitDelegate OnCollisionExitWithFloor;
 
     public event OnSpawnDespawnDelegate OnBallSpawn;
     public event OnSpawnDespawnDelegate OnBallDespawn;
@@ -56,6 +59,19 @@ public class BallEventManager : MonoBehaviour
             case "BackWall":
                 if (OnCollisionWithBackWall != null)
                     OnCollisionWithBackWall();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnBallCollisionExit(string tag)
+    {
+        switch(tag)
+        {
+            case "Floor":
+                if (OnCollisionExitWithFloor != null)
+                    OnCollisionExitWithFloor();
                 break;
             default:
                 break;

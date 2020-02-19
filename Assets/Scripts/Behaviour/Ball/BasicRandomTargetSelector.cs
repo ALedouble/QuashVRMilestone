@@ -42,6 +42,11 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
         return currentTarget;
     }
 
+    public QPlayer GetPreviousTarget()
+    {
+        return (QPlayer)(((int)currentTarget + LevelManager.instance.numberOfPlayers - 1) % LevelManager.instance.numberOfPlayers);
+    }
+
     private Vector3 GetRandomRelativeTargetPoint()
     {
         float randomRange = Random.Range(minRange, maxRange);

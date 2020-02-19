@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TestConnect : MonoBehaviourPunCallbacks
 {
+
+
    private void Start(){
        Screen.fullScreen = !Screen.fullScreen;
 

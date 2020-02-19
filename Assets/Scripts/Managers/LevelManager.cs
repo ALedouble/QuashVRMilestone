@@ -72,6 +72,12 @@ public class LevelManager : MonoBehaviour
         InitValues();
     }
 
+    public void StartLevelInitialization(LevelsScriptable levelToInit)
+    {
+        ConfigDistribution(levelToInit);
+        InitValues();
+    }
+
     private void Start()
     {
         for (int i = 0; i < numberOfPlayers; i++)
@@ -388,6 +394,16 @@ public class LevelManager : MonoBehaviour
         currentLevel = registeredLevels[selectedLevel];
         currentLevelConfig = currentLevel.level;
         BrickManager.Instance.levelWallsConfig = registeredLevels[selectedLevel].level.levelWallBuilds;
+    }
+
+    /// <summary>
+    /// Attribute data to corresponding managers
+    /// </summary>
+    /// <param name="selectedLevel"></param>
+    public void ConfigDistribution(LevelsScriptable selectedLevel)
+    {
+        currentLevelConfig = selectedLevel.level;
+        BrickManager.Instance.levelWallsConfig = selectedLevel.level.levelWallBuilds;
     }
 
     IEnumerator GoWALLgO(int playerID)

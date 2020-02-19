@@ -49,6 +49,7 @@ public class LevelSpecifics
     public bool changingBrickColorEveryXseconds;
     public bool noWallsMode;
     public bool mandatoryBounce;
+    public AudioClip musicForThisLevel;
 
     public LevelSpecifics()
     {
@@ -60,6 +61,7 @@ public class LevelSpecifics
         changingBrickColorEveryXseconds = false;
         noWallsMode = false;
         mandatoryBounce = false;
+        musicForThisLevel = null;
     }
 }
 

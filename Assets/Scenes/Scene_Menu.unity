@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5276,6 +5276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSelected: 0
+  levelScriptSelected: {fileID: 0}
 --- !u!1 &432276426
 GameObject:
   m_ObjectHideFlags: 0
@@ -23330,6 +23331,7 @@ GameObject:
   - component: {fileID: 1930187400}
   - component: {fileID: 1930187399}
   - component: {fileID: 1930187398}
+  - component: {fileID: 1930187405}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Campaign New Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: Untagged
@@ -23372,6 +23374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSelected: 0
+  levelScriptSelected: {fileID: 0}
 --- !u!114 &1930187399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23472,6 +23475,27 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1930187405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930187396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd150bb0b55833459f25e771234ad88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CampaignTrans: {fileID: 2060217984}
+  levelsToCheck:
+  - {fileID: 11400000, guid: 349111aafcc4fa94fb0ed83049b26ce5, type: 2}
+  - {fileID: 11400000, guid: d0166d5d43806fc438371e4442365d35, type: 2}
+  - {fileID: 11400000, guid: 67d0f9ce2ea046a4580ee59041d69964, type: 2}
+  - {fileID: 11400000, guid: 62281f4d591b58249a0fdba66909e536, type: 2}
+  - {fileID: 11400000, guid: e6cd493c912ab014797124717001f9f7, type: 2}
+  - {fileID: 11400000, guid: 798a69bac24615a46a94a00f7cf376cc, type: 2}
+  ik: 0
 --- !u!1 &1930997596
 GameObject:
   m_ObjectHideFlags: 0
@@ -24089,7 +24113,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41368
+  m_Name: pb_Mesh36900
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -24667,7 +24691,7 @@ RectTransform:
   - {fileID: 485204719}
   - {fileID: 1118626079}
   m_Father: {fileID: 2018183732}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -24857,6 +24881,7 @@ RectTransform:
   m_Children:
   - {fileID: 1352012241}
   - {fileID: 1039156132}
+  - {fileID: 2060217984}
   - {fileID: 2014119956}
   m_Father: {fileID: 1930187397}
   m_RootOrder: 2
@@ -24955,6 +24980,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035698047}
   m_CullTransparentMesh: 0
+--- !u!1 &2060217983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2060217984}
+  m_Layer: 5
+  m_Name: CampaignTree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2060217984
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060217983}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2018183732}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.5, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2071812271
 GameObject:
   m_ObjectHideFlags: 0
@@ -26969,7 +27029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e8647d3c8384d4c8823b22bf4b6d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolList: {fileID: 11400000, guid: 7d2fd5716c1fe1b4781c719c990fdbbc, type: 2}
+  poolList: {fileID: 11400000, guid: 1060ac47c8dba4347a27116b711d8012, type: 2}
 --- !u!1 &1926413077418417652 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2609172055907320103, guid: db90d7d5b94a1944aaa42d210b93f2b2,

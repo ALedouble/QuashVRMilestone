@@ -202,7 +202,7 @@ public class GameManager : MonoBehaviour
             UpdateTimer();
         }
 
-        Debug.Log(levelIndex);
+//        Debug.Log(levelIndex);
     }
 
     

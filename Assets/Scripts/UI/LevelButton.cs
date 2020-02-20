@@ -10,4 +10,7 @@ public class LevelButton : MonoBehaviour
     public TextMeshProUGUI text;
     public Button button;
     public RectTransform rectTransform;
+
+    public List<GameObject> lockImages;
+    public List<GameObject> unlockImages;
 }

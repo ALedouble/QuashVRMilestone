@@ -202,7 +202,7 @@ public class GameManager : MonoBehaviour
             UpdateTimer();
         }
 
-        Debug.Log(levelIndex);
+        //Debug.Log(levelIndex);
     }
 
     
@@ -324,6 +324,12 @@ public class GameManager : MonoBehaviour
 
 
     public void SelectionLevel(int selection){
+        //LevelManager.instance.ConfigDistribution(selection);
+        LevelManager.instance.StartLevelInitialization(selection);
+    }
+
+    public void SelectionLevel(LevelsScriptable selection)
+    {
         //LevelManager.instance.ConfigDistribution(selection);
         LevelManager.instance.StartLevelInitialization(selection);
     }

@@ -23957,12 +23957,32 @@ MonoBehaviour:
     levelProgression:
       isDone: 0
       isUnlocked: 0
+      starsRequired: 0
       isImplemented: 0
+      maxScore: 0
+      maxCombo: 0
+      minTiming: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
-      score: 0
-      stagePos: 0
       levelID: 0
+      conditionsToComplete:
+      - conditionType: 0
+        conditionComparator: 0
+        conditionReachedAt: 0
+      - conditionType: 0
+        conditionComparator: 0
+        conditionReachedAt: 0
+      - conditionType: 0
+        conditionComparator: 0
+        conditionReachedAt: 0
+      numberOfConditionCompleted: 0
     levelSpec:
+      levelName: 
       timeForThisLevel: 240
       impactRadiusForThisLevel: 1.7
+      balleSpeedForThisLevel: 1
+      switchColorBehaviourForThisLevel: 0
+      changingBrickColorEveryXseconds: 0
+      noWallsMode: 0
+      mandatoryBounce: 0
+      musicForThisLevel: {fileID: 0}

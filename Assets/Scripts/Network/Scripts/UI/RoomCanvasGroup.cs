@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoomCanvasGroup : MonoBehaviour
 {
+
    [SerializeField]
    private CreateOrJoinRoomCanvas createOrJoinCanvas;
    public CreateOrJoinRoomCanvas CreateOrJoinRoomCanvas { get { return createOrJoinCanvas;} }

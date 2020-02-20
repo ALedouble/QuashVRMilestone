@@ -141,7 +141,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void OnCollisionEnter(Collision other)
     {
-        SendBallCollisionEvent(other);
+        SendBallCollisionEvent(other.gameObject.tag);
 
         switch (other.gameObject.tag)
         {
@@ -156,6 +156,10 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             case "BackWall":
                 BallManager.instance.LoseBall();
                 break;
+            case "Floor":
+                BallManager.instance.StartBallResetCountdown();
+                StandardBounce(other.GetContact(0));
+                break;
             default:
                 StandardBounce(other.GetContact(0));
                 break;
@@ -165,21 +169,26 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
     }
 
-    private void SendBallCollisionEvent(Collision other)
+    private void OnCollisionExit(Collision collision)
+    {
+        SendBallCollisionExitEvent(collision.gameObject.tag);
+    }
+
+    private void SendBallCollisionEvent(string tag)
     {
         if (GameManager.Instance.offlineMode)
         {
-            OnBallCollisionRPC(other.gameObject.tag);
+            OnBallCollisionRPC(tag);
         }
-        else if (other.gameObject.tag == "Racket")
+        else if (tag == "Racket")
         {
-            photonView.RPC("OnBallCollisionRPC", RpcTarget.All, other.gameObject.tag);
+            photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
         }
         else
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("OnBallCollisionRPC", RpcTarget.All, other.gameObject.tag);
+                photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
             }
         }
     }
@@ -188,6 +197,24 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private void OnBallCollisionRPC(string tag)
     {
         BallEventManager.instance.OnBallCollision(tag);
+    }
+
+    private void SendBallCollisionExitEvent(string tag)
+    {
+        if (GameManager.Instance.offlineMode)
+        {
+            OnBallCollisionExitRPC(tag);
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("OnBallCollisionExitRPC", RpcTarget.All, tag);
+        }
+    }
+
+    [PunRPC]
+    private void OnBallCollisionExitRPC(string tag)
+    {
+        BallEventManager.instance.OnBallCollisionExit(tag);
     }
 
     [PunRPC]

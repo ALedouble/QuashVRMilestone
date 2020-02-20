@@ -1462,6 +1462,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81c4971e76c65c54b87b9c0d46ef3504, type: 2}
   - {fileID: 11400000, guid: d14be4870600e1f4b839f769cb6fc80b, type: 2}
   - {fileID: 11400000, guid: 79402e1d661f2bb44bdeb94ea3f9c3e5, type: 2}
+  - {fileID: 11400000, guid: 349111aafcc4fa94fb0ed83049b26ce5, type: 2}
+  - {fileID: 11400000, guid: d0166d5d43806fc438371e4442365d35, type: 2}
+  - {fileID: 11400000, guid: 67d0f9ce2ea046a4580ee59041d69964, type: 2}
+  - {fileID: 11400000, guid: 62281f4d591b58249a0fdba66909e536, type: 2}
+  - {fileID: 11400000, guid: e6cd493c912ab014797124717001f9f7, type: 2}
+  - {fileID: 11400000, guid: 798a69bac24615a46a94a00f7cf376cc, type: 2}
   - {fileID: 11400000, guid: 29da3a28c6737e243bc0f203b0a67841, type: 2}
   - {fileID: 11400000, guid: 69fed06933276fa4da3d0c1ceb5b0def, type: 2}
   - {fileID: 11400000, guid: 90e4369e3dce3a441951f8e5679c5c41, type: 2}
@@ -21707,15 +21713,25 @@ MonoBehaviour:
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
+        conditionComparator: 0
         conditionReachedAt: 0
       - conditionType: 0
+        conditionComparator: 0
         conditionReachedAt: 0
       - conditionType: 0
+        conditionComparator: 0
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
+      levelName: Flower Breaker
       timeForThisLevel: 240
       impactRadiusForThisLevel: 1.7
+      balleSpeedForThisLevel: 1
+      switchColorBehaviourForThisLevel: 0
+      changingBrickColorEveryXseconds: 0
+      noWallsMode: 0
+      mandatoryBounce: 0
+      musicForThisLevel: {fileID: 0}
   colorPresets:
   - {fileID: 11400000, guid: 13777aa392caf5542bdc3239152fa2eb, type: 2}
   brickPresets:
@@ -25406,16 +25422,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25470,6 +25476,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}

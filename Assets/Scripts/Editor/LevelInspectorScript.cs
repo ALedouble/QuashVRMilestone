@@ -472,6 +472,8 @@ public class LevelInspectorScript : Editor
 
         EditorGUILayout.BeginVertical("box");
 
+        EditorGUILayout.BeginVertical("box");
+
         EditorGUI.BeginChangeCheck();
 
         myTarget.selectedLevel = (LevelsScriptable)EditorGUILayout.ObjectField("Selected Level", myTarget.selectedLevel, typeof(LevelsScriptable), false);
@@ -497,7 +499,7 @@ public class LevelInspectorScript : Editor
 
             EditorGUILayout.BeginHorizontal("box");
 
-            myTarget.selectedLevel.name = EditorGUILayout.TextField("Level Name", myTarget.selectedLevel.name);
+            myTarget.selectedLevel.name = EditorGUILayout.TextField("Asset Name", myTarget.selectedLevel.name);
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -516,6 +518,16 @@ public class LevelInspectorScript : Editor
 
             EditorGUILayout.EndHorizontal();
 
+            EditorGUI.BeginChangeCheck();
+
+            EditorGUILayout.BeginHorizontal("box");
+
+            currentLevel.level.levelSpec.levelName = EditorGUILayout.TextField("Level Name", currentLevel.level.levelSpec.levelName);
+
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.EndVertical();
+
             currentLevel.level.levelSpec.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.level.levelSpec.timeForThisLevel);
 
             if (currentLevel.level.levelSpec.timeForThisLevel == 0)
@@ -529,6 +541,20 @@ public class LevelInspectorScript : Editor
             if (currentLevel.level.levelSpec.impactRadiusForThisLevel == 0)
             {
                 EditorGUILayout.HelpBox("L'impact est égale à 0", MessageType.Warning);
+            }
+
+            currentLevel.level.levelSpec.balleSpeedForThisLevel = EditorGUILayout.FloatField("Modifier pour la vitesse de la balle", currentLevel.level.levelSpec.balleSpeedForThisLevel);
+
+            if (currentLevel.level.levelSpec.balleSpeedForThisLevel == 0)
+            {
+                EditorGUILayout.HelpBox("La vitesse de la balle ne peut être est égale à 0 ... pauvre fou", MessageType.Warning);
+            }
+
+            currentLevel.level.levelSpec.musicForThisLevel = (AudioClip)EditorGUILayout.ObjectField("Musique", currentLevel.level.levelSpec.musicForThisLevel, typeof(AudioClip), false);
+
+            if (currentLevel.level.levelSpec.musicForThisLevel == null)
+            {
+                EditorGUILayout.HelpBox("Il n'y a pas de musique ! Désormais le jeu est mu..", MessageType.Warning);
             }
         }
         else

@@ -5,6 +5,7 @@ using Malee;
 
 
 public enum CompleteConditionType { Score, Combo, Timing }
+public enum CompleteConditionComparator { Min, Max }
 
 /////////////////////////////  LEVEL  ////////////////////////////////
 
@@ -37,12 +38,32 @@ public class LevelSettings
 }
 
 ///////////////////////////  PARAMETRES du level  //////////////////////////////
-
 [System.Serializable]
-public struct LevelSpecifics
+public class LevelSpecifics
 {
+    public string levelName;
     public float timeForThisLevel;
     public float impactRadiusForThisLevel;
+    public float balleSpeedForThisLevel;
+
+    public ColorSwitchBehaviour switchColorBehaviourForThisLevel;
+    public bool changingBrickColorEveryXseconds;
+    public bool noWallsMode;
+    public bool mandatoryBounce;
+    public AudioClip musicForThisLevel;
+
+    public LevelSpecifics()
+    {
+        timeForThisLevel = 0f;
+        impactRadiusForThisLevel = 1.7f;
+        balleSpeedForThisLevel = 1f;
+
+        switchColorBehaviourForThisLevel = ColorSwitchBehaviour.NORMAL;
+        changingBrickColorEveryXseconds = false;
+        noWallsMode = false;
+        mandatoryBounce = false;
+        musicForThisLevel = null;
+    }
 }
 
 ///////////////////////////  PROGRESSION  //////////////////////////////
@@ -56,7 +77,7 @@ public class ProgressionSettings
 
     public int maxScore;
     public int maxCombo;
-    public int maxTiming;
+    public int minTiming;
 
     public List<LevelsScriptable> unlockConditions;
 
@@ -77,6 +98,7 @@ public class ProgressionSettings
 public struct LevelConditions
 {
     public CompleteConditionType conditionType;
+    public CompleteConditionComparator conditionComparator;
     public int conditionReachedAt;
 }
 

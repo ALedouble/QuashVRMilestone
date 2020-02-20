@@ -9,4 +9,5 @@ public interface ITargetSelector
     Vector3 GetNewTargetPosition();
     void SetCurrentTarget(QPlayer newTarget);
     QPlayer GetCurrentTarget();
+    QPlayer GetPreviousTarget();
 }

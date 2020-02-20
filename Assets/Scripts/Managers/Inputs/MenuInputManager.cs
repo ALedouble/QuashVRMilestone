@@ -31,22 +31,22 @@ public class MenuInputManager : IInputable
 
     public void OnRightTriggerPress()
     {
-        if(rightHandIsActive == false)
-        {
+        //if(rightHandIsActive == false)
+        //{
             //SwitchActiveHand();
             SetRightPointerActive(true);
             rightHandIsActive = true;
-        }
+        //}
     }
 
     public void OnLeftTriggerPress()
     {
-        if (leftHandIsActive == false)
-        {
+        //if (leftHandIsActive == false)
+        //{
             //SwitchActiveHand();
             SetLeftPointerActive(true);
             leftHandIsActive = true;
-        }
+        //}
     }
 
     public void OnRightTriggerRelease()
@@ -70,12 +70,12 @@ public class MenuInputManager : IInputable
     private void SetRightPointerActive(bool activeState)
     {
         QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_Pointer>().Toggle(activeState);
-        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = true;
+        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = activeState;
     }
 
     private void SetLeftPointerActive(bool activeState)
     {
         QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_Pointer>().Toggle(activeState);
-        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = true;
+        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = activeState;
     }
 }

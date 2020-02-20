@@ -118,8 +118,6 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnPauseButtonPress()
     {
-        Debug.LogError("salut Timothée c'est cool");
-
         if (GameManager.Instance.offlineMode)
         {
             PhotonNetwork.Disconnect();

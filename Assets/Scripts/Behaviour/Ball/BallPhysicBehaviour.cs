@@ -141,7 +141,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void OnCollisionEnter(Collision other)
     {
-        SendBallCollisionEvent(other.gameObject.tag);
 
         switch (other.gameObject.tag)
         {
@@ -164,6 +163,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 StandardBounce(other.GetContact(0));
                 break;
         }
+
+        SendBallCollisionEvent(other.gameObject.tag);
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
         AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
@@ -223,7 +224,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         transform.position = positionWhenHit;
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
-
+        
         SetSpeedState((SpeedState)newSpeedState, true);
     }
 
@@ -284,7 +285,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
             speedState = SpeedState.NORMAL;
         }
-        else if(newSpeedState == SpeedState.SLOW && speedState != SpeedState.SLOW)
+        else if(newSpeedState == SpeedState.SLOW)
         {
             if(doesSpeedNeedToChange)
             {

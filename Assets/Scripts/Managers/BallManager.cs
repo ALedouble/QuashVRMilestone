@@ -95,7 +95,7 @@ public class BallManager : MonoBehaviour
         }
 
         SetupBallManager();
-        ballColorBehaviour.SetBallColor(spawnColorID);
+        //ballColorBehaviour.SetBallColor(spawnColorID);
         ball.SetActive(false);
         ballColorBehaviour.DeactivateTrail();
         Sh_GlobalDissolvePosition.Setup();
@@ -229,7 +229,7 @@ public class BallManager : MonoBehaviour
         return nextPlayerTarget;
     }
 
-    private QPlayer GetPlayerWhoLostTheBall()
+    public QPlayer GetPlayerWhoLostTheBall()
     {
         QPlayer playerWhoLostTheBall;
         switch (ballInfo.CurrentBallStatus)                                              // A tester
@@ -270,6 +270,9 @@ public class BallManager : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
+
+        BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
+        LoseBall();
     }
     #endregion
 

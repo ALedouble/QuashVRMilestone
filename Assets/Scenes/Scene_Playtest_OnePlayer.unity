@@ -1093,6 +1093,11 @@ PrefabInstance:
       propertyPath: floatPeriod
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2982228413454030202, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: delayBeforeReset
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1846513081278596601, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: playerSpawn.Array.size
@@ -21707,7 +21712,7 @@ MonoBehaviour:
       isImplemented: 0
       maxScore: 0
       maxCombo: 0
-      maxTiming: 0
+      minTiming: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
       levelID: 0
@@ -25422,6 +25427,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25476,16 +25491,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}

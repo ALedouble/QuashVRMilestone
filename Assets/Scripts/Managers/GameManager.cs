@@ -65,10 +65,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (offlineMode)
-        {
-            SelectionLevel(CampaignLevel.Instance.levelSelected);
-        }
+        
 
         InstantiatePlayers();
 
@@ -130,7 +127,11 @@ public class GameManager : MonoBehaviour
 
     private void SpawnLevel()
     {
-        if (!offlineMode)
+        if (offlineMode)
+        {
+            SelectionLevel(CampaignLevel.Instance.levelSelected);
+        }
+        else
         {
             if (gameMod == GameMod.GAMEPLAY)
             {
@@ -197,7 +198,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isGameStart && !isTimerStopped && !hasLost)
+        if (gameMod == GameMod.GAMEPLAY && isGameStart && !isTimerStopped && !hasLost)
         {
             UpdateTimer();
         }

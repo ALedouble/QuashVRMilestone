@@ -20,19 +20,9 @@ public class CampaignLevel : MonoBehaviour
         DontDestroyOnLoad(transform.gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SelectLevel(int levelIndex)
     {
-        
-    }
-
-    public void SelectLevel(int levelIndex){
         levelSelected = levelIndex;
-        PhotonNetwork.LoadLevel(2);
-    }
-
-    public void SelectLevel(LevelsScriptable levelIndex)
-    {
         PhotonNetwork.LoadLevel(2);
     }
 }

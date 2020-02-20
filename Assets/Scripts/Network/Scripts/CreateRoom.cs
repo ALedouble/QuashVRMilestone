@@ -39,7 +39,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom(){
       Debug.Log("Created room successfully.");
-      Debug.Log(_roomName.text);
       roomCanvases.CurrentRoomCanvas.Show();
       roomCanvases.CreateOrJoinRoomCanvas.Hide();
     }

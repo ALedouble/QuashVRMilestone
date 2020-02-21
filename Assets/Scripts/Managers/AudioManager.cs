@@ -9,9 +9,10 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    public SoundClass soundList;
+    //public SoundClass soundList;
     public SoundPreset soundPreset;
-    private SoundSettings selectedSound;
+
+    //private SoundSettings selectedSound;
     private Dictionary<string, SoundPool> soundDictionary;
 
     private void Awake()
@@ -25,182 +26,182 @@ public class AudioManager : MonoBehaviour
     {
         soundDictionary = new Dictionary<string, SoundPool>();
 
-        foreach(SoundPool soundPool in soundPreset.soundPool)
+        foreach(SoundPool soundPool in soundPreset.soundPools)
         {
-            string soundTag = soundPool.tag.ToString();
+            string soundTag = soundPool.soundPoolName;
             if (!soundDictionary.ContainsKey(soundTag))
             {
                 soundDictionary.Add(soundTag, soundPool);
             }
             else
             {
-                Debug.LogError("SoundPoolKey " + tag + " already Exist!");
+                Debug.LogError("SoundPoolKey " + soundTag + " already Exist!");
             }
         }
     }
 
-    public void NewPlaySound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float soundIntensity)                 // A modifier pour permettre passage RPC. Attention RandomSound pour réseau...?
+    public void PlaySound(string soundPoolName, Vector3 spawnPosition, float soundIntensity = 1)                 // A modifier pour permettre passage RPC. Attention RandomSound pour réseau...?
     {
 
-        if (soundDictionary.ContainsKey(tag))
+        if (soundDictionary.ContainsKey(soundPoolName))
         {
-            if (Time.time < soundDictionary[tag].NextPlayableTime)
+            if (Time.time < soundDictionary[soundPoolName].NextPlayableTime)
             {
                 return;
             }
 
-            GameObject audioSourceGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, spawnRotation);
+            GameObject audioSourceGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, Quaternion.identity);
             AudioSource audioSource = audioSourceGameObject?.GetComponent<AudioSource>();
 
             if (audioSource != null)
             {
-                soundDictionary[tag].PlayRandomSound(audioSource, soundIntensity);
+                soundDictionary[soundPoolName].PlayRandomSound(audioSource, soundIntensity);
             }
         }
         else
         {
-            Debug.LogError("Sound tag " + tag + " has no SoundPool associated with!");
+            Debug.LogError("Sound tag " + soundPoolName + " has no SoundPool associated with!");
         }
     }
 
-    public void PlayHitSound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float hitIntensity = 1)
-    {
-        bool hasSoundAssociatedWith = false;
+    //public void PlayHitSound(string tag, Vector3 spawnPosition, Quaternion spawnRotation, float hitIntensity = 1)
+    //{
+    //    bool hasSoundAssociatedWith = false;
 
-        for (int i = 0; i < soundList.sounds.Length; i++)
-        {
-            if (tag == soundList.sounds[i].tag.ToString())
-            {
-                selectedSound = soundList.sounds[i];
-                hasSoundAssociatedWith = true;
-                break;
-            }
+    //    for (int i = 0; i < soundList.sounds.Length; i++)
+    //    {
+    //        if (tag == soundList.sounds[i].tag.ToString())
+    //        {
+    //            selectedSound = soundList.sounds[i];
+    //            hasSoundAssociatedWith = true;
+    //            break;
+    //        }
 
-        }
+    //    }
 
-        if (!hasSoundAssociatedWith)
-        {
-            return;
-        }
+    //    if (!hasSoundAssociatedWith)
+    //    {
+    //        return;
+    //    }
 
-        if (selectedSound.clip == null)
-        {
-            Debug.LogWarning("SOUND NOT FOUND");
-            return;
-        }
+    //    if (selectedSound.clip == null)
+    //    {
+    //        Debug.LogWarning("SOUND NOT FOUND");
+    //        return;
+    //    }
 
-        if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
-        {
-            return;
-        }
+    //    if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
+    //    {
+    //        return;
+    //    }
 
-        GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, spawnRotation);
-        AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
+    //    GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", spawnPosition, spawnRotation);
+    //    AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
 
-        SetAudioSource(hitSoundSource, selectedSound);
-        AdjustVolume(hitSoundSource, selectedSound, hitIntensity);
+    //    SetAudioSource(hitSoundSource, selectedSound);
+    //    AdjustVolume(hitSoundSource, selectedSound, hitIntensity);
 
-        /*
-        if (tag == "Racket")
-        {
-            VibrationManager.instance.VibrateOn(hitSoundSource.clip);
-        }
-        */
+    //    /*
+    //    if (tag == "Racket")
+    //    {
+    //        VibrationManager.instance.VibrateOn(hitSoundSource.clip);
+    //    }
+    //    */
 
-        hitSoundSource.Play();
-    }
+    //    hitSoundSource.Play();
+    //}
 
-    public void PlaySound(string soundName, Vector3 soundPosition)
-    {
-        for (int i = 0; i < soundList.sounds.Length; i++)
-        {
-            if (soundName == soundList.sounds[i].soundName)
-            {
-                selectedSound = soundList.sounds[i];
-                break;
-            }
-        }
+    //public void PlaySound(string soundName, Vector3 soundPosition)
+    //{
+    //    for (int i = 0; i < soundList.sounds.Length; i++)
+    //    {
+    //        if (soundName == soundList.sounds[i].soundName)
+    //        {
+    //            selectedSound = soundList.sounds[i];
+    //            break;
+    //        }
+    //    }
 
-        if (selectedSound.clip == null)
-        {
-            Debug.LogWarning("SOUND NOT FOUND");
-            return;
-        }
+    //    if (selectedSound.clip == null)
+    //    {
+    //        Debug.LogWarning("SOUND NOT FOUND");
+    //        return;
+    //    }
 
-        if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
-        {
-            return;
-        }
+    //    if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
+    //    {
+    //        return;
+    //    }
 
-        GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero, Quaternion.identity);
-        AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
+    //    GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero, Quaternion.identity);
+    //    AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
 
-        SetAudioSource(hitSoundSource, selectedSound);
-        AdjustVolume(hitSoundSource, selectedSound, selectedSound.volume);
+    //    SetAudioSource(hitSoundSource, selectedSound);
+    //    AdjustVolume(hitSoundSource, selectedSound, selectedSound.volume);
 
-        hitSoundSource.Play();
-    }
+    //    hitSoundSource.Play();
+    //}
 
-    public void PlayRacketSound(string soundName, Vector3 soundPosition)
-    {
-        for (int i = 0; i < soundList.sounds.Length; i++)
-        {
-            if (soundName == soundList.sounds[i].soundName)
-            {
-                selectedSound = soundList.sounds[i];
-                break;
-            }
-        }
+    //public void PlayRacketSound(string soundName, Vector3 soundPosition)
+    //{
+    //    for (int i = 0; i < soundList.sounds.Length; i++)
+    //    {
+    //        if (soundName == soundList.sounds[i].soundName)
+    //        {
+    //            selectedSound = soundList.sounds[i];
+    //            break;
+    //        }
+    //    }
 
-        if (selectedSound.clip == null)
-        {
-            Debug.LogWarning("SOUND NOT FOUND");
-            return;
-        }
+    //    if (selectedSound.clip == null)
+    //    {
+    //        Debug.LogWarning("SOUND NOT FOUND");
+    //        return;
+    //    }
 
-        if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
-        {
-            return;
-        }
+    //    if (Time.time < selectedSound.lastPlayTime + selectedSound.cooldown)
+    //    {
+    //        return;
+    //    }
 
-        GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero, Quaternion.identity);
-        AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
+    //    GameObject hitSoundGameObject = (GameObject)PoolManager.instance?.SpawnFromPool("AudioSource", Vector3.zero, Quaternion.identity);
+    //    AudioSource hitSoundSource = hitSoundGameObject.GetComponent<AudioSource>();
 
-        SetAudioSource(hitSoundSource, selectedSound);
-        AdjustVolume(hitSoundSource, selectedSound, selectedSound.volume);
+    //    SetAudioSource(hitSoundSource, selectedSound);
+    //    AdjustVolume(hitSoundSource, selectedSound, selectedSound.volume);
 
-        if(RacketManager.instance.isEmpowered == true)                                                                                                      // IMPORTANT!!! (RENDRE PROPRE AVEC NEW SYSTEM!)
-        {
-            hitSoundSource.Play();
-        }
-        else
-        {
-            hitSoundSource.Stop();
-        }
+    //    if(RacketManager.instance.isEmpowered == true)                                                                                                      // IMPORTANT!!! (RENDRE PROPRE AVEC NEW SYSTEM!)
+    //    {
+    //        hitSoundSource.Play();
+    //    }
+    //    else
+    //    {
+    //        hitSoundSource.Stop();
+    //    }
 
-    }
+    //}
 
 
-    private void SetAudioSource(AudioSource source, SoundSettings sound)
-    {
-        source.clip = sound.clip;
-        //source.outputAudioMixerGroup = sound.output;          //util?
-        source.volume = sound.volume;
-        source.pitch = sound.pitch;
-        source.loop = sound.loop;
-        source.spatialBlend = sound.spatialBlend;
-        source.panStereo = sound.panStereo;
-    }
+    //private void SetAudioSource(AudioSource source, SoundSettings sound)
+    //{
+    //    source.clip = sound.clip;
+    //    //source.outputAudioMixerGroup = sound.output;          //util?
+    //    source.volume = sound.volume;
+    //    source.pitch = sound.pitch;
+    //    source.loop = sound.loop;
+    //    source.spatialBlend = sound.spatialBlend;
+    //    source.panStereo = sound.panStereo;
+    //}
 
-    private void AdjustVolume(AudioSource source, SoundSettings sound, float hitIntensity)          // A améliorer
-    {
-        source.volume *= hitIntensity / sound.maxHitMagnitude;
+    //private void AdjustVolume(AudioSource source, SoundSettings sound, float hitIntensity)          // A améliorer
+    //{
+    //    source.volume *= hitIntensity / sound.maxHitMagnitude;
 
-        if (source.volume < sound.minVolume)
-            source.volume = sound.minVolume;
-        else if (source.volume > sound.maxVolume)
-            source.volume = sound.maxVolume;
-    }
+    //    if (source.volume < sound.minVolume)
+    //        source.volume = sound.minVolume;
+    //    else if (source.volume > sound.maxVolume)
+    //        source.volume = sound.maxVolume;
+    //}
 }
 
 // TO PLAY A SOUND IN ANOTHER SCRIPT :

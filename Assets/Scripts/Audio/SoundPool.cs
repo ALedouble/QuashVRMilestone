@@ -7,8 +7,10 @@ public enum SoundTag { Brick, Impact, Wall, Floor, Racket, FrontWall, None }
 [System.Serializable]
 public class SoundPool
 {
+    public string soundPoolName;
     public SoundTag tag;
     public float cooldown;
+
     public Sound[] sounds;
     
     private float lastPlayTime = 0;
@@ -23,12 +25,14 @@ public class SoundPool
         AdjustVolume(audioSource, selectedSound, soundIntensity);
 
         audioSource.Play();
+
+        lastPlayTime = Time.time;
     }
 
     private void SetAudioSource(AudioSource source, Sound sound)
     {
         source.clip = sound.clip;
-        source.volume = sound.volume;
+        source.volume = sound.defaultVolume;
         source.pitch = sound.pitch;
         source.loop = sound.loop;
         source.spatialBlend = sound.spatialBlend;
@@ -37,12 +41,15 @@ public class SoundPool
 
     private void AdjustVolume(AudioSource audioSource, Sound sound, float soundIntensity)           // A amelioré (ajout d'un default volume?)
     {
-        audioSource.volume *= soundIntensity;
+        if(soundIntensity >= 0)
+        {
+            audioSource.volume *= soundIntensity;
 
-        if (audioSource.volume < sound.minVolume)
-            audioSource.volume = sound.minVolume;
-        else if (audioSource.volume > sound.maxVolume)
-            audioSource.volume = sound.maxVolume;
+            if (audioSource.volume < sound.minVolume)
+                audioSource.volume = sound.minVolume;
+            else if (audioSource.volume > sound.maxVolume)
+                audioSource.volume = sound.maxVolume;
+        }
     }
 
     private Sound SelectRandomSound()

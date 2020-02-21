@@ -96,7 +96,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void OnCollisionEnter(Collision other)
     {
-        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
+        AudioManager.instance?.PlaySound(other.gameObject.tag, other.GetContact(0).point, RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
         
         if (other.gameObject.CompareTag("Racket"))
         {

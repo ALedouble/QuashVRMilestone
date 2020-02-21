@@ -91,7 +91,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float dynamicFriction;
 
     [Header("Sound Settings")]
-    public float soundMaxHitMagnitude = 15f;                            // A Changer!
+    public float averageHitMagnitude = 10f;                            // A Changer!
 
     private PhotonView photonView;
     private Rigidbody rigidbody;
@@ -151,10 +151,15 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             case "Racket":
                 RacketInteraction(other);
                 VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
+                AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
                 break;
             case "FrontWall":
+                ReturnInteration();
+                AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                break;
             case "Brick":
                 ReturnInteration();
+                AudioManager.instance.PlaySound("BrickHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
                 break;
             case "BackWall":
                 BallManager.instance.LoseBall();
@@ -162,6 +167,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             case "Floor":
                 BallManager.instance.StartBallResetCountdown();
                 StandardBounce(other.GetContact(0));
+                AudioManager.instance.PlaySound("FloorHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                break;
+            case "Wall":
+                StandardBounce(other.GetContact(0));
+                AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
                 break;
             default:
                 StandardBounce(other.GetContact(0));
@@ -169,9 +179,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
-        AudioManager.instance?.PlayHitSound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude);
-        // New Version
-        //AudioManager.instance?.NewPlaySound(other.gameObject.tag, other.GetContact(0).point, Quaternion.LookRotation(other.GetContact(0).normal), RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude / soundMaxHitMagnitude);
+        
     }
 
     private void OnCollisionExit(Collision collision)

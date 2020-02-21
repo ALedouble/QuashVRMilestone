@@ -16,7 +16,7 @@ public class BallEventManager : MonoBehaviour
 
     public delegate void OnCollisionDelegate();
     public delegate void OnCollisionExitDelegate();
-    public delegate void OnSpawnDespawnDelegate();
+    public delegate void OnBallEventDelegate();
 
     public event OnCollisionDelegate OnCollisionWithBrick;
     public event OnCollisionDelegate OnCollisionWithFrontWall;
@@ -27,11 +27,11 @@ public class BallEventManager : MonoBehaviour
 
     public event OnCollisionExitDelegate OnCollisionExitWithFloor;
 
-    public event OnSpawnDespawnDelegate OnBallSpawn;
-    public event OnSpawnDespawnDelegate OnBallDespawn;
+    public event OnBallEventDelegate OnBallSpawn;
+    public event OnBallEventDelegate OnBallDespawn;
+    public event OnBallEventDelegate OnLoseBall;
 
 
-    //public void OnBallCollision(BallCollisionInfo ballCollisionInfo)
     public void OnBallCollision(string tag)
     {
         switch (tag)

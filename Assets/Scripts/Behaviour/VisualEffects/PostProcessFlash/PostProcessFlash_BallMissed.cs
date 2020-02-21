@@ -5,7 +5,7 @@ using UnityEngine;
 public class PostProcessFlash_BallMissed : PostProcessFlash
 {
     [SerializeField] Color bloomTargetColor = Color.red;
-    [SerializeField] Color bloomIniColor;
+    [SerializeField] protected Color bloomIniColor;
 
     protected override void Start()
     {
@@ -17,7 +17,7 @@ public class PostProcessFlash_BallMissed : PostProcessFlash
     protected override void StartAnim()
     {
         base.StartAnim();
-        Debug.Log("Ball killed");
+        //Debug.Log("Ball killed");
         //maxBloomIntensity = minBloomIntensity;
     }
 

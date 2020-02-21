@@ -115,5 +115,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public void SelectLevel(int number){
         MultiLevel.Instance.levelIndex = number;
     }
+
+    public void KickPlayer(Player player){
+        PhotonNetwork.CloseConnection(player);
+    }
 }
 

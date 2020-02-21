@@ -201,17 +201,14 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     [PunRPC]
     public void HitBrick(int p_dmgPoints = 1)
     {
-        Debug.Log("Hit" + hasBeenHit);
         if (!hasBeenHit)
         {
             hasBeenHit = true;
 
             brickInfo.armorValue--;
 
-            Debug.Log("Armor" + brickInfo.armorValue);
             if (brickInfo.armorValue <= 0)
             {
-                Debug.Log("Go to destroy");
                 hasBeenHit = false;
                 AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
                 DestroyBrick();
@@ -236,7 +233,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     /// Détruit la brique, augmente le score, renvoie les feedbacks et spawn les bonus/malus
     public void DestroyBrick()
     {
-        Debug.Log("Destroy");
         DespawnBrick();
 
         SendBreakFeedbacks();
@@ -250,7 +246,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void DespawnBrick()
     {
-        Debug.Log("Despawn");
         gameObject.SetActive(false);
         transform.parent = null;
         BrickManager.Instance.UpdateBrickLevel(brickInfo.wallID);

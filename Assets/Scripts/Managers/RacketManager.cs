@@ -31,6 +31,8 @@ public class RacketManager : MonoBehaviour
     //[HideInInspector]
     public GameObject foreignPlayerRacket;
 
+    public PhysicInfo LocalRacketPhysicInfo { get; private set; }
+
     public float deltaHitTime = 0.5f;
 
     [Header("Racket Grab Position/Rotation")]
@@ -56,7 +58,7 @@ public class RacketManager : MonoBehaviour
     {
         photonView = GetComponent<PhotonView>();
 
-        SetUpRacketColor();
+        //SetUpRacketColor();
     }
 
     #region Set Methods
@@ -68,8 +70,9 @@ public class RacketManager : MonoBehaviour
         AssociateRacketWithController();
 
         localRacketRenderer = localPlayerRacket.GetComponentInChildren<MeshRenderer>();
+        LocalRacketPhysicInfo = localPlayerRacket.GetComponent<PhysicInfo>();
 
-        //SetUpRacketColor();
+        SetUpRacketColor();
     }
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)

@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 16652292}
   - component: {fileID: 16652291}
   m_Layer: 5
-  m_Name: highScoreText
+  m_Name: highScoreTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2064,7 +2064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &159380466
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2201,7 +2201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelTitle: {fileID: 314524824}
   bestTime: {fileID: 2026048258}
-  highScore: {fileID: 0}
+  highScore: {fileID: 1680231374}
   bestCombo: {fileID: 243182796}
   conditionType:
   - {fileID: 1857788637}
@@ -3432,7 +3432,7 @@ GameObject:
   - component: {fileID: 261877241}
   - component: {fileID: 261877240}
   m_Layer: 5
-  m_Name: bestComboText
+  m_Name: bestComboTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6123,7 +6123,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1.5, y: -0.7}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &428208575
 CanvasRenderer:
@@ -10926,7 +10926,7 @@ GameObject:
   - component: {fileID: 709180913}
   - component: {fileID: 709180912}
   m_Layer: 5
-  m_Name: bestTimingText
+  m_Name: bestTimingTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11182,7 +11182,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8013209652902522252}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -26171,7 +26171,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh80346
+  m_Name: pb_Mesh763980
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -30462,7 +30462,7 @@ PrefabInstance:
     - target: {fileID: 4507639600841012521, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4507639600841012521, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
@@ -31232,7 +31232,7 @@ PrefabInstance:
     - target: {fileID: 4902347621483788273, guid: 88569ebc61c920640ac741802b3b7ee5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4902347621483788273, guid: 88569ebc61c920640ac741802b3b7ee5,
         type: 3}
@@ -32159,10 +32159,10 @@ RectTransform:
   - {fileID: 596659655}
   - {fileID: 1918277308}
   - {fileID: 1630274429}
-  - {fileID: 1106090532}
   - {fileID: 8171000275171525394}
-  - {fileID: 1939270138}
+  - {fileID: 1106090532}
   - {fileID: 724620107}
+  - {fileID: 1939270138}
   - {fileID: 432179400}
   - {fileID: 1475858252}
   - {fileID: 1930187397}
@@ -32200,7 +32200,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8013209652902522252}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 
 public class CampaignSetUp : MonoBehaviour
 {
@@ -14,40 +15,24 @@ public class CampaignSetUp : MonoBehaviour
     public Sprite lockedStarSprite;
     public Sprite unlockedStarSprite;
 
-    [ColorUsage(true, true)]Color lockedLineColor;
-    [ColorUsage(true, true)]Color unlockedLineColor;
+    [ColorUsage(true, true)] Color lockedLineColor;
+    [ColorUsage(true, true)] Color unlockedLineColor;
     Material lockedLineMaterial;
     Material unlockedLineMaterial;
 
     private int totalOfStars;
 
+
+
     private void Start()
     {
         SetUpCampaign();
-    }
 
-    void InitLineMaterials()
-    {
-        lockedLineColor = new Color(1f, 1f, 1f) * 0.5f;
-        unlockedLineColor = new Color(1f, 1f, 1f) * 0.9f;
-
-        lockedLineMaterial = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
-        unlockedLineMaterial = new Material(Shader.Find("Lightweight Render Pipeline/Lit"));
-
-        lockedLineMaterial.EnableKeyword("_EMISSION");
-        unlockedLineMaterial.EnableKeyword("_EMISSION");
-
-        //lockedLineMaterial.SetColor("_BaseColor", lockedLineColor);
-        //unlockedLineMaterial.SetColor("_BaseColor", unlockedLineColor);
-
-        lockedLineMaterial.SetColor("_EmissionColor", lockedLineColor);
-        unlockedLineMaterial.SetColor("_EmissionColor", unlockedLineColor);
+        SetUpLevelRecapValues(levelsToCheck[0]);
     }
 
     public void SetUpCampaign()
     {
-        InitLineMaterials();
-
         for (int i = 0; i < levelsToCheck.Count; i++)
         {
             //Check if the level is implemented in the campaign
@@ -80,9 +65,14 @@ public class CampaignSetUp : MonoBehaviour
                     ////////////    DRAW Line renderer for CONNECTION   ////////////
 
                     //Spawn a LineRenderer from the Pool
-                    LineRenderer line = PoolManager.instance.SpawnFromPool("Connection", Vector3.zero, Quaternion.identity).GetComponent<LineRenderer>();
+                    UILineRenderer line = PoolManager.instance.SpawnFromPool("Connection", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
+                    RectTransform rect = line.gameObject.GetComponent<RectTransform>();
+
                     line.transform.parent = CampaignTrans;
-                    line.gameObject.transform.localPosition = Vector3.zero;
+
+                    //rect.sizeDelta = new Vector2(0, 0);
+
+
 
                     //Get concerned level pos
                     float xUPos = (levelsToCheck[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
@@ -97,19 +87,23 @@ public class CampaignSetUp : MonoBehaviour
 
 
                     Vector2 direction = startPos - lastPos;
-                    direction = direction.normalized;
-                    Vector2 endDiffPos = lastPos + direction * 0.31f;
+                    Vector2 newLastPos = direction * -1;
+                    Vector2 newDirection = direction.normalized;
+
+                    Vector2 endDiffPos = newLastPos + newDirection * 0.62f;
+
+                    line.gameObject.transform.localPosition = new Vector2(startDiffPos.x, startDiffPos.y);
+
 
                     //Set line positions
-                    line.SetPosition(0, new Vector3(startDiffPos.x, startDiffPos.y, 0));
-                    line.SetPosition((y + 1), new Vector3(endDiffPos.x, endDiffPos.y, 0));
+                    line.Points[1] = new Vector2(endDiffPos.x, endDiffPos.y);
 
 
                     ////////////    CHECK UN/LOCK CONDITIONS    ////////////
 
                     if (!levelsToCheck[i].level.levelProgression.isUnlocked)
                     {
-                        line.sharedMaterial = lockedLineMaterial;
+                        //line.material = lockedLineMaterial;
                         level.button.interactable = false;
 
                         for (int x = 0; x < level.lockImages.Count; x++)
@@ -122,7 +116,7 @@ public class CampaignSetUp : MonoBehaviour
                         {
                             levelsToCheck[i].level.levelProgression.isUnlocked = true;
                             level.button.interactable = true;
-                            line.sharedMaterial = unlockedLineMaterial;
+                            //line.material = unlockedLineMaterial;
 
                             for (int x = 0; x < level.lockImages.Count; x++)
                             {
@@ -133,7 +127,7 @@ public class CampaignSetUp : MonoBehaviour
                     }
                     else
                     {
-                        line.sharedMaterial = unlockedLineMaterial;
+                        //line.material = unlockedLineMaterial;
                         level.button.interactable = true;
 
                         for (int x = 0; x < level.lockImages.Count; x++)
@@ -159,10 +153,10 @@ public class CampaignSetUp : MonoBehaviour
         else
             levelRecapValues.levelTitle.text = "NO NAME";
 
-        levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete.ToString();
-        levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete.ToString();
+        levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
+        levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
 
-        levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
+        levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
         levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
 
         levelRecapValues.bestTime.text = selectedLevel.level.levelProgression.minTiming.ToString();

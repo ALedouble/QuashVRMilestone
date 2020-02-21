@@ -158,7 +158,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "Brick":
                 ReturnInteration();
-                AudioManager.instance.PlaySound("BrickHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
                 break;
             case "BackWall":
                 BallManager.instance.LoseBall();

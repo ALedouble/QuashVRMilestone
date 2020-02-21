@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -18847,7 +18847,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367440378}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -25394,7 +25394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1930187397
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25552,6 +25552,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e6cd493c912ab014797124717001f9f7, type: 2}
   - {fileID: 11400000, guid: 798a69bac24615a46a94a00f7cf376cc, type: 2}
   levelRecapValues: {fileID: 159380473}
+  lockedStarSprite: {fileID: 0}
+  unlockedStarSprite: {fileID: 0}
 --- !u!1 &1930997596
 GameObject:
   m_ObjectHideFlags: 0
@@ -30103,7 +30105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3591302381172348689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31550,7 +31552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33827d41a20fa64e81d792d142f9f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundList: {fileID: 11400000, guid: 41d22224e97d1e646a2dc55fcd56c5c0, type: 2}
+  soundPreset: {fileID: 11400000, guid: 459f07bccca7b504e8bc48187d5d27a3, type: 2}
 --- !u!4 &6057722299920977251
 Transform:
   m_ObjectHideFlags: 0

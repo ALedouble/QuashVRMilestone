@@ -210,7 +210,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
             if (brickInfo.armorValue <= 0)
             {
                 hasBeenHit = false;
-                AudioManager.instance.PlaySound("SFX_Brick_Explosion", Vector3.zero);
+                AudioManager.instance.PlaySound("BrickExplosion", Vector3.zero);
                 DestroyBrick();
             }
             //else

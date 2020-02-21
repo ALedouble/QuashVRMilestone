@@ -163,7 +163,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
     {
         if (brickID < AllBricks.Count && brickID >= 0)
         {
-            Debug.Log("hhhhhhhhhhhhhhhhhhhhhh");
             if(GameManager.Instance.offlineMode)
             {
                 AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();

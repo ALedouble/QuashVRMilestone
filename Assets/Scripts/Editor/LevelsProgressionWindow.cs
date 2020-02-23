@@ -41,6 +41,8 @@ public class LevelsProgressionWindow : EditorWindow
     float configBottom;
     private bool mouseOutOfWindow;
 
+
+
     [MenuItem("Window/Custom/Campaign Editor")]
     public static void OpenProgressionWindow()
     {
@@ -134,6 +136,7 @@ public class LevelsProgressionWindow : EditorWindow
 
             GUI.Label(new Rect(new Vector2(position.width - 80, position.height - boxSize.y), new Vector2(69, 20)), "Remove", selectedStyle);
 
+            EditorGUI.BeginChangeCheck();
 
             //Is the level unlocked ?
             currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 30), new Vector2(245, 15)),
@@ -202,7 +205,10 @@ public class LevelsProgressionWindow : EditorWindow
                 (ColorSwitchBehaviour)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + 160), new Vector2(130, 15)),
                 currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
 
-
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(currentLevel);
+            }
         }
         else
         {
@@ -210,6 +216,9 @@ public class LevelsProgressionWindow : EditorWindow
         }
 
         Handles.EndGUI();
+
+        
+
     }
 
     void GraphicGUI()

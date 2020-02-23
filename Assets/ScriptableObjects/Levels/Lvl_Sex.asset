@@ -14105,7 +14105,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
@@ -14113,18 +14113,18 @@ MonoBehaviour:
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 67d0f9ce2ea046a4580ee59041d69964, type: 2}
-      levelPos: {x: 258, y: 1419}
+      levelPos: {x: 1, y: 3}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
       - conditionType: 1
-        conditionComparator: 0
-        conditionReachedAt: 0
+        conditionComparator: 1
+        conditionReachedAt: 20
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 1000
       numberOfConditionCompleted: 0
     levelSpec:
       levelName: 
@@ -14132,7 +14132,7 @@ MonoBehaviour:
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      changingBrickColorEveryXseconds: 1
       noWallsMode: 0
-      mandatoryBounce: 0
+      mandatoryBounce: 1
       musicForThisLevel: {fileID: 0}

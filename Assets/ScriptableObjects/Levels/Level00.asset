@@ -517,7 +517,7 @@ MonoBehaviour:
       - wallBricks: []
     levelProgression:
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
@@ -525,26 +525,26 @@ MonoBehaviour:
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: e6cd493c912ab014797124717001f9f7, type: 2}
-      levelPos: {x: 252, y: 1570}
+      levelPos: {x: 600, y: 733}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
+      - conditionType: 1
+        conditionComparator: 0
+        conditionReachedAt: 10
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
-        conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 5000
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: 
+      levelName: Jack
       timeForThisLevel: 0
       impactRadiusForThisLevel: 0
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
-      noWallsMode: 0
+      changingBrickColorEveryXseconds: 1
+      noWallsMode: 1
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 0}

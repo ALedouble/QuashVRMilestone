@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
-public class CampaignSetUp : MonoBehaviour
+public class Campaign : MonoBehaviour
 {
-    public Transform CampaignTrans;
+    public RectTransform CampaignPanel;
     public List<LevelsScriptable> levelsToCheck;
     //private LevelsScriptable[] levelsImplemented;
     public LevelRecap levelRecapValues;
@@ -20,7 +21,15 @@ public class CampaignSetUp : MonoBehaviour
     Material lockedLineMaterial;
     Material unlockedLineMaterial;
 
-    private int totalOfStars;
+    public int numberOfPanelPositions;
+    private float[] panelPositions;
+    [SerializeField] private int panelIndex = 0;
+    private float nextPanelPosition;
+    private float panelTop = 10f;
+    private float panelBottom = 0.7f;
+    private bool isMoving;
+
+    [HideInInspector] public int totalOfStars;
 
 
 
@@ -31,8 +40,31 @@ public class CampaignSetUp : MonoBehaviour
         SetUpLevelRecapValues(levelsToCheck[0]);
     }
 
-    public void SetUpCampaign()
+    private void Update()
     {
+        if (isMoving)
+            MovingPanel();
+    }
+
+
+
+    private void SetUpPanelPositions()
+    {
+        panelPositions = new float[numberOfPanelPositions + 1];
+
+        float diffPosition = (panelTop - panelBottom) / numberOfPanelPositions;
+
+
+        for (int i = 0; i < numberOfPanelPositions + 1; i++)
+        {
+            panelPositions[i] = -panelBottom - (diffPosition * i);
+        }
+    }
+
+    private void SetUpCampaign()
+    {
+        SetUpPanelPositions();
+
         for (int i = 0; i < levelsToCheck.Count; i++)
         {
             //Check if the level is implemented in the campaign
@@ -40,7 +72,7 @@ public class CampaignSetUp : MonoBehaviour
             {
                 //Spawn Level ICON 
                 LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
-                level.transform.parent = CampaignTrans;
+                level.transform.parent = CampaignPanel.transform;
 
                 //Transpose editor position into campaign position
                 float xPos = (levelsToCheck[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
@@ -68,7 +100,7 @@ public class CampaignSetUp : MonoBehaviour
                     UILineRenderer line = PoolManager.instance.SpawnFromPool("Connection", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
                     RectTransform rect = line.gameObject.GetComponent<RectTransform>();
 
-                    line.transform.parent = CampaignTrans;
+                    line.transform.parent = CampaignPanel.transform;
 
                     //rect.sizeDelta = new Vector2(0, 0);
 
@@ -143,6 +175,8 @@ public class CampaignSetUp : MonoBehaviour
             }
         }
     }
+
+
 
     public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)
     {
@@ -246,8 +280,34 @@ public class CampaignSetUp : MonoBehaviour
         CampaignLevel.Instance.SelectLevel(indexOfLevel);
     }
 
-    public void MoveCampaign()
+    private void MovingPanel()
     {
+        if (CampaignPanel.anchoredPosition3D.y == nextPanelPosition)
+        {
+            isMoving = false;
+            return;
+        }
 
+        //Moving panel
+        CampaignPanel.anchoredPosition3D = Vector3.MoveTowards(CampaignPanel.anchoredPosition3D,
+            new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), 0.1f);
+    }
+
+    public void MoveCampaignPanel(int upOrDown) //-1 or 1
+    {
+        int newIndex = panelIndex + upOrDown;
+
+        if (newIndex >= 0 && newIndex <= numberOfPanelPositions + 1)
+        {
+            panelIndex = newIndex;
+        }
+        else
+        {
+            return;
+        }
+
+        nextPanelPosition = panelPositions[panelIndex];
+
+        isMoving = true;
     }
 }

@@ -41,7 +41,7 @@ public class LevelsProgressionWindow : EditorWindow
     float configBottom;
     private bool mouseOutOfWindow;
 
-    [MenuItem("Window/Custom/Level Selection")]
+    [MenuItem("Window/Custom/Campaign Editor")]
     public static void OpenProgressionWindow()
     {
         LevelsProgressionWindow window = EditorWindow.GetWindow(typeof(LevelsProgressionWindow)) as LevelsProgressionWindow;

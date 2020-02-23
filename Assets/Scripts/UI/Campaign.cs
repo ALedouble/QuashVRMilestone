@@ -25,7 +25,7 @@ public class Campaign : MonoBehaviour
     private float[] panelPositions;
     [SerializeField] private int panelIndex = 0;
     private float nextPanelPosition;
-    private float panelTop = 10f;
+    private float panelTop = 9.3f;
     private float panelBottom = 0.7f;
     private bool isMoving;
 
@@ -36,8 +36,6 @@ public class Campaign : MonoBehaviour
     private void Start()
     {
         SetUpCampaign();
-
-        SetUpLevelRecapValues(levelsToCheck[0]);
     }
 
     private void Update()
@@ -90,7 +88,7 @@ public class Campaign : MonoBehaviour
                 LevelsScriptable lvl = levelsToCheck[i];
                 level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
-
+                
 
                 for (int y = 0; y < levelsToCheck[i].level.levelProgression.unlockConditions.Count; y++)
                 {
@@ -175,7 +173,6 @@ public class Campaign : MonoBehaviour
             }
         }
     }
-
 
 
     public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)

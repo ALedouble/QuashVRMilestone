@@ -149,41 +149,29 @@ public class LevelsProgressionWindow : EditorWindow
                 currentLevel.level.levelProgression.starsRequired);
 
 
-            //1st condition
-            //currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator =
-            //    (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(250, 15)),
-            //    currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator);
-            //currentLevel.level.levelProgression.conditionsToComplete[0].conditionType =
-            //    (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(250, 15)),
-            //    currentLevel.level.levelProgression.conditionsToComplete[0].conditionType);
+            //1nd condition
+            currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator =
+                (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(50, 15)),
+                currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator);
+            currentLevel.level.levelProgression.conditionsToComplete[0].conditionType =
+                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 50), new Vector2(200, 15)),
+                currentLevel.level.levelProgression.conditionsToComplete[0].conditionType);
 
-            //currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt =
-            //    EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 65), new Vector2(250, 15)),
-            //    currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt);
+            currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt =
+                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 65), new Vector2(250, 15)),
+                currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt);
 
             //2nd condition
             currentLevel.level.levelProgression.conditionsToComplete[1].conditionComparator =
-                (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 50), new Vector2(50, 15)),
+                (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 85), new Vector2(50, 15)),
                 currentLevel.level.levelProgression.conditionsToComplete[1].conditionComparator);
             currentLevel.level.levelProgression.conditionsToComplete[1].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 50), new Vector2(200, 15)),
+                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 85), new Vector2(200, 15)),
                 currentLevel.level.levelProgression.conditionsToComplete[1].conditionType);
 
             currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt =
-                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 65), new Vector2(250, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt);
-
-            //3rd condition
-            currentLevel.level.levelProgression.conditionsToComplete[2].conditionComparator =
-                (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 85), new Vector2(50, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[2].conditionComparator);
-            currentLevel.level.levelProgression.conditionsToComplete[2].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 85), new Vector2(200, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[2].conditionType);
-
-            currentLevel.level.levelProgression.conditionsToComplete[2].conditionReachedAt =
                 EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 100), new Vector2(250, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[2].conditionReachedAt);
+                currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt);
 
 
             ///Level Specifics (exotic rules)

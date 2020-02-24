@@ -118,14 +118,17 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
-            SelectionLevel(CampaignLevel.Instance.levelSelected);
+            SelectionLevelRPC(CampaignLevel.Instance.levelSelected);
         }
         else
         {
             if (gameMod == GameMod.GAMEPLAY)
             {
                 Debug.Log(MultiLevel.Instance.levelIndex);
-                SelectionLevel(MultiLevel.Instance.levelIndex);
+                if(PhotonNetwork.IsMasterClient){
+                    photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
+                }
+                 // SelectionLevel(MultiLevel.Instance.levelIndex);
             }
         }
     }
@@ -248,8 +251,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-    public void SelectionLevel(int selection){
+    [PunRPC]
+    public void SelectionLevelRPC(int selection){
         //LevelManager.instance.ConfigDistribution(selection);
         LevelManager.instance.StartLevelInitialization(selection);
     }

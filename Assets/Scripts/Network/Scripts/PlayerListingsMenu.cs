@@ -34,13 +34,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     PhotonView photonView;
 
     private void Start() {
-        if (PhotonNetwork.IsMasterClient){
-            buttonLaunch.SetActive(true);
-        }
+
     }
 
     private void Update() {
         Debug.Log(_listings.Count);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("hello");
+            buttonLaunch.SetActive(true);
+        }
+        else
+        {
+            buttonLaunch.SetActive(false);
+        }
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){

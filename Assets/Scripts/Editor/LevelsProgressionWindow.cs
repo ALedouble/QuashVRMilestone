@@ -113,7 +113,7 @@ public class LevelsProgressionWindow : EditorWindow
 
     void ProgressionSettingGUI()
     {
-        Handles.BeginGUI();
+        //Handles.BeginGUI();
 
         boxSize = new Vector2(275, position.height - 20);
         boxPos = new Vector2(position.width - boxSize.x - 10, position.height - boxSize.y - 10);
@@ -124,7 +124,7 @@ public class LevelsProgressionWindow : EditorWindow
 
         if (currentLevel != null)
         {
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y), new Vector2(245, 15)), "- " + currentLevel.name + " -", selectedStyle);
+            EditorGUI.BeginChangeCheck();
 
             GUI.color = Color.red;
             if (GUI.Button(new Rect(new Vector2(position.width - 85, position.height - boxSize.y - 3f), new Vector2(69, 20)), ""))
@@ -134,12 +134,17 @@ public class LevelsProgressionWindow : EditorWindow
             }
             GUI.color = Color.white;
 
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y), new Vector2(245, 15)), "- " + currentLevel.name + " -", selectedStyle);
+
             GUI.Label(new Rect(new Vector2(position.width - 80, position.height - boxSize.y), new Vector2(69, 20)), "Remove", selectedStyle);
 
-            EditorGUI.BeginChangeCheck();
+
+            //Text 4 the button
+            currentLevel.level.levelProgression.buttonName = GUI.TextField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 15), new Vector2(100, 15)),
+                currentLevel.level.levelProgression.buttonName, "Button Name");
 
             //Is the level unlocked ?
-            currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 30), new Vector2(245, 15)),
+            currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 30), new Vector2(90, 15)),
                 currentLevel.level.levelProgression.isUnlocked, " Unlocked ? ");
 
             //Conditions needed to be unlocked
@@ -203,9 +208,9 @@ public class LevelsProgressionWindow : EditorWindow
             GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y), new Vector2(245, 15)), "Aucun Level Selectionné", labelStyle);
         }
 
-        Handles.EndGUI();
+        //Handles.EndGUI();
 
-        
+
 
     }
 
@@ -319,6 +324,8 @@ public class LevelsProgressionWindow : EditorWindow
         level.level.levelProgression.isImplemented = true;
 
         EditorUtility.SetDirty(level);
+
+        InitLevelProgression();
     }
 
     void EventHandler()
@@ -354,7 +361,7 @@ public class LevelsProgressionWindow : EditorWindow
             isControlDown = false;
         }
 
-        if(Event.current.mousePosition.x < 0 || Event.current.mousePosition.y < 0 || Event.current.mousePosition.x > position.width || Event.current.mousePosition.y > position.height)
+        if (Event.current.mousePosition.x < 0 || Event.current.mousePosition.y < 0 || Event.current.mousePosition.x > position.width || Event.current.mousePosition.y > position.height)
         {
             mouseOutOfWindow = true;
         }
@@ -604,17 +611,11 @@ public class LevelsProgressionWindow : EditorWindow
 
         Vector3 invDirection = Vector3.Normalize(endLine - startLine);
 
-        //Debug.Log(invDirection);
 
         Vector3 product = Vector3.Cross(invDirection, Vector3.forward);
 
         Vector3 arrow01 = invDirection + (new Vector3(startLine.x, startLine.y, 0) * 20);
         Vector3 arrow02 = invDirection + (new Vector3(startLine.x, startLine.y, 0) * 20);
-
-
-        //Handles.DrawBezier(endLine, arrow01, endLine, arrow01, Color.white, null, 4f);
-        //Handles.DrawBezier(endLine, arrow02, endLine, arrow02, Color.white, null, 4f);
-        //Handles.DrawBezier(endLine, -arrow01, endLine, -arrow01, Color.white, null, 4f);
 
         Handles.ConeHandleCap(0, endLine, Quaternion.identity, 10, EventType.Repaint);
 
@@ -665,33 +666,33 @@ public class LevelsProgressionWindow : EditorWindow
 
     void RemoveLevel(LevelsScriptable levelToRemove)
     {
-        //if (currentLevel != null)
-        //{
-        for (int i = 0; i < levelsToDisplay.Count; i++)
+        if (currentLevel != null)
         {
-            if (levelsToDisplay[i] != levelToRemove)
+            for (int i = 0; i < levelsToDisplay.Count; i++)
             {
-                if (levelsToDisplay[i].level.levelProgression.unlockConditions.Count != 0)
+                if (levelsToDisplay[i] != levelToRemove)
                 {
-                    if (levelsToDisplay[i].level.levelProgression.unlockConditions.Contains(levelToRemove))
-                        levelsToDisplay[i].level.levelProgression.unlockConditions.Remove(levelToRemove);
+                    if (levelsToDisplay[i].level.levelProgression.unlockConditions.Count != 0)
+                    {
+                        if (levelsToDisplay[i].level.levelProgression.unlockConditions.Contains(levelToRemove))
+                            levelsToDisplay[i].level.levelProgression.unlockConditions.Remove(levelToRemove);
+                    }
                 }
             }
+
+            levelToRemove.level.levelProgression = new ProgressionSettings();
+            levelsToDisplay.Remove(levelToRemove);
+
+            for (int i = 0; i < levelsToDisplay.Count; i++)
+            {
+                Debug.Log(levelsToDisplay[i]);
+            }
+
+            currentLevel = null;
+            RefreshInspector();
+            InitLevelProgression();
         }
 
-        levelToRemove.level.levelProgression = new ProgressionSettings();
-        levelsToDisplay.Remove(levelToRemove);
-
-        for (int i = 0; i < levelsToDisplay.Count; i++)
-        {
-            Debug.Log(levelsToDisplay[i]);
-        }
-
-        currentLevel = null;
-        RefreshInspector();
-        //}
-
-        InitLevelProgression();
     }
 
     bool CheckLockCondition(LevelsScriptable levelToCheck)

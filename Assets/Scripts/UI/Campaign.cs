@@ -6,32 +6,43 @@ using UnityEngine.UI.Extensions;
 
 public class Campaign : MonoBehaviour
 {
+    [Header("Panel")]
     public RectTransform CampaignPanel;
     public List<LevelsScriptable> levelsToCheck;
     //private LevelsScriptable[] levelsImplemented;
     public LevelRecap levelRecapValues;
 
+    public int numberOfPanelPositions = 0;
+    private float[] panelPositions = new float[0];
+    private int panelIndex = 0;
+    private float nextPanelPosition = 0;
+    private float panelTop = 9.5f;
+    private float panelBottom = 0.7f;
+    private bool isMoving;
+
     private LevelsScriptable levelToPlay;
 
+    [Header("Stars")]
     public Sprite lockedStarSprite;
     public Sprite unlockedStarSprite;
 
+    /*
     [ColorUsage(true, true)] Color lockedLineColor;
     [ColorUsage(true, true)] Color unlockedLineColor;
     Material lockedLineMaterial;
     Material unlockedLineMaterial;
+    */
 
-    public int numberOfPanelPositions;
-    private float[] panelPositions;
-    [SerializeField] private int panelIndex = 0;
-    private float nextPanelPosition;
-    private float panelTop = 9.3f;
-    private float panelBottom = 0.7f;
-    private bool isMoving;
 
     [HideInInspector] public int totalOfStars;
 
+    public static Campaign instance;
 
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -45,7 +56,9 @@ public class Campaign : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Set up Panel positions
+    /// </summary>
     private void SetUpPanelPositions()
     {
         panelPositions = new float[numberOfPanelPositions + 1];
@@ -59,6 +72,9 @@ public class Campaign : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set up campaign tree
+    /// </summary>
     private void SetUpCampaign()
     {
         SetUpPanelPositions();
@@ -88,7 +104,7 @@ public class Campaign : MonoBehaviour
                 LevelsScriptable lvl = levelsToCheck[i];
                 level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
-                
+
 
                 for (int y = 0; y < levelsToCheck[i].level.levelProgression.unlockConditions.Count; y++)
                 {
@@ -174,7 +190,10 @@ public class Campaign : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Set up campaign details in the side panel
+    /// </summary>
+    /// <param name="selectedLevel"></param>
     public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)
     {
         levelToPlay = selectedLevel;
@@ -294,7 +313,7 @@ public class Campaign : MonoBehaviour
     {
         int newIndex = panelIndex + upOrDown;
 
-        if (newIndex >= 0 && newIndex <= numberOfPanelPositions + 1)
+        if (newIndex >= 0 && newIndex <= numberOfPanelPositions)
         {
             panelIndex = newIndex;
         }

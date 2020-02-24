@@ -54,6 +54,8 @@ public class LevelSpecifics
 
     public LevelSpecifics()
     {
+        levelName = "NO NAME";
+
         timeForThisLevel = 0f;
         impactRadiusForThisLevel = 1.7f;
         balleSpeedForThisLevel = 1f;
@@ -70,6 +72,8 @@ public class LevelSpecifics
 [System.Serializable]
 public class ProgressionSettings
 {
+    public string buttonName;
+
     public bool isDone;
     public bool isUnlocked;
     public int starsRequired;
@@ -89,7 +93,13 @@ public class ProgressionSettings
 
     public ProgressionSettings()
     {
-        conditionsToComplete = new LevelConditions[3];
+        buttonName = "00";
+        isDone = false;
+        isUnlocked = false;
+        starsRequired = 0;
+        isImplemented = false;
+
+        conditionsToComplete = new LevelConditions[2];
     }
 }
 

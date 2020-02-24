@@ -125,9 +125,8 @@ public class GameManager : MonoBehaviour
             if (gameMod == GameMod.GAMEPLAY)
             {
                 Debug.Log(MultiLevel.Instance.levelIndex);
-                if(PhotonNetwork.IsMasterClient){
-                    photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
-                }
+                photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
+
                  // SelectionLevel(MultiLevel.Instance.levelIndex);
             }
         }

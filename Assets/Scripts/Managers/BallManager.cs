@@ -29,18 +29,19 @@ public class BallManager : MonoBehaviour
 
     public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
 
-    private PhotonView photonView;
-    private BallColorBehaviour ballColorBehaviour;
-    private BallPhysicBehaviour ballPhysicBehaviour;
-    private PhysicInfo ballPhysicInfo;
-    private BallInfo ballInfo;
-    private ITargetSelector targetSelector;
     
+    public BallColorBehaviour BallColorBehaviour { get; private set; }
+    public BallPhysicBehaviour BallPhysicBehaviour { get; private set; }
+    public PhysicInfo BallPhysicInfo { get; private set; }
+    public BallInfo BallInfo { get; private set; }
+    public ITargetSelector TargetSelector { get; private set; }
+
     private bool isInPlay;
     private bool isSpawned;
     private Coroutine floatCoroutine;
     private Coroutine resetCoroutine;
 
+    private PhotonView photonView;
 
     private void Awake()
     {
@@ -56,7 +57,19 @@ public class BallManager : MonoBehaviour
         //SetupBall();
     }
 
-    public void InitializeBall()
+    public void InstantiateBall()
+    {
+        if (GameManager.Instance.offlineMode)
+        {
+            Instantiate(ballPrefab, Vector3.zero, Quaternion.identity);
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(ballPrefab.name, Vector3.zero, Quaternion.identity);
+        }
+    }
+
+    public void InitializeBall()                                                                                                     //Suppr
     {
         if (isBallInstatiated)
         {
@@ -81,13 +94,30 @@ public class BallManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void SetupOnlineBall()
+    private void SetupOnlineBall()                                                              // Suppr
     {
         ball = GameObject.FindGameObjectWithTag("Ball");
         SetupBall();
     }
 
-    public void SetupBall()
+    public void SetupBall(GameObject newBall)
+    {
+        if (newBall.tag != "Ball")
+            return;
+
+        ball = newBall;
+        SetupBallManager();
+
+        //ballColorBehaviour.SetBallColor(spawnColorID);                                            // Ball Starting Color in levelManager?
+
+        ball.SetActive(false);
+
+        Sh_GlobalDissolvePosition.Setup();
+
+        //BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;     // Question GD sur le début du timer
+    }
+
+    public void SetupBall()                                                                         // Suppr
     {
         if(!ball)
         {
@@ -95,22 +125,51 @@ public class BallManager : MonoBehaviour
         }
 
         SetupBallManager();
-        //ballColorBehaviour.SetBallColor(spawnColorID);
+        //ballColorBehaviour.SetBallColor(spawnColorID);                                            // Ball Starting Color in levelManager?
+        
         ball.SetActive(false);
-        ballColorBehaviour.DeactivateTrail();
+        //ballColorBehaviour.DeactivateTrail();                                                     // Inutil
+        
         Sh_GlobalDissolvePosition.Setup();
 
-        BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;
+        //BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;     // Question GD sur le début du timer
     }
 
     private void SetupBallManager()
     {
-        ballColorBehaviour = ball.GetComponent<BallColorBehaviour>();
-        ballPhysicBehaviour = ball.GetComponent<BallPhysicBehaviour>();
-        ballPhysicInfo = ball.GetComponent<PhysicInfo>();
-        targetSelector = ballPhysicBehaviour?.GetTargetSelector();
-        ballInfo = ball.GetComponent<BallInfo>();
-        ballInfo.SetupBallInfo();
+        BallColorBehaviour = ball.GetComponent<BallColorBehaviour>();
+        BallPhysicBehaviour = ball.GetComponent<BallPhysicBehaviour>();
+        BallPhysicInfo = ball.GetComponent<PhysicInfo>();
+        
+        TargetSelector = BallPhysicBehaviour.GetTargetSelector();
+        BallInfo = ball.GetComponent<BallInfo>();
+        BallInfo.SetupBallInfo();                                                                               // A transformer en start
+    }
+
+
+    public void BallBecomeInPlay()
+    {
+        //if(GameManager.Instance.offlineMode)
+        SetBallInPlay();
+        //else
+        //{
+        //    photonView.RPC("SetBallInPlay", RpcTarget.All);
+        //}
+    }
+
+    [PunRPC]
+    private void SetBallInPlay()
+    {
+        isInPlay = true;
+        BallPhysicBehaviour.ApplyBaseGravity();
+        BallColorBehaviour.UpdateTrail();
+        BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
+        StopCoroutine(floatCoroutine);
+    }
+
+    private void ResetBall()                                                                                        // ???
+    {
+        BallPhysicBehaviour.ResetBall();
     }
 
     #region Gameplay
@@ -141,7 +200,7 @@ public class BallManager : MonoBehaviour
 
         DespawnBallLocaly();
 
-        targetSelector.SetCurrentTarget((QPlayer)nextPlayerTargetID);
+        TargetSelector.SetCurrentTarget((QPlayer)nextPlayerTargetID);
         SpawnBallLocaly();
     }
 
@@ -156,8 +215,8 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SpawnBallLocaly()
     {
-        ball.transform.position = targetSelector.GetTargetPlayerPosition() + spawnOffset;
-        ballColorBehaviour.DeactivateTrail();
+        ball.transform.position = TargetSelector.GetTargetPlayerPosition() + spawnOffset;
+        BallColorBehaviour.DeactivateTrail();
         ball.SetActive(true);
 
         ResetBall();
@@ -185,45 +244,20 @@ public class BallManager : MonoBehaviour
         isSpawned = false;
     }
 
-    private void ResetBall()
-    {
-        ballPhysicBehaviour.ResetBall();
-    }
-
-    
-    public void BallBecomeInPlay()
-    {
-        //if(GameManager.Instance.offlineMode)
-            SetBallInPlay();
-        //else
-        //{
-        //    photonView.RPC("SetBallInPlay", RpcTarget.All);
-        //}
-    }
-
-    [PunRPC]
-    private void SetBallInPlay()
-    {
-        isInPlay = true;
-        ballPhysicBehaviour.ApplyBaseGravity();
-        ballColorBehaviour.UpdateTrail();
-        BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
-        StopCoroutine(floatCoroutine);
-    }
 
     private QPlayer GetNextPlayerTarget()
     {
         QPlayer nextPlayerTarget;
-        switch (ballInfo.CurrentBallStatus)                                              // A tester
+        switch (BallInfo.CurrentBallStatus)                                              // A tester
         {
             case BallStatus.HitState:
-                nextPlayerTarget = targetSelector.GetCurrentTarget();
+                nextPlayerTarget = TargetSelector.GetCurrentTarget();
                 break;
             case BallStatus.ReturnState:
-                nextPlayerTarget = targetSelector.GetPreviousTarget();
+                nextPlayerTarget = TargetSelector.GetPreviousTarget();
                 break;
             default:
-                nextPlayerTarget = targetSelector.GetCurrentTarget();
+                nextPlayerTarget = TargetSelector.GetCurrentTarget();
                 break;
         }
         return nextPlayerTarget;
@@ -232,13 +266,13 @@ public class BallManager : MonoBehaviour
     public QPlayer GetPlayerWhoLostTheBall()
     {
         QPlayer playerWhoLostTheBall;
-        switch (ballInfo.CurrentBallStatus)                                              // A tester
+        switch (BallInfo.CurrentBallStatus)                                              // A tester
         {
             case BallStatus.HitState:
-                playerWhoLostTheBall = targetSelector.GetPreviousTarget();
+                playerWhoLostTheBall = TargetSelector.GetPreviousTarget();
                 break;
             case BallStatus.ReturnState:
-                playerWhoLostTheBall = targetSelector.GetCurrentTarget();
+                playerWhoLostTheBall = TargetSelector.GetCurrentTarget();
                 break;
             default:
                 playerWhoLostTheBall = QPlayer.NONE;
@@ -279,22 +313,27 @@ public class BallManager : MonoBehaviour
     #region Color
     public BallColorBehaviour GetBallColorBehaviour()
     {
-        return ballColorBehaviour;
+        return BallColorBehaviour;
     }
 
     public int GetBallColorID()
     {
-        return ballColorBehaviour.GetBallColor();
+        return BallColorBehaviour.GetBallColor();
     }
 
     public Material GetCurrentMaterial()
     {
-        return ballColorBehaviour.GetCurrentMaterial();
+        return BallColorBehaviour.GetCurrentMaterial();
     }
 
     public Material[] GetBallMaterials()
     {
-        return ballColorBehaviour.GetBallMaterials();
+        return BallColorBehaviour.GetBallMaterials();
+    }
+
+    public int GetSpawnColorID()
+    {
+        return spawnColorID;
     }
     #endregion
 
@@ -307,12 +346,12 @@ public class BallManager : MonoBehaviour
 
     public PhysicInfo GetBallPhysicInfo()
     {
-        return ballPhysicInfo;
+        return BallPhysicInfo;
     }
 
     public void SetGlobalSpeedMultiplier(float newValue)
     {
-        ballPhysicBehaviour.SetGlobalSpeedMultiplier(newValue);
+        BallPhysicBehaviour.SetGlobalSpeedMultiplier(newValue);
     }
 
     #endregion
@@ -321,13 +360,13 @@ public class BallManager : MonoBehaviour
 
     public QPlayer GetLastPlayerWhoHitTheBall()
     {
-        return ballPhysicBehaviour.GetLastPlayerWhoHitTheBall();
+        return BallPhysicBehaviour.GetLastPlayerWhoHitTheBall();
     }
 
     public void TransferEmpowerement()
     {
-        if (ballColorBehaviour.colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
-            ballColorBehaviour.TransferEmpowerement();
+        if (BallColorBehaviour.colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
+            BallColorBehaviour.TransferEmpowerement();
     }
 
     public bool GetBallStatus()
@@ -351,9 +390,4 @@ public class BallManager : MonoBehaviour
     }
 
     #endregion
-
-    public int GetSpawnColorID()
-    {
-        return spawnColorID;
-    }
 }

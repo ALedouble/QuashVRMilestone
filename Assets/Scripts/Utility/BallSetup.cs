@@ -7,11 +7,8 @@ public class BallSetup : MonoBehaviour
 {
     private void Awake()
     {
-        //BallManager.instance.SetupBall(gameObject);
-        
-        //if(!GameManager.Instance.offlineMode && !PhotonNetwork.IsMasterClient)
-        //{
-        //    BallManager.instance.;
-        //}
+        BallManager.instance.SetupBall(gameObject);
+
+        GameManager.Instance.BallHasBeenSetup();
     }
 }

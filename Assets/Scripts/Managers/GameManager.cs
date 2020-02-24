@@ -133,52 +133,54 @@ public class GameManager : MonoBehaviour
     }
 
     #region Ball
-    public void InstanciateBall()                   //Rename
+    public void InstanciateBall()
     {
-        if(gameMod == GameMod.GAMEPLAY /*&& PhotonNetwork.IsMasterClient*/)
+        if(gameMod == GameMod.GAMEPLAY)
         {
-            StartCoroutine(InstantiateBallWithDelay());
-            if(offlineMode || PhotonNetwork.IsMasterClient)
-                SynchronizeStart();
+            BallManager.instance.InitializeBall();
         }
     }
-   
-    private IEnumerator InstantiateBallWithDelay()
-    {
-        yield return new WaitForFixedUpdate();
 
-        BallManager.instance.InitializeBall();
+    public void BallHasBeenSetup()
+    {
+        if(offlineMode)
+        {
+            //faire la suite
+        }
+        else if(PhotonNetwork.IsMasterClient /*&& ToutLeMondeEstReady*/)
+        {
+            //Faire la suite
+        }
+        else
+        {
+            //Envoyer un message au Master pour lui dire que c'est ready!
+        }
     }
 
     #endregion
 
-    private void SynchronizeStart()
-    {
-        StartCoroutine(DelaySynchStart());
-    }
+    //private void SynchronizeStart()
+    //{
+    //    StartCoroutine(DelaySynchStart());
+    //}
 
-    private IEnumerator DelaySynchStart()
-    {
-        yield return new WaitForSeconds(ballSpawnDelay);
-        BallManager.instance.SpawnTheBall();
+    //private IEnumerator DelaySynchStart()
+    //{
+    //    yield return new WaitForSeconds(ballSpawnDelay);
+    //    BallManager.instance.SpawnTheBall();
 
-        if (offlineMode)
-            StartBrickMovement();
-        else if(PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("StartBrickMovement", RpcTarget.All);
-        }
-    }
+    //    if (offlineMode)
+    //        StartBrickMovement();
+    //    else if(PhotonNetwork.IsMasterClient)
+    //    {
+    //        photonView.RPC("StartBrickMovement", RpcTarget.All);
+    //    }
+    //}
 
     [PunRPC]
     private void StartBrickMovement()
     {
         isReady = true;
-    }
-
-    public void RestartScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public Transform[] GetPlayerSpawn()
@@ -226,7 +228,10 @@ public class GameManager : MonoBehaviour
         return isGameStart;
     }
 
-
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
     public void RestartGame()
     {

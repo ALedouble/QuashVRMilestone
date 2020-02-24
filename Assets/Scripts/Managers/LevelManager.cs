@@ -143,7 +143,7 @@ public class LevelManager : MonoBehaviour
             midCollider = playroomElements.midCollider;
         }
 
-        GameManager.Instance.timerData = playersHUD.TimerData;
+        TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData);
     }
 
     /// <summary>
@@ -174,8 +174,8 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.playersMaxCombo = new int[numberOfPlayers];
         FXManager.Instance.playersRadius = new float[numberOfPlayers];
 
-        GameManager.Instance.timeMax = currentLevel.level.levelSpec.timeForThisLevel;
-        GameManager.Instance.currentTimer = GameManager.Instance.timeMax;
+        TimeManager.Instance.LevelMaxTime = currentLevel.level.levelSpec.timeForThisLevel;
+        TimeManager.Instance.CurrentTimer = currentLevel.level.levelSpec.timeForThisLevel;
 
         InitRoom();
 

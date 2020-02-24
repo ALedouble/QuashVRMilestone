@@ -31,15 +31,6 @@ public class GameManager : MonoBehaviour
     [Header("BallSpawnSettings")]
     public float ballSpawnDelay;
 
-    [Header("Timer Settings")]
-    public float timerSpeedModifier = 1f;
-    [HideInInspector] public GUITimerData timerData;
-    [HideInInspector] public float currentTimer;
-    [HideInInspector] public float timeMax;
-
-    private int seconds;
-    private int mSeconds;
-
     private bool isReady = false;
     private bool isGameStart = false;
     public bool IsReady { get => isReady; }
@@ -65,8 +56,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
-
         InstantiatePlayers();
 
         SpawnLevel();
@@ -139,7 +128,6 @@ public class GameManager : MonoBehaviour
                 SelectionLevel(MultiLevel.Instance.levelIndex);
             }
         }
-        UpdateTimeText();
     }
 
     public void InstanciateBall()                   //Rename
@@ -193,19 +181,6 @@ public class GameManager : MonoBehaviour
         return playerSpawn;
     }
 
-
-    //////////////// TIMER ////////////////
-
-    void Update()
-    {
-        if (gameMod == GameMod.GAMEPLAY && isGameStart && !isTimerStopped && !hasLost)
-        {
-            UpdateTimer();
-        }
-
-        //Debug.Log(levelIndex);
-    }
-
     
     public void StartTheGame()
     {
@@ -223,11 +198,18 @@ public class GameManager : MonoBehaviour
     private void StartTheGameRPC()
     {
         isGameStart = true;
+
+        TimeManager.Instance.OnTimerEnd += EndOfTheGame;
+        TimeManager.Instance.StartTimer();
+
         BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
     }
 
     public void EndOfTheGame()
     {
+        TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
+
+        TimeManager.Instance.StopTimer();
         LevelManager.instance.playersHUD.EnableScoreScreen();
         isGameStart = false;
         LevelManager.instance.CleanWalls();
@@ -239,63 +221,6 @@ public class GameManager : MonoBehaviour
         return isGameStart;
     }
 
-    private void UpdateTimer()
-    {
-        if (currentTimer >= 0)
-        {
-            currentTimer -= Time.deltaTime * timerSpeedModifier;
-        }
-
-        if(currentTimer < 0)
-        {
-            isTimerStopped = true;
-            hasLost = true;
-
-            EndOfTheGame();
-            //GameOver STATE
-        }
-
-        UpdateTimeText();
-    }
-
-    private void UpdateTimeText()
-    {
-        if (currentTimer < 0)
-        {
-            timerData.UpdateText("00:00");
-            timerData.FillImage(0);
-        }
-        else
-        {
-            seconds = (int)(currentTimer / 60);
-            mSeconds = (int)(currentTimer - (seconds * 60));
-
-            if (seconds < 10)
-            {
-                if (mSeconds < 10)
-                {
-                    timerData.UpdateText("0" + seconds + ":" + "0" + mSeconds);
-                }
-                else
-                {
-                    timerData.UpdateText("0" + seconds + ":" + mSeconds);
-                }
-            }
-            else
-            {
-                if (mSeconds < 10)
-                {
-                    timerData.UpdateText(seconds + ":" + "0" + mSeconds);
-                }
-                else
-                {
-                    timerData.UpdateText(seconds + ":" + mSeconds);
-                }
-            }
-
-            timerData.FillImage(currentTimer / timeMax);
-        }
-    }
 
     public void RestartGame()
     {

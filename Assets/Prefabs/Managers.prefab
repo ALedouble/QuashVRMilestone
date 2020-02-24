@@ -595,15 +595,35 @@ MonoBehaviour:
     levelProgression:
       isDone: 0
       isUnlocked: 0
+      starsRequired: 0
       isImplemented: 0
+      maxScore: 0
+      maxCombo: 0
+      minTiming: 0
       unlockConditions: []
       levelPos: {x: 0, y: 0}
-      score: 0
-      stagePos: 0
       levelID: 0
+      conditionsToComplete:
+      - conditionType: 0
+        conditionComparator: 0
+        conditionReachedAt: 0
+      - conditionType: 0
+        conditionComparator: 0
+        conditionReachedAt: 0
+      - conditionType: 0
+        conditionComparator: 0
+        conditionReachedAt: 0
+      numberOfConditionCompleted: 0
     levelSpec:
+      levelName: 
       timeForThisLevel: 0
       impactRadiusForThisLevel: 0
+      balleSpeedForThisLevel: 1
+      switchColorBehaviourForThisLevel: 0
+      changingBrickColorEveryXseconds: 0
+      noWallsMode: 0
+      mandatoryBounce: 0
+      musicForThisLevel: {fileID: 0}
   levelsPath: Assets/ScriptableObjects/Levels
   debugThisLevel: 0
   numberOfPlayers: 2
@@ -720,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33827d41a20fa64e81d792d142f9f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundList: {fileID: 11400000, guid: 41d22224e97d1e646a2dc55fcd56c5c0, type: 2}
+  soundPreset: {fileID: 0}
 --- !u!1 &3387151940907618906
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,10 +836,7 @@ MonoBehaviour:
   playerSpawn:
   - {fileID: 0}
   - {fileID: 0}
-  timerSpeedModifier: 1
-  timerData: {fileID: 0}
-  currentTimer: 0
-  timeMax: 0
+  ballSpawnDelay: 0
   isTimerStopped: 0
   hasLost: 0
   offlineMode: 0
@@ -1139,6 +1156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae22826cfe6131d47be37fb1abd02fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnColorID: 0
   isBallInstatiated: 1
   ballPrefab: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
     type: 3}
@@ -1146,6 +1164,7 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 1.25, z: 1}
   floatAmplitude: 0.2
   floatPeriod: 2
+  delayBeforeReset: 0
 --- !u!114 &2634689587581286033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,6 +1187,50 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!1 &3996797280888921977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4926972422251877974}
+  - component: {fileID: 5226829641864005877}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4926972422251877974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3996797280888921977}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2113905627460504248}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5226829641864005877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3996797280888921977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aff62f387f371447b8e65abb0ade142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerSpeedModifier: 1
 --- !u!1 &6572958010756774014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,6 +1468,7 @@ Transform:
   - {fileID: 25199465875745926}
   - {fileID: 2723403188578103699}
   - {fileID: 4923605409697620730}
+  - {fileID: 4926972422251877974}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1451,6 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533299d782745344ca8ce10bc5782d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSetupDelay: 1
   inputMod: 1
 --- !u!1001 &1772361165553915443
 PrefabInstance:

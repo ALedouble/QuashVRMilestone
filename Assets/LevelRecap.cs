@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LevelRecap : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class LevelRecap : MonoBehaviour
 
     public TextMeshProUGUI[] conditionType;
     public TextMeshProUGUI[] conditionReachedAt;
+    public TextMeshProUGUI levelCondition;
 
     public SpriteRenderer[] stars;
+
+    public Button playButton;
 }

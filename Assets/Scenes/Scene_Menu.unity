@@ -11459,10 +11459,6 @@ MonoBehaviour:
   - {fileID: 1096231841}
   - {fileID: 1096231841}
   ballSpawnDelay: 0
-  timerSpeedModifier: 0
-  timerData: {fileID: 0}
-  currentTimer: 0
-  timeMax: 0
   isTimerStopped: 0
   hasLost: 0
   offlineMode: 0
@@ -25865,7 +25861,7 @@ RectTransform:
   - {fileID: 636752915}
   - {fileID: 254957704}
   m_Father: {fileID: 2018183732}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -26497,7 +26493,7 @@ RectTransform:
   - {fileID: 1422655981}
   - {fileID: 432905972}
   m_Father: {fileID: 2018183732}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28791,7 +28787,7 @@ RectTransform:
   - {fileID: 485204719}
   - {fileID: 1118626079}
   m_Father: {fileID: 2018183732}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -28982,9 +28978,9 @@ RectTransform:
   - {fileID: 1352012241}
   - {fileID: 1039156132}
   - {fileID: 2060217984}
-  - {fileID: 2014119956}
   - {fileID: 1853776837}
   - {fileID: 1884077136}
+  - {fileID: 2014119956}
   m_Father: {fileID: 1930187397}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

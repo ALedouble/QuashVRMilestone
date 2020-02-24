@@ -3416,24 +3416,25 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
+      buttonName: 01
       isDone: 0
-      isUnlocked: 1
-      starsRequired: 0
+      isUnlocked: 0
+      starsRequired: 3
       isImplemented: 1
       maxScore: 0
       maxCombo: 0
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: d0166d5d43806fc438371e4442365d35, type: 2}
-      levelPos: {x: 600, y: 1777}
+      levelPos: {x: 219, y: 1789}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 10000
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 50000
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0

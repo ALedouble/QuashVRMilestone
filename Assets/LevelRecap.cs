@@ -13,6 +13,7 @@ public class LevelRecap : MonoBehaviour
     public TextMeshProUGUI bestCombo;
 
     public TextMeshProUGUI[] conditionType;
+    public TextMeshProUGUI[] conditionComparator;
     public TextMeshProUGUI[] conditionReachedAt;
     public TextMeshProUGUI levelCondition;
 

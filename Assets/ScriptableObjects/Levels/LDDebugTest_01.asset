@@ -3385,6 +3385,7 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
+      buttonName: 00
       isDone: 0
       isUnlocked: 1
       starsRequired: 0
@@ -3396,12 +3397,12 @@ MonoBehaviour:
       levelPos: {x: 6, y: 1940}
       levelID: 0
       conditionsToComplete:
+      - conditionType: 1
+        conditionComparator: 0
+        conditionReachedAt: 41
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
-        conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 35412397
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0

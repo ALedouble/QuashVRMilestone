@@ -3,21 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
+using TMPro;
 
 public class Campaign : MonoBehaviour
 {
     [Header("Panel")]
     public RectTransform CampaignPanel;
     public List<LevelsScriptable> levelsToCheck;
-    //private LevelsScriptable[] levelsImplemented;
+    private List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
     public int numberOfPanelPositions = 0;
     private float[] panelPositions = new float[0];
     private int panelIndex = 0;
     private float nextPanelPosition = 0;
-    private float panelTop = 9.5f;
+    private float panelTop = 9.3f;
     private float panelBottom = 0.7f;
+    private float panelLeft = -0.3f;
+    private float panelRight = 3.3f;
     private bool isMoving;
 
     private LevelsScriptable levelToPlay;
@@ -25,7 +28,11 @@ public class Campaign : MonoBehaviour
     [Header("Stars")]
     public Sprite lockedStarSprite;
     public Sprite unlockedStarSprite;
+    [HideInInspector] public int totalOfStars;
+    public TextMeshProUGUI starCounter;
 
+    [Header("Side Panel")]
+    public GameObject sidePanel;
     /*
     [ColorUsage(true, true)] Color lockedLineColor;
     [ColorUsage(true, true)] Color unlockedLineColor;
@@ -34,7 +41,6 @@ public class Campaign : MonoBehaviour
     */
 
 
-    [HideInInspector] public int totalOfStars;
 
     public static Campaign instance;
 
@@ -73,108 +79,175 @@ public class Campaign : MonoBehaviour
     }
 
     /// <summary>
+    /// Check if the level is implemented in the campaign
+    /// </summary>
+    private void Check4ImplementedLevels()
+    {
+        levelsImplemented = new List<LevelsScriptable>();
+        totalOfStars = 0;
+
+        for (int i = 0; i < levelsToCheck.Count; i++)
+        {
+            if (levelsToCheck[i].level.levelProgression.isImplemented)
+            {
+                levelsImplemented.Add(levelsToCheck[i]);
+                CountingStars(levelsToCheck[i]);
+            }
+        }
+
+        starCounter.text = totalOfStars.ToString();
+    }
+
+    /// <summary>
+    /// Count the number of stars
+    /// </summary>
+    /// <param name="level"></param>
+    private void CountingStars(LevelsScriptable level)
+    {
+        if (level.level.levelProgression.isDone)
+        {
+            totalOfStars += 1;
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (level.level.levelProgression.conditionsToComplete[i].conditionComparator == 0)
+                {
+                    switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
+                    {
+                        case CompleteConditionType.Score:
+                            if (level.level.levelProgression.maxScore < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                                totalOfStars += 1;
+                            break;
+
+                        case CompleteConditionType.Combo:
+                            if (level.level.levelProgression.maxCombo < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                                totalOfStars += 1;
+                            break;
+
+                        case CompleteConditionType.Timing:
+                            if (level.level.levelProgression.minTiming < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                                totalOfStars += 1;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
+                    {
+                        case CompleteConditionType.Score:
+                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < level.level.levelProgression.maxScore)
+                                totalOfStars += 1;
+                            break;
+
+                        case CompleteConditionType.Combo:
+                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < level.level.levelProgression.maxCombo)
+                                totalOfStars += 1;
+                            break;
+
+                        case CompleteConditionType.Timing:
+                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < level.level.levelProgression.minTiming)
+                                totalOfStars += 1;
+                            break;
+                    }
+                }
+            }
+
+        }
+    }
+
+    /// <summary>
     /// Set up campaign tree
     /// </summary>
     private void SetUpCampaign()
     {
+        //Set up notching 4 panel Move
         SetUpPanelPositions();
 
-        for (int i = 0; i < levelsToCheck.Count; i++)
+        //Set Up the number of stars
+        Check4ImplementedLevels();
+
+
+        //Set Up Graphic Elements
+        for (int i = 0; i < levelsImplemented.Count; i++)
         {
-            //Check if the level is implemented in the campaign
-            if (levelsToCheck[i].level.levelProgression.isImplemented)
+            //Spawn Level ICON 
+            LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
+            level.transform.parent = CampaignPanel.transform;
+
+            //Transpose editor position into campaign position
+            float xPos = (levelsImplemented[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
+            float yPos = ((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
+
+            Vector2 startPos = new Vector2(xPos, yPos);
+
+            //Set LEVEL icon position
+            level.rectTransform.anchoredPosition3D = new Vector3(xPos, yPos, 0);
+
+            //Set Level Title
+            level.text.text = levelsImplemented[i].level.levelProgression.buttonName;
+
+            //Set onClick Event to reload values on the Level Panel
+            LevelsScriptable lvl = levelsImplemented[i];
+            level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
+
+
+            for (int y = 0; y < levelsImplemented[i].level.levelProgression.unlockConditions.Count; y++)
             {
-                //Spawn Level ICON 
-                LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
-                level.transform.parent = CampaignPanel.transform;
+                ////////////    DRAW Line renderer for CONNECTION   ////////////
 
-                //Transpose editor position into campaign position
-                float xPos = (levelsToCheck[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-                float yPos = ((levelsToCheck[i].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
+                //Spawn a LineRenderer from the Pool
+                UILineRenderer line = PoolManager.instance.SpawnFromPool("Connection", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
+                RectTransform rect = line.gameObject.GetComponent<RectTransform>();
 
-                Vector2 startPos = new Vector2(xPos, yPos);
+                line.transform.parent = CampaignPanel.transform;
 
-                //Set LEVEL icon position
-                level.rectTransform.anchoredPosition3D = new Vector3(xPos, yPos, 0);
-
-                //Set Level Title
-                level.text.text = levelsToCheck[i].name;
-
-                //Set onClick Event to reload values on the Level Panel
-                LevelsScriptable lvl = levelsToCheck[i];
-                level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
+                //rect.sizeDelta = new Vector2(0, 0);
 
 
 
-                for (int y = 0; y < levelsToCheck[i].level.levelProgression.unlockConditions.Count; y++)
+                //Get concerned level pos
+                float xUPos = (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
+                float yUPos = ((levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
+
+                Vector2 lastPos = new Vector2(xUPos, yUPos);
+
+                //Retargeting vectors on the edge of the level
+                Vector2 direction1 = lastPos - startPos;
+                direction1 = direction1.normalized;
+                Vector2 startDiffPos = startPos + direction1 * 0.31f;
+
+
+                Vector2 direction = startPos - lastPos;
+                Vector2 newLastPos = direction * -1;
+                Vector2 newDirection = direction.normalized;
+
+                Vector2 endDiffPos = newLastPos + newDirection * 0.62f;
+
+                line.gameObject.transform.localPosition = new Vector2(startDiffPos.x, startDiffPos.y);
+
+
+                //Set line positions
+                line.Points[1] = new Vector2(endDiffPos.x, endDiffPos.y);
+
+
+                ////////////    CHECK UN/LOCK CONDITIONS    ////////////
+
+                if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
-                    ////////////    DRAW Line renderer for CONNECTION   ////////////
+                    //line.material = lockedLineMaterial;
+                    level.button.interactable = false;
 
-                    //Spawn a LineRenderer from the Pool
-                    UILineRenderer line = PoolManager.instance.SpawnFromPool("Connection", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
-                    RectTransform rect = line.gameObject.GetComponent<RectTransform>();
-
-                    line.transform.parent = CampaignPanel.transform;
-
-                    //rect.sizeDelta = new Vector2(0, 0);
-
-
-
-                    //Get concerned level pos
-                    float xUPos = (levelsToCheck[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-                    float yUPos = ((levelsToCheck[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
-
-                    Vector2 lastPos = new Vector2(xUPos, yUPos);
-
-                    //Retargeting vectors on the edge of the level
-                    Vector2 direction1 = lastPos - startPos;
-                    direction1 = direction1.normalized;
-                    Vector2 startDiffPos = startPos + direction1 * 0.31f;
-
-
-                    Vector2 direction = startPos - lastPos;
-                    Vector2 newLastPos = direction * -1;
-                    Vector2 newDirection = direction.normalized;
-
-                    Vector2 endDiffPos = newLastPos + newDirection * 0.62f;
-
-                    line.gameObject.transform.localPosition = new Vector2(startDiffPos.x, startDiffPos.y);
-
-
-                    //Set line positions
-                    line.Points[1] = new Vector2(endDiffPos.x, endDiffPos.y);
-
-
-                    ////////////    CHECK UN/LOCK CONDITIONS    ////////////
-
-                    if (!levelsToCheck[i].level.levelProgression.isUnlocked)
+                    for (int x = 0; x < level.lockImages.Count; x++)
                     {
-                        //line.material = lockedLineMaterial;
-                        level.button.interactable = false;
-
-                        for (int x = 0; x < level.lockImages.Count; x++)
-                        {
-                            level.lockImages[x].SetActive(true);
-                            level.unlockImages[x].SetActive(false);
-                        }
-
-                        if (levelsToCheck[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars < levelsToCheck[i].level.levelProgression.starsRequired)
-                        {
-                            levelsToCheck[i].level.levelProgression.isUnlocked = true;
-                            level.button.interactable = true;
-                            //line.material = unlockedLineMaterial;
-
-                            for (int x = 0; x < level.lockImages.Count; x++)
-                            {
-                                level.lockImages[x].SetActive(false);
-                                level.unlockImages[x].SetActive(true);
-                            }
-                        }
+                        level.lockImages[x].SetActive(true);
+                        level.unlockImages[x].SetActive(false);
                     }
-                    else
+
+                    if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                     {
-                        //line.material = unlockedLineMaterial;
+                        levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
+                        //line.material = unlockedLineMaterial;
 
                         for (int x = 0; x < level.lockImages.Count; x++)
                         {
@@ -183,11 +256,81 @@ public class Campaign : MonoBehaviour
                         }
                     }
                 }
+                else
+                {
+                    //line.material = unlockedLineMaterial;
+                    level.button.interactable = true;
+
+                    for (int x = 0; x < level.lockImages.Count; x++)
+                    {
+                        level.lockImages[x].SetActive(false);
+                        level.unlockImages[x].SetActive(true);
+                    }
+                }
+            }
 
 
+            //Ligne de péage
+            if (levelsImplemented[i].level.levelProgression.starsRequired > 0)
+            {
+                Vector2 levelPos = startPos;
+                float levelBorderOffset = 0.4f;
 
+
+                Vector2 leftLevelSide = levelPos + Vector2.left * levelBorderOffset;
+                Vector2 leftBorder = new Vector2(leftLevelSide.x - panelLeft, 0);
+
+                Vector2 rightLevelSide = levelPos + Vector2.right * levelBorderOffset;
+                Vector2 rightBorder = new Vector2(panelRight - rightLevelSide.x, 0);
+
+                StargateValues leftGate = new StargateValues();
+                StargateValues rightGate = new StargateValues();
+
+
+                if (leftBorder.x > levelBorderOffset)
+                {
+                    UILineRenderer leftLine = PoolManager.instance.SpawnFromPool("Stargate", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
+                    leftLine.gameObject.transform.parent = CampaignPanel.gameObject.transform;
+                    leftLine.rectTransform.anchoredPosition3D = new Vector3(leftLevelSide.x, leftLevelSide.y, 0);
+                    leftLine.Points[1] = new Vector2(-leftBorder.x, 0);
+                    leftGate = leftLine.gameObject.GetComponent<StargateValues>();
+                }
+
+                if (rightBorder.x > levelBorderOffset)
+                {
+                    UILineRenderer rightLine = PoolManager.instance.SpawnFromPool("Stargate", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
+                    rightLine.gameObject.transform.parent = CampaignPanel.gameObject.transform;
+                    rightLine.rectTransform.anchoredPosition3D = new Vector3(rightLevelSide.x, rightLevelSide.y, 0);
+                    rightLine.Points[1] = rightBorder;
+                    rightGate = rightLine.gameObject.GetComponent<StargateValues>();
+                }
+
+                //SetText
+                if (leftBorder.x > rightBorder.x)
+                {
+                    leftGate.leftToRightGo[0].SetActive(true);
+
+                    if (totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                        leftGate.leftToRightImage[0].sprite = unlockedStarSprite;
+                    else
+                        leftGate.leftToRightImage[0].sprite = lockedStarSprite;
+
+                    leftGate.leftToRightText[0].text = levelsImplemented[i].level.levelProgression.starsRequired.ToString();
+                }
+                else
+                {
+                    rightGate.leftToRightGo[1].SetActive(true);
+
+                    if (totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                        rightGate.leftToRightImage[1].sprite = unlockedStarSprite;
+                    else
+                        rightGate.leftToRightImage[1].sprite = lockedStarSprite;
+
+                    rightGate.leftToRightText[1].text = levelsImplemented[i].level.levelProgression.starsRequired.ToString();
+                }
             }
         }
+
     }
 
     /// <summary>
@@ -196,12 +339,18 @@ public class Campaign : MonoBehaviour
     /// <param name="selectedLevel"></param>
     public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)
     {
+        if (!sidePanel.activeSelf)
+            sidePanel.SetActive(true);
+
         levelToPlay = selectedLevel;
 
         if (selectedLevel.level.levelSpec.levelName != null)
-            levelRecapValues.levelTitle.text = selectedLevel.level.levelSpec.levelName;
+            levelRecapValues.levelTitle.text = selectedLevel.level.levelProgression.buttonName + selectedLevel.level.levelSpec.levelName;
         else
-            levelRecapValues.levelTitle.text = "NO NAME";
+            levelRecapValues.levelTitle.text = selectedLevel.level.levelProgression.buttonName + "NO NAME";
+
+        levelRecapValues.conditionComparator[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator.ToString();
+        levelRecapValues.conditionComparator[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator.ToString();
 
         levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
         levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
@@ -281,6 +430,10 @@ public class Campaign : MonoBehaviour
             {
                 levelRecapValues.stars[i].sprite = lockedStarSprite;
             }
+
+            levelRecapValues.bestCombo.text = "-";
+            levelRecapValues.bestTime.text = "-";
+            levelRecapValues.highScore.text = "-";
         }
     }
 
@@ -292,7 +445,7 @@ public class Campaign : MonoBehaviour
             return;
         }
 
-        int indexOfLevel = levelsToCheck.IndexOf(levelToPlay);
+        int indexOfLevel = levelsImplemented.IndexOf(levelToPlay);
         CampaignLevel.Instance.SelectLevel(indexOfLevel);
     }
 

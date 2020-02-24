@@ -13722,8 +13722,9 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
+      buttonName: 02
       isDone: 0
-      isUnlocked: 1
+      isUnlocked: 0
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
@@ -13736,7 +13737,7 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 505
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 10000

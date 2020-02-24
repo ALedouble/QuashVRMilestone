@@ -516,9 +516,10 @@ MonoBehaviour:
       - wallBricks: []
       - wallBricks: []
     levelProgression:
+      buttonName: 03bis
       isDone: 1
-      isUnlocked: 1
-      starsRequired: 0
+      isUnlocked: 0
+      starsRequired: 10
       isImplemented: 1
       maxScore: 0
       maxCombo: 0
@@ -530,7 +531,7 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 8000000
       - conditionType: 1
         conditionComparator: 0
         conditionReachedAt: 10

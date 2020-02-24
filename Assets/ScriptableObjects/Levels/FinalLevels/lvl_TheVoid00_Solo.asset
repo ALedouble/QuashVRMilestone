@@ -1114,15 +1114,14 @@ MonoBehaviour:
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
-        - isBrickHere: 1
-          brickID: TheBrick
-          brickPosition: {x: 1.4499999, y: 5.9500003, z: 0}
+        - isBrickHere: 0
+          brickID: 
+          brickPosition: {x: 0, y: 0, z: 0}
           isMoving: 0
           speed: 0
           smoothTime: 0
-          waypointsStorage:
-          - {x: 1.4499999, y: 5.9500003, z: 0}
-          brickColorPreset: 1
+          waypointsStorage: []
+          brickColorPreset: 0
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -28205,6 +28204,7 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
+      buttonName: 00
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -28227,7 +28227,7 @@ MonoBehaviour:
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: 
+      levelName: The Void
       timeForThisLevel: 300
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
@@ -28235,4 +28235,5 @@ MonoBehaviour:
       changingBrickColorEveryXseconds: 0
       noWallsMode: 0
       mandatoryBounce: 0
-      musicForThisLevel: {fileID: 0}
+      musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
+        type: 3}

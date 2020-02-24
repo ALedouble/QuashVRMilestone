@@ -28,7 +28,7 @@ public class RoomName : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        photonView.RPC("RoomTitle", RpcTarget.All);
+       // photonView.RPC("RoomTitle", RpcTarget.All);
 
         if (text.text != CreateRoom.Instance._roomName.text)
         {

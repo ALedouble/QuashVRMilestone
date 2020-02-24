@@ -125,14 +125,14 @@ public class GameManager : MonoBehaviour
             if (gameMod == GameMod.GAMEPLAY)
             {
                 Debug.Log(MultiLevel.Instance.levelIndex);
-                if(PhotonNetwork.IsMasterClient){
-                    photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
-                }
-                 // SelectionLevel(MultiLevel.Instance.levelIndex);
+              //  photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
+
+                 SelectionLevelRPC(MultiLevel.Instance.levelIndex);
             }
         }
     }
 
+    #region Ball
     public void InstanciateBall()                   //Rename
     {
         if(gameMod == GameMod.GAMEPLAY /*&& PhotonNetwork.IsMasterClient*/)
@@ -149,6 +149,8 @@ public class GameManager : MonoBehaviour
 
         BallManager.instance.InitializeBall();
     }
+
+    #endregion
 
     private void SynchronizeStart()
     {
@@ -225,6 +227,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+
     public void RestartGame()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -251,7 +254,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [PunRPC]
     public void SelectionLevelRPC(int selection){
         //LevelManager.instance.ConfigDistribution(selection);
         LevelManager.instance.StartLevelInitialization(selection);

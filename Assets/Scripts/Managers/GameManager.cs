@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Ball
     public void InstanciateBall()                   //Rename
     {
         if(gameMod == GameMod.GAMEPLAY /*&& PhotonNetwork.IsMasterClient*/)
@@ -148,6 +149,8 @@ public class GameManager : MonoBehaviour
 
         BallManager.instance.InitializeBall();
     }
+
+    #endregion
 
     private void SynchronizeStart()
     {
@@ -222,6 +225,7 @@ public class GameManager : MonoBehaviour
     {
         return isGameStart;
     }
+
 
 
     public void RestartGame()

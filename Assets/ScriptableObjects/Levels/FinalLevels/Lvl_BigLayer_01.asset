@@ -28910,7 +28910,7 @@ MonoBehaviour:
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: 
+      levelName: Squares
       timeForThisLevel: 200
       impactRadiusForThisLevel: 3
       balleSpeedForThisLevel: 1
@@ -28918,4 +28918,5 @@ MonoBehaviour:
       changingBrickColorEveryXseconds: 0
       noWallsMode: 0
       mandatoryBounce: 0
-      musicForThisLevel: {fileID: 0}
+      musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
+        type: 3}

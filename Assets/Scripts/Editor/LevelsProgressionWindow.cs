@@ -37,6 +37,7 @@ public class LevelsProgressionWindow : EditorWindow
 
     private GUIStyle labelStyle;
     private GUIStyle selectedStyle;
+    private GUIStyle dropStyle;
 
     float configBottom;
     private bool mouseOutOfWindow;
@@ -96,6 +97,13 @@ public class LevelsProgressionWindow : EditorWindow
         selectedStyle.fontSize = 13;
         selectedStyle.fontStyle = FontStyle.Bold;
         selectedStyle.normal.textColor = Color.white;
+
+        //Drop Style
+        dropStyle = new GUIStyle();
+        dropStyle.fontSize = 18;
+        dropStyle.fontStyle = FontStyle.Normal;
+        dropStyle.normal.textColor = Color.white;
+        dropStyle.alignment = TextAnchor.UpperCenter;
     }
 
     void InitLevelProgression()
@@ -250,7 +258,8 @@ public class LevelsProgressionWindow : EditorWindow
         Rect drop_area = new Rect(0, 0, position.width, position.height);
         GUI.Box(drop_area, "");
 
-        //GUI.Label(new Rect(/*new Vector2(((position.width + boxSize.x) * 0.5f), (position.height * 0.5f)), new Vector2(200f,15f)*/0,0,200,20), "Drag your LEVEL(s) here");
+        if (levelsToDisplay.Count == 0)
+            GUI.Label(new Rect(new Vector2(((position.width - boxSize.x) * 0.5f - 105), (position.height * 0.5f)), new Vector2(200f, 15f)), "Drag your LEVEL(s) here", dropStyle);
 
         switch (evt.type)
         {
@@ -492,7 +501,7 @@ public class LevelsProgressionWindow : EditorWindow
                 else
                 {
                     EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)), Color.grey);
-                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)), 
+                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)),
                         levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.buttonName, labelStyle);
                 }
             }

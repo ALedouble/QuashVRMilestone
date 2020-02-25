@@ -7,7 +7,7 @@ using UnityEditorInternal;
 public class LevelsProgressionWindow : EditorWindow
 {
     List<LevelsScriptable> levelsToDisplay = new List<LevelsScriptable>();
-    private string levelsPath = "Assets/ScriptableObjects/Levels";
+    private string levelsPath = "Assets/ScriptableObjects/Levels/FinalLevels";
     LevelsScriptable[] levels;
     LevelsScriptable currentLevel;
 
@@ -43,7 +43,7 @@ public class LevelsProgressionWindow : EditorWindow
 
 
 
-    [MenuItem("Window/Custom/Campaign Editor")]
+    [MenuItem("Window/Campaign Editor")]
     public static void OpenProgressionWindow()
     {
         LevelsProgressionWindow window = EditorWindow.GetWindow(typeof(LevelsProgressionWindow)) as LevelsProgressionWindow;
@@ -249,6 +249,8 @@ public class LevelsProgressionWindow : EditorWindow
         Event evt = Event.current;
         Rect drop_area = new Rect(0, 0, position.width, position.height);
         GUI.Box(drop_area, "");
+
+        //GUI.Label(new Rect(/*new Vector2(((position.width + boxSize.x) * 0.5f), (position.height * 0.5f)), new Vector2(200f,15f)*/0,0,200,20), "Drag your LEVEL(s) here");
 
         switch (evt.type)
         {

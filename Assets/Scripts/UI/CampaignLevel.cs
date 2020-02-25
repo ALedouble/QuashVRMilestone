@@ -7,11 +7,12 @@ using Photon.Pun;
 
 public class CampaignLevel : MonoBehaviour
 {
-    public static CampaignLevel Instance;
-
     [HideInInspector]
     public int levelSelected;
     public LevelsScriptable levelScriptSelected;
+
+
+    public static CampaignLevel Instance;
 
 
     void Awake()

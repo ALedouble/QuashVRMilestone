@@ -12,7 +12,7 @@ public class Campaign : MonoBehaviour
 
     [Header("Panel")]
     public RectTransform CampaignPanel;
-    private List<LevelsScriptable> levelsImplemented;
+    [HideInInspector] public List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
     public int numberOfPanelPositions = 0;

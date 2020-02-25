@@ -26,6 +26,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+    public GameObject levelSelectionCanvas;
     public GameObject buttonLaunch;
 
     [SerializeField]
@@ -33,12 +34,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     PhotonView photonView;
 
+
     private void Start() {
 
     }
 
     private void Update() {
-        Debug.Log(_listings.Count);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -48,6 +49,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         else
         {
             buttonLaunch.SetActive(false);
+        }
+
+        if (_listings.Count == 1){
+            levelSelectionCanvas.SetActive(true);
+        }
+        else{
+            levelSelectionCanvas.SetActive(false);
         }
     }
 

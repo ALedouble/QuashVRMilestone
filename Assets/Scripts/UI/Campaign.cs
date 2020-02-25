@@ -14,10 +14,11 @@ public class Campaign : MonoBehaviour
     public LevelRecap levelRecapValues;
 
     public int numberOfPanelPositions = 0;
+    private float positionQuotient = 0;
     private float[] panelPositions = new float[0];
     private int panelIndex = 0;
     private float nextPanelPosition = 0;
-    private float panelTop = 9.3f;
+    private float panelTop = 9.5f;
     private float panelBottom = 0.7f;
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
@@ -69,12 +70,12 @@ public class Campaign : MonoBehaviour
     {
         panelPositions = new float[numberOfPanelPositions + 1];
 
-        float diffPosition = (panelTop - panelBottom) / numberOfPanelPositions;
+        positionQuotient = (panelTop - panelBottom) / numberOfPanelPositions;
 
 
         for (int i = 0; i < numberOfPanelPositions + 1; i++)
         {
-            panelPositions[i] = -panelBottom - (diffPosition * i);
+            panelPositions[i] = -panelBottom - (positionQuotient * i);
         }
     }
 
@@ -96,6 +97,8 @@ public class Campaign : MonoBehaviour
         }
 
         starCounter.text = totalOfStars.ToString();
+
+        ReorderCampaign();
     }
 
     /// <summary>
@@ -152,6 +155,43 @@ public class Campaign : MonoBehaviour
                 }
             }
 
+        }
+    }
+
+    /// <summary>
+    /// Tri la list
+    /// </summary>
+    private void ReorderCampaign()
+    {
+        levelsImplemented.Sort();
+    }
+
+    /// <summary>
+    /// Setup panel position to the first level unlocked from the top position
+    /// </summary>
+    private void SetUpPanelPositionAtStart()
+    {
+        for (int i = 0; i < levelsImplemented.Count; i++)
+        {
+            if (levelsImplemented[i].level.levelProgression.isUnlocked)
+            {
+                float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f);
+
+                for (int y = numberOfPanelPositions; y > 0; y--)
+                {
+                    float comparer = positionQuotient * y;
+
+                    if (levelComparer > comparer)
+                    {
+                        Debug.Log("panel index : " + y);
+                        Debug.Log("panel position : " + comparer);
+                        Debug.Log("level position : " + levelComparer);
+
+                        MoveCampaignPanelTo(y);
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -270,7 +310,7 @@ public class Campaign : MonoBehaviour
             }
 
 
-            //Ligne de péage
+            //Stargate activation
             if (levelsImplemented[i].level.levelProgression.starsRequired > 0)
             {
                 Vector2 levelPos = startPos;
@@ -331,6 +371,7 @@ public class Campaign : MonoBehaviour
             }
         }
 
+        SetUpPanelPositionAtStart();
     }
 
     /// <summary>
@@ -462,6 +503,10 @@ public class Campaign : MonoBehaviour
             new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), 0.1f);
     }
 
+    /// <summary>
+    /// Move panel from current index to the next(1) or previous(-1) one 
+    /// </summary>
+    /// <param name="upOrDown"></param>
     public void MoveCampaignPanel(int upOrDown) //-1 or 1
     {
         int newIndex = panelIndex + upOrDown;
@@ -469,6 +514,26 @@ public class Campaign : MonoBehaviour
         if (newIndex >= 0 && newIndex <= numberOfPanelPositions)
         {
             panelIndex = newIndex;
+        }
+        else
+        {
+            return;
+        }
+
+        nextPanelPosition = panelPositions[panelIndex];
+
+        isMoving = true;
+    }
+
+    /// <summary>
+    /// Move Campaign Panel to selected position index
+    /// </summary>
+    /// <param name="newPanelIndex"></param>
+    public void MoveCampaignPanelTo(int newPanelIndex)
+    {
+        if (newPanelIndex != panelIndex && newPanelIndex <= numberOfPanelPositions && newPanelIndex >= 0)
+        {
+            panelIndex = newPanelIndex;
         }
         else
         {

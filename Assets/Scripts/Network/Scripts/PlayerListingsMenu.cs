@@ -29,6 +29,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public GameObject levelSelectionCanvas;
     public GameObject buttonLaunch;
+    public GameObject kickPlayerButton;
+
+    public GameObject mainScreen;
+    public GameObject currentRoom;
 
     [SerializeField]
     public int numLevel;
@@ -50,9 +54,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         else
         {
             buttonLaunch.SetActive(false);
+            levelSelectionCanvas.SetActive(false);
+            kickPlayerButton.SetActive(false);
         }
 
-        if (_listings.Count == 1){
+        if (_listings.Count == 2){
             levelSelectionCanvas.SetActive(true);
         }
         else{
@@ -99,6 +105,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer){
         Debug.Log("Hello");
        AddPlayerListing(newPlayer);
+       checkCurrentRoom();
        Debug.Log(_listings);
     }
 
@@ -111,7 +118,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public void OnClick_StartGame(){
-        if(PhotonNetwork.IsMasterClient && _listings.Count == 1){
+        if(PhotonNetwork.IsMasterClient && _listings.Count == 2){
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible= false;
             PhotonNetwork.LoadLevel(1);
@@ -139,8 +146,22 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         MultiLevel.Instance.levelIndex = number;
     }
 
+    public void OnClick_KickPlayer(){
+        OnPlayerLeftRoom(PhotonNetwork.PlayerListOthers[0]);
+        photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
+    }
+
     public void KickPlayer(Player player){
-        PhotonNetwork.CloseConnection(player);
+        
+       // PhotonNetwork.CloseConnection(player);
+    }
+
+    [PunRPC]
+    public void ResetPlayerToMainScreen(){
+        if(!PhotonNetwork.IsMasterClient){
+            mainScreen.SetActive(true);
+            currentRoom.SetActive(false);
+        }
     }
 }
 

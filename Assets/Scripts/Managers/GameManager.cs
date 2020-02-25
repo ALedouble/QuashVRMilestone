@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log(MultiLevel.Instance.levelIndex);
               //  photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
 
-                 SelectionLevelRPC(MultiLevel.Instance.levelIndex);
+                 SelectionLevelMulti(MultiLevel.Instance.levelIndex);
             }
         }
     }
@@ -254,7 +254,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SelectionLevelRPC(int selection){
+    public void SelectionLevelMulti(int selection){
         //LevelManager.instance.ConfigDistribution(selection);
         LevelManager.instance.StartLevelInitialization(selection);
     }

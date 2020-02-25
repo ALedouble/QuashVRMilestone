@@ -15,6 +15,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         Instance = this;
         photonView = GetComponent<PhotonView>();
         GetCurrentRoomPlayers();
+        Debug.Log(_listings);
     }
     #endregion
 
@@ -26,6 +27,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
+    public GameObject levelSelectionCanvas;
     public GameObject buttonLaunch;
 
     [SerializeField]
@@ -33,22 +35,34 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     PhotonView photonView;
 
-    private void Start() {
 
+    private void Start() {
+        StartCoroutine("checkCurrentRoom");
     }
 
     private void Update() {
-        Debug.Log(_listings.Count);
 
+        
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("hello");
             buttonLaunch.SetActive(true);
         }
         else
         {
             buttonLaunch.SetActive(false);
         }
+
+        if (_listings.Count == 1){
+            levelSelectionCanvas.SetActive(true);
+        }
+        else{
+            levelSelectionCanvas.SetActive(false);
+        }
+    }
+
+    IEnumerator checkCurrentRoom(){
+        yield return new WaitForSeconds(0.5f);
+        GetCurrentRoomPlayers();
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -78,11 +92,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 listing.SetPlayerInfo(player);
                 _listings.Add(listing);
             }
-
-        Debug.Log(listing);
+        Debug.Log("hello");
+       
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
+        Debug.Log("Hello");
        AddPlayerListing(newPlayer);
        Debug.Log(_listings);
     }
@@ -122,6 +137,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SelectLevel(int number){
         MultiLevel.Instance.levelIndex = number;
+    }
+
+    public void OnClick_KickPlayer(){
+        KickPlayer(PhotonNetwork.PlayerListOthers[0]);
     }
 
     public void KickPlayer(Player player){

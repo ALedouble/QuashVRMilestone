@@ -57,13 +57,13 @@ namespace Dissonance
                     case LogLevel.Trace:
                     case LogLevel.Debug:
                     case LogLevel.Info:
-                        UnityEngine.Debug.Log(_message);
+//                        UnityEngine.Debug.Log(_message);
                         break;
                     case LogLevel.Warn:
-                        UnityEngine.Debug.LogWarning(_message);
+//                        UnityEngine.Debug.LogWarning(_message);
                         break;
                     case LogLevel.Error:
-                        UnityEngine.Debug.LogError(_message);
+//                        UnityEngine.Debug.LogError(_message);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

@@ -30,4 +30,14 @@ public class GUILevelFade : MonoBehaviour
     {
         SceneManager.LoadScene(levelToLoad);
     }
+
+    public void FadeOut()
+    {
+        animFade.SetTrigger("FadeOut");
+    }
+
+    public void FadeIn()
+    {
+        animFade.SetTrigger("FadeIn");
+    }
 }

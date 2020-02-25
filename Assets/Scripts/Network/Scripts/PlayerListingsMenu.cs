@@ -41,9 +41,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     private void Update() {
 
+        GetCurrentRoomPlayers();
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("hello");
             buttonLaunch.SetActive(true);
         }
         else
@@ -86,11 +86,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
                 listing.SetPlayerInfo(player);
                 _listings.Add(listing);
             }
-
-        Debug.Log(listing);
+        Debug.Log("hello");
+       
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
+        Debug.Log("Hello");
        AddPlayerListing(newPlayer);
        Debug.Log(_listings);
     }

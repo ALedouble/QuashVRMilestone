@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 1758958001795561112}
   - component: {fileID: 1758958001795561113}
   - component: {fileID: 1758958001795561114}
+  - component: {fileID: 1190645798528744186}
   - component: {fileID: 1758958001795561115}
   - component: {fileID: 1758958001795561108}
   - component: {fileID: 4513035634878747323}
@@ -536,6 +537,18 @@ MonoBehaviour:
   objectToHighlight: {fileID: 0}
   objectHighlighter: {fileID: 0}
   objectToAffect: {fileID: 0}
+--- !u!114 &1190645798528744186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb1bd9201e48994d8bbb26f16c8f63c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1758958001795561115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,7 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3734e65f27a722b418b26a9f1872c5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorSwitchTrigerType: 0
   trails:
   - {fileID: 1758958001167005412}
   - {fileID: 1758958001423848000}
@@ -613,6 +625,7 @@ MonoBehaviour:
   startingPlayer: 1
   bounciness: 0.8
   dynamicFriction: 0
+  averageHitMagnitude: 10
 --- !u!114 &4786920642494746230
 MonoBehaviour:
   m_ObjectHideFlags: 0

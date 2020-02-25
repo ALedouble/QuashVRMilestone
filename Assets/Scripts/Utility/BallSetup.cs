@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class BallSetup : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         BallManager.instance.SetupBall(gameObject);
+        GameManager.Instance.ReadyCheck(GameManager.Instance.BallFirstSpawn);
     }
 }

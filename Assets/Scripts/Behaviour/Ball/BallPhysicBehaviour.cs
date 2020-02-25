@@ -228,8 +228,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         transform.position = positionWhenHit;
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
-        
-        SetSpeedState((SpeedState)newSpeedState, true);
+        Debug.Log("Newvelocity: " + rigidbody.velocity);
+        SetSpeedState((SpeedState)newSpeedState, false);
+        Debug.Log("Newvelocity: " + rigidbody.velocity);
     }
 
     private void ApplyNewVelocity(Vector3 newVelocity)
@@ -567,14 +568,17 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     public void StartBallFirstSpawnCoroutine(float duration)
     {
-        BallFirstSpawnCoroutine(duration);
+        Debug.Log("StartBallColiderCoroutine");
+        StartCoroutine(BallFirstSpawnCoroutine(duration));
     }
 
     private IEnumerator BallFirstSpawnCoroutine(float duration)
     {
+        Debug.Log("Collider desactivé " + BallCollider);
         BallCollider.enabled = false;
         yield return new WaitForSeconds(duration);
         BallCollider.enabled = true;
+        Debug.Log("Collider réactivé " + BallCollider);
     }
 
     public void ResetBall()

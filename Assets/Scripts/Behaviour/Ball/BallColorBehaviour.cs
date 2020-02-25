@@ -37,11 +37,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         photonView = PhotonView.Get(this);
         myRenderer = gameObject.GetComponent<Renderer>();
-    }
 
-
-    private void Start()
-    {
         SetupColors();
         InitializeSwitchColor();
     }
@@ -263,6 +259,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private IEnumerator BallFirstSpawnCoroutine(float duration)
     {
+        yield return new WaitForEndOfFrame();
+
         float initialGlowPower = GetCurrentMaterial().GetFloat("Vector1_5584EFD3");
         float timeElapsed = 0f;
         

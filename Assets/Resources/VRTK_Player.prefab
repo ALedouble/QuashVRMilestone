@@ -3019,11 +3019,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8813558232401917826, guid: 6ff5dd42f39b50d4ebe15f701e774ccf,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3945109766204472883, guid: 6ff5dd42f39b50d4ebe15f701e774ccf,
         type: 3}
       propertyPath: m_Camera
@@ -3033,6 +3028,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813558232401917826, guid: 6ff5dd42f39b50d4ebe15f701e774ccf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ff5dd42f39b50d4ebe15f701e774ccf, type: 3}

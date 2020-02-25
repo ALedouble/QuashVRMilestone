@@ -139,6 +139,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         MultiLevel.Instance.levelIndex = number;
     }
 
+    public void OnClick_KickPlayer(){
+        KickPlayer(PhotonNetwork.PlayerListOthers[0]);
+    }
+
     public void KickPlayer(Player player){
         PhotonNetwork.CloseConnection(player);
     }

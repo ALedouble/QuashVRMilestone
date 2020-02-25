@@ -114,6 +114,8 @@ public class ProgressionSettings
         starsRequired = 0;
         isImplemented = false;
 
+        unlockConditions = new List<LevelsScriptable>();
+
         conditionsToComplete = new LevelConditions[2];
     }
 }

@@ -70,16 +70,14 @@ public class LevelsProgressionWindow : EditorWindow
 
         EventHandler();
 
+        DropAreaGUI();
+
+        ProgressionSettingGUI();
+
         if (levelsToDisplay.Count > 0)
         {
             GraphicGUI();
         }
-
-        ProgressionSettingGUI();
-
-        DropAreaGUI();
-
-
 
         Repaint();
     }
@@ -121,14 +119,12 @@ public class LevelsProgressionWindow : EditorWindow
 
     void ProgressionSettingGUI()
     {
-        //Handles.BeginGUI();
-
         boxSize = new Vector2(275, position.height - 20);
         boxPos = new Vector2(position.width - boxSize.x - 10, position.height - boxSize.y - 10);
 
-        BoxLevelsGUI();
 
         GUI.Box(new Rect(boxPos, boxSize), " ");
+
 
         if (currentLevel != null)
         {
@@ -218,10 +214,7 @@ public class LevelsProgressionWindow : EditorWindow
             GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y), new Vector2(245, 15)), "Aucun Level Selectionné", labelStyle);
         }
 
-        //Handles.EndGUI();
-
-
-
+        BoxLevelsGUI();
     }
 
     void GraphicGUI()
@@ -242,6 +235,7 @@ public class LevelsProgressionWindow : EditorWindow
         for (int i = 0; i < levelsToDisplay.Count; i++)
         {
             DrawLevel(levelsToDisplay[i]);
+
 
             if (levelsToDisplay[i].level.levelProgression.unlockConditions.Count > 0)
             {
@@ -683,11 +677,13 @@ public class LevelsProgressionWindow : EditorWindow
     {
         if (currentLevel != null)
         {
+            currentLevel = null;
+
             for (int i = 0; i < levelsToDisplay.Count; i++)
             {
                 if (levelsToDisplay[i] != levelToRemove)
                 {
-                    if (levelsToDisplay[i].level.levelProgression.unlockConditions.Count != 0)
+                    if (levelsToDisplay[i].level.levelProgression.unlockConditions.Count > 0)
                     {
                         if (levelsToDisplay[i].level.levelProgression.unlockConditions.Contains(levelToRemove))
                             levelsToDisplay[i].level.levelProgression.unlockConditions.Remove(levelToRemove);
@@ -703,9 +699,10 @@ public class LevelsProgressionWindow : EditorWindow
                 Debug.Log(levelsToDisplay[i]);
             }
 
-            currentLevel = null;
-            RefreshInspector();
+            levelToRemove.level.levelProgression = new ProgressionSettings();
+
             InitLevelProgression();
+            RefreshInspector();
         }
 
     }

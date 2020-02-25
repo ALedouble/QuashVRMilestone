@@ -2783,6 +2783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomName: {fileID: 981584210}
+  searchingRoom: {fileID: 0}
   buttonCreate: {fileID: 0}
 --- !u!114 &220916263
 MonoBehaviour:
@@ -39958,6 +39959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomName: {fileID: 981584210}
+  searchingRoom: {fileID: 0}
   buttonCreate: {fileID: 0}
 --- !u!95 &587210052
 Animator:
@@ -44798,7 +44800,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000034809, y: -0.0000069737}
+  m_AnchoredPosition: {x: 0.000034809113, y: -0.0000069737434}
   m_SizeDelta: {x: -0.000022173, y: -0.0792}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &981584210
@@ -51543,6 +51545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomName: {fileID: 981584210}
+  searchingRoom: {fileID: 0}
   buttonCreate: {fileID: 0}
 --- !u!95 &1549315860
 Animator:
@@ -56273,6 +56276,7 @@ GameObject:
   - component: {fileID: 1918277309}
   - component: {fileID: 1918277314}
   - component: {fileID: 1918277315}
+  - component: {fileID: 1918277316}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Join Room Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: joinroom
@@ -56417,6 +56421,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab8c10d42aa9624ca6070d22c6e01cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1918277316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918277307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30fd14b07bae3c7449628b48a27aae30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listWord: []
+  textBar: {fileID: 981584210}
+  roomList: {fileID: 0}
 --- !u!1 &1921655620
 GameObject:
   m_ObjectHideFlags: 0
@@ -57441,7 +57460,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh148228
+  m_Name: pb_Mesh621766
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -61781,6 +61800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomName: {fileID: 981584210}
+  searchingRoom: {fileID: 1918277316}
   buttonCreate: {fileID: 587210053}
 --- !u!114 &3111320250173600413
 MonoBehaviour:
@@ -62104,6 +62124,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u25A0\u25A0\u25A0\u25A0 Current Room Screen \u25A0\u25A0\u25A0\u25A0"
       objectReference: {fileID: 0}
+    - target: {fileID: 4507639600841012522, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7998136508714423507, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -62224,6 +62249,31 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4507639602264234350, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507639602264234350, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507639602264234350, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507639600490876875, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507639600490876875, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4507639601338666824, guid: db90d7d5b94a1944aaa42d210b93f2b2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -62234,13 +62284,23 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1499934103}
-    - target: {fileID: 1711994255, guid: db90d7d5b94a1944aaa42d210b93f2b2, type: 3}
-      propertyPath: viewIdField
-      value: 2
+    - target: {fileID: 9000976724876524063, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883067233267013335, guid: db90d7d5b94a1944aaa42d210b93f2b2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1047411609, guid: db90d7d5b94a1944aaa42d210b93f2b2, type: 3}
       propertyPath: viewIdField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711994255, guid: db90d7d5b94a1944aaa42d210b93f2b2, type: 3}
+      propertyPath: viewIdField
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90d7d5b94a1944aaa42d210b93f2b2, type: 3}

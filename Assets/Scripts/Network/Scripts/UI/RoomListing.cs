@@ -9,7 +9,7 @@ using TMPro;
 public class RoomListing : MonoBehaviour
 {
   [SerializeField]
-  private TextMeshProUGUI _text;
+  public TextMeshProUGUI _text;
 
   GameObject mainCanvas;
   GameObject joinRoom;

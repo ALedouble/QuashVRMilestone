@@ -14,6 +14,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
     private List<RoomListing> _listings = new List<RoomListing>();
     public RoomCanvasGroup _roomsCanvases;
 
+
     public void FirstInitialize(RoomCanvasGroup canvases){
         _roomsCanvases = canvases;
         content.DestroyChildren();

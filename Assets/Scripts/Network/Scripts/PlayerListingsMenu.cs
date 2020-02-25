@@ -15,6 +15,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         Instance = this;
         photonView = GetComponent<PhotonView>();
         GetCurrentRoomPlayers();
+        Debug.Log(_listings);
     }
     #endregion
 
@@ -36,12 +37,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
 
     private void Start() {
-
+        StartCoroutine("checkCurrentRoom");
     }
 
     private void Update() {
 
-        GetCurrentRoomPlayers();
+        
         if (PhotonNetwork.IsMasterClient)
         {
             buttonLaunch.SetActive(true);
@@ -57,6 +58,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         else{
             levelSelectionCanvas.SetActive(false);
         }
+    }
+
+    IEnumerator checkCurrentRoom(){
+        yield return new WaitForSeconds(0.5f);
+        GetCurrentRoomPlayers();
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){

@@ -29,6 +29,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public GameObject levelSelectionCanvas;
     public GameObject buttonLaunch;
+    public GameObject kickPlayerButton;
 
     public GameObject mainScreen;
     public GameObject currentRoom;
@@ -53,6 +54,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         else
         {
             buttonLaunch.SetActive(false);
+            levelSelectionCanvas.SetActive(false);
+            kickPlayerButton.SetActive(false);
         }
 
         if (_listings.Count == 2){

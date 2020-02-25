@@ -8,7 +8,5 @@ public class BallSetup : MonoBehaviour
     private void Awake()
     {
         BallManager.instance.SetupBall(gameObject);
-
-        GameManager.Instance.BallHasBeenSetup();
     }
 }

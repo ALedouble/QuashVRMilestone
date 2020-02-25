@@ -13,7 +13,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
 
     [Header("Waypoint")]
-    public bool isMoving;
+    public bool isAMovingBrick;
     [Tooltip("Enter waypoints positions here")]
     public List<Vector3> waypoints;
 
@@ -49,9 +49,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void Awake()
     {
-
-
-        if (isMoving)
+        if (isAMovingBrick)
         {
             if (waypoints.Count != 0)
             {
@@ -60,7 +58,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
                 waypointIndex++;
             }
         }
-
     }
 
     void Start()
@@ -80,7 +77,7 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     private void Update()
     {
-        if (isMoving && GameManager.Instance.IsReady)
+        if (isAMovingBrick && GameManager.Instance.IsBrickFreeToMove)
         {
             Moving();
         }

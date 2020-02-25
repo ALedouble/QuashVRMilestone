@@ -95,7 +95,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private PhotonView photonView;
     private Rigidbody rigidbody;
-    private Collider ballCollider;
+    public Collider BallCollider { get; private set; }
 
     private SpeedState speedState;
     private Vector3 velocityBeforeFreeze = Vector3.zero;
@@ -111,7 +111,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         photonView = GetComponent<PhotonView>();
         rigidbody = GetComponent<Rigidbody>();
-        ballCollider = GetComponent<Collider>();
+        BallCollider = GetComponent<Collider>();
 
         targetSelector = GetComponent<BasicRandomTargetSelector>();
         targetSelector.SetCurrentTarget(startingPlayer);
@@ -122,17 +122,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         forcesToApply = new List<Vector3>();
 
         InitialiseTargetSwitchType();
-    }
 
-    void Start()
-    {
-        BallManager.instance.SetupBall();
-
-        if (!BallManager.instance.isBallInstatiated)
-        {
-            ResetBall();
-            ApplyBaseGravity();
-        }
+        ApplyBaseGravity();
     }
 
     private void FixedUpdate()
@@ -272,8 +263,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         rigidbody.velocity = Vector3.zero;
         currentGravity = 0;
 
-        BallManager.instance.GetBallPhysicInfo().SaveCurrentState();
-        ballCollider.enabled = false;
+        BallManager.instance.BallPhysicInfo.SaveCurrentState();
+        BallCollider.enabled = false;
     }
 
     private void UnFreezeBall()
@@ -281,8 +272,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         rigidbody.velocity = velocityBeforeFreeze;
         currentGravity = gravityBeforeFreeze;
 
-        BallManager.instance.GetBallPhysicInfo().RestoreSavedState();
-        ballCollider.enabled = true;
+        BallManager.instance.BallPhysicInfo.RestoreSavedState();
+        BallCollider.enabled = true;
     }
 
     private void SetSpeedState(SpeedState newSpeedState, bool doesSpeedNeedToChange)
@@ -327,8 +318,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         SetLastPlayerWhoHitTheBall();
         RacketBasedSwitchTarget();
         SetMidWallStatus(true);
-
-        BallManager.instance.TransferEmpowerement();
     }
 
     private void ApplyRacketPhysic(Collision other)
@@ -575,6 +564,18 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     #endregion
 
     #region UilityMethods
+
+    public void StartBallFirstSpawnCoroutine(float duration)
+    {
+        BallFirstSpawnCoroutine(duration);
+    }
+
+    private IEnumerator BallFirstSpawnCoroutine(float duration)
+    {
+        BallCollider.enabled = false;
+        yield return new WaitForSeconds(duration);
+        BallCollider.enabled = true;
+    }
 
     public void ResetBall()
     {

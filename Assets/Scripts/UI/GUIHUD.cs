@@ -57,7 +57,7 @@ public class GUIHUD : MonoBehaviour
 
         timerHUD.SetActive(false);
 
-        if (!GameManager.Instance.hasLost)
+        if (!GameManager.Instance.HasLost)
         {
             // ------------------------- VICTORY ------------------------- //
             if(scoreScreenFailed.Length > 1)

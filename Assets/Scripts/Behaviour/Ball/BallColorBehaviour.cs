@@ -4,12 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 
 
-public enum ColorSwitchTrigerType
-{
-    RACKETBASED,
-    WALLBASED
-}
-
 public enum ColorSwitchBehaviour
 {
     NORMAL,
@@ -18,8 +12,6 @@ public enum ColorSwitchBehaviour
 
 public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 {
-    public ColorSwitchTrigerType colorSwitchTrigerType = ColorSwitchTrigerType.WALLBASED;
-
     [Header("Color Settings")]
     private Material[] materials;
 
@@ -69,7 +61,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         return materials;
     }
 
-    public void SetBallColor(int colorID)
+    public void SetBallColor(int colorID)                                                               //A Mettre en reseau!
     {
         this.colorID = colorID;
         myRenderer.material = materials[colorID];
@@ -77,15 +69,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void InitializeSwitchColor()
     {
-        if (colorSwitchTrigerType == ColorSwitchTrigerType.WALLBASED)
-        {
-            BallEventManager.instance.OnCollisionWithFrontWall += WallBaseSwitchColor;
-            BallEventManager.instance.OnCollisionWithBrick += WallBaseSwitchColor;
-        }
-        else if (colorSwitchTrigerType == ColorSwitchTrigerType.RACKETBASED)
-        {
-            BallEventManager.instance.OnCollisionWithRacket += RacketBaseSwitchColor;
-        }
+        BallEventManager.instance.OnCollisionWithRacket += RacketBaseSwitchColor;
     }
 
     [PunRPC]
@@ -110,15 +94,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private void BallBecomeEmpowered()
     {
         isEmpowered = true;
-    }
-
-    private void WallBaseSwitchColor()
-    {
-        if (isEmpowered)
-        {
-            isEmpowered = false;
-            SwitchColor();
-        }
     }
 
     private void RacketBaseSwitchColor()
@@ -279,5 +254,25 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public void DeactivateTrail()
     {
         trails[colorID].SetActive(false);
+    }
+
+    public void StartBallFirstSpawnCoroutine(float duration)
+    {
+        StartCoroutine(BallFirstSpawnCoroutine(duration));
+    }
+
+    private IEnumerator BallFirstSpawnCoroutine(float duration)
+    {
+        float initialGlowPower = GetCurrentMaterial().GetFloat("Vector1_5584EFD3");
+        float timeElapsed = 0f;
+        
+        while(timeElapsed < duration)
+        {
+            GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower * timeElapsed / duration);
+            yield return new WaitForEndOfFrame();
+            timeElapsed += Time.deltaTime;
+        }
+        
+        GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Malee;
+using System;
 
 
 public enum CompleteConditionType { Score, Combo, Timing }
@@ -11,16 +12,30 @@ public enum CompleteConditionComparator { Min, Max }
 
 [CreateAssetMenu(fileName = "SC_Level_", menuName = "Custom/Level", order = 120)]
 [System.Serializable]
-public class LevelsScriptable : ScriptableObject
+public class LevelsScriptable : ScriptableObject, IComparable<LevelsScriptable>, IEquatable<LevelsScriptable>
 {
     public LevelSettings level;
+
+    public int CompareTo(LevelsScriptable secondLevel)
+    {
+        if (secondLevel.level.levelProgression.levelPos.y > level.levelProgression.levelPos.y)
+            return -1;
+        else if (secondLevel.level.levelProgression.levelPos.y == level.levelProgression.levelPos.y)
+            return 0;
+        else
+            return 1;
+    }
+
+    public bool Equals(LevelsScriptable secondLevel)
+    {
+        return CompareTo(secondLevel) == 0;
+    }
 
     public LevelsScriptable()
     {
         level = new LevelSettings();
     }
 }
-
 
 [System.Serializable]
 public class LevelSettings
@@ -102,7 +117,6 @@ public class ProgressionSettings
         conditionsToComplete = new LevelConditions[2];
     }
 }
-
 
 [System.Serializable]
 public struct LevelConditions

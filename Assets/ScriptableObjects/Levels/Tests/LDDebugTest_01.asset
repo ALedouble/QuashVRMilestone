@@ -3387,22 +3387,19 @@ MonoBehaviour:
     levelProgression:
       buttonName: 00
       isDone: 0
-      isUnlocked: 1
+      isUnlocked: 0
       starsRequired: 0
-      isImplemented: 1
+      isImplemented: 0
       maxScore: 0
       maxCombo: 0
       minTiming: 0
       unlockConditions: []
-      levelPos: {x: 6, y: 1940}
+      levelPos: {x: 0, y: 0}
       levelID: 0
       conditionsToComplete:
-      - conditionType: 1
-        conditionComparator: 0
-        conditionReachedAt: 41
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 35412397
+        conditionReachedAt: 0
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0

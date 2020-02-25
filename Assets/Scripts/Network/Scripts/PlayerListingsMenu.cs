@@ -15,6 +15,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         Instance = this;
         photonView = GetComponent<PhotonView>();
         GetCurrentRoomPlayers();
+        Debug.Log(_listings);
     }
     #endregion
 
@@ -28,6 +29,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public GameObject levelSelectionCanvas;
     public GameObject buttonLaunch;
+    public GameObject kickPlayerButton;
+
+    public GameObject mainScreen;
+    public GameObject currentRoom;
 
     [SerializeField]
     public int numLevel;
@@ -36,12 +41,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
 
     private void Start() {
-
+        StartCoroutine("checkCurrentRoom");
     }
 
     private void Update() {
 
-        GetCurrentRoomPlayers();
+        
         if (PhotonNetwork.IsMasterClient)
         {
             buttonLaunch.SetActive(true);
@@ -49,14 +54,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         else
         {
             buttonLaunch.SetActive(false);
+            levelSelectionCanvas.SetActive(false);
+            kickPlayerButton.SetActive(false);
         }
 
-        if (_listings.Count == 1){
+        if (_listings.Count == 2){
             levelSelectionCanvas.SetActive(true);
         }
         else{
             levelSelectionCanvas.SetActive(false);
         }
+    }
+
+    IEnumerator checkCurrentRoom(){
+        yield return new WaitForSeconds(0.5f);
+        GetCurrentRoomPlayers();
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -93,6 +105,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer){
         Debug.Log("Hello");
        AddPlayerListing(newPlayer);
+       checkCurrentRoom();
        Debug.Log(_listings);
     }
 
@@ -105,7 +118,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public void OnClick_StartGame(){
-        if(PhotonNetwork.IsMasterClient && _listings.Count == 1){
+        if(PhotonNetwork.IsMasterClient && _listings.Count == 2){
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible= false;
             PhotonNetwork.LoadLevel(1);
@@ -133,8 +146,22 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         MultiLevel.Instance.levelIndex = number;
     }
 
+    public void OnClick_KickPlayer(){
+        OnPlayerLeftRoom(PhotonNetwork.PlayerListOthers[0]);
+        photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
+    }
+
     public void KickPlayer(Player player){
-        PhotonNetwork.CloseConnection(player);
+        
+       // PhotonNetwork.CloseConnection(player);
+    }
+
+    [PunRPC]
+    public void ResetPlayerToMainScreen(){
+        if(!PhotonNetwork.IsMasterClient){
+            mainScreen.SetActive(true);
+            currentRoom.SetActive(false);
+        }
     }
 }
 

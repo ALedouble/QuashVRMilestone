@@ -9,6 +9,13 @@ public class LoadScene : MonoBehaviour
 
     public void LoadingScene ()
     {
+        GUILevelFade.instance.FadeOut();
+        StartCoroutine(AnimFade());
+    }
+
+    IEnumerator AnimFade()
+    {
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(sceneName);
     }
 }

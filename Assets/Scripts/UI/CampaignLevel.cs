@@ -22,7 +22,18 @@ public class CampaignLevel : MonoBehaviour
 
     public void SelectLevel(int levelIndex)
     {
+        GUILevelFade.instance.FadeOut();
+
+        StartCoroutine(AnimFade());
+
         levelSelected = levelIndex;
+    }
+
+    IEnumerator AnimFade()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+
         PhotonNetwork.LoadLevel(2);
     }
 }

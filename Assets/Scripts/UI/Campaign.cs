@@ -7,9 +7,11 @@ using TMPro;
 
 public class Campaign : MonoBehaviour
 {
+    [Header("Levels")]
+    public List<LevelsScriptable> levelsToCheck;
+
     [Header("Panel")]
     public RectTransform CampaignPanel;
-    public List<LevelsScriptable> levelsToCheck;
     private List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
@@ -34,16 +36,11 @@ public class Campaign : MonoBehaviour
 
     [Header("Side Panel")]
     public GameObject sidePanel;
-    /*
-    [ColorUsage(true, true)] Color lockedLineColor;
-    [ColorUsage(true, true)] Color unlockedLineColor;
-    Material lockedLineMaterial;
-    Material unlockedLineMaterial;
-    */
-
 
 
     public static Campaign instance;
+
+
 
 
     private void Awake()
@@ -274,7 +271,7 @@ public class Campaign : MonoBehaviour
 
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
-                    //line.material = lockedLineMaterial;
+                    line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255) ;
                     level.button.interactable = false;
 
                     for (int x = 0; x < level.lockImages.Count; x++)
@@ -287,7 +284,8 @@ public class Campaign : MonoBehaviour
                     {
                         levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
-                        //line.material = unlockedLineMaterial;
+                        line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
+
 
                         for (int x = 0; x < level.lockImages.Count; x++)
                         {
@@ -298,7 +296,7 @@ public class Campaign : MonoBehaviour
                 }
                 else
                 {
-                    //line.material = unlockedLineMaterial;
+                    line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
                     level.button.interactable = true;
 
                     for (int x = 0; x < level.lockImages.Count; x++)

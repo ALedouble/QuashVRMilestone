@@ -27100,16 +27100,17 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 00
+      buttonName: 05b
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
-      isImplemented: 0
+      isImplemented: 1
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      unlockConditions: []
-      levelPos: {x: 513, y: 913}
+      unlockConditions:
+      - {fileID: 11400000, guid: 9eeed197c5514d44d8ee3311d969d32f, type: 2}
+      levelPos: {x: 557, y: 1704}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0

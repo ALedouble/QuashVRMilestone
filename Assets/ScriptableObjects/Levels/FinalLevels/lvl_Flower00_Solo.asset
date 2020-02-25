@@ -24635,24 +24635,24 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 00
+      buttonName: 01
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
-      isImplemented: 0
+      isImplemented: 1
       maxScore: 0
       maxCombo: 0
       minTiming: 0
       unlockConditions: []
-      levelPos: {x: 0, y: 0}
+      levelPos: {x: 302, y: 1960}
       levelID: 0
       conditionsToComplete:
+      - conditionType: 1
+        conditionComparator: 0
+        conditionReachedAt: 5
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
-        conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 1000
       numberOfConditionCompleted: 0
     levelSpec:
       levelName: Flower

@@ -7,31 +7,33 @@ using TMPro;
 public class SearchingRoom : MonoBehaviour
 {
     public static SearchingRoom instance;
-    public List<TextMeshProUGUI> listWord;
+    public List<RoomListing> listWord;
     public TextMeshProUGUI textBar;
     public RoomListing roomList;
-    
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-      //  listWord.Add(roomList._text);
+    void Awake() {
+        instance = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (listWord.Count == 0){
+            return;
+        }
+        else{
+            UpdateList();
+        }
+       
         
-        Debug.Log(listWord[0]);
+    }
 
+    void UpdateList(){
         for(int i = 0; i < listWord.Count; i++){
-            if(listWord[i].text.Contains(textBar.text)){
-                listWord[i].transform.parent.gameObject.SetActive(true);
+            if(listWord[i]._text.text.Contains(textBar.text)){
+                listWord[i].transform.gameObject.SetActive(true);
             }
             else{
-                listWord[i].transform.parent.gameObject.SetActive(false);
+                listWord[i].transform.gameObject.SetActive(false);
             }
         }
     }

@@ -1015,7 +1015,7 @@ public class LevelInspectorScript : Editor
 
                 if (currentLayer.wallBricks[i].isMoving)
                 {
-                    objBehaviours.isMoving = currentLayer.wallBricks[i].isMoving;
+                    objBehaviours.isAMovingBrick = currentLayer.wallBricks[i].isMoving;
                     objBehaviours.speed = currentLayer.wallBricks[i].speed;
                     objBehaviours.smoothTime = currentLayer.wallBricks[i].smoothTime;
                     objBehaviours.waypoints = new List<Vector3>();
@@ -1133,7 +1133,7 @@ public class LevelInspectorScript : Editor
 
         if (currentLayer.wallBricks[brickPos].isMoving)
         {
-            objBehaviours.isMoving = currentLayer.wallBricks[brickPos].isMoving;
+            objBehaviours.isAMovingBrick = currentLayer.wallBricks[brickPos].isMoving;
             objBehaviours.speed = currentLayer.wallBricks[brickPos].speed;
             objBehaviours.smoothTime = currentLayer.wallBricks[brickPos].smoothTime;
             objBehaviours.waypoints = new List<Vector3>();

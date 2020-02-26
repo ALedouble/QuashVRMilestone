@@ -13,8 +13,7 @@ public class RoomListing : MonoBehaviour
 
   GameObject mainCanvas;
   GameObject joinRoom;
-   Transform currentRoom;
-
+  Transform currentRoom;
   public RoomInfo RoomInfo{ get; private set; }
 
     private void Start()
@@ -42,6 +41,7 @@ public class RoomListing : MonoBehaviour
 
 
         PhotonNetwork.JoinRoom(RoomInfo.Name);
+        
    
   }
 }

@@ -1098,6 +1098,56 @@ public class LevelInspectorScript : Editor
 
     }
 
+    private void InsertLayer()
+    {
+        //Incrémentation du nombre TOTAL de layer
+        numberOfLayers++;
+        totalLayersDisplayed = numberOfLayers - 1;
+
+
+        List<Wall> tempBeforeWalls = new List<Wall>();
+        List<Wall> tempAfterWalls = new List<Wall>();
+
+        for (int i = 0; i < selectedLayer + 1; i++)
+        {
+            tempBeforeWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
+        }
+
+        for (int i = selectedLayer; i < numberOfLayers - 1; i++)
+        {
+            tempAfterWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
+        }
+
+
+        currentLevel.level.levelWallBuilds.walls = new Wall[numberOfLayers];
+
+
+        for (int i = 0; i < numberOfLayers; i++)
+        {
+            currentLevel.level.levelWallBuilds.walls[i] = new Wall(newTotalColumns * newTotalRows);
+        }
+
+        for (int i = 0; i < tempBeforeWalls.Count; i++)
+        {
+            currentLevel.level.levelWallBuilds.walls[i] = tempBeforeWalls[i];
+        }
+
+        for (int i = 0; i < tempBeforeWalls.Count; i++)
+        {
+            currentLevel.level.levelWallBuilds.walls[i + tempBeforeWalls.Count] = tempAfterWalls[i];
+        }
+
+        myTarget.selectedLevel = currentLevel;
+
+        currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
+
+        canPaintWaypoint = false;
+        brickSettingsDisplayed = new BrickSettings();
+
+        CleanLayer();
+        SpawnLayer();
+    }
+
     private void RefreshBrick(int brickPos)
     {
         DestroyImmediate(myTarget.bricksOnScreen[brickPos], false);
@@ -1338,9 +1388,14 @@ public class LevelInspectorScript : Editor
 
         if (!changingNumberOfLayers)
         {
-            if (GUI.Button(new Rect(160, 49, 90, 18), new GUIContent("Reset Layer", "Clean Layer's Data")))
+            if (GUI.Button(new Rect(155, 49, 45, 18), new GUIContent("Reset", "Clean Layer's Data")))
             {
                 ResetLayer();
+            }
+
+            if (GUI.Button(new Rect(205, 49, 45, 18), new GUIContent("Insert", "Duplicate a Layer")))
+            {
+                InsertLayer();
             }
         }
 

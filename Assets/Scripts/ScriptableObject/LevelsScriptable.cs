@@ -89,6 +89,8 @@ public class ProgressionSettings
 {
     public string buttonName;
 
+    public int LevelIndex;
+
     public bool isDone;
     public bool isUnlocked;
     public int starsRequired;
@@ -98,6 +100,7 @@ public class ProgressionSettings
     public int maxCombo;
     public int minTiming;
 
+    public int numberOfAdditionalConditions;
     public List<LevelsScriptable> unlockConditions;
 
     public Vector2 levelPos;
@@ -109,6 +112,7 @@ public class ProgressionSettings
     public ProgressionSettings()
     {
         buttonName = "00";
+        LevelIndex = 0;
         isDone = false;
         isUnlocked = false;
         starsRequired = 0;
@@ -116,7 +120,8 @@ public class ProgressionSettings
 
         unlockConditions = new List<LevelsScriptable>();
 
-        conditionsToComplete = new LevelConditions[2];
+        numberOfAdditionalConditions = 2;
+        conditionsToComplete = new LevelConditions[numberOfAdditionalConditions];
     }
 }
 

@@ -59,9 +59,8 @@ public class JSON : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        //SetUpDATAs();
     }
+
 
     /// <summary>
     /// Set Up Datas
@@ -81,15 +80,143 @@ public class JSON : MonoBehaviour
         LoadDATA();
     }
 
-
-    public void SubmitDATA()
+    /// <summary>
+    /// Check the data that are to be sent
+    /// </summary>
+    /// <param name="level">Level concerned by the submit</param>
+    /// <param name="score">Player score</param>
+    /// <param name="combo">Player combo</param>
+    /// <param name="time">Player Time</param>
+    public void SubmitDATA(LevelsScriptable level, int score, int combo, int time)
     {
+        SavedValues levelValue = new SavedValues { unlock = true, done = true };
 
+
+        for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
+        {
+            if (level.level.levelProgression.conditionsToComplete[i].conditionComparator == 0)
+            {
+                switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
+                {
+                    case CompleteConditionType.Score:
+                        if (score < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        {
+                            levelValue.bestScore = level.level.levelProgression.maxScore;
+                        }
+                        else
+                            levelValue.bestScore = score;
+                        break;
+
+                    case CompleteConditionType.Combo:
+                        if (combo < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                        else
+                            levelValue.bestCombo = combo;
+                        break;
+
+                    case CompleteConditionType.Timing:
+                        if (time < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            levelValue.bestTime = level.level.levelProgression.minTiming;
+                        else
+                            levelValue.bestTime = time;
+                        break;
+                }
+            }
+            else
+            {
+                switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
+                {
+                    case CompleteConditionType.Score:
+                        if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < score)
+                            levelValue.bestScore = level.level.levelProgression.maxScore;
+                        else
+                            levelValue.bestScore = score;
+                        break;
+
+                    case CompleteConditionType.Combo:
+                        if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < combo)
+                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                        else
+                            levelValue.bestCombo = combo;
+                        break;
+
+                    case CompleteConditionType.Timing:
+                        if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < score)
+                            levelValue.bestTime = level.level.levelProgression.minTiming;
+                        else
+                            levelValue.bestTime = time;
+                        break;
+                }
+            }
+        }
+
+        SaveLevelDATA(levelValue, level.level.levelProgression.LevelIndex);
     }
 
-    public void SaveLevelDATA(SavedValues levelValues)
+    /// <summary>
+    /// Save DATA 4 one level
+    /// </summary>
+    /// <param name="levelValues">New DATAs "SavedValues" for the level</param>
+    /// <param name="levelIndex">Level index from the level (you can found it in LevelProgression.levelIndex) </param>
+    public void SaveLevelDATA(SavedValues levelValues, int levelIndex)
     {
+        if (levelsToSave.Count == 0)
+        {
+            Debug.LogError("NO DATA TO SAVE ! ASSHOLE");
+            return;
+        }
 
+        //New Virgin Save DATAs
+        SavedObject newDATA = new SavedObject() { };
+
+
+        //DATA presented
+        if (levelValues == null)
+        {
+            Debug.LogError("NO VALUES TO SAVE");
+            return;
+        }
+
+        string loadString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
+        SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
+
+        for (int i = 0; i < levelsToSave.Count; i++)
+        {
+            if(i != levelIndex)
+            {
+                newDATA.savedObjects.Add(new SavedValues());
+
+                newDATA.savedObjects[i].unlock = loadDATA.savedObjects[i].unlock;
+                newDATA.savedObjects[i].done = loadDATA.savedObjects[i].unlock;
+
+                //Check BEST score
+                if (loadDATA.savedObjects[i].bestScore > loadDATA.savedObjects[i].bestScore)
+                    newDATA.savedObjects[i].bestScore = loadDATA.savedObjects[i].bestScore;
+                else
+                    newDATA.savedObjects[i].bestScore = loadDATA.savedObjects[i].bestScore;
+
+                //Check BEST Combo
+                if (loadDATA.savedObjects[i].bestCombo > loadDATA.savedObjects[i].bestCombo)
+                    newDATA.savedObjects[i].bestCombo = loadDATA.savedObjects[i].bestCombo;
+                else
+                    newDATA.savedObjects[i].bestCombo = loadDATA.savedObjects[i].bestCombo;
+
+                //Check BEST Time
+                if (loadDATA.savedObjects[i].bestTime < loadDATA.savedObjects[i].bestTime)
+                    newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
+                else
+                    newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
+            }
+            else
+            {
+                newDATA.savedObjects[i] = levelValues;
+            }
+        }
+
+
+        string json = JsonUtility.ToJson(newDATA);
+
+        File.WriteAllText(Application.persistentDataPath + "/SavedByTheQuash", json);
     }
 
     /// <summary>
@@ -110,7 +237,7 @@ public class JSON : MonoBehaviour
         //DATA presented
         if (presentedDATA == null)
         {
-            presentedDATA = new SavedObject(){};
+            presentedDATA = new SavedObject() { };
 
             for (int i = 0; i < levelsToSave.Count; i++)
             {
@@ -186,6 +313,24 @@ public class JSON : MonoBehaviour
         File.WriteAllText(Application.persistentDataPath + "/SavedByTheQuash", json);
     }
 
+    /// <summary>
+    /// Back up on Steam
+    /// </summary>
+    public void SaveDATAonSteam()
+    {
+        string savedString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
+        SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+        //TO DO
+    }
+
+    /// <summary>
+    /// Get Steam DATA et Set the GAME ones
+    /// </summary>
+    public void LoadDATAfromSteam()
+    {
+        //TO DO
+    }
 
     /// <summary>
     /// LOADING DATAs

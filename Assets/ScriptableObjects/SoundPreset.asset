@@ -37,8 +37,8 @@ MonoBehaviour:
       panStereo: 0
       minVolume: 0.5
       maxVolume: 1
-  - soundPoolName: FrontWallHit
-    tag: 5
+  - soundPoolName: Explosion
+    tag: 6
     cooldown: 0
     sounds:
     - clip: {fileID: 8300000, guid: 7c2ec555a51f0cc4da39d2bb207484af, type: 3}
@@ -73,7 +73,7 @@ MonoBehaviour:
       panStereo: 0
       minVolume: 0.5
       maxVolume: 1
-  - soundPoolName: Ball Hit Front Wall
+  - soundPoolName: FrontWallHit
     tag: 5
     cooldown: 0
     sounds:

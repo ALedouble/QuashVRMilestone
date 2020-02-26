@@ -57,8 +57,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             kickPlayerButton.SetActive(false);
         }
 
-        if (_listings.Count == 2){
+        if (_listings.Count == 2 && PhotonNetwork.IsMasterClient){
             levelSelectionCanvas.SetActive(true);
+            kickPlayerButton.SetActive(true);
         }
         else{
             levelSelectionCanvas.SetActive(false);

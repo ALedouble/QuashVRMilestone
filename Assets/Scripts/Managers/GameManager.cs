@@ -194,12 +194,14 @@ public class GameManager : MonoBehaviour
         TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
         TimeManager.Instance.StopTimer();
 
+        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+
         LevelManager.instance.playersHUD.EnableScoreScreen();
 
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();
 
-        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+        
 
         //If the player who WINS is ALONE
         if(!HasLost && offlineMode)

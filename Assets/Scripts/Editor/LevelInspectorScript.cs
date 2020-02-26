@@ -1132,7 +1132,7 @@ public class LevelInspectorScript : Editor
             currentLevel.level.levelWallBuilds.walls[i] = tempBeforeWalls[i];
         }
 
-        for (int i = 0; i < tempBeforeWalls.Count; i++)
+        for (int i = 0; i < tempAfterWalls.Count; i++)
         {
             currentLevel.level.levelWallBuilds.walls[i + tempBeforeWalls.Count] = tempAfterWalls[i];
         }
@@ -1147,6 +1147,65 @@ public class LevelInspectorScript : Editor
         CleanLayer();
         SpawnLayer();
     }
+
+    private void RemoveLayer()
+    {
+        //Incrémentation du nombre TOTAL de layer
+        numberOfLayers--;
+        totalLayersDisplayed = numberOfLayers - 1;
+
+
+        List<Wall> tempBeforeWalls = new List<Wall>();
+        List<Wall> tempAfterWalls = new List<Wall>();
+
+        for (int i = 0; i < selectedLayer; i++)
+        {
+            //Debug.Log("SAVING Before : " + i);
+            tempBeforeWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
+        }
+
+        for (int i = selectedLayer + 1; i < numberOfLayers + 1; i++)
+        {
+            //Debug.Log("SAVING After : " + i);
+            tempAfterWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
+        }
+
+        //Debug.Log("tempBeforeWalls.Count : " + tempBeforeWalls.Count);
+        //Debug.Log("tempAfterWalls.Count : " + tempAfterWalls.Count);
+        //Debug.Log("numberOfLayers : " + numberOfLayers);
+        //Debug.Log("selectedLayer : " + selectedLayer);
+
+        currentLevel.level.levelWallBuilds.walls = new Wall[numberOfLayers];
+
+
+        for (int i = 0; i < numberOfLayers; i++)
+        {
+            currentLevel.level.levelWallBuilds.walls[i] = new Wall(newTotalColumns * newTotalRows);
+        }
+
+        for (int i = 0; i < tempBeforeWalls.Count; i++)
+        {
+            //Debug.Log("LOADING Before : " + i);
+            currentLevel.level.levelWallBuilds.walls[i] = tempBeforeWalls[i];
+        }
+
+        for (int i = 0; i < tempAfterWalls.Count; i++)
+        {
+            //Debug.Log("LOADING After : " + i);
+            currentLevel.level.levelWallBuilds.walls[i + tempBeforeWalls.Count] = tempAfterWalls[i];
+        }
+
+        myTarget.selectedLevel = currentLevel;
+
+        currentLayer = myTarget.selectedLevel.level.levelWallBuilds.walls[selectedLayer];
+
+        canPaintWaypoint = false;
+        brickSettingsDisplayed = new BrickSettings();
+
+        CleanLayer();
+        SpawnLayer();
+    }
+
 
     private void RefreshBrick(int brickPos)
     {
@@ -1388,12 +1447,13 @@ public class LevelInspectorScript : Editor
 
         if (!changingNumberOfLayers)
         {
-            if (GUI.Button(new Rect(155, 49, 45, 18), new GUIContent("Reset", "Clean Layer's Data")))
+            if (GUI.Button(new Rect(155, 49, 45, 18), new GUIContent("Erase", "Remove this layer")))
             {
-                ResetLayer();
+                RemoveLayer();
+                //ResetLayer();
             }
 
-            if (GUI.Button(new Rect(205, 49, 45, 18), new GUIContent("Insert", "Duplicate a Layer")))
+            if (GUI.Button(new Rect(205, 49, 45, 18), new GUIContent("Insert", "Duplicate this Layer")))
             {
                 InsertLayer();
             }

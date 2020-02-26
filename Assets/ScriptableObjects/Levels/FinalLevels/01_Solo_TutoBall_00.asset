@@ -17012,7 +17012,7 @@ MonoBehaviour:
       buttonName: 01
       LevelIndex: 0
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
@@ -17020,15 +17020,15 @@ MonoBehaviour:
       minTiming: 0
       numberOfAdditionalConditions: 2
       unlockConditions: []
-      levelPos: {x: 300, y: 1949}
+      levelPos: {x: 7, y: 3}
       levelID: 0
       conditionsToComplete:
-      - conditionType: 0
+      - conditionType: 1
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 32
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 950
       numberOfConditionCompleted: 0
     levelSpec:
       levelName: Entry
@@ -17036,7 +17036,8 @@ MonoBehaviour:
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      suddenDeath: 0
+      timeAttack: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,

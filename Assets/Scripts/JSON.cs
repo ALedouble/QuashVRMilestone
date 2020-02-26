@@ -89,7 +89,8 @@ public class JSON : MonoBehaviour
     /// <param name="time">Player Time</param>
     public void SubmitDATA(LevelsScriptable level, int score, int combo, int time)
     {
-        SavedValues levelValue = new SavedValues { unlock = true, done = true };
+        SavedValues levelValue = new SavedValues { unlock = true, done = true ,
+            bestCombo = level.level.levelProgression.maxCombo, bestScore = level.level.levelProgression.maxScore, bestTime = level.level.levelProgression.minTiming };
 
 
         for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)

@@ -13480,8 +13480,8 @@ MonoBehaviour:
     levelProgression:
       buttonName: 24
       LevelIndex: 23
-      isDone: 1
-      isUnlocked: 1
+      isDone: 0
+      isUnlocked: 0
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
@@ -13505,7 +13505,8 @@ MonoBehaviour:
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 2
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      suddenDeath: 0
+      timeAttack: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,

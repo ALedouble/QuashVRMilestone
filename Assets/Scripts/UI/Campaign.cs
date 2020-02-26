@@ -15,7 +15,7 @@ public class Campaign : MonoBehaviour
     [HideInInspector] public List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
-    public int numberOfPanelPositions = 0;
+    private int numberOfPanelPositions = 34;
     private float positionQuotient = 0;
     private float[] panelPositions = new float[0];
     private int panelIndex = -1;
@@ -111,7 +111,7 @@ public class Campaign : MonoBehaviour
         {
             totalOfStars += 1;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
             {
                 if (level.level.levelProgression.conditionsToComplete[i].conditionComparator == 0)
                 {
@@ -171,6 +171,8 @@ public class Campaign : MonoBehaviour
     /// </summary>
     private void SetUpPanelPositionAtStart()
     {
+        MoveCampaignPanelTo(numberOfPanelPositions);
+
         for (int i = 0; i < levelsImplemented.Count; i++)
         {
             if (levelsImplemented[i].level.levelProgression.isUnlocked)
@@ -178,19 +180,22 @@ public class Campaign : MonoBehaviour
                 float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
                 Debug.Log("Level : " + levelsImplemented[i]);
                 Debug.Log("levelComparer : " + levelComparer);
+                Debug.Log("positionQuotient : " + positionQuotient);
 
 
                 for (int y = numberOfPanelPositions; y > -1; y--)
                 {
                     float comparer = (positionQuotient * y) * -1;
+                    //Debug.Log("before y : " + y);
 
-                    if (levelComparer >= comparer)
+                    if (levelComparer <= comparer)
                     {
                         Debug.Log("panel position : " + comparer);
                         Debug.Log("level position : " + levelComparer);
 
-                        int finalIndex = numberOfPanelPositions - y;
+                        int finalIndex = numberOfPanelPositions - (y + 1);
                         Debug.Log("panel index : " + finalIndex);
+                        Debug.Log("y : " + y);
 
                         MoveCampaignPanelTo(finalIndex);
                         return;
@@ -235,6 +240,11 @@ public class Campaign : MonoBehaviour
             LevelsScriptable lvl = levelsImplemented[i];
             level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////// Uncomment when all levels are sets
+            //if (levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
+            //    levelsImplemented[i].level.levelProgression.isUnlocked = true;
 
             for (int y = 0; y < levelsImplemented[i].level.levelProgression.unlockConditions.Count; y++)
             {
@@ -392,22 +402,58 @@ public class Campaign : MonoBehaviour
         levelToPlay = selectedLevel;
 
         if (selectedLevel.level.levelSpec.levelName != null)
-            levelRecapValues.levelTitle.text = selectedLevel.level.levelProgression.buttonName + selectedLevel.level.levelSpec.levelName;
+            levelRecapValues.levelTitle.text = selectedLevel.level.levelSpec.levelName;
         else
             levelRecapValues.levelTitle.text = selectedLevel.level.levelProgression.buttonName + "NO NAME";
 
-        levelRecapValues.conditionComparator[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator.ToString();
-        levelRecapValues.conditionComparator[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator.ToString();
+        //Deactivate Conditions
+        for (int i = 0; i < levelRecapValues.conditionComparator.Length; i++)
+        {
+            levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(false);
 
-        levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
-        levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
+            levelRecapValues.stars[i + 1].gameObject.SetActive(false);
+        }
 
-        levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
-        levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
+        //Reactivate Conditions depending on the level
+        for (int i = 0; i < selectedLevel.level.levelProgression.numberOfAdditionalConditions; i++)
+        {
+            levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(true);
 
-        levelRecapValues.bestTime.text = selectedLevel.level.levelProgression.minTiming.ToString();
-        levelRecapValues.highScore.text = selectedLevel.level.levelProgression.maxScore.ToString();
-        levelRecapValues.bestCombo.text = selectedLevel.level.levelProgression.maxCombo.ToString();
+            levelRecapValues.stars[i + 1].gameObject.SetActive(true);
+        }
+
+        //Set Up COndition if necessary
+        if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
+        {
+            levelRecapValues.conditionComparator[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator.ToString();
+            levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
+            levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
+        }
+
+        if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 1)
+        {
+            levelRecapValues.conditionComparator[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator.ToString();
+            levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
+            levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
+        }
+
+
+        if (selectedLevel.level.levelProgression.minTiming == 0)
+            levelRecapValues.bestTime.text = "-";
+        else
+            levelRecapValues.bestTime.text = selectedLevel.level.levelProgression.minTiming.ToString();
+
+        if (selectedLevel.level.levelProgression.maxScore == 0)
+            levelRecapValues.highScore.text = "-";
+        else
+            levelRecapValues.highScore.text = selectedLevel.level.levelProgression.maxScore.ToString();
+
+        if (selectedLevel.level.levelProgression.maxCombo == 0)
+            levelRecapValues.bestCombo.text = "-";
+        else
+            levelRecapValues.bestCombo.text = selectedLevel.level.levelProgression.maxCombo.ToString();
+
+
 
         /////////////   STARS CONDITIONS CHECK  /////////////
 
@@ -415,7 +461,7 @@ public class Campaign : MonoBehaviour
         {
             levelRecapValues.stars[0].sprite = unlockedStarSprite;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < selectedLevel.level.levelProgression.numberOfAdditionalConditions; i++)
             {
                 if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionComparator == 0)
                 {
@@ -473,7 +519,9 @@ public class Campaign : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < levelRecapValues.stars.Length; i++)
+            int length = levelRecapValues.stars.Length - (2 - selectedLevel.level.levelProgression.numberOfAdditionalConditions);
+            Debug.Log("length : " + length);
+            for (int i = 0; i < length; i++)
             {
                 levelRecapValues.stars[i].sprite = lockedStarSprite;
             }

@@ -18,12 +18,12 @@ public class LevelsProgressionWindow : EditorWindow
     Vector2 levelsScrollPos;
     Vector2 windowSpacePos;
 
-    Vector2 windowSize = new Vector2(300, 1000);
+    Vector2 windowSize = new Vector2(300, 4000);
 
     Vector2 boxPos;
     Vector2 boxSize;
 
-    Vector2 treeDelimitation = new Vector2(300, 1000);
+    Vector2 treeDelimitation = new Vector2(300, 4000);
 
     Vector2 buttonSize = new Vector2(50, 50);
     bool isHoldingLevel;
@@ -58,8 +58,8 @@ public class LevelsProgressionWindow : EditorWindow
         InitLevelProgression();
         InitStyles();
 
-        treeDelimitation = new Vector2(600, 2000);
-        windowSize = new Vector2(600, 2000);
+        treeDelimitation = new Vector2(600, 10000);
+        windowSize = new Vector2(600, 10000);
     }
 
 

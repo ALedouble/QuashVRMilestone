@@ -18,10 +18,10 @@ public class Campaign : MonoBehaviour
     public int numberOfPanelPositions = 0;
     private float positionQuotient = 0;
     private float[] panelPositions = new float[0];
-    private int panelIndex = 0;
+    private int panelIndex = -1;
     private float nextPanelPosition = 0;
-    private float panelTop = 9.5f;
-    private float panelBottom = 0.7f;
+    private float panelTop = 0.5f;
+    private float panelBottom = 49.3f;
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
     private bool isMoving;
@@ -51,7 +51,7 @@ public class Campaign : MonoBehaviour
     private void Start()
     {
         SetUpCampaign();
-        JSON.instance.SetUpDATAs();
+        //JSON.instance.SetUpDATAs();
     }
 
     private void Update()
@@ -68,12 +68,12 @@ public class Campaign : MonoBehaviour
     {
         panelPositions = new float[numberOfPanelPositions + 1];
 
-        positionQuotient = (panelTop - panelBottom) / numberOfPanelPositions;
+        positionQuotient = (panelBottom - panelTop) / numberOfPanelPositions;
 
 
         for (int i = 0; i < numberOfPanelPositions + 1; i++)
         {
-            panelPositions[i] = -panelBottom - (positionQuotient * i);
+            panelPositions[i] = panelBottom - (positionQuotient * i);
         }
     }
 
@@ -175,19 +175,24 @@ public class Campaign : MonoBehaviour
         {
             if (levelsImplemented[i].level.levelProgression.isUnlocked)
             {
-                float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f);
+                float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
+                Debug.Log("Level : " + levelsImplemented[i]);
+                Debug.Log("levelComparer : " + levelComparer);
 
-                for (int y = numberOfPanelPositions; y > 0; y--)
+
+                for (int y = numberOfPanelPositions; y > -1; y--)
                 {
-                    float comparer = positionQuotient * y;
+                    float comparer = (positionQuotient * y) * -1;
 
-                    if (levelComparer > comparer)
+                    if (levelComparer >= comparer)
                     {
-                        Debug.Log("panel index : " + y);
                         Debug.Log("panel position : " + comparer);
                         Debug.Log("level position : " + levelComparer);
 
-                        MoveCampaignPanelTo(y);
+                        int finalIndex = numberOfPanelPositions - y;
+                        Debug.Log("panel index : " + finalIndex);
+
+                        MoveCampaignPanelTo(finalIndex);
                         return;
                     }
                 }
@@ -216,7 +221,7 @@ public class Campaign : MonoBehaviour
 
             //Transpose editor position into campaign position
             float xPos = (levelsImplemented[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-            float yPos = ((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
+            float yPos = ((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f;
 
             Vector2 startPos = new Vector2(xPos, yPos);
 
@@ -247,7 +252,7 @@ public class Campaign : MonoBehaviour
 
                 //Get concerned level pos
                 float xUPos = (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-                float yUPos = ((levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.y * 0.5f) - 1000) * -0.01f;
+                float yUPos = ((levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.y * 0.5f)) * -0.01f;
 
                 Vector2 lastPos = new Vector2(xUPos, yUPos);
 
@@ -274,7 +279,7 @@ public class Campaign : MonoBehaviour
 
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
-                    line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255) ;
+                    line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
                     level.button.interactable = false;
 
                     for (int x = 0; x < level.lockImages.Count; x++)

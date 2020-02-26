@@ -221,7 +221,7 @@ public class FXManager : MonoBehaviour
             }
         }
 
-        AudioManager.instance.PlaySound("SFX_Ball_Impact", Vector3.zero);
+        AudioManager.instance.PlaySound("Explosion", Vector3.zero);
     }
 
     void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)

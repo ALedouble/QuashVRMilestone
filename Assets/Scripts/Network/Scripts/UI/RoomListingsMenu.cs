@@ -13,12 +13,12 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     private List<RoomListing> _listings = new List<RoomListing>();
     public RoomCanvasGroup _roomsCanvases;
+   
 
 
     public void FirstInitialize(RoomCanvasGroup canvases){
         _roomsCanvases = canvases;
         content.DestroyChildren();
-        Debug.Log(_roomsCanvases);
     }
 
     public override void OnJoinedRoom(){
@@ -26,6 +26,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
         _roomsCanvases.CurrentRoomCanvas.Show();
         content.DestroyChildren();
         _listings.Clear();
+        
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
@@ -35,6 +36,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
                 if (index != -1){
                     Destroy(_listings[index].gameObject);
                     _listings.RemoveAt(index);
+                    Debug.Log("hello");
                 }
             }
             else{
@@ -44,6 +46,9 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
                     if (listing != null){
                         listing.SetRoomInfo(info);
                         _listings.Add(listing);
+                        Debug.Log("hello2");
+                        SearchingRoom.instance.listWord.Add(_roomListing);
+                        
                     }   
                 }
                 else{

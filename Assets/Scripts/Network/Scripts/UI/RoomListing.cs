@@ -32,6 +32,7 @@ public class RoomListing : MonoBehaviour
   }
 
   public void OnClick_Button(){
+        SearchingRoom.instance.keyboardScreen.gameObject.SetActive(false);
         joinRoom.SetActive(false);
         currentRoom.gameObject.SetActive(true);
         currentRoom.GetChild(0).gameObject.SetActive(true);

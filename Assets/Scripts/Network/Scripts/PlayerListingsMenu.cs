@@ -102,7 +102,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
        AddPlayerListing(newPlayer);
-       checkCurrentRoom();
+      // checkCurrentRoom();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer){

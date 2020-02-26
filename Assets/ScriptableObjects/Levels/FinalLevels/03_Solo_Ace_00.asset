@@ -20362,8 +20362,8 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 00
-      LevelIndex: 0
+      buttonName: 03
+      LevelIndex: 2
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -20372,13 +20372,11 @@ MonoBehaviour:
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 826.5, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: abd0a0e442e31cd4dbfdf7f3d4c94d9b, type: 2}
+      levelPos: {x: 143, y: 1571}
       levelID: 0
       conditionsToComplete:
-      - conditionType: 0
-        conditionComparator: 0
-        conditionReachedAt: 0
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0

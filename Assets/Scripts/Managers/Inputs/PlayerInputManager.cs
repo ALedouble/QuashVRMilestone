@@ -52,6 +52,8 @@ public class PlayerInputManager : MonoBehaviour
     }
     public void SetInputMod(InputMod inputMod)
     {
+        currentInput?.ExitInputMod();
+        
         this.inputMod = inputMod;
 
         if (inputMod == InputMod.GAMEPLAY)

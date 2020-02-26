@@ -7,6 +7,7 @@ public class BallSetup : MonoBehaviour
 {
     private void Start()
     {
+        Debug.Log("BallSetup");
         BallManager.instance.SetupBall(gameObject);
         GameManager.Instance.ReadyCheck(GameManager.Instance.BallFirstSpawn);
     }

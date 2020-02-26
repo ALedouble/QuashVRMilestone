@@ -52,10 +52,12 @@ public class BallManager : MonoBehaviour
     {
         if (GameManager.Instance.offlineMode)
         {
+            Debug.Log("Instanciate OfflineMode");
             Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
         }
         else if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("Instanciate MasterClient");
             PhotonNetwork.Instantiate(ballPrefab.name, -Vector3.one, Quaternion.identity);
         }
     }
@@ -104,6 +106,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SetBallInPlay()
     {
+        Debug.Log("SetBallInPlay");
         BallPhysicBehaviour.ApplyBaseGravity();
         BallColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
@@ -139,6 +142,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SpawnBallLocaly()
     {
+        Debug.Log("SpawnBallLocaly");
         Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + spawnOffset;
         Ball.SetActive(true);
         BallColorBehaviour.DeactivateTrail();

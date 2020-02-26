@@ -223,14 +223,12 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     }
 
     [PunRPC]
-    private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState)
+    private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState, bool IsSpeedStateChangingSpeed)
     {
         transform.position = positionWhenHit;
         rigidbody.velocity = newVelocity;
         lastVelocity = newVelocity;
-        Debug.Log("Newvelocity: " + rigidbody.velocity);
-        SetSpeedState((SpeedState)newSpeedState, false);
-        Debug.Log("Newvelocity: " + rigidbody.velocity);
+        SetSpeedState((SpeedState)newSpeedState, IsSpeedStateChangingSpeed);
     }
 
     private void ApplyNewVelocity(Vector3 newVelocity)
@@ -348,11 +346,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         if (GameManager.Instance.offlineMode)
         {
-            ApplyNewVelocity(newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL);                                  // Modif globalSpeedMultiplier
+            ApplyNewVelocity(newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);                                  // Modif globalSpeedMultiplier
         }
         else
         {
-            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL);     // Modif globalSpeedMultiplier
+            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);     // Modif globalSpeedMultiplier
         }
     }
     
@@ -446,7 +444,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         float verticalVelocity = CalculateVerticalBounceVelocity();
         float sideVelocity = CalculateSideBounceVelocity();
 
-        ApplyNewVelocity(new Vector3(sideVelocity, verticalVelocity, -depthVelocity), transform.position, (int)SpeedState.SLOW);
+        ApplyNewVelocity(new Vector3(sideVelocity, verticalVelocity, -depthVelocity), transform.position, (int)SpeedState.SLOW, true);
     }
 
     private float CalculateVerticalBounceVelocity()
@@ -475,7 +473,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = oBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.SLOW);
+        ApplyNewVelocity(newVelocity, transform.position, (int)SpeedState.SLOW, true);
     }
 
     private void RandomReturnWithoutBounce()
@@ -483,7 +481,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ApplyNewVelocity(newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW);
+        ApplyNewVelocity(newVelocity * globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW, true);
     }
 
     #endregion

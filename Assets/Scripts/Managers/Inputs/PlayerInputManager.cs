@@ -32,7 +32,8 @@ public class PlayerInputManager : MonoBehaviour
     #endregion
 
     public float inputSetupDelay = 1f;
-    public InputMod inputMod = InputMod.GAMEPLAY;       //A cacher dans l'inspector
+    public InputMod inputMod = InputMod.GAMEPLAY;
+    public IInputable currentInput;
 
     private IInputable gameplayAction = new GameplayInputManager();
     private IInputable menuAction = new MenuInputManager();
@@ -55,12 +56,14 @@ public class PlayerInputManager : MonoBehaviour
 
         if (inputMod == InputMod.GAMEPLAY)
         {
-            gameplayAction.EnterInputMod();
+            currentInput = gameplayAction;
         }
         else if (inputMod == InputMod.MENU)
         {
-            menuAction.EnterInputMod();
+            currentInput = menuAction;
         }
+
+        currentInput.EnterInputMod();
     }
 
     public InputMod GetInputMod()
@@ -70,53 +73,25 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnRightTriggerPress()
     {
-        if(inputMod == InputMod.GAMEPLAY)
-        {
-            gameplayAction.OnRightTriggerPress();
-        }
-        else if(inputMod == InputMod.MENU)
-        {
-            menuAction.OnRightTriggerPress();
-        }
+        currentInput.OnRightTriggerPress();
     }
 
     public void OnRightTriggerRelease()
     {
-        if (inputMod == InputMod.GAMEPLAY)
-        {
-            gameplayAction.OnRightTriggerRelease();
-        }
-        else if (inputMod == InputMod.MENU)
-        {
-            menuAction.OnRightTriggerRelease();
-        }
+        currentInput.OnRightTriggerRelease();
     }
 
     public void OnLeftTriggerPress()
     {
-        if (inputMod == InputMod.GAMEPLAY)
-        {
-            gameplayAction.OnLeftTriggerPress();
-        }
-        else if (inputMod == InputMod.MENU)
-        {
-            menuAction.OnLeftTriggerPress();
-        }
+        currentInput.OnLeftTriggerPress();
     }
 
     public void OnLeftTriggerRelease()
     {
-        if (inputMod == InputMod.GAMEPLAY)
-        {
-            gameplayAction.OnLeftTriggerRelease();
-        }
-        else if (inputMod == InputMod.MENU)
-        {
-            menuAction.OnLeftTriggerRelease();
-        }
+        currentInput.OnLeftTriggerRelease();
     }
 
-    public void OnPauseButtonPress()
+    public void OnPauseButtonPress()                    //A modifier!
     {
         if (GameManager.Instance.offlineMode)
         {

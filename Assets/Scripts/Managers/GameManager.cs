@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsBrickFreeToMove { get; private set; }                                                                                                                     
     public bool IsGameStarted { get; private set; }
-    public bool HasLost { get; private set; }                                                                            //A passer en property
+    public bool HasLost { get => (IsGameStarted) && (TimeManager.Instance.CurrentTimer <= 0); }
 
     [HideInInspector]
     public int levelIndex;
@@ -193,15 +193,16 @@ public class GameManager : MonoBehaviour
     {
         TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
         TimeManager.Instance.StopTimer();
-        IsGameStarted = false;
 
         LevelManager.instance.playersHUD.EnableScoreScreen();
 
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();
 
+        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+
         //If the player who WINS is ALONE
-        if(!hasLost && offlineMode)
+        if(!HasLost && offlineMode)
         {
             JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
         }

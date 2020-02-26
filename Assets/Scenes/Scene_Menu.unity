@@ -37349,9 +37349,6 @@ MonoBehaviour:
   playerSpawn:
   - {fileID: 1096231841}
   - {fileID: 1096231841}
-  ballSpawnDelay: 0
-  isTimerStopped: 0
-  hasLost: 0
   offlineMode: 0
   levelIndex: 0
 --- !u!4 &670950473
@@ -37397,6 +37394,8 @@ MonoBehaviour:
   textBar: {fileID: 981584210}
   roomList: {fileID: 8688632996154797314, guid: 8f5265fb4176f4547b6f2d952249ad03,
     type: 3}
+  keyboardScreen: {fileID: 0}
+  roomJoin: {fileID: 0}
 --- !u!1 &677605459
 GameObject:
   m_ObjectHideFlags: 0
@@ -54720,7 +54719,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listWord: []
   textBar: {fileID: 981584210}
-  roomList: {fileID: 0}
+  roomList: {fileID: 8688632996154797314, guid: 8f5265fb4176f4547b6f2d952249ad03,
+    type: 3}
+  keyboardScreen: {fileID: 220916260}
+  roomJoin: {fileID: 1918277307}
 --- !u!1 &1921655620
 GameObject:
   m_ObjectHideFlags: 0

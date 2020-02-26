@@ -58,6 +58,7 @@ public class LevelScript : MonoBehaviour
     public int numberOfLayers;
     public int totalLayersDisplayed;
 
+    public bool canDrawConnection = true;
     //private GameObject prefabBase;
     //private string prefabPath = "Assets/Prefabs/Bricks";
 
@@ -196,6 +197,8 @@ public class LevelScript : MonoBehaviour
     private void WaypointConnections()
     {
         //Debug.Log("Draw Waypoint Gizmo");
+        if (!canDrawConnection)
+            return;
 
         for (int x = 0; x < currentLayer.wallBricks.Count; x++)
         {

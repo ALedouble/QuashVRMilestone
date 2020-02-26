@@ -10,6 +10,8 @@ public class SearchingRoom : MonoBehaviour
     public List<RoomListing> listWord;
     public TextMeshProUGUI textBar;
     public RoomListing roomList;
+    public GameObject keyboardScreen;
+    public GameObject roomJoin;
 
     void Awake() {
         instance = this;
@@ -17,24 +19,21 @@ public class SearchingRoom : MonoBehaviour
 
     void Update()
     {
-        if (listWord.Count == 0){
-            return;
+        if (listWord.Count > 0){
+             UpdateList();
         }
-        else{
-            UpdateList();
-        }
-       
-        
     }
 
     void UpdateList(){
-        for(int i = 0; i < listWord.Count; i++){
-            if(listWord[i]._text.text.Contains(textBar.text)){
-                listWord[i].transform.gameObject.SetActive(true);
-            }
-            else{
-                listWord[i].transform.gameObject.SetActive(false);
+        if(roomJoin.activeInHierarchy){
+            for(int i = 0; i < listWord.Count; i++){
+                if(listWord[i]._text.text.Contains(textBar.text)){
+                    listWord[i].transform.gameObject.SetActive(true);
+                }
+                else{
+                    listWord[i].transform.gameObject.SetActive(false);
+                }
             }
         }
-    }
+    }        
 }

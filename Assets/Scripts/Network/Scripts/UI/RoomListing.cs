@@ -32,14 +32,12 @@ public class RoomListing : MonoBehaviour
   }
 
   public void OnClick_Button(){
-       
         joinRoom.SetActive(false);
         currentRoom.gameObject.SetActive(true);
         currentRoom.GetChild(0).gameObject.SetActive(true);
         currentRoom.GetChild(1).gameObject.SetActive(true);
         currentRoom.GetChild(3).gameObject.SetActive(true);
-
-
+        SearchingRoom.instance.listWord.Clear();
         PhotonNetwork.JoinRoom(RoomInfo.Name);
         
    

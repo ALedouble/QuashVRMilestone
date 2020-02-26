@@ -85,6 +85,11 @@ public class RacketManager : MonoBehaviour
         //localPlayerRacket.tag = "Racket";
     }
 
+    public void EnableRackets(bool enabled)
+    {
+        localPlayerRacket?.SetActive(enabled);
+        foreignPlayerRacket?.SetActive(enabled);
+    }
     #endregion
 
     #region RacketColor

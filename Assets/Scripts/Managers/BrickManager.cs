@@ -228,7 +228,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
         {
             if (layerToSpawn.wallBricks[bricks[i].savedInIndex].isMoving)
             {
-                bricks[i].isMoving = true;
+                bricks[i].isAMovingBrick = true;
             }
         }
     }

@@ -16,11 +16,22 @@ public class LevelInspectorScript : Editor
         Paint2D,
         Erase2D,
         Select,
-        Waypoint,
+        Waypoint
+    }
+
+    public enum WaypointViewMode
+    {
+        All,
+        Selected,
+        None
     }
 
     private EditionMode selectedMode;
     private EditionMode currentMode;
+
+    private WaypointViewMode selectedViewMode;
+    private WaypointViewMode currentViewMode;
+    private int modeIndex;
 
     public enum PaintMode
     {
@@ -452,6 +463,7 @@ public class LevelInspectorScript : Editor
         DrawLevelGUI();
         DrawStatsGUI();
         DrawModeGUI();
+        WaypointViewModeGUI();
         ModeHandler();
         EventHandler();
 
@@ -841,18 +853,39 @@ public class LevelInspectorScript : Editor
                         GUILayout.Space(8);
 
 
+
                         if (!brickSettingsDisplayed.isMoving)
                         {
                             GUILayout.BeginVertical("box");
 
+                            EditorGUI.BeginChangeCheck();
                             brickSettingsDisplayed.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", brickSettingsDisplayed.isMoving, layerStyle);
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                canPaintWaypoint = true;
+                                currentMode = EditionMode.Waypoint;
+
+                                brickSettingsDisplayed.waypointsStorage.Add(brickSettingsDisplayed.brickPosition);
+
+                                DrawWaypointIcon();
+                            }
 
                             GUILayout.EndVertical();
                         }
 
                         if (brickSettingsDisplayed.isMoving)
                         {
+                            EditorGUI.BeginChangeCheck();
                             brickSettingsDisplayed.isMoving = EditorGUILayout.ToggleLeft("Is the Brick Moving ?", brickSettingsDisplayed.isMoving, layerStyle);
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                canPaintWaypoint = false;
+                                currentMode = EditionMode.Select;
+
+                                brickSettingsDisplayed.waypointsStorage.Clear();
+
+                                DrawWaypointIcon();
+                            }
 
                             GUILayout.BeginVertical("box");
 
@@ -869,6 +902,8 @@ public class LevelInspectorScript : Editor
 
                             GUILayout.EndVertical();
                         }
+
+
 
 
                         GUILayout.EndVertical();
@@ -940,7 +975,7 @@ public class LevelInspectorScript : Editor
 
             waypointsgo.Clear();
 
-            
+
         }
     }
 
@@ -980,7 +1015,7 @@ public class LevelInspectorScript : Editor
 
                 if (currentLayer.wallBricks[i].isMoving)
                 {
-                    objBehaviours.isMoving = currentLayer.wallBricks[i].isMoving;
+                    objBehaviours.isAMovingBrick = currentLayer.wallBricks[i].isMoving;
                     objBehaviours.speed = currentLayer.wallBricks[i].speed;
                     objBehaviours.smoothTime = currentLayer.wallBricks[i].smoothTime;
                     objBehaviours.waypoints = new List<Vector3>();
@@ -1098,7 +1133,7 @@ public class LevelInspectorScript : Editor
 
         if (currentLayer.wallBricks[brickPos].isMoving)
         {
-            objBehaviours.isMoving = currentLayer.wallBricks[brickPos].isMoving;
+            objBehaviours.isAMovingBrick = currentLayer.wallBricks[brickPos].isMoving;
             objBehaviours.speed = currentLayer.wallBricks[brickPos].speed;
             objBehaviours.smoothTime = currentLayer.wallBricks[brickPos].smoothTime;
             objBehaviours.waypoints = new List<Vector3>();
@@ -1118,7 +1153,7 @@ public class LevelInspectorScript : Editor
     void DrawBox()
     {
         Handles.BeginGUI();
-        GUI.Box(new Rect(5, 20, 250, 115), "");
+        GUI.Box(new Rect(5, 20, 250, 150), "");
         Handles.EndGUI();
     }
 
@@ -1418,6 +1453,36 @@ public class LevelInspectorScript : Editor
         Handles.EndGUI();
     }
 
+    public void WaypointViewModeGUI()
+    {
+        List<WaypointViewMode> modes = EditorUtilityScene.GetListFromEnum<WaypointViewMode>();
+        List<string> modeLabels = new List<string>();
+
+
+        for (int i = 0; i < modes.Count; i++)
+        {
+            modeLabels.Add(modes[i].ToString());
+        }
+
+
+        Handles.BeginGUI();
+
+        EditorGUI.BeginDisabledGroup(myTarget.selectedLevel == null);
+
+        GUILayout.BeginArea(new Rect(-55, 135f, 200f, 50f));
+        GUILayout.Label("Waypoint", layerStyle);
+        GUILayout.Label("Display", titleStyle);
+        GUILayout.EndArea();
+
+        GUILayout.BeginArea(new Rect(78f, 135f, 172f, 30f));
+        selectedViewMode = (WaypointViewMode)GUILayout.Toolbar((int)currentViewMode, modeLabels.ToArray(), GUILayout.ExpandHeight(true));
+        GUILayout.EndArea();
+
+        EditorGUI.EndDisabledGroup();
+
+        Handles.EndGUI();
+    }
+
     private void ResetNumberOfLayers()
     {
         int oldNumberOfLayers = myTarget.selectedLevel.level.levelWallBuilds.walls.Length;
@@ -1500,6 +1565,36 @@ public class LevelInspectorScript : Editor
             currentMode = selectedMode;
         }
         //Lock in 2D
+
+        switch (selectedViewMode)
+        {
+            case WaypointViewMode.All:
+                modeIndex = 0;
+                myTarget.canDrawConnection = true;
+                DrawWaypointIcon();
+                RefreshInspector();
+                break;
+
+            case WaypointViewMode.Selected:
+                modeIndex = 1;
+                myTarget.canDrawConnection = true;
+                DrawWaypointIcon();
+                RefreshInspector();
+                break;
+
+            case WaypointViewMode.None:
+                modeIndex = 2;
+                myTarget.canDrawConnection = false;
+                DrawWaypointIcon();
+                RefreshInspector();
+                break;
+        }
+
+        //Mode Change
+        if (selectedViewMode != currentViewMode)
+        {
+            currentViewMode = selectedViewMode;
+        }
     }
 
     private void EventHandler()
@@ -1545,6 +1640,23 @@ public class LevelInspectorScript : Editor
                         currentMode = (EditionMode)3;
                         RefreshInspector();
                     }
+                    break;
+                }
+            case KeyCode.F5:
+                {
+                    modeIndex++;
+                    if (modeIndex > 2)
+                        modeIndex = 0;
+
+                    if (modeIndex == 2)
+                        myTarget.canDrawConnection = false;
+                    else
+                        myTarget.canDrawConnection = true;
+
+                    currentViewMode = (WaypointViewMode)modeIndex;
+
+                    DrawWaypointIcon();
+                    RefreshInspector();
                     break;
                 }
         }
@@ -1739,22 +1851,50 @@ public class LevelInspectorScript : Editor
 
         waypointsgo.Clear();
 
-        for (int i = 0; i < currentLayer.wallBricks.Count; i++)
+        switch (currentViewMode)
         {
-            if (currentLayer.wallBricks[i].isBrickHere)
-            {
-                if (currentLayer.wallBricks[i].isMoving)
+            case WaypointViewMode.All:
+                for (int i = 0; i < currentLayer.wallBricks.Count; i++)
                 {
-                    for (int j = 0; j < currentLayer.wallBricks[i].waypointsStorage.Count; j++)
+                    if (currentLayer.wallBricks[i].isBrickHere)
+                    {
+                        if (currentLayer.wallBricks[i].isMoving)
+                        {
+                            for (int j = 0; j < currentLayer.wallBricks[i].waypointsStorage.Count; j++)
+                            {
+                                Vector3 pos = new Vector3(
+                                    currentLayer.wallBricks[i].waypointsStorage[j].x,
+                                currentLayer.wallBricks[i].waypointsStorage[j].y,
+                                currentLayer.wallBricks[i].waypointsStorage[j].z - 0.5f);
+
+
+                                GameObject obj = Instantiate(waypointIcon) as GameObject;
+                                obj.GetComponent<SpriteRenderer>().color = colorPresets[0].colorPresets[currentLayer.wallBricks[i].brickColorPreset].coreEmissiveColors;
+                                obj.GetComponentInChildren<TextMeshPro>().text = j.ToString();
+                                obj.transform.position = pos;
+                                obj.transform.parent = myTarget.transform;
+
+
+                                waypointsgo.Add(obj);
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case WaypointViewMode.Selected:
+                if (brickSettingsDisplayed.isMoving && brickSettingsDisplayed.isBrickHere)
+                {
+                    for (int j = 0; j < brickSettingsDisplayed.waypointsStorage.Count; j++)
                     {
                         Vector3 pos = new Vector3(
-                            currentLayer.wallBricks[i].waypointsStorage[j].x,
-                        currentLayer.wallBricks[i].waypointsStorage[j].y,
-                        currentLayer.wallBricks[i].waypointsStorage[j].z - 0.5f);
+                            brickSettingsDisplayed.waypointsStorage[j].x,
+                        brickSettingsDisplayed.waypointsStorage[j].y,
+                        brickSettingsDisplayed.waypointsStorage[j].z - 0.5f);
 
 
                         GameObject obj = Instantiate(waypointIcon) as GameObject;
-                        obj.GetComponent<SpriteRenderer>().color = colorPresets[0].colorPresets[currentLayer.wallBricks[i].brickColorPreset].coreEmissiveColors;
+                        obj.GetComponent<SpriteRenderer>().color = colorPresets[0].colorPresets[brickSettingsDisplayed.brickColorPreset].coreEmissiveColors;
                         obj.GetComponentInChildren<TextMeshPro>().text = j.ToString();
                         obj.transform.position = pos;
                         obj.transform.parent = myTarget.transform;
@@ -1763,8 +1903,13 @@ public class LevelInspectorScript : Editor
                         waypointsgo.Add(obj);
                     }
                 }
-            }
+                break;
+
+            case WaypointViewMode.None:
+                break;
         }
+
+
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorUtility.SetDirty(currentLevel);

@@ -5,13 +5,10 @@ using UnityEngine;
 
 public class BallSetup : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
-        //BallManager.instance.SetupBall(gameObject);
-        
-        //if(!GameManager.Instance.offlineMode && !PhotonNetwork.IsMasterClient)
-        //{
-        //    BallManager.instance.;
-        //}
+        Debug.Log("BallSetup");
+        BallManager.instance.SetupBall(gameObject);
+        GameManager.Instance.ReadyCheck(GameManager.Instance.BallFirstSpawn);
     }
 }

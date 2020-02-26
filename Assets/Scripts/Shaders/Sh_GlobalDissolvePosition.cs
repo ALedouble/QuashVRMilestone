@@ -21,7 +21,7 @@ public class Sh_GlobalDissolvePosition : MonoBehaviour
     {
         if (BallManager.instance)
         {
-                ballTransform = BallManager.instance.ball.transform;
+                ballTransform = BallManager.instance.Ball.transform;
         }
     }
 }

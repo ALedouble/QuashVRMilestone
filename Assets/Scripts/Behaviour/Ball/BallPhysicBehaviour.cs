@@ -49,13 +49,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     [Range(0, 1)]
     public float mixRatio;
 
-    [Header("Racket Fake Physics Settings")]
-    public float maxYAngle;
-    public float maxZAngle;
-    public float magnitudeSlope;
-    public float minMagnitude;
-    public float maxMagnitude;
-
     [Header("Speed Settings")]
     public float globalSpeedMultiplier = 1;
     public float slowness;
@@ -82,9 +75,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public TargetSwitchType switchType = TargetSwitchType.RACKETBASED;
     public QPlayer startingPlayer = QPlayer.PLAYER1;                  // Sera modifier!
     private bool switchTargetIsRacketBased;
-
-    //public Transform[] xReturnsPoints = new Transform[];
-    //public Transform zReturnPoints;
 
     [Header("Standard Bounce Settings")]
     public float bounciness;
@@ -283,8 +273,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             {
                 rigidbody.velocity *= slowness;
                 lastVelocity = rigidbody.velocity;
-                currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier;
             }
+            currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier;
 
             speedState = SpeedState.NORMAL;
         }
@@ -294,8 +284,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             {
                 rigidbody.velocity /= slowness;
                 lastVelocity = rigidbody.velocity;
-                currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
             }
+            currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
 
             speedState = SpeedState.SLOW;
         }
@@ -523,43 +513,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         return RacketArcadeHit() * (1 - mixRatio) + RacketBasicPhysicHit(collision) * mixRatio;
     }
-
-    private Vector3 RacketFakeHit1(Collision collision)                     //Rotation avec bijection mal définie... Ce sera certainnement pas terrible...
-    {
-        Vector3 normal = collision.GetContact(0).normal;
-
-        Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
-        float yEulerRotation = hitRotation.eulerAngles.y;
-        float zEulerRotation = hitRotation.eulerAngles.z;   //Ce serait pas plutôt X qu'on veut?
-
-        float newYEulerRotation = (yEulerRotation % 180) * (maxYAngle / 180);
-        float newZEulerRotation = (zEulerRotation % 180) * (maxZAngle / 180);
-
-        Vector3 velocityDirection = Vector3.Normalize(new Vector3(Mathf.Cos(newYEulerRotation), 1 / Mathf.Tan(newZEulerRotation), Mathf.Sin(newYEulerRotation)));
-
-        float velocityMagnitude = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity().magnitude;
-        velocityMagnitude *= magnitudeSlope;
-
-        if (velocityMagnitude > maxMagnitude)
-            velocityMagnitude = maxMagnitude;
-        if (velocityMagnitude < minMagnitude)
-            velocityMagnitude = minMagnitude;
-
-        return velocityMagnitude * velocityDirection;
-    }
-
-    private Vector3 RacketFakeHit2(Collision collision)                     //Rotation avec bijection bien definie!                 Besoin d'un Tool?
-    {
-        // A Implementer
-        return Vector3.zero;
-    }
-
-    private Vector3 RacketFakeHit3(Collision collision)                     //VitesseAngulaire probablement pas une bonne idée...
-    {
-        // A Implementer
-        return Vector3.zero;
-    }
-
     #endregion
 
     #region UilityMethods
@@ -605,13 +558,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private Vector3 ClampVelocity(Vector3 velocity)        //Nom à modifier
     {
-        if (velocity.magnitude < hitMinSpeed)
+        if (velocity.magnitude < hitMinSpeed * globalSpeedMultiplier)
         {
-            return hitMinSpeed * Vector3.Normalize(velocity);
+            return hitMinSpeed * globalSpeedMultiplier * Vector3.Normalize(velocity);
         }
-        else if (velocity.magnitude > hitMaxSpeed)
+        else if (velocity.magnitude > hitMaxSpeed * globalSpeedMultiplier)
         {
-            return hitMaxSpeed * Vector3.Normalize(velocity);
+            return hitMaxSpeed * globalSpeedMultiplier * Vector3.Normalize(velocity);
         }
         else
             return velocity;

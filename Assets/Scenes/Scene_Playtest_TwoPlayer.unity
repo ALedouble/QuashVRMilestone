@@ -5322,9 +5322,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81c4971e76c65c54b87b9c0d46ef3504, type: 2}
   - {fileID: 11400000, guid: d14be4870600e1f4b839f769cb6fc80b, type: 2}
   - {fileID: 11400000, guid: 79402e1d661f2bb44bdeb94ea3f9c3e5, type: 2}
-  - {fileID: 11400000, guid: 349111aafcc4fa94fb0ed83049b26ce5, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: d0166d5d43806fc438371e4442365d35, type: 2}
-  - {fileID: 11400000, guid: 67d0f9ce2ea046a4580ee59041d69964, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 192435ca37cde9f4bb89eadd6c813d7f, type: 2}
   - {fileID: 11400000, guid: 3abf081b725d4ec4695d45e25f47e1c1, type: 2}
   - {fileID: 11400000, guid: e6cd493c912ab014797124717001f9f7, type: 2}
@@ -105213,6 +105213,11 @@ PrefabInstance:
         type: 3}
       propertyPath: delayBeforeReset
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: firstSpawnAnimationDuration
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2113905627460504248, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}

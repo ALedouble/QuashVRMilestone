@@ -355,7 +355,7 @@ public class LevelManager : MonoBehaviour
             for (int i = 0; i < playersParents[playerID].layersParent[layer].childCount; i++)
             {
                 GameObject obj = playersParents[playerID].layersParent[layer].GetChild(i).gameObject;
-                if (obj.GetComponent<BrickBehaviours>().isMoving)
+                if (obj.GetComponent<BrickBehaviours>().isAMovingBrick)
                 {
                     go.Add(obj);
                 }

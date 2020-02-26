@@ -94,7 +94,7 @@ public class TimeManager : MonoBehaviour
             CurrentTimer = 0;
             IsTimeFlying = false;
 
-            OnTimerEnd();
+            OnTimerEnd?.Invoke();
         }
     }
 

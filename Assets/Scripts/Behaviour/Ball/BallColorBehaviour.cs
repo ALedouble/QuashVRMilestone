@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
 
-public enum ColorSwitchBehaviour
+public enum ColorSwitchType
 {
-    NORMAL,
+    NONE,
+    NOSWITCH,
+    RACKETEMPOWERED,
     MANDATORY
 }
 
@@ -23,6 +26,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [Header("Trail Settings")]
     public GameObject[] trails;
 
+    private ColorSwitchType colorSwitchType;
 
     private int colorID = 1;
 
@@ -31,123 +35,56 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private PhotonView photonView;
     private Renderer myRenderer;
 
-
-
+    
     private void Awake()
     {
         photonView = PhotonView.Get(this);
         myRenderer = gameObject.GetComponent<Renderer>();
 
         SetupColors();
-        InitializeSwitchColor();
+        colorSwitchType = ColorSwitchType.NONE;
+        InitializeSwitchColor(ColorSwitchType.RACKETEMPOWERED);
+
+        SetBallColor(BallManager.instance.spawnColorID);
+        RacketManager.instance.InitializeRacketColor();
     }
 
-    public int GetBallColor()
+    public void InitializeSwitchColor(ColorSwitchType newColorSwitchType)
     {
-        return colorID;
-    }
+        TerminateSwitchColor();
 
-    public Material GetCurrentMaterial()
-    {
-        return materials[colorID];
-    }
-
-    public Material[] GetBallMaterials()
-    {
-        return materials;
-    }
-
-    public void SetBallColor(int colorID)                                                               //A Mettre en reseau!
-    {
-        this.colorID = colorID;
-        myRenderer.material = materials[colorID];
-    }
-
-    private void InitializeSwitchColor()
-    {
-        BallEventManager.instance.OnCollisionWithRacket += RacketBaseSwitchColor;
-    }
-
-    [PunRPC]
-    public void TransferEmpowerement()
-    {
-        if (RacketManager.instance.isEmpowered)
+        switch(newColorSwitchType)
         {
-            if (GameManager.Instance.offlineMode)
-            {
-                BallBecomeEmpowered();
-            }
-            else
-            {
-                photonView.RPC("BallBecomeEmpowered", RpcTarget.All);
-            }
-
-            //RacketManager.instance.ExitEmpoweredState();
+            case ColorSwitchType.RACKETEMPOWERED:
+                BallEventManager.instance.OnCollisionWithRacket += RacketEmpoweredSwitchColor;
+                break;
+            case ColorSwitchType.MANDATORY:
+                BallEventManager.instance.OnCollisionWithRacket += MandatorySwitchColor;
+                break;
+            default:
+                break;
         }
     }
 
-    [PunRPC]
-    private void BallBecomeEmpowered()
+    public void TerminateSwitchColor()
     {
-        isEmpowered = true;
-    }
-
-    private void RacketBaseSwitchColor()
-    {
-        if (RacketManager.instance.isEmpowered)
+        switch (colorSwitchType)
         {
-            if (GameManager.Instance.offlineMode)
-            {
-                SwitchColor();
-            }
-            else
-            {
-                photonView.RPC("SwitchColor", RpcTarget.All);
-            }
-        }
-    }
-
-    [PunRPC]
-    private void SwitchColor()
-    {
-        colorID = (colorID + 1) % materials.Length;
-        myRenderer.sharedMaterial = materials[colorID];
-
-        UpdateTrail();
-
-        SwitchWallColors();
-
-        if (RacketManager.instance.isEmpowered)
-            RacketManager.instance.SwitchRacketColor();
-    }
-
-
-    private void SwitchWallColors()
-    {
-        for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
-        {
-            LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
+            case ColorSwitchType.RACKETEMPOWERED:
+                BallEventManager.instance.OnCollisionWithRacket -= RacketEmpoweredSwitchColor;
+                break;
+            case ColorSwitchType.MANDATORY:
+                BallEventManager.instance.OnCollisionWithRacket -= MandatorySwitchColor;
+                break;
+            default:
+                break;
         }
 
-        if (LevelManager.instance.numberOfPlayers > 1)
-        {
-            LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
-        }
+        colorSwitchType = ColorSwitchType.NONE;
     }
+
+    #region Setup
     public void SetupColors()
-    {
-        //if (GameManager.Instance.offlineMode)                                                           // Besoin de mise en reseau?
-        //{
-            SetupColorsLocaly();
-        //}
-        //else if (PhotonNetwork.IsMasterClient)
-        //{
-        //    photonView.RPC("SetupColors", RpcTarget.AllBuffered);
-        //}
-    }
-    
-    [PunRPC]
-    private void SetupColorsLocaly()
     {
         SetupMaterials();
         /////////////////////
@@ -155,7 +92,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         /////////////////////
         SetupTrails();
     }
-
 
     private void SetupMaterials()
     {
@@ -180,7 +116,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
 
         myRenderer.sharedMaterial = materials[colorID];
-        
     }
 
     public void SetupWallMaterials()                                                                                                        // Ca devrait pas être la!
@@ -240,7 +175,89 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         trails[colorID].SetActive(true);
         trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
     }
+    #endregion
 
+    #region Getter Setter
+    public int GetBallColor()
+    {
+        return colorID;
+    }
+
+    public Material GetCurrentMaterial()
+    {
+        return materials[colorID];
+    }
+
+    public Material[] GetBallMaterials()
+    {
+        return materials;
+    }
+
+    public void SetBallColor(int colorID)                                                               //A Mettre en reseau!
+    {
+        this.colorID = colorID;
+        myRenderer.material = materials[colorID];
+    }
+    #endregion
+
+    #region Ball Color Switch
+    private void RacketEmpoweredSwitchColor()
+    {
+        if (RacketManager.instance.isEmpowered)
+            SwitchColor();
+    }
+
+    private void MandatorySwitchColor()
+    {
+        SwitchColor();
+    }
+
+    private void SwitchColor()
+    {
+        if (GameManager.Instance.offlineMode)
+        {
+            SwitchColorLocally();
+        }
+        else
+        {
+            photonView.RPC("SwitchColorLocally", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void SwitchColorLocally()
+    {
+        colorID = (colorID + 1) % materials.Length;
+        myRenderer.sharedMaterial = materials[colorID];
+
+        UpdateTrail();
+
+        SwitchWallColors();
+
+        BallManager.instance.CallColorSwitchEvent();
+
+        //A passer sur l'event 
+        if (RacketManager.instance.isEmpowered)
+            RacketManager.instance.SwitchRacketColor();
+    }
+    #endregion
+
+    #region Associated SwitchColor Actions
+    private void SwitchWallColors()
+    {
+        for (int i = 0; i < LevelManager.instance.allMeshes.Length; i++)
+        {
+            LevelManager.instance.allMeshes[i].sharedMaterial = sideWallMats[colorID];
+        }
+
+        if (LevelManager.instance.numberOfPlayers > 1)
+        {
+            LevelManager.instance.midMesh.sharedMaterial = midWallMats[colorID];
+        }
+    }
+    #endregion
+
+    #region Trail Methods
     public void UpdateTrail()
     {
         trails[colorID].SetActive(true);
@@ -251,7 +268,9 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     {
         trails[colorID].SetActive(false);
     }
+    #endregion
 
+    #region Ball First Spawn Coroutine
     public void StartBallFirstSpawnCoroutine(float duration)
     {
         StartCoroutine(BallFirstSpawnCoroutine(duration));
@@ -273,4 +292,5 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         
         GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower);
     }
+    #endregion
 }

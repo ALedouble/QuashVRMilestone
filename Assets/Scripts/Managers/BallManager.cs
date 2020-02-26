@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon;
@@ -36,6 +37,8 @@ public class BallManager : MonoBehaviour
     public PhysicInfo BallPhysicInfo { get; private set; }
     public BallInfo BallInfo { get; private set; }
     public ITargetSelector TargetSelector { get; private set; }
+
+    public event Action OnBallColorSwitch;
 
     private Coroutine floatCoroutine;
     private Coroutine resetCoroutine;
@@ -304,6 +307,11 @@ public class BallManager : MonoBehaviour
     public int GetSpawnColorID()
     {
         return spawnColorID;
+    }
+
+    public void CallColorSwitchEvent()
+    {
+        OnBallColorSwitch();
     }
     #endregion
 

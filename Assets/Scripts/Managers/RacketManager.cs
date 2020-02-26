@@ -11,6 +11,13 @@ public struct RacketMaterials
     public Material[] racketMaterial;
 }
 
+public enum RacketActionType
+{
+    NONE,
+    RACKETEMPOWERED,
+    BALLOPPOSITE
+}
+
 public class RacketManager : MonoBehaviour
 {
     #region Singleton
@@ -45,15 +52,63 @@ public class RacketManager : MonoBehaviour
     public AudioSource empoweredSound;
     private bool isPlaying = false;
 
+    private RacketActionType racketActionType;
+    private Action racketAction;
+
+    private int racketColorID;
+
     private void Awake()
     {
         instance = this;
 
         photonView = GetComponent<PhotonView>();
+
+        racketActionType = RacketActionType.NONE;
+        InitializeRacketAction(RacketActionType.RACKETEMPOWERED);
     }
 
-    #region Set Methods
+    public void RacketAction()
+    {
+        racketAction?.Invoke();
+    }
 
+    public void InitializeRacketAction(RacketActionType newRacketActionType)
+    {
+        TerminateRacketAction();
+
+        switch(newRacketActionType)
+        {
+            case RacketActionType.RACKETEMPOWERED:
+                racketAction = EmpoweredStateAction;
+                BallManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                break;
+            case RacketActionType.BALLOPPOSITE:
+                BallManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                break;
+            default:
+                break;
+        }
+
+        racketActionType = newRacketActionType;
+    }
+
+    public void TerminateRacketAction()
+    {
+        switch (racketActionType)
+        {
+            case RacketActionType.RACKETEMPOWERED:
+                racketAction = null;
+                BallManager.instance.OnBallColorSwitch -= SwitchRacketColor;
+                break;
+            case RacketActionType.BALLOPPOSITE:
+                BallManager.instance.OnBallColorSwitch -= SwitchRacketColor;
+                break;
+            default:
+                break;
+        }
+    }
+
+    #region Setter
     public void SetLocalRacket(GameObject localRacket)
     {
         localPlayerRacket = localRacket;
@@ -63,7 +118,7 @@ public class RacketManager : MonoBehaviour
         localRacketRenderer = localPlayerRacket.GetComponentInChildren<MeshRenderer>();
         LocalRacketPhysicInfo = localPlayerRacket.GetComponent<PhysicInfo>();
 
-        SetUpRacketColor();
+        SetUpRacketColor();                                                                                                     // A revoir!
     }
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
@@ -93,6 +148,22 @@ public class RacketManager : MonoBehaviour
     #endregion
 
     #region RacketColor
+    public void InitializeRacketColor()
+    {
+
+        if(racketActionType == RacketActionType.BALLOPPOSITE)
+        {
+            racketColorID = (BallManager.instance.GetBallColorID() + 1) % 2 + 1;
+            localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+            foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+        }
+        else 
+        {
+            racketColorID = BallManager.instance.GetBallColorID() + 1;
+            localRacketRenderer.sharedMaterials = racketMats[BallManager.instance.GetBallColorID() + 1].racketMaterial;
+            foreignRacketRenderer.sharedMaterials = racketMats[BallManager.instance.GetBallColorID() + 1].racketMaterial;
+        }
+    }
 
     void SetUpRacketColor()
     {
@@ -118,8 +189,6 @@ public class RacketManager : MonoBehaviour
                     break;
             }
         }
-
-        StartCoroutine(StartDelayRacketColor());
     }
 
     public void SwitchRacketColor()                                                                     //Rendre plus propre?
@@ -137,12 +206,12 @@ public class RacketManager : MonoBehaviour
 
     public void EndSwitchRacketColor()
     {
-        EndLocalSwitchColor();
+        SwitchLocalRacketColor();
 
         if (!GameManager.Instance.offlineMode)
         {
             if (foreignPlayerRacket)
-                photonView.RPC("EndForeignSwitchColor", RpcTarget.Others);
+                photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
             else
                 Debug.LogError("NullException : ForeignPlayerRacket not set");
         }
@@ -151,12 +220,13 @@ public class RacketManager : MonoBehaviour
     private void SwitchLocalRacketColor()
     {
         localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+        localRacketRenderer.sharedMaterials = racketMats[racketColorID % 2 + 1].racketMaterial;
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+        foreignRacketRenderer.sharedMaterials = racketMats[racketColorID % 2 + 1].racketMaterial;
     }
 
     void EndLocalSwitchColor()
@@ -169,11 +239,9 @@ public class RacketManager : MonoBehaviour
     {
         foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
     }
-
     #endregion
 
     #region HitEvent
-
     public void OnHitEvent(GameObject hitObject)                        // Faire Un vrai event?
     {
         StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
@@ -188,10 +256,17 @@ public class RacketManager : MonoBehaviour
         }
         Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
     }
-
     #endregion
 
     #region EmpoweredState Methods
+    private void EmpoweredStateAction()
+    {
+        if (isEmpowered)
+            ExitEmpoweredState();
+        else
+            EnterEmpoweredState();
+    }
+
     public void EnterEmpoweredState()
     {
         isEmpowered = true;
@@ -212,13 +287,5 @@ public class RacketManager : MonoBehaviour
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
     }
-
     #endregion
-
-    IEnumerator StartDelayRacketColor()
-    {
-        yield return new WaitForSeconds(0.01f); // Ceci est très sale ... BEURK !
-
-        EndLocalSwitchColor();
-    }
 }

@@ -13,6 +13,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     private List<RoomListing> _listings = new List<RoomListing>();
     public RoomCanvasGroup _roomsCanvases;
+    private RoomListing listing;
    
 
 
@@ -42,12 +43,12 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             else{
                 int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
                 if(index == -1){
-                    RoomListing listing = Instantiate(_roomListing, content);
+                    listing = Instantiate(_roomListing, content);
                     if (listing != null){
                         listing.SetRoomInfo(info);
                         _listings.Add(listing);
                         Debug.Log("hello2");
-                        SearchingRoom.instance.listWord.Add(_roomListing);
+                        SearchingRoom.instance.listWord.Add(listing);
                         
                     }   
                 }

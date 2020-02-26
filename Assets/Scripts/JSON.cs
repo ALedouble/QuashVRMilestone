@@ -99,26 +99,42 @@ public class JSON : MonoBehaviour
                 switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
                 {
                     case CompleteConditionType.Score:
-                        if (score < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        if (score > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                         {
-                            levelValue.bestScore = level.level.levelProgression.maxScore;
+                            if (score > level.level.levelProgression.maxScore)
+                                levelValue.bestScore = score;
+                            else
+                                levelValue.bestScore = level.level.levelProgression.maxScore;
                         }
                         else
-                            levelValue.bestScore = score;
+                            levelValue.bestScore = level.level.levelProgression.maxScore;
+
                         break;
 
                     case CompleteConditionType.Combo:
-                        if (combo < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
-                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                        if (combo > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        {
+                            if (combo > level.level.levelProgression.maxCombo)
+                                levelValue.bestCombo = combo;
+                            else
+                                levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                        }
                         else
-                            levelValue.bestCombo = combo;
+                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
+
                         break;
 
                     case CompleteConditionType.Timing:
                         if (time < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
-                            levelValue.bestTime = level.level.levelProgression.minTiming;
+                        {
+                            if (time < level.level.levelProgression.minTiming)
+                                levelValue.bestTime = time;
+                            else
+                                levelValue.bestTime = level.level.levelProgression.minTiming;
+                        }
                         else
-                            levelValue.bestTime = time;
+                            levelValue.bestTime = level.level.levelProgression.minTiming;
+
                         break;
                 }
             }
@@ -127,24 +143,42 @@ public class JSON : MonoBehaviour
                 switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
                 {
                     case CompleteConditionType.Score:
-                        if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < score)
-                            levelValue.bestScore = level.level.levelProgression.maxScore;
+                        if (score < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        {
+                            if (score > level.level.levelProgression.maxScore)
+                                levelValue.bestScore = score;
+                            else
+                                levelValue.bestScore = level.level.levelProgression.maxScore;
+                        }
                         else
-                            levelValue.bestScore = score;
+                            levelValue.bestScore = level.level.levelProgression.maxScore;
+
                         break;
 
                     case CompleteConditionType.Combo:
-                        if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < combo)
-                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                        if (combo < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        {
+                            if (combo > level.level.levelProgression.maxCombo)
+                                levelValue.bestCombo = combo;
+                            else
+                                levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                        }
                         else
-                            levelValue.bestCombo = combo;
+                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
+
                         break;
 
                     case CompleteConditionType.Timing:
-                        if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < score)
-                            levelValue.bestTime = level.level.levelProgression.minTiming;
+                        if (time > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        {
+                            if (time < level.level.levelProgression.minTiming)
+                                levelValue.bestTime = time;
+                            else
+                                levelValue.bestTime = level.level.levelProgression.minTiming;
+                        }
                         else
-                            levelValue.bestTime = time;
+                            levelValue.bestTime = level.level.levelProgression.minTiming;
+
                         break;
                 }
             }
@@ -182,7 +216,7 @@ public class JSON : MonoBehaviour
 
         for (int i = 0; i < levelsToSave.Count; i++)
         {
-            if(i != levelIndex)
+            if (i != levelIndex)
             {
                 newDATA.savedObjects.Add(new SavedValues());
 

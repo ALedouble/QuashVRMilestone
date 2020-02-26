@@ -12,7 +12,7 @@ public class Campaign : MonoBehaviour
 
     [Header("Panel")]
     public RectTransform CampaignPanel;
-    private List<LevelsScriptable> levelsImplemented;
+    [HideInInspector] public List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
     public int numberOfPanelPositions = 0;
@@ -51,6 +51,7 @@ public class Campaign : MonoBehaviour
     private void Start()
     {
         SetUpCampaign();
+        JSON.instance.SetUpDATAs();
     }
 
     private void Update()
@@ -89,6 +90,8 @@ public class Campaign : MonoBehaviour
             if (levelsToCheck[i].level.levelProgression.isImplemented)
             {
                 levelsImplemented.Add(levelsToCheck[i]);
+                levelsToCheck[i].level.levelProgression.LevelIndex = i;
+
                 CountingStars(levelsToCheck[i]);
             }
         }

@@ -14,7 +14,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     [HideInInspector]
     public TextMeshProUGUI _roomName;
     private RoomCanvasGroup roomCanvases;
-    public SearchingRoom searchingRoom;
     
     public Button buttonCreate;
 
@@ -23,7 +22,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     }
 
     private void Start() {
-        Debug.Log(searchingRoom);
     }
 
     public void FirstInitialize(RoomCanvasGroup canvases){
@@ -39,7 +37,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         PhotonNetwork.JoinOrCreateRoom(PhotonNetwork.NickName, options, TypedLobby.Default);
-       
         
     }
 

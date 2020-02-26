@@ -15,7 +15,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         Instance = this;
         photonView = GetComponent<PhotonView>();
         GetCurrentRoomPlayers();
-        Debug.Log(_listings);
     }
     #endregion
 
@@ -97,16 +96,12 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             if (listing != null){
                 listing.SetPlayerInfo(player);
                 _listings.Add(listing);
-            }
-        Debug.Log("hello");
-       
+            }    
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
-        Debug.Log("Hello");
        AddPlayerListing(newPlayer);
        checkCurrentRoom();
-       Debug.Log(_listings);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer){

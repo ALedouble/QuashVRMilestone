@@ -52,11 +52,13 @@ public class BallManager : MonoBehaviour
     {
         if (GameManager.Instance.offlineMode)
         {
-            Instantiate(ballPrefab, Vector3.zero, Quaternion.identity);
+            Debug.Log("Instanciate OfflineMode");
+            Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
         }
         else if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate(ballPrefab.name, Vector3.zero, Quaternion.identity);
+            Debug.Log("Instanciate MasterClient");
+            PhotonNetwork.Instantiate(ballPrefab.name, -Vector3.one, Quaternion.identity);
         }
     }
 
@@ -86,21 +88,30 @@ public class BallManager : MonoBehaviour
         TargetSelector = BallPhysicBehaviour.GetTargetSelector();
         BallInfo = Ball.GetComponent<BallInfo>();
         BallInfo.SetupBallInfo();                                                                               // A transformer en start
+
+        Debug.Log(BallColorBehaviour);
+        Debug.Log(BallPhysicBehaviour);
+        Debug.Log(BallPhysicInfo);
+        Debug.Log(TargetSelector);
+        Debug.Log(BallInfo);
     }
 
 
     public void BallBecomeInPlay()                                                                              //Check util?
     {
+        Debug.Log("BallBecomeInPlay");
         SetBallInPlay();
     }
 
     [PunRPC]
     private void SetBallInPlay()
     {
+        Debug.Log("SetBallInPlay");
         BallPhysicBehaviour.ApplyBaseGravity();
         BallColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
         StopCoroutine(floatCoroutine);
+        Debug.Log(floatCoroutine);
     }
 
     private void ResetBall()                                                                                        // ???
@@ -112,6 +123,7 @@ public class BallManager : MonoBehaviour
     public void BallFirstSpawn()
     {
         SpawnBallLocaly();
+        
         BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
 
         BallColorBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
@@ -130,6 +142,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SpawnBallLocaly()
     {
+        Debug.Log("SpawnBallLocaly");
         Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + spawnOffset;
         Ball.SetActive(true);
         BallColorBehaviour.DeactivateTrail();

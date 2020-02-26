@@ -52,21 +52,20 @@ public class GameManager : MonoBehaviour
         Instance = this;
         SetupOfflineMod();
         photonView = GetComponent<PhotonView>();
+        ReadyCheckDelegateQueue = new Queue<Action>();
     }
 
     void Start()
     {
-        if(offlineMode || PhotonNetwork.IsMasterClient)
-        {
-            InstantiatePlayers();
-            SpawnLevel();
+        InstantiatePlayers();
+        SpawnLevel();
 
+        if (offlineMode || PhotonNetwork.IsMasterClient)
+        {
             isReadyToContinue = true;
             ReadyCheck(InstanciateBall);
 
             ReadyCheck(StartBrickMovement);
-
-            ReadyCheck(BallFirstSpawn);
         }
     }
 
@@ -142,6 +141,7 @@ public class GameManager : MonoBehaviour
     
     private void InstanciateBall()
     {
+        Debug.Log("GameManager Instanciate ball");
         if(gameMod == GameMod.GAMEPLAY)
         {
             BallManager.instance.InstantiateBall();
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         IsBrickFreeToMove = true;
     }
 
-    private void BallFirstSpawn()
+    public void BallFirstSpawn()
     {
         BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
         BallManager.instance.BallFirstSpawn();
@@ -243,7 +243,7 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.StartLevelInitialization(selection);
     }
 
-    private void ReadyCheck(Action nextAction = null)
+    public void ReadyCheck(Action nextAction = null)
     {
         if (nextAction != null)
         {

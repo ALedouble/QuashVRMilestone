@@ -34,7 +34,7 @@ public class GUIHUDSolo : MonoBehaviour
 
     public void TimerConditionCompleted()
     {
-
+       
     }
 
 }

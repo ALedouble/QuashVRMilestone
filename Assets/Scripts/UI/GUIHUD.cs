@@ -9,6 +9,8 @@ public class GUIHUD : MonoBehaviour
     [Header("SOLO ONLY")]
     [SerializeField] GUIScoreConditionData scoreConditionData;
     [SerializeField] GameObject[] conditionParents;
+    [SerializeField] Animator timerFailedAnim;
+    [SerializeField] Animator scoreCompletedAnim;
 
     [Header("HUD References")]
     [SerializeField] GUIScoreData[] scoreDATAs;
@@ -112,5 +114,17 @@ public class GUIHUD : MonoBehaviour
         scoreScreenUICanvas.enabled = true;
     }
 
+    #region Anim Trigger Condition
+    // ---- Trigger des anims pour les conditions ---- //
+    public void TimerConditionFailed()
+    {
+        timerFailedAnim.Play("A_Timer_Condition_Failed");
+    }
+
+    public void ScoreConditionCompleted()
+    {
+        scoreCompletedAnim.Play("A_Score_Condition_Completed");
+    }
+    #endregion
 
 }

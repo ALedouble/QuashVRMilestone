@@ -30,6 +30,15 @@ public class CampaignLevel : MonoBehaviour
         levelSelected = levelIndex;
     }
 
+    public void SelectLevel(LevelsScriptable levelToPlay)
+    {
+        GUILevelFade.instance.FadeOut();
+
+        StartCoroutine(AnimFade());
+
+        levelScriptSelected = levelToPlay;
+    }
+
     IEnumerator AnimFade()
     {
         yield return new WaitForSeconds(1.5f);

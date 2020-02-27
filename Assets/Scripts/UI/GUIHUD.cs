@@ -6,8 +6,12 @@ using UnityEngine.EventSystems;
 
 public class GUIHUD : MonoBehaviour
 {
+    [Header("SOLO ONLY")]
+    [SerializeField] GUIScoreConditionData scoreConditionData;
+    [SerializeField] GameObject[] conditionParents;
+
     [Header("HUD References")]
-    [SerializeField] GUIScoreData[] scoreData;
+    [SerializeField] GUIScoreData[] scoreDATAs;
     [SerializeField] GUIComboData[] comboData;
     [SerializeField] GUIFillBarData fillBarData;
     [SerializeField] GUITimerData timerData;
@@ -38,7 +42,10 @@ public class GUIHUD : MonoBehaviour
     }
     #endregion
 
-    public GUIScoreData[] ScoreData { get => scoreData; }
+    public GUIScoreData[] ScoreDATAs { get => scoreDATAs; }
+    public GUIScoreConditionData ScoreConditionData { get => scoreConditionData; }
+    public GameObject[] ConditionParents { get => conditionParents; }
+
     public GUIComboData[] ComboData { get => comboData; }
     public GUIFillBarData FillBarData { get => fillBarData; }
     public GUITimerData TimerData { get => timerData; }
@@ -54,7 +61,7 @@ public class GUIHUD : MonoBehaviour
             scoreScreenHUD.SetActive(true);
 
             StartCoroutine(TimerUI());
-            
+
             animScoreScreen[i].Play("A_ScoreScreen_Appearing");
 
             scoreComboHUD[i].SetActive(false);
@@ -70,7 +77,7 @@ public class GUIHUD : MonoBehaviour
         if (!GameManager.Instance.HasLost)
         {
             // ------------------------- VICTORY ------------------------- //
-            if(scoreScreenFailed.Length > 1)
+            if (scoreScreenFailed.Length > 1)
             {
                 scoreScreenFailed[1].SetActive(true);
             }
@@ -104,4 +111,6 @@ public class GUIHUD : MonoBehaviour
 
         scoreScreenUICanvas.enabled = true;
     }
+
+
 }

@@ -24,6 +24,7 @@ public class ScoreManager : MonoBehaviour
     
 
     [HideInInspector] public GUIScoreData[] displayedScore;
+    private int conditionOrNot;
     [HideInInspector] public GUIComboData[] displayedCombo;
     [HideInInspector] public bool resetCombo = true;
     [HideInInspector] public PhotonView pV;
@@ -59,7 +60,7 @@ public class ScoreManager : MonoBehaviour
         displayedScore[playerID].UpdateText(textScore);
 
         //Trigger de l'anim
-        GUIScoreAnim.instance.PlayAnimScoreIncrease();
+        //GUIScoreAnim.instance.PlayAnimScoreIncrease();
     }
 
 

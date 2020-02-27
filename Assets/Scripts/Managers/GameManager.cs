@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
-            SelectionLevelMulti(CampaignLevel.Instance.levelSelected);
+            SelectionLevel(CampaignLevel.Instance.levelScriptSelected);
         }
         else
         {

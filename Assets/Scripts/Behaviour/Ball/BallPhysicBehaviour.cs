@@ -96,7 +96,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private List<Vector3> forcesToApply;
 
-
     private void Awake()
     {
         photonView = GetComponent<PhotonView>();
@@ -274,7 +273,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 rigidbody.velocity *= slowness;
                 lastVelocity = rigidbody.velocity;
             }
-            currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier;
 
             speedState = SpeedState.NORMAL;
         }
@@ -285,15 +283,31 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 rigidbody.velocity /= slowness;
                 lastVelocity = rigidbody.velocity;
             }
-            currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
 
             speedState = SpeedState.SLOW;
         }
+
+        UpdateCurrentGravity();
     }
 
     public void SetGlobalSpeedMultiplier(float newValue)
     {
         globalSpeedMultiplier = newValue;
+        rigidbody.velocity *= newValue;
+
+        UpdateCurrentGravity();
+    }
+
+    private void UpdateCurrentGravity()
+    {
+        if (speedState == SpeedState.NORMAL)
+        {
+            currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier;
+        }
+        else if (speedState == SpeedState.SLOW)
+        {
+            currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
+        }
     }
 
     #region RacketInteraction

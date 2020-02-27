@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
 
         foreach(SoundPool soundPool in soundPreset.soundPools)
         {
+            soundPool.Initialize();
             string soundTag = soundPool.soundPoolName;
             if (!soundDictionary.ContainsKey(soundTag))
             {

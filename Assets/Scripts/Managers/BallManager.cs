@@ -122,6 +122,7 @@ public class BallManager : MonoBehaviour
     #region Ball Manipulation
     public void BallFirstSpawn()
     {
+        Debug.Log("BallFirstSpawn SpawnBallLocally!");
         SpawnBallLocaly();
         
         BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);

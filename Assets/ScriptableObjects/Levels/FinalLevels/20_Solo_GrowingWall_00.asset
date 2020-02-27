@@ -24111,8 +24111,9 @@ MonoBehaviour:
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 807, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
+      levelPos: {x: 549, y: 6878}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -24126,9 +24127,9 @@ MonoBehaviour:
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: 
+      levelName: GrowingWall
       timeForThisLevel: 360
-      impactRadiusForThisLevel: 0.7
+      impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0

@@ -20789,15 +20789,15 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
+      numberOfAdditionalConditions: 1
       unlockConditions:
       - {fileID: 11400000, guid: cd9106b90196ae84783bb538d034444e, type: 2}
-      levelPos: {x: 303, y: 1752}
+      levelPos: {x: 289, y: 9764}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 10000
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0

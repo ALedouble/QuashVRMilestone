@@ -24639,14 +24639,15 @@ MonoBehaviour:
       LevelIndex: 21
       isDone: 0
       isUnlocked: 0
-      starsRequired: 0
+      starsRequired: 40
       isImplemented: 1
       maxScore: 0
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 807, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: abdd2610dcc696b4f884201e89df2b8b, type: 2}
+      levelPos: {x: 340, y: 6389}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0

@@ -10175,8 +10175,10 @@ MonoBehaviour:
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 807, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: 932ff6bba7df54a429f9f692d3930fe0, type: 2}
+      - {fileID: 11400000, guid: c6769193b942133469b8131c3c4e07ee, type: 2}
+      levelPos: {x: 356, y: 5294}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -10187,7 +10189,7 @@ MonoBehaviour:
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: 
+      levelName: Fire
       timeForThisLevel: 120
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1

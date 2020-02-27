@@ -27110,8 +27110,9 @@ MonoBehaviour:
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 807, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: 98f79eaf385d8aa40a2317b0762b5ea4, type: 2}
+      levelPos: {x: 332, y: 7121}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -27122,7 +27123,7 @@ MonoBehaviour:
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: Decompression
+      levelName: Timing
       timeForThisLevel: 200
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1

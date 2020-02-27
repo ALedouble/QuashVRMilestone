@@ -21502,8 +21502,9 @@ MonoBehaviour:
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 807, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: 624c602734c8afd48958713c5cbb69f2, type: 2}
+      levelPos: {x: 364, y: 7367}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -21514,7 +21515,7 @@ MonoBehaviour:
         conditionReachedAt: 0
       numberOfConditionCompleted: 0
     levelSpec:
-      levelName: Homogenous
+      levelName: Destruction
       timeForThisLevel: 270
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1

@@ -17073,15 +17073,15 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
+      numberOfAdditionalConditions: 1
       unlockConditions:
       - {fileID: 11400000, guid: abd0a0e442e31cd4dbfdf7f3d4c94d9b, type: 2}
-      levelPos: {x: 466, y: 1571}
+      levelPos: {x: 430, y: 9542}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 5000
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0

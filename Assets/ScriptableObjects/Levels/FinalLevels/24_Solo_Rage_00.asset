@@ -13488,8 +13488,9 @@ MonoBehaviour:
       maxCombo: 0
       minTiming: 0
       numberOfAdditionalConditions: 2
-      unlockConditions: []
-      levelPos: {x: 807, y: 529.5}
+      unlockConditions:
+      - {fileID: 11400000, guid: ab4b64dcbdb75264b97c395e51c3d866, type: 2}
+      levelPos: {x: 195, y: 5945}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0

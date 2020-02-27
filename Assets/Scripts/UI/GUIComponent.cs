@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GUIComponent : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textMesh;
-    Image image;
+    [SerializeField] Image image;
 
     public virtual void UpdateText(string newText)
     {

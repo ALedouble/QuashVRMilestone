@@ -12,6 +12,7 @@ public class GUIHUDSolo : MonoBehaviour
     [SerializeField] GUIScoreConditionData scoreConditionData;
     [SerializeField] GUIScoreData scoreData;
     [SerializeField] GUITimerData timerData;
+    [SerializeField] Animator timerAnim;
 
 
 
@@ -25,12 +26,9 @@ public class GUIHUDSolo : MonoBehaviour
         withoutCondition.SetActive(true);
     }
 
-
-
-
     public void TimerConditionCompleted()
     {
-       
+        timerAnim.Play("A_Timer_Condition_Failed");
     }
 
 }

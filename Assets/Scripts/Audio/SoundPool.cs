@@ -27,6 +27,8 @@ public class SoundPool
         audioSource.Play();
 
         lastPlayTime = Time.time;
+
+        Debug.Log("Sound from soundPool " + soundPoolName + " was played");
     }
 
     private void SetAudioSource(AudioSource source, Sound sound)

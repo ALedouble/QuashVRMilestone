@@ -37,6 +37,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public int numLevel;
 
     PhotonView photonView;
+    bool launchingGame = false;
 
 
     private void Start() {
@@ -114,10 +115,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public void OnClick_StartGame(){
-        if(PhotonNetwork.IsMasterClient && _listings.Count == 2){
+        if(PhotonNetwork.IsMasterClient && _listings.Count == 2 && !launchingGame){
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible= false;
             PhotonNetwork.LoadLevel(1);
+            launchingGame = true;
         }
     }
 

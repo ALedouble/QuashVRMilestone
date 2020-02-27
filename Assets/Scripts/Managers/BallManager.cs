@@ -311,7 +311,7 @@ public class BallManager : MonoBehaviour
 
     public void CallColorSwitchEvent()
     {
-        OnBallColorSwitch();
+        OnBallColorSwitch?.Invoke();
     }
     #endregion
 

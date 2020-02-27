@@ -17,7 +17,23 @@ MonoBehaviour:
     tag: 4
     cooldown: 1
     sounds:
-    - clip: {fileID: 8300000, guid: 07a081386b231d24586d02119734ff79, type: 3}
+    - clip: {fileID: 8300000, guid: f34a96239d4431a4d9bc8e9055bbcec1, type: 3}
+      defaultVolume: 0.5
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.5
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: fb061ce8fd534674896ea3eaf9b96287, type: 3}
+      defaultVolume: 0.5
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.5
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: c2b5fc0df982aa24781c5dbccf7c4505, type: 3}
       defaultVolume: 0.5
       pitch: 1
       loop: 0

@@ -38,8 +38,6 @@ public class BallManager : MonoBehaviour
     public BallInfo BallInfo { get; private set; }
     public ITargetSelector TargetSelector { get; private set; }
 
-    public event Action OnBallColorSwitch;
-
     private Coroutine floatCoroutine;
     private Coroutine resetCoroutine;
 
@@ -307,11 +305,6 @@ public class BallManager : MonoBehaviour
     public int GetSpawnColorID()
     {
         return spawnColorID;
-    }
-
-    public void CallColorSwitchEvent()
-    {
-        OnBallColorSwitch();
     }
     #endregion
 

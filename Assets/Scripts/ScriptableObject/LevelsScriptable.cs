@@ -61,7 +61,7 @@ public class LevelSpecifics
     public float impactRadiusForThisLevel;
     public float balleSpeedForThisLevel;
 
-    public ColorSwitchBehaviour switchColorBehaviourForThisLevel;
+    public ColorSwitchType switchColorBehaviourForThisLevel;
     public bool changingBrickColorEveryXseconds;
     public bool noWallsMode;
     public bool mandatoryBounce;
@@ -75,7 +75,7 @@ public class LevelSpecifics
         impactRadiusForThisLevel = 1.7f;
         balleSpeedForThisLevel = 1f;
 
-        switchColorBehaviourForThisLevel = ColorSwitchBehaviour.NORMAL;
+        switchColorBehaviourForThisLevel = ColorSwitchType.RACKETEMPOWERED;
         changingBrickColorEveryXseconds = false;
         noWallsMode = false;
         mandatoryBounce = false;

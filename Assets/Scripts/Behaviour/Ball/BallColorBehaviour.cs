@@ -234,7 +234,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         SwitchWallColors();
 
-        BallManager.instance.CallColorSwitchEvent();
+        BallEventManager.instance.SendBallColorSwitchEvent();
 
         //A passer sur l'event 
         if (RacketManager.instance.isEmpowered)

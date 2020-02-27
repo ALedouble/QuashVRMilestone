@@ -25,10 +25,4 @@ public class GUIHUDSolo : MonoBehaviour
     {
         withoutCondition.SetActive(true);
     }
-
-    public void TimerConditionCompleted()
-    {
-        timerAnim.Play("A_Timer_Condition_Failed");
-    }
-
 }

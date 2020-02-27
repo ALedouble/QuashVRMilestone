@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
-            SelectionLevelMulti(CampaignLevel.Instance.levelSelected);
+            SelectionLevel(CampaignLevel.Instance.levelScriptSelected);
         }
         else
         {
@@ -276,7 +276,7 @@ public class GameManager : MonoBehaviour
                     isReadyToContinue = false;
                     ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
                     ReadyCheckDelegate();                                                               // Is there too much latenty?
-                    photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);             // Replace par ReadyCheck
+                    photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);
                 }
             }
             else

@@ -88,7 +88,9 @@ public class RacketManager : MonoBehaviour
     public void EnableRackets(bool enabled)
     {
         localPlayerRacket?.SetActive(enabled);
-        foreignPlayerRacket?.SetActive(enabled);
+
+        if (!GameManager.Instance.offlineMode)
+            foreignPlayerRacket?.SetActive(enabled);
     }
     #endregion
 

@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8097297999276291536}
-  image: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!114 &8097297999276291536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,7 +859,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 2255650823610163089}
-  image: {fileID: 0}
 --- !u!114 &2255650823610163089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,7 +1029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 935279090043955792}
-  image: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!114 &935279090043955792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1723,7 +1722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 0}
-  image: {fileID: 7833658818775894712}
 --- !u!114 &7833658818775894712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,7 +1763,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 0}
-  image: {fileID: 7833658818775894712}
 --- !u!1 &7833658818783209793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,7 +1822,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 7833658818783209795}
-  image: {fileID: 0}
 --- !u!114 &7833658818783209795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,7 +1992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8253892447916832375}
-  image: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!114 &8253892447916832375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2470,7 +2466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8880644715775185722}
-  image: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!114 &8880644715775185722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2641,7 +2637,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8880644715982255571}
-  image: {fileID: 0}
 --- !u!114 &8880644715982255571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2959,9 +2954,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d3475c4ffd3b34aa9d5cda0f2c8d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreData:
+  scoreDATAs:
   - {fileID: 5626308260872081635}
   - {fileID: 111703124067299949}
+  scoreConditionData: {fileID: 0}
+  conditionParents: []
   comboData:
   - {fileID: 4414770118891975568}
   - {fileID: 8182457715341961349}
@@ -2989,6 +2986,8 @@ MonoBehaviour:
   layerCountHUD:
   - {fileID: 3828539812537256518}
   - {fileID: 252421106612962325}
+  scoreScreenHUD: {fileID: 0}
+  scoreScreenUICanvas: {fileID: 0}
   layerCountParent:
   - {fileID: 643228766083102123}
   - {fileID: 2270874360187700541}

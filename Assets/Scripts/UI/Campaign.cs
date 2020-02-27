@@ -12,12 +12,12 @@ public class Campaign : MonoBehaviour
 
     [Header("Panel")]
     public RectTransform CampaignPanel;
-    [HideInInspector] public List<LevelsScriptable> levelsImplemented;
+    public List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
     private int numberOfPanelPositions = 34;
     private float positionQuotient = 0;
-    private float[] panelPositions = new float[0];
+    [SerializeField] private float[] panelPositions = new float[0];
     private int panelIndex = -1;
     private float nextPanelPosition = 0;
     private float panelTop = 0.5f;
@@ -25,6 +25,7 @@ public class Campaign : MonoBehaviour
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
     private bool isMoving;
+    [Range(0.01f, 3f)]public float scrollingSpeed;
 
     private LevelsScriptable levelToPlay;
 
@@ -36,6 +37,8 @@ public class Campaign : MonoBehaviour
 
     [Header("Side Panel")]
     public GameObject sidePanel;
+
+    bool isLevelLaunch;
 
 
     public static Campaign instance;
@@ -51,7 +54,7 @@ public class Campaign : MonoBehaviour
     private void Start()
     {
         SetUpCampaign();
-        //JSON.instance.SetUpDATAs();
+        isLevelLaunch = false;
     }
 
     private void Update()
@@ -90,7 +93,7 @@ public class Campaign : MonoBehaviour
             if (levelsToCheck[i].level.levelProgression.isImplemented)
             {
                 levelsImplemented.Add(levelsToCheck[i]);
-                levelsToCheck[i].level.levelProgression.LevelIndex = i;
+                //levelsToCheck[i].level.levelProgression.LevelIndex = i;
 
                 CountingStars(levelsToCheck[i]);
             }
@@ -164,6 +167,10 @@ public class Campaign : MonoBehaviour
     private void ReorderCampaign()
     {
         levelsImplemented.Sort();
+        for (int i = 0; i < levelsImplemented.Count; i++)
+        {
+            levelsImplemented[i].level.levelProgression.LevelIndex = i;
+        }
     }
 
     /// <summary>
@@ -178,9 +185,9 @@ public class Campaign : MonoBehaviour
             if (levelsImplemented[i].level.levelProgression.isUnlocked)
             {
                 float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
-                Debug.Log("Level : " + levelsImplemented[i]);
-                Debug.Log("levelComparer : " + levelComparer);
-                Debug.Log("positionQuotient : " + positionQuotient);
+                //Debug.Log("Level : " + levelsImplemented[i]);
+                //Debug.Log("levelComparer : " + levelComparer);
+                //Debug.Log("positionQuotient : " + positionQuotient);
 
 
                 for (int y = numberOfPanelPositions; y > -1; y--)
@@ -190,12 +197,12 @@ public class Campaign : MonoBehaviour
 
                     if (levelComparer <= comparer)
                     {
-                        Debug.Log("panel position : " + comparer);
-                        Debug.Log("level position : " + levelComparer);
+                        //Debug.Log("panel position : " + comparer);
+                        //Debug.Log("level position : " + levelComparer);
 
                         int finalIndex = numberOfPanelPositions - (y + 1);
-                        Debug.Log("panel index : " + finalIndex);
-                        Debug.Log("y : " + y);
+                        //Debug.Log("panel index : " + finalIndex);
+                        //Debug.Log("y : " + y);
 
                         MoveCampaignPanelTo(finalIndex);
                         return;
@@ -216,6 +223,7 @@ public class Campaign : MonoBehaviour
         //Set Up the number of stars
         Check4ImplementedLevels();
 
+        JSON.instance.SetUpDATAs();
 
         //Set Up Graphic Elements
         for (int i = 0; i < levelsImplemented.Count; i++)
@@ -240,11 +248,6 @@ public class Campaign : MonoBehaviour
             LevelsScriptable lvl = levelsImplemented[i];
             level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
-
-
-            /////////////////////////////////////////////////////////////////////////////////////////// Uncomment when all levels are sets
-            //if (levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
-            //    levelsImplemented[i].level.levelProgression.isUnlocked = true;
 
             for (int y = 0; y < levelsImplemented[i].level.levelProgression.unlockConditions.Count; y++)
             {
@@ -289,6 +292,8 @@ public class Campaign : MonoBehaviour
 
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
+                    Debug.Log("LOCKED level : " + levelsImplemented[i]);
+
                     line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
                     level.button.interactable = false;
 
@@ -300,6 +305,7 @@ public class Campaign : MonoBehaviour
 
                     if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                     {
+                        Debug.Log("UNLEASH the level : " + levelsImplemented[i]);
                         levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
                         line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
@@ -314,6 +320,8 @@ public class Campaign : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("UNLOCKED level : " + levelsImplemented[i]);
+
                     line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
                     level.button.interactable = true;
 
@@ -468,14 +476,14 @@ public class Campaign : MonoBehaviour
                     switch (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionType)
                     {
                         case CompleteConditionType.Score:
-                            if (selectedLevel.level.levelProgression.maxScore < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (selectedLevel.level.levelProgression.maxScore > selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
                             break;
 
                         case CompleteConditionType.Combo:
-                            if (selectedLevel.level.levelProgression.maxCombo < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (selectedLevel.level.levelProgression.maxCombo > selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
@@ -494,14 +502,14 @@ public class Campaign : MonoBehaviour
                     switch (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionType)
                     {
                         case CompleteConditionType.Score:
-                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.maxScore)
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt > selectedLevel.level.levelProgression.maxScore)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
                             break;
 
                         case CompleteConditionType.Combo:
-                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.maxCombo)
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt > selectedLevel.level.levelProgression.maxCombo)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
@@ -534,14 +542,17 @@ public class Campaign : MonoBehaviour
 
     public void PlayLevel()
     {
-        if (levelToPlay == null)
+        if (levelToPlay == null || isLevelLaunch)
         {
             Debug.LogError("NO LEVEL SELECTED");
             return;
         }
 
-        int indexOfLevel = levelsImplemented.IndexOf(levelToPlay);
-        CampaignLevel.Instance.SelectLevel(indexOfLevel);
+        isLevelLaunch = true;
+
+        int indexOfLevel = levelToPlay.level.levelProgression.LevelIndex;
+        Debug.Log(indexOfLevel + " level name : " + levelToPlay);
+        CampaignLevel.Instance.SelectLevel(levelToPlay);
     }
 
     private void MovingPanel()
@@ -554,7 +565,7 @@ public class Campaign : MonoBehaviour
 
         //Moving panel
         CampaignPanel.anchoredPosition3D = Vector3.MoveTowards(CampaignPanel.anchoredPosition3D,
-            new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), 0.1f);
+            new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), scrollingSpeed);
     }
 
     /// <summary>

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class GUIScoreData : GUIComponent
 {
+    public GUIScoreAnim anim;
+
+
     public override void UpdateText(string newText)
     {
         base.UpdateText(newText);
+        anim.PlayAnimScoreIncrease();
     }
 }

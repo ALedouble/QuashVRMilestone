@@ -166,7 +166,9 @@ public class LevelManager : MonoBehaviour
         playersShakers = new Shakers[numberOfPlayers];
         playersUIlayers = new UIlayers[numberOfPlayers];
         firstSetUpDone = new bool[numberOfPlayers];
+
         ScoreManager.Instance.displayedScore = new GUIScoreData[numberOfPlayers];
+
         ScoreManager.Instance.displayedCombo = new GUIComboData[numberOfPlayers];
         ScoreManager.Instance.score = new float[numberOfPlayers];
         ScoreManager.Instance.combo = new int[numberOfPlayers];
@@ -201,7 +203,41 @@ public class LevelManager : MonoBehaviour
             trans.name = "Wall_Of_Player_" + i;
             levelTrans[i] = trans.transform;
 
-            ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreData[i];
+            //SOLO ONLY
+            if (i == 0 && GameManager.Instance.offlineMode)
+            {
+                ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
+
+                int length = currentLevel.level.levelProgression.conditionsToComplete.Length;
+
+                if (length > 0)
+                {
+                    bool isScoreType = false;
+
+                    for (int y = 0; y < length; y++)
+                    {
+                        if (currentLevel.level.levelProgression.conditionsToComplete[y].conditionType == CompleteConditionType.Score && !isScoreType)
+                        {
+                            ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i + 1];
+                            playersHUD.ConditionParents[1].SetActive(true);
+
+                            string conditionScore = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt.ToString();
+                            playersHUD.ScoreConditionData.UpdateText(conditionScore);
+                            isScoreType = true;
+
+                            Debug.Log("SCORE CONDITION score HUD!");
+                        }
+                    }
+
+                    if (!isScoreType)
+                        playersHUD.ConditionParents[0].SetActive(true);
+                }
+            }
+            else
+            {
+                ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
+            }
+
             ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];
             ScoreManager.Instance.combo[i] = 1;
             ScoreManager.Instance.playersMaxCombo[i] = 1;
@@ -402,7 +438,8 @@ public class LevelManager : MonoBehaviour
     /// <param name="selectedLevel"></param>
     public void ConfigDistribution(LevelsScriptable selectedLevel)
     {
-        currentLevelConfig = selectedLevel.level;
+        currentLevel = selectedLevel;
+        currentLevelConfig = currentLevel.level;
         BrickManager.Instance.levelWallsConfig = selectedLevel.level.levelWallBuilds;
     }
 
@@ -424,6 +461,9 @@ public class LevelManager : MonoBehaviour
 
         BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
     }
+
+
+
 
     [System.Serializable]
     public struct Parenting

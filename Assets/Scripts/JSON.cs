@@ -10,7 +10,7 @@ public class JSON : MonoBehaviour
 {
     public static JSON instance;
 
-    List<LevelsScriptable> levelsToSave;
+    [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
 
 
     [System.Serializable]
@@ -89,9 +89,24 @@ public class JSON : MonoBehaviour
     /// <param name="time">Player Time</param>
     public void SubmitDATA(LevelsScriptable level, int score, int combo, int time)
     {
-        SavedValues levelValue = new SavedValues { unlock = true, done = true ,
-            bestCombo = level.level.levelProgression.maxCombo, bestScore = level.level.levelProgression.maxScore, bestTime = level.level.levelProgression.minTiming };
+        Debug.Log("Submiting DATA");
+        SavedValues levelValue = new SavedValues
+        {
+            unlock = true,
+            done = true,
+            bestCombo = level.level.levelProgression.maxCombo,
+            bestScore = level.level.levelProgression.maxScore,
+            bestTime = level.level.levelProgression.minTiming
+        };
 
+        bool isThereComboCondition = false;
+        bool isThereScoreCondition = false;
+        bool isThereTimeCondition = false;
+
+
+        Debug.Log("score : " + score);
+        Debug.Log("combo : " + combo);
+        Debug.Log("time : " + time);
 
         for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
         {
@@ -100,6 +115,7 @@ public class JSON : MonoBehaviour
                 switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
                 {
                     case CompleteConditionType.Score:
+                        Debug.Log("Checking Score");
                         if (score > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                         {
                             if (score > level.level.levelProgression.maxScore)
@@ -110,6 +126,7 @@ public class JSON : MonoBehaviour
                         else
                             levelValue.bestScore = level.level.levelProgression.maxScore;
 
+                        isThereScoreCondition = true;
                         break;
 
                     case CompleteConditionType.Combo:
@@ -123,6 +140,7 @@ public class JSON : MonoBehaviour
                         else
                             levelValue.bestCombo = level.level.levelProgression.maxCombo;
 
+                        isThereComboCondition = true;
                         break;
 
                     case CompleteConditionType.Timing:
@@ -136,6 +154,7 @@ public class JSON : MonoBehaviour
                         else
                             levelValue.bestTime = level.level.levelProgression.minTiming;
 
+                        isThereTimeCondition = true;
                         break;
                 }
             }
@@ -154,6 +173,7 @@ public class JSON : MonoBehaviour
                         else
                             levelValue.bestScore = level.level.levelProgression.maxScore;
 
+                        isThereScoreCondition = true;
                         break;
 
                     case CompleteConditionType.Combo:
@@ -167,6 +187,7 @@ public class JSON : MonoBehaviour
                         else
                             levelValue.bestCombo = level.level.levelProgression.maxCombo;
 
+                        isThereComboCondition = true;
                         break;
 
                     case CompleteConditionType.Timing:
@@ -180,10 +201,51 @@ public class JSON : MonoBehaviour
                         else
                             levelValue.bestTime = level.level.levelProgression.minTiming;
 
+                        isThereTimeCondition = true;
                         break;
                 }
             }
         }
+
+        Debug.Log("isThereComboCondition : " + isThereComboCondition);
+        Debug.Log("isThereScoreCondition : " + isThereScoreCondition);
+        Debug.Log("isThereTimeCondition : " + isThereTimeCondition);
+
+        if (!isThereComboCondition)
+        {
+            Debug.Log("NO COMBO CONDITION");
+
+            if (combo > level.level.levelProgression.maxCombo)
+                levelValue.bestCombo = combo;
+            else
+                levelValue.bestCombo = level.level.levelProgression.maxCombo;
+        }
+
+        if (!isThereScoreCondition)
+        {
+            Debug.Log("NO TIME CONDITION");
+
+            if (time < level.level.levelProgression.minTiming)
+                levelValue.bestTime = time;
+            else
+                levelValue.bestTime = level.level.levelProgression.minTiming;
+        }
+
+        if (!isThereTimeCondition)
+        {
+            Debug.Log("NO SCORE CONDITION");
+
+            if (score > level.level.levelProgression.maxScore)
+                levelValue.bestScore = score;
+            else
+                levelValue.bestScore = level.level.levelProgression.maxScore;
+        }
+
+        Debug.Log("levelValue.bestTime : " + levelValue.bestTime);
+        Debug.Log("levelValue.bestCombo : " + levelValue.bestCombo);
+        Debug.Log("levelValue.bestScore : " + levelValue.bestScore);
+        Debug.Log("levelValue.unlock : " + levelValue.unlock);
+        Debug.Log("levelValue.done : " + levelValue.done);
 
         SaveLevelDATA(levelValue, level.level.levelProgression.LevelIndex);
     }
@@ -224,26 +286,14 @@ public class JSON : MonoBehaviour
                 newDATA.savedObjects[i].unlock = loadDATA.savedObjects[i].unlock;
                 newDATA.savedObjects[i].done = loadDATA.savedObjects[i].unlock;
 
-                //Check BEST score
-                if (loadDATA.savedObjects[i].bestScore > loadDATA.savedObjects[i].bestScore)
-                    newDATA.savedObjects[i].bestScore = loadDATA.savedObjects[i].bestScore;
-                else
-                    newDATA.savedObjects[i].bestScore = loadDATA.savedObjects[i].bestScore;
-
-                //Check BEST Combo
-                if (loadDATA.savedObjects[i].bestCombo > loadDATA.savedObjects[i].bestCombo)
-                    newDATA.savedObjects[i].bestCombo = loadDATA.savedObjects[i].bestCombo;
-                else
-                    newDATA.savedObjects[i].bestCombo = loadDATA.savedObjects[i].bestCombo;
-
-                //Check BEST Time
-                if (loadDATA.savedObjects[i].bestTime < loadDATA.savedObjects[i].bestTime)
-                    newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
-                else
-                    newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
+                newDATA.savedObjects[i].bestScore = loadDATA.savedObjects[i].bestScore;
+                newDATA.savedObjects[i].bestCombo = loadDATA.savedObjects[i].bestCombo;
+                newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
             }
             else
             {
+                Debug.Log("Data is Saved for level : " + levelsToSave[i]);
+                newDATA.savedObjects.Add(new SavedValues());
                 newDATA.savedObjects[i] = levelValues;
             }
         }
@@ -269,28 +319,35 @@ public class JSON : MonoBehaviour
         SavedObject newDATA = new SavedObject() { };
 
 
-        //DATA presented
+        //Reset DATAs
         if (presentedDATA == null)
         {
+            Debug.Log("RESET DATA");
             presentedDATA = new SavedObject() { };
 
             for (int i = 0; i < levelsToSave.Count; i++)
             {
                 presentedDATA.savedObjects.Add(new SavedValues());
+                if (i == levelsToSave.Count - 1)
+                    presentedDATA.savedObjects[i].unlock = true;
+                else
+                    presentedDATA.savedObjects[i].unlock = false;
 
-                presentedDATA.savedObjects[i].unlock = levelsToSave[i].level.levelProgression.isUnlocked;
-                presentedDATA.savedObjects[i].done = levelsToSave[i].level.levelProgression.isDone;
+                presentedDATA.savedObjects[i].done = false;
 
-                presentedDATA.savedObjects[i].bestScore = levelsToSave[i].level.levelProgression.maxScore;
-                presentedDATA.savedObjects[i].bestCombo = levelsToSave[i].level.levelProgression.maxCombo;
-                presentedDATA.savedObjects[i].bestTime = levelsToSave[i].level.levelProgression.minTiming;
+                presentedDATA.savedObjects[i].bestScore = 0;
+                presentedDATA.savedObjects[i].bestCombo = 0;
+                presentedDATA.savedObjects[i].bestTime = (int)levelsToSave[i].level.levelSpec.timeForThisLevel;
             }
         }
 
+        string json = "";
 
         //If there's already DATA on file
         if (File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
         {
+            Debug.Log("DATA IS HERE");
+
             string loadString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
             SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
 
@@ -319,31 +376,15 @@ public class JSON : MonoBehaviour
                 else
                     newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
             }
+
+            json = JsonUtility.ToJson(newDATA);
         }
         else //NO DATA on file
         {
-            for (int i = 0; i < levelsToSave.Count; i++)
-            {
-                newDATA.savedObjects.Add(new SavedValues());
+            Debug.Log("NO DATA");
 
-                newDATA.savedObjects[i].unlock = presentedDATA.savedObjects[i].unlock;
-                newDATA.savedObjects[i].done = presentedDATA.savedObjects[i].unlock;
-
-                //Check BEST score
-                if (presentedDATA.savedObjects[i].bestScore > newDATA.savedObjects[i].bestScore)
-                    newDATA.savedObjects[i].bestScore = presentedDATA.savedObjects[i].bestScore;
-
-                //Check BEST Combo
-                if (presentedDATA.savedObjects[i].bestCombo > newDATA.savedObjects[i].bestCombo)
-                    newDATA.savedObjects[i].bestCombo = presentedDATA.savedObjects[i].bestCombo;
-
-                //Check BEST Time
-                if (presentedDATA.savedObjects[i].bestTime < newDATA.savedObjects[i].bestTime)
-                    newDATA.savedObjects[i].bestTime = presentedDATA.savedObjects[i].bestTime;
-            }
+            json = JsonUtility.ToJson(presentedDATA);
         }
-
-        string json = JsonUtility.ToJson(newDATA);
 
         File.WriteAllText(Application.persistentDataPath + "/SavedByTheQuash", json);
     }
@@ -374,6 +415,8 @@ public class JSON : MonoBehaviour
     {
         if (!File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
             return;
+
+        Debug.Log("LOADING DATAS");
 
         string savedString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);

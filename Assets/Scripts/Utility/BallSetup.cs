@@ -9,6 +9,9 @@ public class BallSetup : MonoBehaviour
     {
         Debug.Log("BallSetup");
         BallManager.instance.SetupBall(gameObject);
-        GameManager.Instance.ReadyCheck(GameManager.Instance.BallFirstSpawn);
+        if (GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)
+            GameManager.Instance.ReadyCheck(GameManager.Instance.BallFirstSpawn);
+        else
+            GameManager.Instance.SendResumeRPC();
     }
 }

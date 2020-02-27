@@ -261,27 +261,29 @@ public class GameManager : MonoBehaviour
         }
 
         Action ReadyCheckDelegate;
-
-        if (offlineMode && ReadyCheckDelegateQueue.Count > 0)
+        if(ReadyCheckDelegateQueue.Count > 0)
         {
-            ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
-            ReadyCheckDelegate();
-        }
-        else if (PhotonNetwork.IsMasterClient)
-        {
-            if (isReadyToContinue && ReadyCheckDelegateQueue.Count > 0)
+            if (offlineMode)
             {
-                isReadyToContinue = false;
                 ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
-                ReadyCheckDelegate();                                                               // Is there too much latenty?
-                photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);             // Replace par ReadyCheck
+                ReadyCheckDelegate();
             }
-        }
-        else
-        {
-            ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
-            ReadyCheckDelegate();
-            photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
+            else if (PhotonNetwork.IsMasterClient)
+            {
+                if (isReadyToContinue)
+                {
+                    isReadyToContinue = false;
+                    ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
+                    ReadyCheckDelegate();                                                               // Is there too much latenty?
+                    photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);             // Replace par ReadyCheck
+                }
+            }
+            else
+            {
+                ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
+                ReadyCheckDelegate();
+                photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
+            }
         }
     }
 
@@ -300,5 +302,10 @@ public class GameManager : MonoBehaviour
             ReadyCheck((Action)Delegate.CreateDelegate(typeof(Action), this, methodInfo));
         else
             Debug.LogError("GameManager.ReadyCheck(string) : method " + methodName + " doesn't exist!");
+    }
+
+    public void SendResumeRPC()
+    {
+        photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
     }
 }

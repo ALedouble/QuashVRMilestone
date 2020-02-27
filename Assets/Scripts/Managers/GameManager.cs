@@ -194,12 +194,14 @@ public class GameManager : MonoBehaviour
         TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
         TimeManager.Instance.StopTimer();
 
+        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+
         LevelManager.instance.playersHUD.EnableScoreScreen();
 
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();
 
-        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+        
 
         //If the player who WINS is ALONE
         if(!HasLost && offlineMode)
@@ -250,6 +252,7 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.StartLevelInitialization(selection);
     }
 
+    [PunRPC]
     public void ReadyCheck(Action nextAction = null)
     {
         if (nextAction != null)
@@ -273,24 +276,23 @@ public class GameManager : MonoBehaviour
                 ReadyCheckDelegate();                                                               // Is there too much latenty?
                 photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);             // Replace par ReadyCheck
             }
-            else if (!isReadyToContinue)
-            {
-                isReadyToContinue = true;
-                ReadyCheck();
-            }
-            else
-            {
-                Debug.LogError("GameManager.ReadyCheck : Unexpected behaviour!");
-            }
         }
         else
         {
             ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
             ReadyCheckDelegate();
-            photonView.RPC("ReadyCheck", RpcTarget.MasterClient);
+            photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
         }
     }
 
+    [PunRPC]
+    public void ResumeReadyCheck()
+    {
+        isReadyToContinue = true;
+        ReadyCheck();
+    }
+
+    [PunRPC]
     private void ReadyCheck(string methodName)
     {
         MethodInfo methodInfo = this.GetType().GetMethod(methodName);

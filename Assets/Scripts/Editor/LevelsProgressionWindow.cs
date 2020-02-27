@@ -18,12 +18,12 @@ public class LevelsProgressionWindow : EditorWindow
     Vector2 levelsScrollPos;
     Vector2 windowSpacePos;
 
-    Vector2 windowSize = new Vector2(300, 1000);
+    Vector2 windowSize = new Vector2(300, 4000);
 
     Vector2 boxPos;
     Vector2 boxSize;
 
-    Vector2 treeDelimitation = new Vector2(300, 1000);
+    Vector2 treeDelimitation = new Vector2(300, 4000);
 
     Vector2 buttonSize = new Vector2(50, 50);
     bool isHoldingLevel;
@@ -58,8 +58,8 @@ public class LevelsProgressionWindow : EditorWindow
         InitLevelProgression();
         InitStyles();
 
-        treeDelimitation = new Vector2(600, 2000);
-        windowSize = new Vector2(600, 2000);
+        treeDelimitation = new Vector2(600, 10000);
+        windowSize = new Vector2(600, 10000);
     }
 
 
@@ -150,39 +150,51 @@ public class LevelsProgressionWindow : EditorWindow
                 currentLevel.level.levelProgression.buttonName);
 
             //Is the level unlocked ?
-            currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(90, 15)),
-                currentLevel.level.levelProgression.isUnlocked, " Unlocked ? ");
+            //currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(90, 15)),
+            //    currentLevel.level.levelProgression.isUnlocked, " Unlocked ? ");
+
+            currentLevel.level.levelProgression.numberOfAdditionalConditions = (int)EditorGUI.Slider(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(15, 15)),
+                currentLevel.level.levelProgression.numberOfAdditionalConditions, 0, 2);
+
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 15, position.height - boxSize.y + 45), new Vector2(135, 15)), "Additional Condition(s)");
 
             //Conditions needed to be unlocked
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 120, position.height - boxSize.y + 45), new Vector2(100, 15)), "Required STARS");
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 180, position.height - boxSize.y + 45), new Vector2(50, 15)), "STARS");
 
-            currentLevel.level.levelProgression.starsRequired = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 220, position.height - boxSize.y + 45), new Vector2(38, 15)),
+            currentLevel.level.levelProgression.starsRequired = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 225, position.height - boxSize.y + 45), new Vector2(30, 15)),
                 currentLevel.level.levelProgression.starsRequired);
 
+            if (currentLevel.level.levelProgression.numberOfAdditionalConditions > 0)
+            {
+                //1nd condition
+                currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator =
+                    (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 65), new Vector2(50, 15)),
+                    currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator);
+                currentLevel.level.levelProgression.conditionsToComplete[0].conditionType =
+                    (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 65), new Vector2(200, 15)),
+                    currentLevel.level.levelProgression.conditionsToComplete[0].conditionType);
 
-            //1nd condition
-            currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator =
-                (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 65), new Vector2(50, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator);
-            currentLevel.level.levelProgression.conditionsToComplete[0].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 65), new Vector2(200, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[0].conditionType);
+                currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt =
+                    EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 80), new Vector2(250, 15)),
+                    currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt);
+            }
 
-            currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt =
-                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 80), new Vector2(250, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt);
 
-            //2nd condition
-            currentLevel.level.levelProgression.conditionsToComplete[1].conditionComparator =
-                (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 100), new Vector2(50, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[1].conditionComparator);
-            currentLevel.level.levelProgression.conditionsToComplete[1].conditionType =
-                (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 100), new Vector2(200, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[1].conditionType);
+            if (currentLevel.level.levelProgression.numberOfAdditionalConditions > 1)
+            {
+                //2nd condition
+                currentLevel.level.levelProgression.conditionsToComplete[1].conditionComparator =
+                    (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 100), new Vector2(50, 15)),
+                    currentLevel.level.levelProgression.conditionsToComplete[1].conditionComparator);
+                currentLevel.level.levelProgression.conditionsToComplete[1].conditionType =
+                    (CompleteConditionType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 100), new Vector2(200, 15)),
+                    currentLevel.level.levelProgression.conditionsToComplete[1].conditionType);
 
-            currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt =
-                EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 115), new Vector2(250, 15)),
-                currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt);
+                currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt =
+                    EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 115), new Vector2(250, 15)),
+                    currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt);
+            }
+
 
 
             ///Level Specifics (exotic rules)
@@ -192,9 +204,11 @@ public class LevelsProgressionWindow : EditorWindow
             currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + 135), new Vector2(100, 15)),
                             currentLevel.level.levelSpec.mandatoryBounce, " Bounce Mode");
 
-            currentLevel.level.levelSpec.changingBrickColorEveryXseconds = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 155), new Vector2(170, 15)),
-                currentLevel.level.levelSpec.changingBrickColorEveryXseconds, " Brick Color Change Mode");
+            currentLevel.level.levelSpec.suddenDeath = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 155), new Vector2(110, 15)),
+                currentLevel.level.levelSpec.suddenDeath, " Sudden Death");
 
+            currentLevel.level.levelSpec.timeAttack = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + 155), new Vector2(170, 15)),
+               currentLevel.level.levelSpec.timeAttack, " Time Attack");
 
             GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 175), new Vector2(130, 15)), "Switch Behaviour");
 

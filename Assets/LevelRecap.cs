@@ -17,7 +17,7 @@ public class LevelRecap : MonoBehaviour
     public TextMeshProUGUI[] conditionReachedAt;
     public TextMeshProUGUI levelCondition;
 
-    public SpriteRenderer[] stars;
+    public Image[] stars;
 
     public Button playButton;
 }

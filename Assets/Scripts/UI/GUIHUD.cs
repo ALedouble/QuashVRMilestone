@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GUIHUD : MonoBehaviour
 {
@@ -21,6 +23,9 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject[] scoreComboHUD;
     [SerializeField] GameObject timerHUD;
     [SerializeField] GameObject[] layerCountHUD;
+    [SerializeField] GameObject scoreScreenHUD;
+
+    [SerializeField] VRTK.VRTK_UICanvas scoreScreenUICanvas;
 
     public Transform[] layerCountParent;
 
@@ -46,6 +51,10 @@ public class GUIHUD : MonoBehaviour
     {
         for (int i = 0; i < animScoreScreen.Length; i++)
         {
+            scoreScreenHUD.SetActive(true);
+
+            StartCoroutine(TimerUI());
+            
             animScoreScreen[i].Play("A_ScoreScreen_Appearing");
 
             scoreComboHUD[i].SetActive(false);
@@ -53,6 +62,7 @@ public class GUIHUD : MonoBehaviour
 
             maxComboData[i].UpdateText(ScoreManager.Instance.playersMaxCombo[i].ToString());
             maxScoreData[i].UpdateText(ScoreManager.Instance.score[i].ToString());
+
         }
 
         timerHUD.SetActive(false);
@@ -84,5 +94,14 @@ public class GUIHUD : MonoBehaviour
         }
 
 
+    }
+
+
+    // ---- C'EST DEGEULASSE ----- // (mais ça marche)
+    IEnumerator TimerUI()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        scoreScreenUICanvas.enabled = true;
     }
 }

@@ -62,7 +62,8 @@ public class LevelSpecifics
     public float balleSpeedForThisLevel;
 
     public ColorSwitchBehaviour switchColorBehaviourForThisLevel;
-    public bool changingBrickColorEveryXseconds;
+    public bool suddenDeath;
+    public bool timeAttack;
     public bool noWallsMode;
     public bool mandatoryBounce;
     public AudioClip musicForThisLevel;
@@ -76,7 +77,7 @@ public class LevelSpecifics
         balleSpeedForThisLevel = 1f;
 
         switchColorBehaviourForThisLevel = ColorSwitchBehaviour.NORMAL;
-        changingBrickColorEveryXseconds = false;
+        suddenDeath = false;
         noWallsMode = false;
         mandatoryBounce = false;
         musicForThisLevel = null;

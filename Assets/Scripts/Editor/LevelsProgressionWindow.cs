@@ -731,7 +731,7 @@ public class LevelsProgressionWindow : EditorWindow
             if (!levelToCheck.level.levelProgression.unlockConditions[i].level.levelProgression.isDone)
                 return false;
             else
-                totalStars += levelToCheck.level.levelProgression.unlockConditions[i].level.levelProgression.numberOfConditionCompleted;
+                totalStars += levelToCheck.level.levelProgression.unlockConditions[i].level.levelProgression.numberOfAdditionalConditions;
         }
 
         //Et si le nombre d'étoile nécéssaire pour son déblocage a été atteint

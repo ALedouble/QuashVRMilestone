@@ -101,14 +101,13 @@ public class ProgressionSettings
     public int maxCombo;
     public int minTiming;
 
-    public int numberOfAdditionalConditions;
     public List<LevelsScriptable> unlockConditions;
 
     public Vector2 levelPos;
     public int levelID;
 
     public LevelConditions[] conditionsToComplete;
-    public int numberOfConditionCompleted;
+    public int numberOfAdditionalConditions;
 
     public ProgressionSettings()
     {
@@ -121,7 +120,7 @@ public class ProgressionSettings
 
         unlockConditions = new List<LevelsScriptable>();
 
-        numberOfAdditionalConditions = 2;
+        numberOfAdditionalConditions = 0;
         conditionsToComplete = new LevelConditions[numberOfAdditionalConditions];
     }
 }

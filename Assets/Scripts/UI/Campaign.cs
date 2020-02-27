@@ -12,12 +12,12 @@ public class Campaign : MonoBehaviour
 
     [Header("Panel")]
     public RectTransform CampaignPanel;
-    [HideInInspector] public List<LevelsScriptable> levelsImplemented;
+    public List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
 
     private int numberOfPanelPositions = 34;
     private float positionQuotient = 0;
-    private float[] panelPositions = new float[0];
+    [SerializeField] private float[] panelPositions = new float[0];
     private int panelIndex = -1;
     private float nextPanelPosition = 0;
     private float panelTop = 0.5f;
@@ -25,6 +25,7 @@ public class Campaign : MonoBehaviour
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
     private bool isMoving;
+    [Range(0.01f, 3f)]public float scrollingSpeed;
 
     private LevelsScriptable levelToPlay;
 
@@ -36,6 +37,8 @@ public class Campaign : MonoBehaviour
 
     [Header("Side Panel")]
     public GameObject sidePanel;
+
+    bool isLevelLaunch;
 
 
     public static Campaign instance;
@@ -51,7 +54,8 @@ public class Campaign : MonoBehaviour
     private void Start()
     {
         SetUpCampaign();
-        //JSON.instance.SetUpDATAs();
+        isLevelLaunch = false;
+        JSON.instance.SetUpDATAs();
     }
 
     private void Update()
@@ -90,7 +94,7 @@ public class Campaign : MonoBehaviour
             if (levelsToCheck[i].level.levelProgression.isImplemented)
             {
                 levelsImplemented.Add(levelsToCheck[i]);
-                levelsToCheck[i].level.levelProgression.LevelIndex = i;
+                //levelsToCheck[i].level.levelProgression.LevelIndex = i;
 
                 CountingStars(levelsToCheck[i]);
             }
@@ -164,6 +168,10 @@ public class Campaign : MonoBehaviour
     private void ReorderCampaign()
     {
         levelsImplemented.Sort();
+        for (int i = 0; i < levelsImplemented.Count; i++)
+        {
+            levelsImplemented[i].level.levelProgression.LevelIndex = i;
+        }
     }
 
     /// <summary>
@@ -178,9 +186,9 @@ public class Campaign : MonoBehaviour
             if (levelsImplemented[i].level.levelProgression.isUnlocked)
             {
                 float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
-                Debug.Log("Level : " + levelsImplemented[i]);
-                Debug.Log("levelComparer : " + levelComparer);
-                Debug.Log("positionQuotient : " + positionQuotient);
+                //Debug.Log("Level : " + levelsImplemented[i]);
+                //Debug.Log("levelComparer : " + levelComparer);
+                //Debug.Log("positionQuotient : " + positionQuotient);
 
 
                 for (int y = numberOfPanelPositions; y > -1; y--)
@@ -190,12 +198,12 @@ public class Campaign : MonoBehaviour
 
                     if (levelComparer <= comparer)
                     {
-                        Debug.Log("panel position : " + comparer);
-                        Debug.Log("level position : " + levelComparer);
+                        //Debug.Log("panel position : " + comparer);
+                        //Debug.Log("level position : " + levelComparer);
 
                         int finalIndex = numberOfPanelPositions - (y + 1);
-                        Debug.Log("panel index : " + finalIndex);
-                        Debug.Log("y : " + y);
+                        //Debug.Log("panel index : " + finalIndex);
+                        //Debug.Log("y : " + y);
 
                         MoveCampaignPanelTo(finalIndex);
                         return;
@@ -534,14 +542,17 @@ public class Campaign : MonoBehaviour
 
     public void PlayLevel()
     {
-        if (levelToPlay == null)
+        if (levelToPlay == null || isLevelLaunch)
         {
             Debug.LogError("NO LEVEL SELECTED");
             return;
         }
 
-        int indexOfLevel = levelsImplemented.IndexOf(levelToPlay);
-        CampaignLevel.Instance.SelectLevel(indexOfLevel);
+        isLevelLaunch = true;
+
+        int indexOfLevel = levelToPlay.level.levelProgression.LevelIndex;
+        Debug.Log(indexOfLevel + " level name : " + levelToPlay);
+        CampaignLevel.Instance.SelectLevel(levelToPlay);
     }
 
     private void MovingPanel()
@@ -554,7 +565,7 @@ public class Campaign : MonoBehaviour
 
         //Moving panel
         CampaignPanel.anchoredPosition3D = Vector3.MoveTowards(CampaignPanel.anchoredPosition3D,
-            new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), 0.1f);
+            new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), scrollingSpeed);
     }
 
     /// <summary>

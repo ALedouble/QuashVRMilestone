@@ -67,12 +67,6 @@ public class JSON : MonoBehaviour
     /// </summary>
     public void SetUpDATAs()
     {
-        //levelsToSave = new List<LevelsScriptable>();
-        //for (int i = 0; i < Campaign.instance.levelsImplemented.Count; i++)
-        //{
-        //    levelsToSave.Add(Campaign.instance.levelsImplemented[i]);
-        //}
-
         levelsToSave = Campaign.instance.levelsImplemented;
 
         if (!File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
@@ -334,8 +328,11 @@ public class JSON : MonoBehaviour
             for (int i = 0; i < levelsToSave.Count; i++)
             {
                 presentedDATA.savedObjects.Add(new SavedValues());
+                if (i == levelsToSave.Count - 1)
+                    presentedDATA.savedObjects[i].unlock = true;
+                else
+                    presentedDATA.savedObjects[i].unlock = false;
 
-                presentedDATA.savedObjects[i].unlock = false;
                 presentedDATA.savedObjects[i].done = false;
 
                 presentedDATA.savedObjects[i].bestScore = 0;

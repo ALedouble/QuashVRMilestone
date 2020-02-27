@@ -55,7 +55,6 @@ public class Campaign : MonoBehaviour
     {
         SetUpCampaign();
         isLevelLaunch = false;
-        JSON.instance.SetUpDATAs();
     }
 
     private void Update()
@@ -224,6 +223,7 @@ public class Campaign : MonoBehaviour
         //Set Up the number of stars
         Check4ImplementedLevels();
 
+        JSON.instance.SetUpDATAs();
 
         //Set Up Graphic Elements
         for (int i = 0; i < levelsImplemented.Count; i++)
@@ -248,11 +248,6 @@ public class Campaign : MonoBehaviour
             LevelsScriptable lvl = levelsImplemented[i];
             level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
-
-
-            /////////////////////////////////////////////////////////////////////////////////////////// Uncomment when all levels are sets
-            //if (levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
-            //    levelsImplemented[i].level.levelProgression.isUnlocked = true;
 
             for (int y = 0; y < levelsImplemented[i].level.levelProgression.unlockConditions.Count; y++)
             {
@@ -297,6 +292,8 @@ public class Campaign : MonoBehaviour
 
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
+                    Debug.Log("LOCKED level : " + levelsImplemented[i]);
+
                     line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
                     level.button.interactable = false;
 
@@ -308,6 +305,7 @@ public class Campaign : MonoBehaviour
 
                     if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                     {
+                        Debug.Log("UNLEASH the level : " + levelsImplemented[i]);
                         levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
                         line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
@@ -322,6 +320,8 @@ public class Campaign : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("UNLOCKED level : " + levelsImplemented[i]);
+
                     line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
                     level.button.interactable = true;
 
@@ -476,14 +476,14 @@ public class Campaign : MonoBehaviour
                     switch (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionType)
                     {
                         case CompleteConditionType.Score:
-                            if (selectedLevel.level.levelProgression.maxScore < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (selectedLevel.level.levelProgression.maxScore > selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
                             break;
 
                         case CompleteConditionType.Combo:
-                            if (selectedLevel.level.levelProgression.maxCombo < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (selectedLevel.level.levelProgression.maxCombo > selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
@@ -502,14 +502,14 @@ public class Campaign : MonoBehaviour
                     switch (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionType)
                     {
                         case CompleteConditionType.Score:
-                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.maxScore)
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt > selectedLevel.level.levelProgression.maxScore)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
                             break;
 
                         case CompleteConditionType.Combo:
-                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.maxCombo)
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt > selectedLevel.level.levelProgression.maxCombo)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;

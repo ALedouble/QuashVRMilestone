@@ -275,22 +275,19 @@ public class GameManager : MonoBehaviour
                 ReadyCheckDelegate();                                                               // Is there too much latenty?
                 photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);             // Replace par ReadyCheck
             }
-            else if (!isReadyToContinue)
-            {
-                isReadyToContinue = true;
-                ReadyCheck();
-            }
-            else
-            {
-                Debug.LogError("GameManager.ReadyCheck : Unexpected behaviour!");
-            }
         }
         else
         {
             ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
             ReadyCheckDelegate();
-            photonView.RPC("ReadyCheck", RpcTarget.MasterClient);
+            photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
         }
+    }
+
+    public void ResumeReadyCheck()
+    {
+        isReadyToContinue = true;
+        ReadyCheck();
     }
 
     private void ReadyCheck(string methodName)

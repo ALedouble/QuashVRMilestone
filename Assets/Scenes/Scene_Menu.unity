@@ -47374,7 +47374,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367440378}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -55105,7 +55105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1930187397
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55288,8 +55288,6 @@ MonoBehaviour:
   CampaignPanel: {fileID: 428208574}
   levelsImplemented: []
   levelRecapValues: {fileID: 159380473}
-  numberOfPanelPositions: 34
-  panelPositions: []
   lockedStarSprite: {fileID: 21300000, guid: 66eb3651999a2464eb5b4ff9280dad89, type: 3}
   unlockedStarSprite: {fileID: 21300000, guid: 0997ec5c1ba24fa47a6adb4af054f6ce, type: 3}
   totalOfStars: 0
@@ -55881,7 +55879,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh618090
+  m_Name: pb_Mesh138672
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -60438,7 +60436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3591302381172348689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60834,6 +60832,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135115616, guid: db90d7d5b94a1944aaa42d210b93f2b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90d7d5b94a1944aaa42d210b93f2b2, type: 3}

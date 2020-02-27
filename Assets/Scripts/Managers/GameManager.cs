@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
     }
 
     
-    private void InstanciateBall()
+    public void InstanciateBall()
     {
         Debug.Log("GameManager Instanciate ball");
         if(gameMod == GameMod.GAMEPLAY)

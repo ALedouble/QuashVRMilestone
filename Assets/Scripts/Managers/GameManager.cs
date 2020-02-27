@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void StartBrickMovement()
+    public void StartBrickMovement()
     {
         IsBrickFreeToMove = true;
     }

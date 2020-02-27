@@ -309,4 +309,18 @@ public class GameManager : MonoBehaviour
     {
         photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
     }
+
+    public void DisconnectToMenu(){
+        if(gameMod == GameMod.GAMEPLAY)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1){
+                PhotonNetwork.DestroyAll();
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+    private void Update() {
+        DisconnectToMenu();
+    }
 }

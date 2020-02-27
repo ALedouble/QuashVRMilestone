@@ -13,14 +13,7 @@ public class GUIHUDSolo : MonoBehaviour
     [SerializeField] GUIScoreData scoreData;
     [SerializeField] GUITimerData timerData;
 
-    #region Singleton
-    public static GUIHUDSolo instance;
 
-    public void Awake()
-    {
-        instance = this;
-    }
-    #endregion
 
     public void ActivateWithCondition()
     {
@@ -31,6 +24,9 @@ public class GUIHUDSolo : MonoBehaviour
     {
         withoutCondition.SetActive(true);
     }
+
+
+
 
     public void TimerConditionCompleted()
     {

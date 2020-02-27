@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
-            SelectionLevelMulti(CampaignLevel.Instance.levelSelected);
+            SelectionLevel(CampaignLevel.Instance.levelScriptSelected);
         }
         else
         {
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void StartBrickMovement()
+    public void StartBrickMovement()
     {
         IsBrickFreeToMove = true;
     }
@@ -276,7 +276,7 @@ public class GameManager : MonoBehaviour
                     isReadyToContinue = false;
                     ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
                     ReadyCheckDelegate();                                                               // Is there too much latenty?
-                    photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);             // Replace par ReadyCheck
+                    photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);
                 }
             }
             else
@@ -308,5 +308,19 @@ public class GameManager : MonoBehaviour
     public void SendResumeRPC()
     {
         photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
+    }
+
+    public void DisconnectToMenu(){
+        if(gameMod == GameMod.GAMEPLAY)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1){
+                PhotonNetwork.DestroyAll();
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+    private void Update() {
+        DisconnectToMenu();
     }
 }

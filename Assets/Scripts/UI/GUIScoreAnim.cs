@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class GUIScoreAnim : MonoBehaviour
 {
-    #region Singleton
-    public static GUIScoreAnim instance;
-
-    public void Awake()
-    {
-        instance = this;
-    }
-    #endregion
-
     [Header("Animation")]
     public Animator animScore;
 

@@ -17,6 +17,11 @@ public class SoundPool
 
     public float NextPlayableTime => lastPlayTime + cooldown;
 
+    public void Initialize()
+    {
+        lastPlayTime = Time.time - cooldown;
+    }
+
     public void PlayRandomSound(AudioSource audioSource, float soundIntensity)
     {
         Sound selectedSound = SelectRandomSound();

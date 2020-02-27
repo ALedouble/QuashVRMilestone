@@ -252,6 +252,7 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.StartLevelInitialization(selection);
     }
 
+    [PunRPC]
     public void ReadyCheck(Action nextAction = null)
     {
         if (nextAction != null)
@@ -284,12 +285,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void ResumeReadyCheck()
     {
         isReadyToContinue = true;
         ReadyCheck();
     }
 
+    [PunRPC]
     private void ReadyCheck(string methodName)
     {
         MethodInfo methodInfo = this.GetType().GetMethod(methodName);

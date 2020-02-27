@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour
 
     public void BallFirstSpawn()
     {
+        Debug.Log("BallFirstSpawn");
         BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
         BallManager.instance.BallFirstSpawn();
     }

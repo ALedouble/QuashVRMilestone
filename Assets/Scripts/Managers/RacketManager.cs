@@ -23,6 +23,9 @@ public class RacketManager : MonoBehaviour
     //[HideInInspector]
     public GameObject foreignPlayerRacket;
 
+    public RacketFX localRacketFX;
+    public RacketFX foreignRacketFX;
+
     public PhysicInfo LocalRacketPhysicInfo { get; private set; }
 
     public float deltaHitTime = 0.5f;
@@ -64,6 +67,8 @@ public class RacketManager : MonoBehaviour
         LocalRacketPhysicInfo = localPlayerRacket.GetComponent<PhysicInfo>();
 
         SetUpRacketColor();
+
+        localRacketFX = localPlayerRacket.GetComponent<RacketFX>();
     }
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
@@ -72,6 +77,8 @@ public class RacketManager : MonoBehaviour
         foreignPlayerRacket = foreignRacket;
 
         foreignRacketRenderer = foreignPlayerRacket.GetComponentInChildren<MeshRenderer>();
+
+        foreignRacketFX = localPlayerRacket.GetComponent<RacketFX>();
     }
 
     private void AssociateRacketWithController()
@@ -200,6 +207,13 @@ public class RacketManager : MonoBehaviour
         empoweredSound.Play();
         SwitchRacketColor();
 
+
+
+        localRacketFX.PlaySwitchColorFX();
+
+        if (!GameManager.Instance.offlineMode)
+            foreignRacketFX.PlaySwitchColorFX();
+
         VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered", 0.05f);
     }
 
@@ -208,6 +222,10 @@ public class RacketManager : MonoBehaviour
         isEmpowered = false;
         empoweredSound.Stop();
         EndSwitchRacketColor();
+
+        localRacketFX.StopSwitchColorFX();
+        if (!GameManager.Instance.offlineMode)
+            foreignRacketFX.StopSwitchColorFX();
 
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));

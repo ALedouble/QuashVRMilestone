@@ -89,7 +89,7 @@ public class JSON : MonoBehaviour
     /// <param name="time">Player Time</param>
     public void SubmitDATA(LevelsScriptable level, int score, int combo, int time)
     {
-        Debug.Log("Submiting DATA");
+        //Debug.Log("Submiting DATA");
         SavedValues levelValue = new SavedValues
         {
             unlock = true,
@@ -104,9 +104,9 @@ public class JSON : MonoBehaviour
         bool isThereTimeCondition = false;
 
 
-        Debug.Log("score : " + score);
-        Debug.Log("combo : " + combo);
-        Debug.Log("time : " + time);
+        //Debug.Log("score : " + score);
+        //Debug.Log("combo : " + combo);
+        //Debug.Log("time : " + time);
 
         for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
         {
@@ -115,7 +115,7 @@ public class JSON : MonoBehaviour
                 switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
                 {
                     case CompleteConditionType.Score:
-                        Debug.Log("Checking Score");
+                        //Debug.Log("Checking Score");
                         if (score > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                         {
                             if (score > level.level.levelProgression.maxScore)
@@ -144,12 +144,16 @@ public class JSON : MonoBehaviour
                         break;
 
                     case CompleteConditionType.Timing:
-                        if (time < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        if (time > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                         {
-                            if (time < level.level.levelProgression.minTiming)
+                            if (time > level.level.levelProgression.minTiming)
+                            {
                                 levelValue.bestTime = time;
+                            }
                             else
+                            {
                                 levelValue.bestTime = level.level.levelProgression.minTiming;
+                            }
                         }
                         else
                             levelValue.bestTime = level.level.levelProgression.minTiming;
@@ -191,9 +195,9 @@ public class JSON : MonoBehaviour
                         break;
 
                     case CompleteConditionType.Timing:
-                        if (time > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                        if (time < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                         {
-                            if (time < level.level.levelProgression.minTiming)
+                            if (time > level.level.levelProgression.minTiming)
                                 levelValue.bestTime = time;
                             else
                                 levelValue.bestTime = level.level.levelProgression.minTiming;
@@ -207,13 +211,13 @@ public class JSON : MonoBehaviour
             }
         }
 
-        Debug.Log("isThereComboCondition : " + isThereComboCondition);
-        Debug.Log("isThereScoreCondition : " + isThereScoreCondition);
-        Debug.Log("isThereTimeCondition : " + isThereTimeCondition);
+        //Debug.Log("isThereComboCondition : " + isThereComboCondition);
+        //Debug.Log("isThereScoreCondition : " + isThereScoreCondition);
+        //Debug.Log("isThereTimeCondition : " + isThereTimeCondition);
 
         if (!isThereComboCondition)
         {
-            Debug.Log("NO COMBO CONDITION");
+            //Debug.Log("NO COMBO CONDITION");
 
             if (combo > level.level.levelProgression.maxCombo)
                 levelValue.bestCombo = combo;
@@ -223,9 +227,9 @@ public class JSON : MonoBehaviour
 
         if (!isThereScoreCondition)
         {
-            Debug.Log("NO TIME CONDITION");
+            //Debug.Log("NO SCORE CONDITION");
 
-            if (time < level.level.levelProgression.minTiming)
+            if (time > level.level.levelProgression.minTiming)
                 levelValue.bestTime = time;
             else
                 levelValue.bestTime = level.level.levelProgression.minTiming;
@@ -233,7 +237,7 @@ public class JSON : MonoBehaviour
 
         if (!isThereTimeCondition)
         {
-            Debug.Log("NO SCORE CONDITION");
+            //Debug.Log("NO TIME CONDITION");
 
             if (score > level.level.levelProgression.maxScore)
                 levelValue.bestScore = score;
@@ -241,11 +245,11 @@ public class JSON : MonoBehaviour
                 levelValue.bestScore = level.level.levelProgression.maxScore;
         }
 
-        Debug.Log("levelValue.bestTime : " + levelValue.bestTime);
-        Debug.Log("levelValue.bestCombo : " + levelValue.bestCombo);
-        Debug.Log("levelValue.bestScore : " + levelValue.bestScore);
-        Debug.Log("levelValue.unlock : " + levelValue.unlock);
-        Debug.Log("levelValue.done : " + levelValue.done);
+        //Debug.Log("levelValue.bestTime : " + levelValue.bestTime);
+        //Debug.Log("levelValue.bestCombo : " + levelValue.bestCombo);
+        //Debug.Log("levelValue.bestScore : " + levelValue.bestScore);
+        //Debug.Log("levelValue.unlock : " + levelValue.unlock);
+        //Debug.Log("levelValue.done : " + levelValue.done);
 
         SaveLevelDATA(levelValue, level.level.levelProgression.LevelIndex);
     }

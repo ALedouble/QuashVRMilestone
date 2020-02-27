@@ -25,7 +25,7 @@ public class Campaign : MonoBehaviour
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
     private bool isMoving;
-    [Range(0.01f, 3f)]public float scrollingSpeed;
+    [Range(0.01f, 3f)] public float scrollingSpeed;
 
     private LevelsScriptable levelToPlay;
 
@@ -121,17 +121,17 @@ public class Campaign : MonoBehaviour
                     switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
                     {
                         case CompleteConditionType.Score:
-                            if (level.level.levelProgression.maxScore < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (level.level.levelProgression.maxScore > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 totalOfStars += 1;
                             break;
 
                         case CompleteConditionType.Combo:
-                            if (level.level.levelProgression.maxCombo < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (level.level.levelProgression.maxCombo > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 totalOfStars += 1;
                             break;
 
                         case CompleteConditionType.Timing:
-                            if (level.level.levelProgression.minTiming < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (level.level.levelProgression.minTiming > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 totalOfStars += 1;
                             break;
                     }
@@ -141,17 +141,17 @@ public class Campaign : MonoBehaviour
                     switch (level.level.levelProgression.conditionsToComplete[i].conditionType)
                     {
                         case CompleteConditionType.Score:
-                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < level.level.levelProgression.maxScore)
+                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt > level.level.levelProgression.maxScore)
                                 totalOfStars += 1;
                             break;
 
                         case CompleteConditionType.Combo:
-                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < level.level.levelProgression.maxCombo)
+                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt > level.level.levelProgression.maxCombo)
                                 totalOfStars += 1;
                             break;
 
                         case CompleteConditionType.Timing:
-                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt < level.level.levelProgression.minTiming)
+                            if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt > level.level.levelProgression.minTiming)
                                 totalOfStars += 1;
                             break;
                     }
@@ -414,6 +414,10 @@ public class Campaign : MonoBehaviour
         else
             levelRecapValues.levelTitle.text = selectedLevel.level.levelProgression.buttonName + "NO NAME";
 
+
+        //TO DO button name
+
+
         //Deactivate Conditions
         for (int i = 0; i < levelRecapValues.conditionComparator.Length; i++)
         {
@@ -433,23 +437,88 @@ public class Campaign : MonoBehaviour
         //Set Up COndition if necessary
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
         {
-            levelRecapValues.conditionComparator[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator.ToString();
+            if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator == CompleteConditionComparator.Min)
+                levelRecapValues.conditionComparator[0].text = ">";
+            else
+                levelRecapValues.conditionComparator[0].text = "<";
+
             levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
-            levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
+
+            if(selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType == CompleteConditionType.Timing)
+            {
+                int conditionMinutes = (int)selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt / 60;
+                int conditionSeconds = (int)selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt - (conditionMinutes * 60);
+
+                if (conditionMinutes < 10)
+                {
+                    if (conditionSeconds < 10)
+                    {
+                        levelRecapValues.conditionReachedAt[0].text = ("0" + conditionMinutes + ":" + "0" + conditionSeconds);
+                    }
+                    else
+                    {
+                        levelRecapValues.conditionReachedAt[0].text = ("0" + conditionMinutes + ":" + conditionSeconds);
+                    }
+                }
+                else
+                {
+                    if (conditionSeconds < 10)
+                    {
+                        levelRecapValues.conditionReachedAt[0].text = (conditionMinutes + ":" + "0" + conditionSeconds);
+                    }
+                    else
+                    {
+                        levelRecapValues.conditionReachedAt[0].text = (conditionMinutes + ":" + conditionSeconds);
+                    }
+                }
+
+                
+            }
+            else
+            {
+                levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
+            }
         }
 
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 1)
         {
-            levelRecapValues.conditionComparator[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator.ToString();
+            if (selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator == CompleteConditionComparator.Min)
+                levelRecapValues.conditionComparator[1].text = ">";
+            else
+                levelRecapValues.conditionComparator[1].text = "<";
+
             levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
             levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
         }
 
 
-        if (selectedLevel.level.levelProgression.minTiming == 0)
-            levelRecapValues.bestTime.text = "-";
+        //Best Time display
+        int minutes = (int)selectedLevel.level.levelProgression.minTiming / 60;
+        int seconds = (int)selectedLevel.level.levelProgression.minTiming - (minutes * 60);
+
+        if (minutes < 10)
+        {
+            if (seconds < 10)
+            {
+                levelRecapValues.bestTime.text = ("0" + minutes + ":" + "0" + seconds);
+            }
+            else
+            {
+                levelRecapValues.bestTime.text = ("0" + minutes + ":" + seconds);
+            }
+        }
         else
-            levelRecapValues.bestTime.text = selectedLevel.level.levelProgression.minTiming.ToString();
+        {
+            if (seconds < 10)
+            {
+                levelRecapValues.bestTime.text = (minutes + ":" + "0" + seconds);
+            }
+            else
+            {
+                levelRecapValues.bestTime.text = (minutes + ":" + seconds);
+            }
+        }
+
 
         if (selectedLevel.level.levelProgression.maxScore == 0)
             levelRecapValues.highScore.text = "-";
@@ -490,7 +559,7 @@ public class Campaign : MonoBehaviour
                             break;
 
                         case CompleteConditionType.Timing:
-                            if (selectedLevel.level.levelProgression.minTiming < selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
+                            if (selectedLevel.level.levelProgression.minTiming > selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;
@@ -516,7 +585,7 @@ public class Campaign : MonoBehaviour
                             break;
 
                         case CompleteConditionType.Timing:
-                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt < selectedLevel.level.levelProgression.minTiming)
+                            if (selectedLevel.level.levelProgression.conditionsToComplete[i].conditionReachedAt > selectedLevel.level.levelProgression.minTiming)
                                 levelRecapValues.stars[i + 1].sprite = unlockedStarSprite;
                             else
                                 levelRecapValues.stars[i + 1].sprite = lockedStarSprite;

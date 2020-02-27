@@ -14451,7 +14451,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7379065283189228697}
-  - component: {fileID: 122636700359703505}
   m_Layer: 5
   m_Name: FX_ColorSwitchGreen
   m_TagString: Untagged
@@ -14478,24 +14477,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &122636700359703505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5170862702514152613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fb32d79debbb494da9f9342b5214a85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particles:
-  - {fileID: 2036393558883173386}
-  - {fileID: 5792799515728709301}
-  - {fileID: 8569813300020126012}
-  - {fileID: 3487439648764999821}
-  - {fileID: 2635300901385564390}
 --- !u!1 &6770950575364342889
 GameObject:
   m_ObjectHideFlags: 0

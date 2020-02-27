@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public LevelSettings currentLevelConfig;
     [HideInInspector] public string levelsPath = "Assets/ScriptableObjects/Levels";
     protected int AndTheWinnerIs;
+    public AudioSource music;
 
     [Header("Level Parameters")]
     public int debugThisLevel;

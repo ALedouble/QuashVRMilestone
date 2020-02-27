@@ -118,7 +118,13 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         SwitchWallColors();
 
         if (RacketManager.instance.isEmpowered)
+        {
             RacketManager.instance.SwitchRacketColor();
+            RacketManager.instance.localRacketFX.FXSwitchColorFX();
+
+            if (!GameManager.Instance.offlineMode)
+                RacketManager.instance.foreignRacketFX.FXSwitchColorFX();
+        }
     }
 
 

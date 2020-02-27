@@ -32,7 +32,7 @@ public class AudioManager : MonoBehaviour
             {
                 soundDictionary.Add(soundTag, soundPool);
 
-                Debug.Log("SoundPool " + soundTag + " add to soundPool dictionary");
+                //Debug.Log("SoundPool " + soundTag + " add to soundPool dictionary");
             }
             else
             {
@@ -43,13 +43,13 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(string soundPoolName, Vector3 spawnPosition, float soundIntensity = 1)                 // A modifier pour permettre passage RPC. Attention RandomSound pour réseau...?
     {
-        Debug.Log("Play sound querry for " + soundPoolName);
+        //Debug.Log("Play sound querry for " + soundPoolName);
 
         if (soundDictionary.ContainsKey(soundPoolName))
         {
             if (Time.time < soundDictionary[soundPoolName].NextPlayableTime)
             {
-                Debug.Log("SoundPool " + soundPoolName + " is on cooldown!");
+                //Debug.Log("SoundPool " + soundPoolName + " is on cooldown!");
                 return;
             }
 

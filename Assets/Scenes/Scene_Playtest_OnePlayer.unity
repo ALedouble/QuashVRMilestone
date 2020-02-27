@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1246,6 +1246,11 @@ PrefabInstance:
       propertyPath: debugThisLevel
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7791003239312612647, guid: cafc84c8b9784354dbebb17817711e61,
+        type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 1653308600}
     - target: {fileID: 4607270332783340453, guid: cafc84c8b9784354dbebb17817711e61,
         type: 3}
       propertyPath: registeredLevels.Array.size
@@ -1479,8 +1484,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81c4971e76c65c54b87b9c0d46ef3504, type: 2}
   - {fileID: 11400000, guid: d14be4870600e1f4b839f769cb6fc80b, type: 2}
   - {fileID: 11400000, guid: 79402e1d661f2bb44bdeb94ea3f9c3e5, type: 2}
-  - {fileID: 11400000, guid: cedce63fa0d82d649be13c73ee22156d, type: 2}
-  - {fileID: 11400000, guid: 29aadb0b81c8b3846a0f84421f3468c6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 4659cf1e30a91a248a2f6aed3962f364, type: 2}
   - {fileID: 11400000, guid: e6cd493c912ab014797124717001f9f7, type: 2}
   - {fileID: 11400000, guid: 6da1802eaa70f314f850f6a83e45d4b2, type: 2}
@@ -4887,7 +4892,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions: []
       levelPos: {x: 0, y: 0}
       levelID: 0
@@ -4898,14 +4902,15 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: NO NAME
       timeForThisLevel: 0
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      suddenDeath: 0
+      timeAttack: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 0}
@@ -8580,6 +8585,7 @@ MonoBehaviour:
   selectedLayer: 0
   numberOfLayers: 0
   totalLayersDisplayed: 0
+  canDrawConnection: 1
 --- !u!1001 &2043078173
 PrefabInstance:
   m_ObjectHideFlags: 0

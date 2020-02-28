@@ -39,7 +39,7 @@ public class LevelsProgressionWindow : EditorWindow
     private GUIStyle selectedStyle;
     private GUIStyle dropStyle;
 
-    float configBottom;
+    float topLevelsBox;
     private bool mouseOutOfWindow;
 
 
@@ -195,33 +195,42 @@ public class LevelsProgressionWindow : EditorWindow
                     currentLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt);
             }
 
+            int underCondtionY = 65 + 35 * currentLevel.level.levelProgression.numberOfAdditionalConditions;
 
 
             ///Level Specifics (exotic rules)
-            currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 135), new Vector2(110, 15)),
+            currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY), new Vector2(110, 15)),
                 currentLevel.level.levelSpec.noWallsMode, " No Walls Mode");
 
-            currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + 135), new Vector2(100, 15)),
+            currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY), new Vector2(100, 15)),
                             currentLevel.level.levelSpec.mandatoryBounce, " Bounce Mode");
 
-            currentLevel.level.levelSpec.suddenDeath = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 155), new Vector2(110, 15)),
+            currentLevel.level.levelSpec.suddenDeath = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 20), new Vector2(110, 15)),
                 currentLevel.level.levelSpec.suddenDeath, " Sudden Death");
 
-            currentLevel.level.levelSpec.timeAttack = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + 155), new Vector2(170, 15)),
+            currentLevel.level.levelSpec.timeAttack = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY + 20), new Vector2(170, 15)),
                currentLevel.level.levelSpec.timeAttack, " Time Attack");
 
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 175), new Vector2(130, 15)), "Switch Behaviour");
-
-            configBottom = 135;
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)), "Switch Behaviour");
 
             currentLevel.level.levelSpec.switchColorBehaviourForThisLevel =
-                (ColorSwitchBehaviour)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + 175), new Vector2(130, 15)),
+                (ColorSwitchBehaviour)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)),
                 currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
+
+
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 60), new Vector2(130, 15)), "TUTO specific object");
+
+            currentLevel.level.levelSpec.goToSpawn =
+                (GameObject)EditorGUI.ObjectField(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + 60), new Vector2(130, 15)),
+                currentLevel.level.levelSpec.goToSpawn, typeof(GameObject), false);
+
 
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(currentLevel);
             }
+
+            topLevelsBox = underCondtionY + 60 + 15;
         }
         else
         {
@@ -487,14 +496,14 @@ public class LevelsProgressionWindow : EditorWindow
 
         if (levelsToDisplay.Count > 0)
         {
-            levelsScrollPos = GUI.BeginScrollView(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + configBottom + 3 + 60), new Vector2(256, boxSize.y - 145 - 60)), levelsScrollPos,
-            new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + configBottom + 3), new Vector2(256, space * levelsToDisplay.Count)), false, false);
+            levelsScrollPos = GUI.BeginScrollView(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + topLevelsBox + 3), new Vector2(256, boxSize.y - topLevelsBox - 20)), levelsScrollPos,
+            new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + topLevelsBox + 3), new Vector2(256, space * levelsToDisplay.Count)), false, false);
 
-            GUI.Box(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + configBottom + 3), new Vector2(256, boxSize.y)), " ");
+            GUI.Box(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + topLevelsBox + 3), new Vector2(256, boxSize.y)), " ");
 
             for (int i = 0; i < levelsToDisplay.Count; i++)
             {
-                if (GUI.Button(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)), ""))
+                if (GUI.Button(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)), ""))
                 {
                     currentLevel = levelsToDisplay[i];
                     //GUI.ScrollTo(new Rect(levelsToDisplay[i].level.levelProgression.levelPos, new Vector2(windowSize.x, treeDelimitation.y)));
@@ -502,14 +511,14 @@ public class LevelsProgressionWindow : EditorWindow
 
                 if (levelsToDisplay[i] == currentLevel)
                 {
-                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)), Color.Lerp(Color.white, Color.black, 0.75f));
-                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)),
+                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)), Color.Lerp(Color.white, Color.black, 0.75f));
+                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)),
                         levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.buttonName, selectedStyle);
                 }
                 else
                 {
-                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)), Color.grey);
-                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + configBottom + 7 + (space * i)), new Vector2(250, 20)),
+                    EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)), Color.grey);
+                    GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)),
                         levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.buttonName, labelStyle);
                 }
             }
@@ -643,11 +652,6 @@ public class LevelsProgressionWindow : EditorWindow
         Handles.ConeHandleCap(0, endLine, Quaternion.identity, 10, EventType.Repaint);
 
         Handles.EndGUI();
-    }
-
-    void DrawFramelGUI()
-    {
-        Handles.DrawSelectionFrame(1, new Vector2(currentLevel.level.levelProgression.levelPos.x + buttonSize.x / 2 + 1, currentLevel.level.levelProgression.levelPos.y + buttonSize.y / 2 + 1), Quaternion.LookRotation(Vector3.forward), 25, EventType.Repaint);
     }
 
     private void UpdateLevelPosition()

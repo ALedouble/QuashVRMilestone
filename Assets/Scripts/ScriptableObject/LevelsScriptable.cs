@@ -67,6 +67,7 @@ public class LevelSpecifics
     public bool noWallsMode;
     public bool mandatoryBounce;
     public AudioClip musicForThisLevel;
+    public GameObject goToSpawn;
 
     public LevelSpecifics()
     {
@@ -81,6 +82,7 @@ public class LevelSpecifics
         noWallsMode = false;
         mandatoryBounce = false;
         musicForThisLevel = null;
+        goToSpawn = null;
     }
 }
 

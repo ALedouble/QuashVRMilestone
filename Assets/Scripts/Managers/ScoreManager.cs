@@ -36,7 +36,6 @@ public class ScoreManager : MonoBehaviour
     [HideInInspector] public bool resetCombo = true;
     [HideInInspector] public PhotonView pV;
 
-
     public float finishingFirstScoreBoost;
 
     //Delegate

@@ -101,13 +101,12 @@ public class Campaign : MonoBehaviour
                 levelsImplemented.Add(levelsToCheck[i]);
                 //levelsToCheck[i].level.levelProgression.LevelIndex = i;
 
-                CountingStars(levelsToCheck[i]);
             }
         }
 
-        starCounter.text = totalOfStars.ToString();
-
         ReorderCampaign();
+
+        JSON.instance.SetUpDATAs();
     }
 
     /// <summary>
@@ -165,6 +164,8 @@ public class Campaign : MonoBehaviour
             }
 
         }
+
+        starCounter.text = totalOfStars.ToString();
     }
 
     /// <summary>
@@ -260,14 +261,17 @@ public class Campaign : MonoBehaviour
         //Set Up the number of stars
         Check4ImplementedLevels();
 
+
         //Set up notching 4 panel Move
         SetUpPanelPositions();
 
-        JSON.instance.SetUpDATAs();
 
         //Set Up Graphic Elements
         for (int i = 0; i < levelsImplemented.Count; i++)
         {
+            //Counting STARS
+            CountingStars(levelsImplemented[i]);
+
             //Spawn Level ICON 
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
             level.transform.parent = CampaignPanel.transform;
@@ -684,9 +688,6 @@ public class Campaign : MonoBehaviour
 
     private void CheckPanelIndex()
     {
-        Debug.Log("last Index : " + lastIndex);
-        Debug.Log("panel Index : " + panelIndex);
-
         if (panelIndex >= lastIndex)
         {
             panelIndex = lastIndex;
@@ -702,7 +703,7 @@ public class Campaign : MonoBehaviour
         {
             downButton.SetActive(false);
         }
-        
+
         if (panelIndex > 0)
         {
             downButton.SetActive(true);

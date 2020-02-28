@@ -73,6 +73,7 @@ public class JSON : MonoBehaviour
         {
             //Get Steam DATAs
 
+            Debug.Log("N 'EXISTE POAS");
             //If no DATA then
             SaveDATA(null);
         }
@@ -350,7 +351,7 @@ public class JSON : MonoBehaviour
         //If there's already DATA on file
         if (File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
         {
-            Debug.Log("DATA IS HERE");
+            //Debug.Log("DATA IS HERE");
 
             string loadString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
             SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
@@ -418,9 +419,12 @@ public class JSON : MonoBehaviour
     public void LoadDATA()
     {
         if (!File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
+        {
+            Debug.Log("NO FILE TO LOAD");
             return;
+        }
 
-        //Debug.Log("LOADING DATAS");
+        Debug.Log("LOADING DATAS");
 
         string savedString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);

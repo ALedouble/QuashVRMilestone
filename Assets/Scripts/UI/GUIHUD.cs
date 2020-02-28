@@ -119,21 +119,21 @@ public class GUIHUD : MonoBehaviour
                 int combo = ScoreManager.Instance.playersMaxCombo[0];
                 int time = (int)TimeManager.Instance.CurrentTimer;
 
+                JSON.SavedValues levelValue = new JSON.SavedValues
+                {
+                    unlock = true,
+                    done = true,
+                    bestCombo = level.level.levelProgression.maxCombo,
+                    bestScore = level.level.levelProgression.maxScore,
+                    bestTime = level.level.levelProgression.minTiming
+                };
+
+                bool isThereComboCondition = false;
+                bool isThereScoreCondition = false;
+                bool isThereTimeCondition = false;
 
                 if (length > 0)
                 {
-                    JSON.SavedValues levelValue = new JSON.SavedValues
-                    {
-                        unlock = true,
-                        done = true,
-                        bestCombo = level.level.levelProgression.maxCombo,
-                        bestScore = level.level.levelProgression.maxScore,
-                        bestTime = level.level.levelProgression.minTiming
-                    };
-
-                    bool isThereComboCondition = false;
-                    bool isThereScoreCondition = false;
-                    bool isThereTimeCondition = false;
 
 
                     //Debug.Log("score : " + score);
@@ -254,44 +254,43 @@ public class GUIHUD : MonoBehaviour
                             }
                         }
                     }
-
                     //Debug.Log("isThereComboCondition : " + isThereComboCondition);
                     //Debug.Log("isThereScoreCondition : " + isThereScoreCondition);
                     //Debug.Log("isThereTimeCondition : " + isThereTimeCondition);
-
-                    if (!isThereComboCondition)
-                    {
-                        //Debug.Log("NO COMBO CONDITION");
-
-                        if (combo > level.level.levelProgression.maxCombo)
-                            levelValue.bestCombo = combo;
-                        else
-                            levelValue.bestCombo = level.level.levelProgression.maxCombo;
-                    }
-
-                    if (!isThereTimeCondition)
-                    {
-                        //Debug.Log("NO SCORE CONDITION");
-
-                        if (time > level.level.levelProgression.minTiming)
-                            levelValue.bestTime = time;
-                        else
-                            levelValue.bestTime = level.level.levelProgression.minTiming;
-                    }
-
-                    if (!isThereScoreCondition)
-                    {
-                        //Debug.Log("NO TIME CONDITION");
-
-                        if (score > level.level.levelProgression.maxScore)
-                            levelValue.bestScore = score;
-                        else
-                            levelValue.bestScore = level.level.levelProgression.maxScore;
-                    }
-
-                    JSON.instance.SaveLevelDATA(levelValue, level.level.levelProgression.LevelIndex);
                 }
 
+                if (!isThereComboCondition)
+                {
+                    //Debug.Log("NO COMBO CONDITION");
+
+                    if (combo > level.level.levelProgression.maxCombo)
+                        levelValue.bestCombo = combo;
+                    else
+                        levelValue.bestCombo = level.level.levelProgression.maxCombo;
+                }
+
+                if (!isThereTimeCondition)
+                {
+                    //Debug.Log("NO SCORE CONDITION");
+
+                    if (time > level.level.levelProgression.minTiming)
+                        levelValue.bestTime = time;
+                    else
+                        levelValue.bestTime = level.level.levelProgression.minTiming;
+                }
+
+                if (!isThereScoreCondition)
+                {
+                    //Debug.Log("NO TIME CONDITION");
+
+                    if (score > level.level.levelProgression.maxScore)
+                        levelValue.bestScore = score;
+                    else
+                        levelValue.bestScore = level.level.levelProgression.maxScore;
+                }
+
+
+                JSON.instance.SaveLevelDATA(levelValue, level.level.levelProgression.LevelIndex);
             }
 
             // ------- PLAY SOUND ------- //

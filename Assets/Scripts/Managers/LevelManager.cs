@@ -303,16 +303,24 @@ public class LevelManager : MonoBehaviour
                     }
 
                     if (!isScoreType)
+                    {
                         playersHUD.ScoreConditionParents[0].SetActive(true);
+                        ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
+                    }
 
                     if (!isTimerType)
+                    {
                         playersHUD.TimerConditionParents[0].SetActive(true);
+                        TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
+                    }
 
                 }
                 else
                 {
                     playersHUD.ScoreConditionParents[0].SetActive(true);
                     playersHUD.TimerConditionParents[0].SetActive(true);
+
+                    Debug.Log("LOGY LOGY");
                     ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
                     TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
                 }
@@ -321,6 +329,7 @@ public class LevelManager : MonoBehaviour
             {
                 playersHUD.ScoreConditionParents[0].SetActive(true);
                 playersHUD.TimerConditionParents[0].SetActive(true);
+
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
                 TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
             }

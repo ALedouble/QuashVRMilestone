@@ -34906,7 +34906,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.75, y: 5.3500004, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.75, y: 5.3500004, z: 0}
@@ -35118,7 +35118,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 5.05, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 5.05, z: 0}
@@ -35146,7 +35146,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.05, y: 5.65, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 5.65, z: 0}
@@ -35342,7 +35342,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.35, y: 4.75, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.35, y: 4.75, z: 0}
@@ -35370,7 +35370,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.35, y: 5.3500004, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.35, y: 5.3500004, z: 0}
@@ -35398,7 +35398,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.35, y: 5.9500003, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.35, y: 5.9500003, z: 0}
@@ -35600,7 +35600,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.65, y: 5.05, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.65, y: 5.05, z: 0}
@@ -35628,7 +35628,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.65, y: 5.65, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.65, y: 5.65, z: 0}
@@ -35846,7 +35846,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 2.95, y: 5.3500004, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 8
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 5.3500004, z: 0}
@@ -37174,7 +37174,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 6da1802eaa70f314f850f6a83e45d4b2, type: 2}
       - {fileID: 11400000, guid: 64ea13eff200ebc44a8542410eaf2f89, type: 2}
@@ -37187,7 +37186,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Elite Sniper
       timeForThisLevel: 300

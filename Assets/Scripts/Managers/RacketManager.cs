@@ -64,7 +64,7 @@ public class RacketManager : MonoBehaviour
         photonView = GetComponent<PhotonView>();
 
         racketActionType = RacketActionType.NONE;
-        InitializeRacketAction(RacketActionType.RACKETEMPOWERED);
+        //Initialize(RacketActionType.RACKETEMPOWERED);
     }
 
     public void RacketAction()
@@ -72,7 +72,7 @@ public class RacketManager : MonoBehaviour
         racketAction?.Invoke();
     }
 
-    public void InitializeRacketAction(RacketActionType newRacketActionType)
+    public void Initialize(RacketActionType newRacketActionType)
     {
         TerminateRacketAction();
 
@@ -81,11 +81,14 @@ public class RacketManager : MonoBehaviour
             case RacketActionType.RACKETEMPOWERED:
                 racketAction = EmpoweredStateAction;
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                SetRacketsColor(BallManager.instance.GetBallColorID() + 1);
                 break;
             case RacketActionType.BALLOPPOSITE:
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                SetRacketsColor((BallManager.instance.GetBallColorID() + 1) % 2 + 1);
                 break;
             default:
+                SetRacketsColor(BallManager.instance.GetBallColorID() + 1);
                 break;
         }
 
@@ -143,28 +146,12 @@ public class RacketManager : MonoBehaviour
     public void EnableRackets(bool enabled)
     {
         localPlayerRacket?.SetActive(enabled);
-        foreignPlayerRacket?.SetActive(enabled);
+        if(!GameManager.Instance.offlineMode)
+            foreignPlayerRacket?.SetActive(enabled);
     }
     #endregion
 
     #region RacketColor
-    public void InitializeRacketColor()
-    {
-
-        if(racketActionType == RacketActionType.BALLOPPOSITE)
-        {
-            racketColorID = (BallManager.instance.GetBallColorID() + 1) % 2 + 1;
-            localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
-            foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
-        }
-        else 
-        {
-            racketColorID = BallManager.instance.GetBallColorID() + 1;
-            localRacketRenderer.sharedMaterials = racketMats[BallManager.instance.GetBallColorID() + 1].racketMaterial;
-            foreignRacketRenderer.sharedMaterials = racketMats[BallManager.instance.GetBallColorID() + 1].racketMaterial;
-        }
-    }
-
     void SetUpRacketColor()
     {
         //racketMats = new RacketMaterials[3];
@@ -189,6 +176,16 @@ public class RacketManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void SetRacketsColor(int newColorID)
+    {
+        racketColorID = newColorID;
+        localRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
+        if(!GameManager.Instance.offlineMode)
+            foreignRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
+
+        Debug.Log("SetRacketColor colorID: " + racketColorID);
     }
 
     public void SwitchRacketColor()                                                                     //Rendre plus propre?
@@ -230,13 +227,13 @@ public class RacketManager : MonoBehaviour
         foreignRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
     }
 
-    void EndLocalSwitchColor()
+    void EndLocalSwitchColor()                                                                                              // Deprecated
     {
         localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
     }
 
     [PunRPC]
-    void EndForeignSwitchColor()
+    void EndForeignSwitchColor()                                                                                            // Deprecated
     {
         foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
     }

@@ -43,13 +43,17 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         SetupColors();
         colorSwitchType = ColorSwitchType.NONE;
-        InitializeSwitchColor(ColorSwitchType.RACKETEMPOWERED);
+        Initialize(ColorSwitchType.RACKETEMPOWERED);
 
         SetBallColor(BallManager.instance.spawnColorID);
-        RacketManager.instance.InitializeRacketColor();
     }
 
-    public void InitializeSwitchColor(ColorSwitchType newColorSwitchType)
+    private void Start()                                                                            //Deplacer dans le Gamemanager
+    {
+        RacketManager.instance.Initialize(RacketActionType.RACKETEMPOWERED);
+    }
+
+    public void Initialize(ColorSwitchType newColorSwitchType)
     {
         TerminateSwitchColor();
 
@@ -196,7 +200,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     public void SetBallColor(int colorID)                                                               //A Mettre en reseau!
     {
         this.colorID = colorID;
-        myRenderer.material = materials[colorID];
+        myRenderer.sharedMaterial = materials[colorID];
     }
     #endregion
 

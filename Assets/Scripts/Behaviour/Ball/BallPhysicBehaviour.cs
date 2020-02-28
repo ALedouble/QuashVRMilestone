@@ -519,17 +519,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     public void StartBallFirstSpawnCoroutine(float duration)
     {
-        Debug.Log("StartBallColiderCoroutine");
         StartCoroutine(BallFirstSpawnCoroutine(duration));
     }
 
     private IEnumerator BallFirstSpawnCoroutine(float duration)
     {
-        Debug.Log("Collider desactivé " + BallCollider);
         BallCollider.enabled = false;
         yield return new WaitForSeconds(duration);
         BallCollider.enabled = true;
-        Debug.Log("Collider réactivé " + BallCollider);
     }
 
     public void ResetBall()

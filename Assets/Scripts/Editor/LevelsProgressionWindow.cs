@@ -214,7 +214,8 @@ public class LevelsProgressionWindow : EditorWindow
             GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)), "Switch Behaviour");
 
             currentLevel.level.levelSpec.switchColorBehaviourForThisLevel =
-                (ColorSwitchBehaviour)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)),
+
+                (ColorSwitchType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)),
                 currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
 
 

@@ -50,6 +50,8 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
 
         pV = GetComponent<PhotonView>();
+
+        BallEventManager.instance.OnLoseBall += ResetCombo;
     }
 
 
@@ -109,6 +111,13 @@ public class ScoreManager : MonoBehaviour
 
 
         displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
+    }
+
+    public void ResetCombo()
+    {
+        int playerID = (int)BallManager.instance.GetPlayerWhoLostTheBall();
+        if(playerID >= 0)
+            ResetCombo(playerID);
     }
 
     /// <summary>

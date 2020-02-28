@@ -11,6 +11,13 @@ public struct RacketMaterials
     public Material[] racketMaterial;
 }
 
+public enum RacketActionType
+{
+    NONE,
+    RACKETEMPOWERED,
+    BALLOPPOSITE
+}
+
 public class RacketManager : MonoBehaviour
 {
     #region Singleton
@@ -34,8 +41,8 @@ public class RacketManager : MonoBehaviour
     public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
     public Vector3 racketRotationOffset = new Vector3(0f, 180f, 90f);
 
-    [HideInInspector]
-    public bool isEmpowered = false;
+    
+    public bool IsEmpowered { get; private set; }
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
 
@@ -48,15 +55,66 @@ public class RacketManager : MonoBehaviour
     public AudioSource empoweredSound;
     private bool isPlaying = false;
 
+    private RacketActionType racketActionType;
+    private Action racketAction;
+
+    public int RacketColorID { get; private set; }
+
     private void Awake()
     {
         instance = this;
 
         photonView = GetComponent<PhotonView>();
+
+        racketActionType = RacketActionType.NONE;
+        //Initialize(RacketActionType.RACKETEMPOWERED);
     }
 
-    #region Set Methods
+    public void RacketAction()
+    {
+        racketAction?.Invoke();
+    }
 
+    public void Initialize(RacketActionType newRacketActionType)
+    {
+        TerminateRacketAction();
+
+        switch(newRacketActionType)
+        {
+            case RacketActionType.RACKETEMPOWERED:
+                racketAction = EmpoweredStateAction;
+                BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                SetRacketsColor(BallManager.instance.GetBallColorID() + 1);
+                break;
+            case RacketActionType.BALLOPPOSITE:
+                BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                SetRacketsColor((BallManager.instance.GetBallColorID() + 1) % 2 + 1);
+                break;
+            default:
+                SetRacketsColor(BallManager.instance.GetBallColorID() + 1);
+                break;
+        }
+
+        racketActionType = newRacketActionType;
+    }
+
+    public void TerminateRacketAction()
+    {
+        switch (racketActionType)
+        {
+            case RacketActionType.RACKETEMPOWERED:
+                racketAction = null;
+                BallEventManager.instance.OnBallColorSwitch -= SwitchRacketColor;
+                break;
+            case RacketActionType.BALLOPPOSITE:
+                BallEventManager.instance.OnBallColorSwitch -= SwitchRacketColor;
+                break;
+            default:
+                break;
+        }
+    }
+
+    #region Setter
     public void SetLocalRacket(GameObject localRacket)
     {
         localPlayerRacket = localRacket;
@@ -95,14 +153,12 @@ public class RacketManager : MonoBehaviour
     public void EnableRackets(bool enabled)
     {
         localPlayerRacket?.SetActive(enabled);
-
-        if (!GameManager.Instance.offlineMode)
+        if(!GameManager.Instance.offlineMode)
             foreignPlayerRacket?.SetActive(enabled);
     }
     #endregion
 
     #region RacketColor
-
     void SetUpRacketColor()
     {
         //racketMats = new RacketMaterials[3];
@@ -127,8 +183,16 @@ public class RacketManager : MonoBehaviour
                     break;
             }
         }
+    }
 
-        StartCoroutine(StartDelayRacketColor());
+    public void SetRacketsColor(int newColorID)
+    {
+        RacketColorID = newColorID;
+        localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
+        if(!GameManager.Instance.offlineMode)
+            foreignRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
+
+        Debug.Log("SetRacketColor colorID: " + RacketColorID);
     }
 
     public void SwitchRacketColor()                                                                     //Rendre plus propre?
@@ -144,45 +208,24 @@ public class RacketManager : MonoBehaviour
         }
     }
 
-    public void EndSwitchRacketColor()
-    {
-        EndLocalSwitchColor();
-
-        if (!GameManager.Instance.offlineMode)
-        {
-            if (foreignPlayerRacket)
-                photonView.RPC("EndForeignSwitchColor", RpcTarget.Others);
-            else
-                Debug.LogError("NullException : ForeignPlayerRacket not set");
-        }
-    }
-
     private void SwitchLocalRacketColor()
     {
-        localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+        RacketColorID = RacketColorID % 2 + 1;
+        localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
+
+        if (IsEmpowered)
+            localRacketFX.FXSwitchColorFX();
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
+        RacketColorID = RacketColorID % 2 + 1;
+        foreignRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
     }
-
-    void EndLocalSwitchColor()
-    {
-        localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
-    }
-
-    [PunRPC]
-    void EndForeignSwitchColor()
-    {
-        foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
-    }
-
     #endregion
 
     #region HitEvent
-
     public void OnHitEvent(GameObject hitObject)                        // Faire Un vrai event?
     {
         StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
@@ -197,48 +240,49 @@ public class RacketManager : MonoBehaviour
         }
         Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
     }
-
     #endregion
 
     #region EmpoweredState Methods
+    private void EmpoweredStateAction()
+    {
+        if (IsEmpowered)
+            ExitEmpoweredState();
+        else
+            EnterEmpoweredState();
+    }
+
     public void EnterEmpoweredState()
     {
-        isEmpowered = true;
-        empoweredSound.Play();
+        IsEmpowered = true;
+        
         SwitchRacketColor();
-
-
 
         localRacketFX.PlaySwitchColorFX();
 
-        if (!GameManager.Instance.offlineMode)
-            foreignRacketFX.PlaySwitchColorFX();
+        //if (!GameManager.Instance.offlineMode)                                                            //Not what you expected
+        //    foreignRacketFX.PlaySwitchColorFX();
+
+        empoweredSound.Play();
 
         VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered", 0.05f);
     }
 
     public void ExitEmpoweredState()
     {
-        isEmpowered = false;
-        empoweredSound.Stop();
-        EndSwitchRacketColor();
+        IsEmpowered = false;
 
         localRacketFX.StopSwitchColorFX();
-        if (!GameManager.Instance.offlineMode)
-            foreignRacketFX.StopSwitchColorFX();
+        //if (!GameManager.Instance.offlineMode)
+        //    foreignRacketFX.StopSwitchColorFX();
 
+        empoweredSound.Stop();
+        
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
-    }
 
+        SwitchRacketColor();
+    }
     #endregion
-
-    IEnumerator StartDelayRacketColor()
-    {
-        yield return new WaitForSeconds(0.01f); // Ceci est très sale ... BEURK !
-
-        EndLocalSwitchColor();
-    }
 }

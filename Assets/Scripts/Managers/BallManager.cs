@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon;
@@ -88,30 +89,21 @@ public class BallManager : MonoBehaviour
         TargetSelector = BallPhysicBehaviour.GetTargetSelector();
         BallInfo = Ball.GetComponent<BallInfo>();
         BallInfo.SetupBallInfo();                                                                               // A transformer en start
-
-        Debug.Log(BallColorBehaviour);
-        Debug.Log(BallPhysicBehaviour);
-        Debug.Log(BallPhysicInfo);
-        Debug.Log(TargetSelector);
-        Debug.Log(BallInfo);
     }
 
 
     public void BallBecomeInPlay()                                                                              //Check util?
     {
-        Debug.Log("BallBecomeInPlay");
         SetBallInPlay();
     }
 
     [PunRPC]
     private void SetBallInPlay()
     {
-        Debug.Log("SetBallInPlay");
         BallPhysicBehaviour.ApplyBaseGravity();
         BallColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
         StopCoroutine(floatCoroutine);
-        Debug.Log(floatCoroutine);
     }
 
     private void ResetBall()                                                                                        // ???
@@ -143,7 +135,6 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SpawnBallLocaly()
     {
-        Debug.Log("SpawnBallLocaly");
         Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + spawnOffset;
         Ball.SetActive(true);
         BallColorBehaviour.DeactivateTrail();

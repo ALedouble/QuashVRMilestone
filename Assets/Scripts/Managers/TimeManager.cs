@@ -97,6 +97,8 @@ public class TimeManager : MonoBehaviour
                 {
                     if (CurrentTimer < timerConditionValue)
                     {
+                        Debug.Log("CurrentTimer : " + CurrentTimer);
+                        Debug.Log("timerConditionValue : " + timerConditionValue);
                         LevelManager.instance.playersHUD.TimerConditionFailed();
                         hasTimerConditionFailed = true;
                     }

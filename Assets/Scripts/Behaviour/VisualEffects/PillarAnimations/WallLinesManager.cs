@@ -20,20 +20,20 @@ public class WallLinesManager : MonoBehaviour
         StartCoroutine(CloseAllLines());
     }
 
-    IEnumerator OpenAllLines()
-    {
-        for (int i = 0; i < pillarAnimations.Length; i++)
-        {
-            pillarAnimations[i].StartOpenAnim();
-            yield return new WaitForSeconds(delay);
-        }
-    }
-
     IEnumerator CloseAllLines()
     {
         for (int i = 0; i < pillarAnimations.Length; i++)
         {
-            pillarAnimations[i].StartCloseAnim();
+            pillarAnimations[i].CloseAnim();
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    IEnumerator OpenAllLines()
+    {
+        for (int i = 0; i < pillarAnimations.Length; i++)
+        {
+            pillarAnimations[i].OpenAnim();
             yield return new WaitForSeconds(delay);
         }
     }

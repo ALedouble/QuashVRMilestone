@@ -64,6 +64,7 @@ public class LevelSpecifics
     public ColorSwitchType switchColorBehaviourForThisLevel;
     public bool suddenDeath;
     public bool timeAttack;
+    public float timePerLayer;
     public bool noWallsMode;
     public bool mandatoryBounce;
     public AudioClip musicForThisLevel;

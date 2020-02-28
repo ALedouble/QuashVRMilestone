@@ -41,6 +41,9 @@ public class BallManager : MonoBehaviour
     private Coroutine floatCoroutine;
     private Coroutine resetCoroutine;
 
+    public event Action OnFirstBounce;
+    public event Action OnReturnStart;
+
     private PhotonView photonView;
 
     private void Awake()
@@ -305,4 +308,14 @@ public class BallManager : MonoBehaviour
         BallPhysicBehaviour.SetGlobalSpeedMultiplier(newValue);
     }
     #endregion
+
+    public void SendOnFirstBounceEvent()
+    {
+        OnFirstBounce?.Invoke();
+    }
+
+    public void SendOnReturnStart()
+    {
+        OnReturnStart?.Invoke();
+    }
 }

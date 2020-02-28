@@ -43,14 +43,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
         SetupColors();
         colorSwitchType = ColorSwitchType.NONE;
-        Initialize(ColorSwitchType.RACKETEMPOWERED);
 
         SetBallColor(BallManager.instance.spawnColorID);
-    }
-
-    private void Start()                                                                            //Deplacer dans le Gamemanager
-    {
-        RacketManager.instance.Initialize(RacketActionType.RACKETEMPOWERED);
     }
 
     public void Initialize(ColorSwitchType newColorSwitchType)
@@ -61,11 +55,14 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         {
             case ColorSwitchType.RACKETEMPOWERED:
                 BallEventManager.instance.OnCollisionWithRacket += RacketEmpoweredSwitchColor;
+                RacketManager.instance.Initialize(RacketActionType.RACKETEMPOWERED);
                 break;
             case ColorSwitchType.MANDATORY:
                 BallEventManager.instance.OnCollisionWithRacket += MandatorySwitchColor;
+                RacketManager.instance.Initialize(RacketActionType.BALLOPPOSITE);
                 break;
             default:
+                RacketManager.instance.Initialize(RacketActionType.RACKETEMPOWERED);
                 break;
         }
     }

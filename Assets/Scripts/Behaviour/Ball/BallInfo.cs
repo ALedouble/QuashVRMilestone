@@ -34,6 +34,11 @@ public class BallInfo : MonoBehaviour
     private void IncrementWallHitCount()
     {
         wallHitCount++;
+
+        if(currentBallStatus == BallStatus.HitState && wallHitCount == 1)
+        {
+            BallManager.instance.SendOnFirstBounceEvent();
+        }
     }
 
     private void ResetHitWallCount()
@@ -59,5 +64,7 @@ public class BallInfo : MonoBehaviour
     private void EnterReturnState()
     {
         currentBallStatus = BallStatus.ReturnState;
+
+        BallManager.instance.SendOnReturnStart();
     }
 }

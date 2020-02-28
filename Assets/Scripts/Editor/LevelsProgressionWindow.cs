@@ -197,33 +197,53 @@ public class LevelsProgressionWindow : EditorWindow
 
             int underCondtionY = 65 + 35 * currentLevel.level.levelProgression.numberOfAdditionalConditions;
 
-
+            int numberOfSpecificRules = 0;
             ///Level Specifics (exotic rules)
+            //Ligne 0
             currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY), new Vector2(110, 15)),
                 currentLevel.level.levelSpec.noWallsMode, " No Walls Mode");
 
             currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY), new Vector2(100, 15)),
                             currentLevel.level.levelSpec.mandatoryBounce, " Bounce Mode");
 
-            currentLevel.level.levelSpec.suddenDeath = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 20), new Vector2(110, 15)),
+            numberOfSpecificRules = 1;
+            //Ligne 1
+            currentLevel.level.levelSpec.suddenDeath = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(110, 15)),
                 currentLevel.level.levelSpec.suddenDeath, " Sudden Death");
 
-            currentLevel.level.levelSpec.timeAttack = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY + 20), new Vector2(170, 15)),
+            currentLevel.level.levelSpec.timeAttack = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(170, 15)),
                currentLevel.level.levelSpec.timeAttack, " Time Attack");
 
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)), "Switch Behaviour");
+
+            numberOfSpecificRules = 2;
+            //Ligne 2
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(130, 15)), "Switch Behaviour");
 
             currentLevel.level.levelSpec.switchColorBehaviourForThisLevel =
 
-                (ColorSwitchType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + 40), new Vector2(130, 15)),
+                (ColorSwitchType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(130, 15)),
                 currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
 
 
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + 60), new Vector2(130, 15)), "TUTO specific object");
+            numberOfSpecificRules = 3;
+            //Ligne 3
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(130, 15)), "TUTO specific object");
 
             currentLevel.level.levelSpec.goToSpawn =
-                (GameObject)EditorGUI.ObjectField(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + 60), new Vector2(130, 15)),
+                (GameObject)EditorGUI.ObjectField(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(130, 15)),
                 currentLevel.level.levelSpec.goToSpawn, typeof(GameObject), false);
+
+            if (currentLevel.level.levelSpec.timeAttack)
+            {
+                numberOfSpecificRules = 4;
+                //Ligne 4
+                GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(130, 15)), "Time per Layer");
+
+                currentLevel.level.levelSpec.timePerLayer =
+                    EditorGUI.FloatField(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + underCondtionY + (20 * numberOfSpecificRules)), new Vector2(130, 15)),
+                    currentLevel.level.levelSpec.timePerLayer);
+            }
+
 
 
             if (EditorGUI.EndChangeCheck())
@@ -231,7 +251,7 @@ public class LevelsProgressionWindow : EditorWindow
                 EditorUtility.SetDirty(currentLevel);
             }
 
-            topLevelsBox = underCondtionY + 60 + 15;
+            topLevelsBox = underCondtionY + 20 * numberOfSpecificRules + 15;
         }
         else
         {

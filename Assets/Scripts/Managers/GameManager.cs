@@ -313,6 +313,7 @@ public class GameManager : MonoBehaviour
             {
                 ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
                 ReadyCheckDelegate();
+                ReadyCheck();
             }
             else if (PhotonNetwork.IsMasterClient)
             {

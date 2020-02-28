@@ -24651,10 +24651,10 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 15000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 150
       numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Flower

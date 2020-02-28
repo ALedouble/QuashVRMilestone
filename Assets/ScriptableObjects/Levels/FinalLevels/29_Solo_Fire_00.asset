@@ -30614,10 +30614,10 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 1000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 500
       numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Fire

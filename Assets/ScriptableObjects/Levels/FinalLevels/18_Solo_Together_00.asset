@@ -57409,10 +57409,10 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 50000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 120
       numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Together

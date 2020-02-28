@@ -2503,7 +2503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelTitle: {fileID: 314524824}
-  button: {fileID: 0}
+  button: {fileID: 878872034}
   bestTime: {fileID: 2026048258}
   highScore: {fileID: 1680231374}
   bestCombo: {fileID: 243182796}
@@ -54103,6 +54103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSelected: 0
   levelScriptSelected: {fileID: 0}
+  levelToTest: {fileID: 0}
+  lastPanelIndex: 0
 --- !u!114 &1930187399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54857,7 +54859,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh114640
+  m_Name: pb_Mesh187642
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -56571,6 +56573,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSelected: 0
   levelScriptSelected: {fileID: 0}
+  levelToTest: {fileID: 0}
+  lastPanelIndex: 0
 --- !u!95 &2080570993
 Animator:
   serializedVersion: 3

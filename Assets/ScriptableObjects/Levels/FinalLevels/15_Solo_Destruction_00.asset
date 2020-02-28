@@ -21493,7 +21493,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 15
-      LevelIndex: 14
+      LevelIndex: 15
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -21501,19 +21501,18 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 624c602734c8afd48958713c5cbb69f2, type: 2}
-      levelPos: {x: 364, y: 7367}
+      levelPos: {x: 150, y: 8217}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 500000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+        conditionReachedAt: 240
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Destruction
       timeForThisLevel: 270
@@ -21522,7 +21521,9 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

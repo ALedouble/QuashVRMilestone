@@ -8,7 +8,9 @@ public class GUIHUD : MonoBehaviour
 {
     [Header("SOLO ONLY")]
     [SerializeField] GUIScoreConditionData scoreConditionData;
+    [SerializeField] GUITimerConditionData timerConditionData;
     [SerializeField] GameObject[] conditionParents;
+    [SerializeField] GameObject[] timerConditionParents;
     [SerializeField] Animator timerFailedAnim;
     [SerializeField] Animator scoreCompletedAnim;
     [SerializeField] GameObject[] completedStars;

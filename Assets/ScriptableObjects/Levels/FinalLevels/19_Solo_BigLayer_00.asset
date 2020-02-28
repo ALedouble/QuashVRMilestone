@@ -28889,7 +28889,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 19
-      LevelIndex: 18
+      LevelIndex: 10
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -28897,19 +28897,18 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
-      levelPos: {x: 379, y: 6878}
+      levelPos: {x: 436, y: 7831}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 250000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+        conditionReachedAt: 240
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: BigLayer
       timeForThisLevel: 200
@@ -28918,7 +28917,9 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

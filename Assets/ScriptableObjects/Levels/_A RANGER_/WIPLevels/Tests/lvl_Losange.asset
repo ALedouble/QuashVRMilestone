@@ -13731,7 +13731,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 798a69bac24615a46a94a00f7cf376cc, type: 2}
       levelPos: {x: 113, y: 560}
@@ -13746,14 +13745,17 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 50000
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: 
       timeForThisLevel: 240
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      suddenDeath: 0
+      timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 1
       musicForThisLevel: {fileID: 0}
+      goToSpawn: {fileID: 0}

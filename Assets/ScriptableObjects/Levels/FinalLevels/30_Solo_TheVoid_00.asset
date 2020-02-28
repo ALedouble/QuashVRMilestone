@@ -28205,7 +28205,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 30
-      LevelIndex: 29
+      LevelIndex: 0
       isDone: 0
       isUnlocked: 0
       starsRequired: 75
@@ -28213,19 +28213,18 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: b059a84deaf48ec469490d054291fb48, type: 2}
-      levelPos: {x: 355, y: 5034}
+      levelPos: {x: 217, y: 6595}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 9000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+        conditionReachedAt: 500
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: The Void
       timeForThisLevel: 300
@@ -28234,7 +28233,9 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

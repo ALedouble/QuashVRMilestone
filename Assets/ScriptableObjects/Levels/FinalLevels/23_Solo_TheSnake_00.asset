@@ -54483,7 +54483,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 23
-      LevelIndex: 22
+      LevelIndex: 7
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -54491,19 +54491,18 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: c16dd03125feaa94aa118078ba7ec293, type: 2}
-      levelPos: {x: 341, y: 6143}
+      levelPos: {x: 243, y: 7334}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 9000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+        conditionReachedAt: 240
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Inside The Snake
       timeForThisLevel: 300
@@ -54512,7 +54511,9 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

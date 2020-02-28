@@ -1135,7 +1135,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.75, y: 2.95, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1147,7 +1147,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.75, y: 3.25, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1335,7 +1335,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 2.65, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1369,7 +1369,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.05, y: 3.5500002, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1535,7 +1535,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.35, y: 2.3500001, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1593,7 +1593,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.35, y: 3.8500001, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1748,7 +1748,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.65, y: 2.3500001, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.65, y: 3.8500001, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -1972,7 +1972,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 2.65, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -2006,7 +2006,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 2.95, y: 3.5500002, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -2194,7 +2194,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.25, y: 2.95, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -2206,7 +2206,7 @@ MonoBehaviour:
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.25, y: 3.25, z: 0}
-          brickColorPreset: 0
+          brickColorPreset: 2
           brickTypePreset: 0
           isMalus: 0
           isBonus: 0
@@ -20231,7 +20231,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 07
-      LevelIndex: 6
+      LevelIndex: 23
       isDone: 0
       isUnlocked: 0
       starsRequired: 9
@@ -20239,10 +20239,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 7af4b538575dde6439f2d011d4980ad9, type: 2}
-      levelPos: {x: 318, y: 8765}
+      levelPos: {x: 398, y: 9228}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -20251,7 +20250,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 0
     levelSpec:
       levelName: Opening
       timeForThisLevel: 240
@@ -20260,7 +20259,9 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

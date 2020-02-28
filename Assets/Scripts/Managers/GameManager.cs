@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public int levelIndex;
 
+    [Header("Menu Canvas")]
+    public GameObject warningPrefab;
+    public Transform warningTransform;
+
     private bool isReadyToContinue = false;
     private Queue<Action> ReadyCheckDelegateQueue;
 
@@ -64,7 +68,7 @@ public class GameManager : MonoBehaviour
         {
             isReadyToContinue = true;
             ReadyCheck(InstanciateBall);
-
+            ReadyCheck(SetupGameRules);
             ReadyCheck(StartBrickMovement);
         }
     }
@@ -153,6 +157,9 @@ public class GameManager : MonoBehaviour
         // Lire le level scriptable
         // Abonner endofgame/LoseGame
         // Initialize tout ce qu'il faut
+
+        BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
+
         if (offlineMode)
         {
             
@@ -356,7 +363,6 @@ public class GameManager : MonoBehaviour
 
     [PunRPC]
     public void GoBackToMenu(){
-        Debug.Log("hello");
         PhotonNetwork.DestroyAll();
         SceneManager.LoadScene(0);
     }

@@ -3434,6 +3434,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 00
+      LevelIndex: 0
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -3454,14 +3455,17 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 0
     levelSpec:
       levelName: 
       timeForThisLevel: 120
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      suddenDeath: 0
+      timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 0}
+      goToSpawn: {fileID: 0}

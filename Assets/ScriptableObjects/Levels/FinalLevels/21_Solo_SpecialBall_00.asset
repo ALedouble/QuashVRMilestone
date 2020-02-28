@@ -17223,7 +17223,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 21
-      LevelIndex: 20
+      LevelIndex: 9
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -17231,22 +17231,21 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: fc2293e16348d314ab592fc3d50b6e65, type: 2}
       - {fileID: 11400000, guid: 570b3a3a63e9323489cb9635a3e7b111, type: 2}
       - {fileID: 11400000, guid: 5aacc15a5f858d045825d122f3f0463f, type: 2}
       - {fileID: 11400000, guid: 4659cf1e30a91a248a2f6aed3962f364, type: 2}
-      levelPos: {x: 338, y: 6609}
+      levelPos: {x: 344, y: 7605}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
-      - conditionType: 0
+        conditionReachedAt: 50000
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+        conditionReachedAt: 180
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: SpecialBall
       timeForThisLevel: 210
@@ -17255,7 +17254,9 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 2e562423418c3a446b04dbda991b8067,
         type: 3}
+      goToSpawn: {fileID: 0}

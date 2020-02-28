@@ -52,8 +52,6 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
 
         pV = GetComponent<PhotonView>();
-
-        BallEventManager.instance.OnLoseBall += ResetCombo;
     }
 
 
@@ -115,13 +113,6 @@ public class ScoreManager : MonoBehaviour
         displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
     }
 
-    public void ResetCombo()
-    {
-        int playerID = (int)BallManager.instance.GetPlayerWhoLostTheBall();
-        if(playerID >= 0)
-            ResetCombo(playerID);
-    }
-
     /// <summary>
     /// Reset la valeur du combo
     /// </summary>
@@ -147,10 +138,14 @@ public class ScoreManager : MonoBehaviour
         OnComboReset(); //Combo reset delegate
     }
 
+    /// <summary>
+    /// Time Attack Behaviour
+    /// </summary>
     public void OnTimeAttack()
     {
         int bonus = (int)(TimeManager.Instance.CurrentTimer * bonusScoreOnTimeAttack);
         SetScore(bonus, 0);
+        TimeManager.Instance.SetNewTimer(LevelManager.instance.currentLevel.level.levelSpec.timePerLayer);
         LevelManager.instance.SetNextLayer(0);
     }
 

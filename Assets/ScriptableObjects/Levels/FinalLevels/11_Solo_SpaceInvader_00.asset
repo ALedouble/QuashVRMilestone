@@ -11042,7 +11042,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.15, y: 2.3500001, z: 0}
           isMoving: 1
-          speed: 5
+          speed: 4
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.15, y: 2.3500001, z: 0}
@@ -13921,7 +13921,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 6913af92ef75edb43b160744ad6efe55, type: 2}
       - {fileID: 11400000, guid: 624c602734c8afd48958713c5cbb69f2, type: 2}
@@ -13934,7 +13933,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: SpaceInvader
       timeForThisLevel: 300

@@ -189,6 +189,12 @@ public class GameManager : MonoBehaviour
         BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
     }
 
+    public void LoseTheGame()
+    {
+        //HasLost = true;
+        EndOfTheGame();
+    }
+
     public void EndOfTheGame()
     {
         TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
@@ -298,5 +304,12 @@ public class GameManager : MonoBehaviour
             ReadyCheck((Action)Delegate.CreateDelegate(typeof(Action), this, methodInfo));
         else
             Debug.LogError("GameManager.ReadyCheck(string) : method " + methodName + " doesn't exist!");
+    }
+
+    public void SetupGameRules()
+    {
+        // Lire le level scriptable
+        // Abonner endofgame/LoseGame
+        // Initialize tout ce qu'il faut
     }
 }

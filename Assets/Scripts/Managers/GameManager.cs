@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         {
             isReadyToContinue = true;
             ReadyCheck(InstanciateBall);
-
+            ReadyCheck(SetupGameRules);
             ReadyCheck(StartBrickMovement);
         }
     }
@@ -153,6 +153,9 @@ public class GameManager : MonoBehaviour
         // Lire le level scriptable
         // Abonner endofgame/LoseGame
         // Initialize tout ce qu'il faut
+
+        BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
+
         if (offlineMode)
         {
             

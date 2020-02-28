@@ -11,6 +11,7 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject[] conditionParents;
     [SerializeField] Animator timerFailedAnim;
     [SerializeField] Animator scoreCompletedAnim;
+    [SerializeField] GameObject[] completedStars;
 
     [Header("HUD References")]
     [SerializeField] GUIScoreData[] scoreDATAs;

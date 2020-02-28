@@ -17231,7 +17231,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: fc2293e16348d314ab592fc3d50b6e65, type: 2}
       - {fileID: 11400000, guid: 570b3a3a63e9323489cb9635a3e7b111, type: 2}
@@ -17246,7 +17245,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: SpecialBall
       timeForThisLevel: 210

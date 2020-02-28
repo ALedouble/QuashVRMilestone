@@ -54491,7 +54491,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: c16dd03125feaa94aa118078ba7ec293, type: 2}
       levelPos: {x: 341, y: 6143}
@@ -54503,7 +54502,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Inside The Snake
       timeForThisLevel: 300

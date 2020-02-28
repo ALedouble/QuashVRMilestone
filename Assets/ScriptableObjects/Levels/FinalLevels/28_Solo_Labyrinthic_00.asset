@@ -21070,7 +21070,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 23bc4ea2e01cdf9459f331950728eb66, type: 2}
       levelPos: {x: 498, y: 5522}
@@ -21082,7 +21081,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Labyrinthic
       timeForThisLevel: 300

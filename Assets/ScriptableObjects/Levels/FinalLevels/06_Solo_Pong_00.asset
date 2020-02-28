@@ -37051,7 +37051,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 6f964d75eb8424448889df67bf13f606, type: 2}
       levelPos: {x: 270, y: 9017}
@@ -37066,7 +37065,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Pong
       timeForThisLevel: 300

@@ -215,7 +215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1224658070278270457
 RectTransform:
   m_ObjectHideFlags: 0
@@ -656,7 +656,7 @@ GameObject:
   - component: {fileID: 3933701450010875881}
   - component: {fileID: 2243538395158781889}
   m_Layer: 0
-  m_Name: Completed
+  m_Name: 3_Completed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1335,7 +1335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7640161954485771800
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2648,7 +2648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8871932258894970670
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3535,7 +3535,7 @@ GameObject:
   - component: {fileID: 3665828779650265639}
   - component: {fileID: 2313750229966833821}
   m_Layer: 0
-  m_Name: Completed
+  m_Name: 2_Completed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3764,7 +3764,7 @@ GameObject:
   - component: {fileID: 8935878593824335441}
   - component: {fileID: 3582778504937918229}
   m_Layer: 0
-  m_Name: Completed
+  m_Name: 1_Completed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3878,6 +3878,10 @@ MonoBehaviour:
   - {fileID: 8481464580943978405}
   timerFailedAnim: {fileID: 3240873693313454871}
   scoreCompletedAnim: {fileID: 6233760488757390057}
+  completedStars:
+  - {fileID: 6460775419107258322}
+  - {fileID: 6240738437146168691}
+  - {fileID: 1143563717806940785}
   scoreDATAs:
   - {fileID: 7684950553098863549}
   - {fileID: 2378152548827728617}

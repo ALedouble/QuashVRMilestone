@@ -149,6 +149,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
     }
 
+    public void OnClick_BackToMenu(){
+        if(PhotonNetwork.IsMasterClient){
+            OnPlayerLeftRoom(PhotonNetwork.PlayerListOthers[0]);
+            photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
+        } 
+    }
+
     public void KickPlayer(Player player){
         
        // PhotonNetwork.CloseConnection(player);

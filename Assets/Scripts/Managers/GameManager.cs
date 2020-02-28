@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour
         photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
     }
 
-    public void DisconnectToMenu(){
+    public void DisconnectGameToMenu(){
         if(gameMod == GameMod.GAMEPLAY)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1){
@@ -321,6 +321,19 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update() {
-        DisconnectToMenu();
+        DisconnectGameToMenu();
+    }
+
+    public void OnClick_DisconnectToMenu(){
+        if(PhotonNetwork.IsMasterClient){
+            photonView.RPC("GoBackToMenu", RpcTarget.Others);
+        }
+    }
+
+    [PunRPC]
+    public void GoBackToMenu(){
+        Debug.Log("hello");
+        PhotonNetwork.DestroyAll();
+        SceneManager.LoadScene(0);
     }
 }

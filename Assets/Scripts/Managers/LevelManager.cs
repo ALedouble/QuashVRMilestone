@@ -213,7 +213,7 @@ public class LevelManager : MonoBehaviour
             {
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
 
-                int length = currentLevel.level.levelProgression.conditionsToComplete.Length;
+                int length = currentLevel.level.levelProgression.numberOfAdditionalConditions;
 
                 if (length > 0)
                 {

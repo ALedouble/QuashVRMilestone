@@ -33,7 +33,7 @@ public class GameplayInputManager : IInputable
     {
         if(mainHand == MainHand.RIGHTHANDED)
         {
-            RacketManager.instance.EnterEmpoweredState();
+            RacketManager.instance.RacketAction();
         }
     }
 
@@ -41,7 +41,7 @@ public class GameplayInputManager : IInputable
     {
         if (mainHand == MainHand.LEFTHANDED)
         {
-            RacketManager.instance.EnterEmpoweredState();
+            RacketManager.instance.RacketAction();
         }
     }
 
@@ -49,7 +49,7 @@ public class GameplayInputManager : IInputable
     {
         if (mainHand == MainHand.RIGHTHANDED)
         {
-            RacketManager.instance.ExitEmpoweredState();
+            RacketManager.instance.RacketAction();
         }
     }
 
@@ -57,7 +57,7 @@ public class GameplayInputManager : IInputable
     {
         if (mainHand == MainHand.LEFTHANDED)
         {
-            RacketManager.instance.ExitEmpoweredState();
+            RacketManager.instance.RacketAction();
         }
     }
 

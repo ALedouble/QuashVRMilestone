@@ -31,6 +31,7 @@ public class BallEventManager : MonoBehaviour
     public event OnBallEventDelegate OnBallDespawn;
     public event OnBallEventDelegate OnLoseBall;
 
+    public event OnBallEventDelegate OnBallColorSwitch;
 
     public void OnBallCollision(string tag)
     {
@@ -76,6 +77,11 @@ public class BallEventManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void SendBallColorSwitchEvent()
+    {
+        OnBallColorSwitch?.Invoke();
     }
 }
 

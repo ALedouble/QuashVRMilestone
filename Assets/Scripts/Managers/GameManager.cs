@@ -190,6 +190,12 @@ public class GameManager : MonoBehaviour
         BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
     }
 
+    public void LoseTheGame()
+    {
+        //HasLost = true;
+        EndOfTheGame();
+    }
+
     public void EndOfTheGame()
     {
         TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
@@ -338,5 +344,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("hello");
         PhotonNetwork.DestroyAll();
         SceneManager.LoadScene(0);
+    }
+
+    public void SetupGameRules()
+    {
+        // Lire le level scriptable
+        // Abonner endofgame/LoseGame
+        // Initialize tout ce qu'il faut
     }
 }

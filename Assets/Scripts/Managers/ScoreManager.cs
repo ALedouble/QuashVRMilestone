@@ -31,12 +31,14 @@ public class ScoreManager : MonoBehaviour
     
 
     [HideInInspector] public GUIScoreData[] displayedScore;
-    private int conditionOrNot;
     [HideInInspector] public GUIComboData[] displayedCombo;
     [HideInInspector] public bool resetCombo = true;
     [HideInInspector] public PhotonView pV;
 
-    public float finishingFirstScoreBoost;
+    [Header("Exotic variables")]
+    public float bonusScoreOnTimeAttack = 0;
+
+
 
     //Delegate
     public delegate void ScoreManagerDelegate();
@@ -50,6 +52,8 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
 
         pV = GetComponent<PhotonView>();
+
+        BallEventManager.instance.OnLoseBall += ResetCombo;
     }
 
 
@@ -111,6 +115,13 @@ public class ScoreManager : MonoBehaviour
         displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
     }
 
+    public void ResetCombo()
+    {
+        int playerID = (int)BallManager.instance.GetPlayerWhoLostTheBall();
+        if(playerID >= 0)
+            ResetCombo(playerID);
+    }
+
     /// <summary>
     /// Reset la valeur du combo
     /// </summary>
@@ -134,6 +145,13 @@ public class ScoreManager : MonoBehaviour
         AudioManager.instance.PlaySound("Mistake", Vector3.zero);
 
         OnComboReset(); //Combo reset delegate
+    }
+
+    public void OnTimeAttack()
+    {
+        int bonus = (int)(TimeManager.Instance.CurrentTimer * bonusScoreOnTimeAttack);
+        SetScore(bonus, 0);
+        LevelManager.instance.SetNextLayer(0);
     }
 
     public void CheckForComboBreak()

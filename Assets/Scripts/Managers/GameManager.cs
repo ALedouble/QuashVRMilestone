@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour
         {
             isReadyToContinue = true;
             ReadyCheck(InstanciateBall);
-            ReadyCheck(SetupGameRules);
-            ReadyCheck(StartBrickMovement);
+            AddTaskToReadyCheck(SetupGameRules);
+            AddTaskToReadyCheck(StartBrickMovement);
         }
     }
 
@@ -348,6 +348,14 @@ public class GameManager : MonoBehaviour
             ReadyCheck((Action)Delegate.CreateDelegate(typeof(Action), this, methodInfo));
         else
             Debug.LogError("GameManager.ReadyCheck(string) : method " + methodName + " doesn't exist!");
+    }
+
+    private void AddTaskToReadyCheck(Action nextAction)
+    {
+        if (nextAction != null)
+        {
+            ReadyCheckDelegateQueue.Enqueue(nextAction);
+        }
     }
 
     public void SendResumeRPC()

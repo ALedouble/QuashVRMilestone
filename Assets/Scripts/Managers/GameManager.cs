@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public int levelIndex;
 
+    [Header("Menu Canvas")]
+    public GameObject warningPrefab;
+    public Transform warningTransform;
+
     private bool isReadyToContinue = false;
     private Queue<Action> ReadyCheckDelegateQueue;
 
@@ -335,7 +339,6 @@ public class GameManager : MonoBehaviour
 
     [PunRPC]
     public void GoBackToMenu(){
-        Debug.Log("hello");
         PhotonNetwork.DestroyAll();
         SceneManager.LoadScene(0);
     }

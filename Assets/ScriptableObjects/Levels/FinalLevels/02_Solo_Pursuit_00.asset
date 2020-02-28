@@ -20781,7 +20781,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 02
-      LevelIndex: 1
+      LevelIndex: 28
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -20789,10 +20789,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 1
       unlockConditions:
       - {fileID: 11400000, guid: cd9106b90196ae84783bb538d034444e, type: 2}
-      levelPos: {x: 289, y: 9764}
+      levelPos: {x: 291, y: 9792}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -20801,7 +20800,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 1
     levelSpec:
       levelName: Ambush
       timeForThisLevel: 300
@@ -20814,3 +20813,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

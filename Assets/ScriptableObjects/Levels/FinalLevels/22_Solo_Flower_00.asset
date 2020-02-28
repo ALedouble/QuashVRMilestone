@@ -24636,7 +24636,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 22
-      LevelIndex: 21
+      LevelIndex: 8
       isDone: 0
       isUnlocked: 0
       starsRequired: 40
@@ -24644,10 +24644,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: abdd2610dcc696b4f884201e89df2b8b, type: 2}
-      levelPos: {x: 340, y: 6389}
+      levelPos: {x: 125, y: 7487}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -24656,7 +24655,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Flower
       timeForThisLevel: 300
@@ -24669,3 +24668,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

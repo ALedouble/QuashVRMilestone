@@ -17535,7 +17535,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 14
-      LevelIndex: 13
+      LevelIndex: 16
       isDone: 0
       isUnlocked: 0
       starsRequired: 24
@@ -17543,10 +17543,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 3abf081b725d4ec4695d45e25f47e1c1, type: 2}
-      levelPos: {x: 320, y: 7602}
+      levelPos: {x: 300, y: 8368}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -17558,7 +17557,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Wave
       timeForThisLevel: 180
@@ -17571,3 +17570,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: c8fdfa613dec86e4aa895c81c9b59913,
         type: 3}
+      goToSpawn: {fileID: 0}

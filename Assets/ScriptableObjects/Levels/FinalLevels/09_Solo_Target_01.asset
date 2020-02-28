@@ -17168,7 +17168,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 09
-      LevelIndex: 8
+      LevelIndex: 21
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -17176,10 +17176,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77, type: 2}
-      levelPos: {x: 336, y: 8307}
+      levelPos: {x: 437, y: 8946}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -17188,7 +17187,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Pistons
       timeForThisLevel: 180
@@ -17201,3 +17200,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

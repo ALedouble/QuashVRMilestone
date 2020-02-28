@@ -17065,7 +17065,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 17
-      LevelIndex: 16
+      LevelIndex: 13
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -17073,10 +17073,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
-      levelPos: {x: 111, y: 6881}
+      levelPos: {x: 59, y: 7915}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -17085,7 +17084,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Aircraft
       timeForThisLevel: 300
@@ -17098,3 +17097,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

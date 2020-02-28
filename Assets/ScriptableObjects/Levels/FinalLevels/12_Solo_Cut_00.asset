@@ -17209,7 +17209,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 12
-      LevelIndex: 11
+      LevelIndex: 17
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -17217,10 +17217,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 6913af92ef75edb43b160744ad6efe55, type: 2}
-      levelPos: {x: 317, y: 7832}
+      levelPos: {x: 282, y: 8502}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -17229,7 +17228,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Cut
       timeForThisLevel: 180
@@ -17242,3 +17241,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

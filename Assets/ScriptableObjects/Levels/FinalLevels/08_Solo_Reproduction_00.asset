@@ -23956,7 +23956,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 08
-      LevelIndex: 7
+      LevelIndex: 22
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -23964,10 +23964,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: e4994cf9dcd62de47bebee80027ec7c6, type: 2}
-      levelPos: {x: 300, y: 8546}
+      levelPos: {x: 149, y: 9070}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -23976,7 +23975,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Reproduction
       timeForThisLevel: 240
@@ -23989,3 +23988,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

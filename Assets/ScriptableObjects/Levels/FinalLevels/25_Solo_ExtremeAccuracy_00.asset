@@ -23665,10 +23665,10 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 1500
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 150
       numberOfAdditionalConditions: 2
     levelSpec:
       levelName: ExtremeAccuracy
@@ -23678,6 +23678,7 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 2e562423418c3a446b04dbda991b8067,

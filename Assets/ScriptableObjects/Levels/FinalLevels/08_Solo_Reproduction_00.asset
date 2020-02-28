@@ -23971,11 +23971,11 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 60000
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfAdditionalConditions: 2
+      numberOfAdditionalConditions: 1
     levelSpec:
       levelName: Reproduction
       timeForThisLevel: 240
@@ -23984,6 +23984,7 @@ MonoBehaviour:
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,

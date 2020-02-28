@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
     protected int AndTheWinnerIs;
     public AudioSource music;
 
+
+
     [Header("Level Parameters")]
     public int debugThisLevel;
     public int numberOfPlayers;
@@ -76,6 +78,8 @@ public class LevelManager : MonoBehaviour
     public void StartLevelInitialization(LevelsScriptable levelToInit)
     {
         ConfigDistribution(levelToInit);
+        music.clip = levelToInit.level.levelSpec.musicForThisLevel;
+        music.Play();
         InitValues();
     }
 
@@ -217,17 +221,34 @@ public class LevelManager : MonoBehaviour
 
                     for (int y = 0; y < length; y++)
                     {
-                        if (currentLevel.level.levelProgression.conditionsToComplete[y].conditionType == CompleteConditionType.Score && !isScoreType)
+                        switch (currentLevel.level.levelProgression.conditionsToComplete[y].conditionType)
                         {
-                            ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i + 1];
-                            playersHUD.ConditionParents[1].SetActive(true);
+                            case CompleteConditionType.Score:
+                                if (!isScoreType)
+                                {
+                                    ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i + 1];
+                                    playersHUD.ConditionParents[1].SetActive(true);
 
-                            string conditionScore = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt.ToString();
-                            playersHUD.ScoreConditionData.UpdateText(conditionScore);
-                            isScoreType = true;
+                                    string conditionScore = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt.ToString();
+                                    playersHUD.ScoreConditionData.UpdateText(conditionScore);
+                                    isScoreType = true;
 
-                            Debug.Log("SCORE CONDITION score HUD!");
+                                    ScoreManager.Instance.isThereScoreCondition = true;
+                                    ScoreManager.Instance.scoreConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
+                                }
+                                break;
+
+                            case CompleteConditionType.Combo:
+                                ScoreManager.Instance.isThereComboCondition = true;
+                                ScoreManager.Instance.comboConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
+                                break;
+
+                            case CompleteConditionType.Timing:
+                                TimeManager.Instance.isThereTimerCondition = true;
+                                TimeManager.Instance.timerConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
+                                break;
                         }
+
                     }
 
                     if (!isScoreType)

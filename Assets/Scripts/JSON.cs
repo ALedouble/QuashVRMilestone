@@ -420,7 +420,7 @@ public class JSON : MonoBehaviour
         if (!File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
             return;
 
-        Debug.Log("LOADING DATAS");
+        //Debug.Log("LOADING DATAS");
 
         string savedString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);

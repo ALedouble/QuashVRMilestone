@@ -292,7 +292,7 @@ public class Campaign : MonoBehaviour
 
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
-                    Debug.Log("LOCKED level : " + levelsImplemented[i]);
+                    //Debug.Log("LOCKED level : " + levelsImplemented[i]);
 
                     line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
                     level.button.interactable = false;
@@ -305,7 +305,7 @@ public class Campaign : MonoBehaviour
 
                     if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                     {
-                        Debug.Log("UNLEASH the level : " + levelsImplemented[i]);
+                        //Debug.Log("UNLEASH the level : " + levelsImplemented[i]);
                         levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
                         line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
@@ -320,7 +320,7 @@ public class Campaign : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("UNLOCKED level : " + levelsImplemented[i]);
+                    //Debug.Log("UNLOCKED level : " + levelsImplemented[i]);
 
                     line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
                     level.button.interactable = true;
@@ -412,10 +412,10 @@ public class Campaign : MonoBehaviour
         if (selectedLevel.level.levelSpec.levelName != null)
             levelRecapValues.levelTitle.text = selectedLevel.level.levelSpec.levelName;
         else
-            levelRecapValues.levelTitle.text = selectedLevel.level.levelProgression.buttonName + "NO NAME";
+            levelRecapValues.levelTitle.text = "NO NAME";
 
 
-        //TO DO button name
+        levelRecapValues.button.text = selectedLevel.level.levelProgression.buttonName;
 
 
         //Deactivate Conditions
@@ -597,7 +597,7 @@ public class Campaign : MonoBehaviour
         else
         {
             int length = levelRecapValues.stars.Length - (2 - selectedLevel.level.levelProgression.numberOfAdditionalConditions);
-            Debug.Log("length : " + length);
+            //Debug.Log("length : " + length);
             for (int i = 0; i < length; i++)
             {
                 levelRecapValues.stars[i].sprite = lockedStarSprite;
@@ -620,7 +620,7 @@ public class Campaign : MonoBehaviour
         isLevelLaunch = true;
 
         int indexOfLevel = levelToPlay.level.levelProgression.LevelIndex;
-        Debug.Log(indexOfLevel + " level name : " + levelToPlay);
+        //Debug.Log(indexOfLevel + " level name : " + levelToPlay);
         CampaignLevel.Instance.SelectLevel(levelToPlay);
     }
 

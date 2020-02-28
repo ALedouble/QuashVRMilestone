@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class OptionVoice : MonoBehaviour
 {
@@ -10,13 +11,16 @@ public class OptionVoice : MonoBehaviour
     DissonanceComms comms;
     VoiceBroadcastTrigger vbt;
     public Toggle muteToggle;
+    PhotonView photonView;
 
     private void Awake()
     {
         comms = dissonance.GetComponent<DissonanceComms>();
         vbt = dissonance.GetComponent<VoiceBroadcastTrigger>();
-        IsMuted();
+        photonView = GetComponent<PhotonView>();
     }
+
+
 
     private void Update()
     {
@@ -28,5 +32,12 @@ public class OptionVoice : MonoBehaviour
         comms.IsMuted = muteToggle.isOn;
     }
 
+    public void Toggle_MuteOtherPlayer(){
+        photonView.RPC("MuteOtherPlayer", RpcTarget.All);
+    }
 
+    [PunRPC]
+    public void MuteOtherPlayer(){
+        comms.IsMuted = true;
+    }
 }

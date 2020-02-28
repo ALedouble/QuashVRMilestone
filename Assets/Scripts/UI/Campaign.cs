@@ -80,6 +80,7 @@ public class Campaign : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Check if the level is implemented in the campaign
     /// </summary>
@@ -113,6 +114,8 @@ public class Campaign : MonoBehaviour
         if (level.level.levelProgression.isDone)
         {
             totalOfStars += 1;
+
+            Debug.Log("Level is Done");
 
             for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
             {
@@ -174,11 +177,43 @@ public class Campaign : MonoBehaviour
     }
 
     /// <summary>
+    /// Get panel index from level
+    /// </summary>
+    /// <param name="levelIndex">level reference</param>
+    /// <returns></returns>
+    private int GetPanelIndex(LevelsScriptable levelIndex)
+    {
+        float levelComparer = (((levelIndex.level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
+
+        for (int y = numberOfPanelPositions; y > -1; y--)
+        {
+            float comparer = (positionQuotient * y) * -1;
+
+            if (levelComparer <= comparer)
+            {
+                int finalIndex = numberOfPanelPositions - (y + 1);
+                return finalIndex;
+            }
+        }
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Set last panel index
+    /// </summary>
+    /// <param name="newIndex"></param>
+    private void SetLastPanelIndex(int newIndex)
+    {
+        CampaignLevel.Instance.lastPanelIndex = newIndex;
+    }
+
+    /// <summary>
     /// Setup panel position to the first level unlocked from the top position
     /// </summary>
     private void SetUpPanelPositionAtStart()
     {
-        MoveCampaignPanelTo(numberOfPanelPositions);
+        SetPanelPosition(CampaignLevel.Instance.lastPanelIndex);
 
         for (int i = 0; i < levelsImplemented.Count; i++)
         {
@@ -205,6 +240,8 @@ public class Campaign : MonoBehaviour
                         //Debug.Log("y : " + y);
 
                         MoveCampaignPanelTo(finalIndex);
+
+                        SetLastPanelIndex(finalIndex);
                         return;
                     }
                 }
@@ -444,7 +481,7 @@ public class Campaign : MonoBehaviour
 
             levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
 
-            if(selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType == CompleteConditionType.Timing)
+            if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType == CompleteConditionType.Timing)
             {
                 int conditionMinutes = (int)selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt / 60;
                 int conditionSeconds = (int)selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt - (conditionMinutes * 60);
@@ -472,7 +509,7 @@ public class Campaign : MonoBehaviour
                     }
                 }
 
-                
+
             }
             else
             {
@@ -609,6 +646,9 @@ public class Campaign : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Launch Level
+    /// </summary>
     public void PlayLevel()
     {
         if (levelToPlay == null || isLevelLaunch)
@@ -619,11 +659,13 @@ public class Campaign : MonoBehaviour
 
         isLevelLaunch = true;
 
-        int indexOfLevel = levelToPlay.level.levelProgression.LevelIndex;
-        //Debug.Log(indexOfLevel + " level name : " + levelToPlay);
+        SetLastPanelIndex(GetPanelIndex(levelToPlay));
         CampaignLevel.Instance.SelectLevel(levelToPlay);
     }
 
+    /// <summary>
+    /// Move Panel WITH ANIMATION
+    /// </summary>
     private void MovingPanel()
     {
         if (CampaignPanel.anchoredPosition3D.y == nextPanelPosition)
@@ -635,6 +677,19 @@ public class Campaign : MonoBehaviour
         //Moving panel
         CampaignPanel.anchoredPosition3D = Vector3.MoveTowards(CampaignPanel.anchoredPosition3D,
             new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), scrollingSpeed);
+    }
+
+    /// <summary>
+    /// Set panel position at panel index position
+    /// </summary>
+    /// <param name="panelPosIndex">index position</param>
+    private void SetPanelPosition(int panelPosIndex)
+    {
+        panelIndex = panelPosIndex;
+
+        nextPanelPosition = panelPositions[panelIndex];
+
+        CampaignPanel.anchoredPosition3D = new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z);
     }
 
     /// <summary>

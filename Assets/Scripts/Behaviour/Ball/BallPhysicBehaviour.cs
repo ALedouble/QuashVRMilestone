@@ -569,13 +569,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private Vector3 ClampVelocity(Vector3 velocity)        //Nom à modifier
     {
-        if (velocity.magnitude < hitMinSpeed * globalSpeedMultiplier)
+        if (velocity.magnitude < hitMinSpeed)
         {
-            return hitMinSpeed * globalSpeedMultiplier * Vector3.Normalize(velocity);
+            return hitMinSpeed * Vector3.Normalize(velocity);
         }
-        else if (velocity.magnitude > hitMaxSpeed * globalSpeedMultiplier)
+        else if (velocity.magnitude > hitMaxSpeed)
         {
-            return hitMaxSpeed * globalSpeedMultiplier * Vector3.Normalize(velocity);
+            return hitMaxSpeed * Vector3.Normalize(velocity);
         }
         else
             return velocity;

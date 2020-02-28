@@ -27109,7 +27109,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 98f79eaf385d8aa40a2317b0762b5ea4, type: 2}
       levelPos: {x: 332, y: 7121}
@@ -27121,7 +27120,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Timing
       timeForThisLevel: 200

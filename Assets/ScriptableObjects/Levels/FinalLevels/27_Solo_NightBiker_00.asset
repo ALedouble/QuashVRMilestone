@@ -12022,7 +12022,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 1.4499999, y: 4.15, z: 0}
           isMoving: 1
-          speed: 0.13
+          speed: 3
           smoothTime: 0.01
           waypointsStorage:
           - {x: 1.4499999, y: 4.15, z: 0}
@@ -13569,7 +13569,7 @@ MonoBehaviour:
           brickID: TheBrick
           brickPosition: {x: 3.55, y: 2.65, z: 0}
           isMoving: 1
-          speed: 0.1
+          speed: 2
           smoothTime: 0.01
           waypointsStorage:
           - {x: 3.55, y: 2.65, z: 0}
@@ -29035,7 +29035,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 23bc4ea2e01cdf9459f331950728eb66, type: 2}
       levelPos: {x: 199, y: 5520}
@@ -29047,7 +29046,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Night Biker
       timeForThisLevel: 300

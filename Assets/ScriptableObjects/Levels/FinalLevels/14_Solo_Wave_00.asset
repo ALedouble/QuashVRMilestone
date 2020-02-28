@@ -17543,7 +17543,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 3abf081b725d4ec4695d45e25f47e1c1, type: 2}
       levelPos: {x: 320, y: 7602}
@@ -17558,7 +17557,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Wave
       timeForThisLevel: 180

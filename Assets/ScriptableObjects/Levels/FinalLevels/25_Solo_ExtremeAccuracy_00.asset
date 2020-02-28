@@ -23658,7 +23658,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: ab4b64dcbdb75264b97c395e51c3d866, type: 2}
       levelPos: {x: 486, y: 5941}
@@ -23670,7 +23669,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: ExtremeAccuracy
       timeForThisLevel: 120

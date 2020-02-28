@@ -17176,7 +17176,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77, type: 2}
       levelPos: {x: 336, y: 8307}
@@ -17188,7 +17187,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Pistons
       timeForThisLevel: 180

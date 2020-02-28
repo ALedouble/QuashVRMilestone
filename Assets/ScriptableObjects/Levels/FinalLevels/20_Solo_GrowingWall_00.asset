@@ -24110,7 +24110,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
       levelPos: {x: 549, y: 6878}
@@ -24125,7 +24124,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: GrowingWall
       timeForThisLevel: 360

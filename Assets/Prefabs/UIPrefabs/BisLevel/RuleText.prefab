@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1564959455077125698}
   - component: {fileID: 1564959455077125701}
   - component: {fileID: 1564959455077125707}
+  - component: {fileID: 2363773115610623020}
   m_Layer: 0
   m_Name: RuleText
   m_TagString: Untagged
@@ -224,3 +225,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2363773115610623020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564959455077125700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d8a2979bcaa5847a8372c724d7c9b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ruleText: Hit the side walls to reach the bricks
+  textMeshRule: {fileID: 1564959455077125701}

@@ -5,6 +5,11 @@ using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
+    public delegate void OnLayerEnd();
+
+    public event OnLayerEnd onLayerEndEvent;
+
+
     [Header("Récupération de la configuration du level")]
     public LevelsScriptable[] registeredLevels;
     public LevelsScriptable currentLevel;
@@ -135,6 +140,9 @@ public class LevelManager : MonoBehaviour
 
         GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
         GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+
+        if (currentLevel.level.levelSpec.goToSpawn != null)
+            Instantiate(currentLevel.level.levelSpec.goToSpawn);
 
         playersHUD = goHUD.GetComponent<GUIHUD>();
         roomShaker = goRoom.GetComponent<Shaker>();
@@ -346,6 +354,9 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void SetNextLayer(int playerID)
     {
+        if (onLayerEndEvent != null)
+            onLayerEndEvent();
+
         if (isThereAnotherLayer[playerID])
         {
             currentLayer[playerID]++;

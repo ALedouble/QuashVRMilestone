@@ -20744,7 +20744,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 05
-      LevelIndex: 4
+      LevelIndex: 25
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -20755,7 +20755,7 @@ MonoBehaviour:
       unlockConditions:
       - {fileID: 11400000, guid: 545fae8b7e89c5843b4fba6a54620421, type: 2}
       - {fileID: 11400000, guid: 192435ca37cde9f4bb89eadd6c813d7f, type: 2}
-      levelPos: {x: 305, y: 9325}
+      levelPos: {x: 298, y: 9503}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -20780,3 +20780,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

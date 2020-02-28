@@ -41,7 +41,7 @@ public class GUIWarningWindows : MonoBehaviour
 
     public virtual void OnValidateButtonClicked()
     {
-        OnButtonPressed();
+        OnButtonPressed?.Invoke();
+        Destroy(gameObject);
     }
-
 }

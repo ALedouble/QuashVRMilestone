@@ -28889,7 +28889,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 19
-      LevelIndex: 18
+      LevelIndex: 10
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -28899,7 +28899,7 @@ MonoBehaviour:
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
-      levelPos: {x: 379, y: 6878}
+      levelPos: {x: 436, y: 7831}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -28921,3 +28921,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,
         type: 3}
+      goToSpawn: {fileID: 0}

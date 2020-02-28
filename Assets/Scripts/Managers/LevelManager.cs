@@ -361,6 +361,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void OnTimerNextLayer()
+    {
+        SetNextLayer(0);
+    }
+
     /// <summary>
     /// Set up parameters to change level position
     /// </summary>

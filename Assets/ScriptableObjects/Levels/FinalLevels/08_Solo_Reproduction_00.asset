@@ -23971,11 +23971,11 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 0
+        conditionReachedAt: 60000
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfAdditionalConditions: 2
+      numberOfAdditionalConditions: 1
     levelSpec:
       levelName: Reproduction
       timeForThisLevel: 240

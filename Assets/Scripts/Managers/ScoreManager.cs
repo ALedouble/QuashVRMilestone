@@ -146,8 +146,8 @@ public class ScoreManager : MonoBehaviour
         int bonus = (int)(TimeManager.Instance.CurrentTimer * bonusScoreOnTimeAttack);
         SetScore(bonus, 0);
         TimeManager.Instance.SetNewTimer(LevelManager.instance.currentLevel.level.levelSpec.timePerLayer);
-        LevelManager.instance.SetNextLayer(0);
     }
+
 
     public void CheckForComboBreak()
     {

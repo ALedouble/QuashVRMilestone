@@ -17011,24 +17011,24 @@ MonoBehaviour:
     levelProgression:
       buttonName: 01
       LevelIndex: 29
-      isDone: 1
+      isDone: 0
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 10510
-      maxCombo: 10
+      maxScore: 0
+      maxCombo: 0
       minTiming: 0
       unlockConditions: []
       levelPos: {x: 289, y: 9947}
       levelID: 0
       conditionsToComplete:
-      - conditionType: 2
+      - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 10
       - conditionType: 2
         conditionComparator: 0
         conditionReachedAt: 950
-      numberOfAdditionalConditions: 1
+      numberOfAdditionalConditions: 0
     levelSpec:
       levelName: Entry
       timeForThisLevel: 300

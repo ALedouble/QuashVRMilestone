@@ -321,7 +321,10 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update() {
-        DisconnectGameToMenu();
+        if(!offlineMode){
+            DisconnectGameToMenu();
+        }
+        
     }
 
     public void OnClick_DisconnectToMenu(){

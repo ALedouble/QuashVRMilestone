@@ -41,8 +41,8 @@ public class RacketManager : MonoBehaviour
     public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
     public Vector3 racketRotationOffset = new Vector3(0f, 180f, 90f);
 
-    [HideInInspector]
-    public bool isEmpowered = false;
+    
+    public bool IsEmpowered { get; private set; }
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
 
@@ -58,7 +58,7 @@ public class RacketManager : MonoBehaviour
     private RacketActionType racketActionType;
     private Action racketAction;
 
-    private int racketColorID;
+    public int RacketColorID { get; private set; }
 
     private void Awake()
     {
@@ -187,12 +187,12 @@ public class RacketManager : MonoBehaviour
 
     public void SetRacketsColor(int newColorID)
     {
-        racketColorID = newColorID;
-        localRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
+        RacketColorID = newColorID;
+        localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
         if(!GameManager.Instance.offlineMode)
-            foreignRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
+            foreignRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
 
-        Debug.Log("SetRacketColor colorID: " + racketColorID);
+        Debug.Log("SetRacketColor colorID: " + RacketColorID);
     }
 
     public void SwitchRacketColor()                                                                     //Rendre plus propre?
@@ -208,41 +208,20 @@ public class RacketManager : MonoBehaviour
         }
     }
 
-    public void EndSwitchRacketColor()
-    {
-        SwitchLocalRacketColor();
-
-        if (!GameManager.Instance.offlineMode)
-        {
-            if (foreignPlayerRacket)
-                photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
-            else
-                Debug.LogError("NullException : ForeignPlayerRacket not set");
-        }
-    }
-
     private void SwitchLocalRacketColor()
     {
-        racketColorID = racketColorID % 2 + 1;
-        localRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
+        RacketColorID = RacketColorID % 2 + 1;
+        localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
+
+        if (IsEmpowered)
+            localRacketFX.FXSwitchColorFX();
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        racketColorID = racketColorID % 2 + 1;
-        foreignRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
-    }
-
-    void EndLocalSwitchColor()                                                                                              // Deprecated
-    {
-        localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
-    }
-
-    [PunRPC]
-    void EndForeignSwitchColor()                                                                                            // Deprecated
-    {
-        foreignRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1)].racketMaterial;
+        RacketColorID = RacketColorID % 2 + 1;
+        foreignRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
     }
     #endregion
 
@@ -266,7 +245,7 @@ public class RacketManager : MonoBehaviour
     #region EmpoweredState Methods
     private void EmpoweredStateAction()
     {
-        if (isEmpowered)
+        if (IsEmpowered)
             ExitEmpoweredState();
         else
             EnterEmpoweredState();
@@ -274,34 +253,36 @@ public class RacketManager : MonoBehaviour
 
     public void EnterEmpoweredState()
     {
-        isEmpowered = true;
-        empoweredSound.Play();
+        IsEmpowered = true;
+        
         SwitchRacketColor();
-
-
 
         localRacketFX.PlaySwitchColorFX();
 
-        if (!GameManager.Instance.offlineMode)
-            foreignRacketFX.PlaySwitchColorFX();
+        //if (!GameManager.Instance.offlineMode)                                                            //Not what you expected
+        //    foreignRacketFX.PlaySwitchColorFX();
+
+        empoweredSound.Play();
 
         VibrationManager.instance.VibrateOnRepeat("Vibration_Racket_Empowered", 0.05f);
     }
 
     public void ExitEmpoweredState()
     {
-        isEmpowered = false;
-        empoweredSound.Stop();
-        EndSwitchRacketColor();
+        IsEmpowered = false;
 
         localRacketFX.StopSwitchColorFX();
-        if (!GameManager.Instance.offlineMode)
-            foreignRacketFX.StopSwitchColorFX();
+        //if (!GameManager.Instance.offlineMode)
+        //    foreignRacketFX.StopSwitchColorFX();
 
+        empoweredSound.Stop();
+        
         if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
+
+        SwitchRacketColor();
     }
     #endregion
 }

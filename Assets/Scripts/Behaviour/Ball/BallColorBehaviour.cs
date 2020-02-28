@@ -207,7 +207,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     #region Ball Color Switch
     private void RacketEmpoweredSwitchColor()
     {
-        if (RacketManager.instance.isEmpowered)
+        if (RacketManager.instance.IsEmpowered)
             SwitchColor();
     }
 
@@ -239,10 +239,6 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         SwitchWallColors();
 
         BallEventManager.instance.SendBallColorSwitchEvent();
-
-        //A passer sur l'event 
-        if (RacketManager.instance.isEmpowered)
-            RacketManager.instance.SwitchRacketColor();
     }
     #endregion
 

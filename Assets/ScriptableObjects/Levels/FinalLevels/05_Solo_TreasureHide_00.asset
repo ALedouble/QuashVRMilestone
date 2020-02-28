@@ -20752,7 +20752,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 1
       unlockConditions:
       - {fileID: 11400000, guid: 545fae8b7e89c5843b4fba6a54620421, type: 2}
       - {fileID: 11400000, guid: 192435ca37cde9f4bb89eadd6c813d7f, type: 2}
@@ -20768,7 +20767,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 1
     levelSpec:
       levelName: Treasure Hide
       timeForThisLevel: 300

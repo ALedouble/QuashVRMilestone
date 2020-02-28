@@ -17184,7 +17184,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: e095047db8c8f01419e3cf83329570f4, type: 2}
       levelPos: {x: 313, y: 8085}
@@ -17199,7 +17198,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Sword Fight
       timeForThisLevel: 300

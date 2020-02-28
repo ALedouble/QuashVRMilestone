@@ -17217,7 +17217,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 6913af92ef75edb43b160744ad6efe55, type: 2}
       levelPos: {x: 317, y: 7832}
@@ -17229,7 +17228,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Cut
       timeForThisLevel: 180

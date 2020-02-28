@@ -20239,7 +20239,6 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: 7af4b538575dde6439f2d011d4980ad9, type: 2}
       levelPos: {x: 318, y: 8765}
@@ -20251,7 +20250,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: Opening
       timeForThisLevel: 240

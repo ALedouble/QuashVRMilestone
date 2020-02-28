@@ -690,6 +690,7 @@ MonoBehaviour:
   textMesh: {fileID: 8097297999276291536}
   image: {fileID: 0}
   anim: {fileID: 0}
+  cannotPlayAnim: 0
 --- !u!114 &8097297999276291536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1033,6 +1034,7 @@ MonoBehaviour:
   textMesh: {fileID: 935279090043955792}
   image: {fileID: 0}
   anim: {fileID: 0}
+  cannotPlayAnim: 0
 --- !u!114 &935279090043955792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2000,6 +2002,7 @@ MonoBehaviour:
   textMesh: {fileID: 8253892447916832375}
   image: {fileID: 0}
   anim: {fileID: 0}
+  cannotPlayAnim: 0
 --- !u!114 &8253892447916832375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2475,6 +2478,7 @@ MonoBehaviour:
   textMesh: {fileID: 8880644715775185722}
   image: {fileID: 0}
   anim: {fileID: 0}
+  cannotPlayAnim: 0
 --- !u!114 &8880644715775185722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2964,7 +2968,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreConditionData: {fileID: 0}
-  conditionParents: []
+  timerConditionData: {fileID: 0}
+  scoreConditionParents: []
+  comboConditionParents: []
+  timerConditionParents: []
+  timerFailedAnim: {fileID: 0}
+  scoreCompletedAnim: {fileID: 0}
+  completedStars: []
   scoreDATAs:
   - {fileID: 5626308260872081635}
   - {fileID: 111703124067299949}
@@ -2972,7 +2982,8 @@ MonoBehaviour:
   - {fileID: 4414770118891975568}
   - {fileID: 8182457715341961349}
   fillBarData: {fileID: 4721368403035168877}
-  timerData: {fileID: 2238062641054456857}
+  timerData:
+  - {fileID: 2238062641054456857}
   maxScoreData:
   - {fileID: 7299069874437316673}
   - {fileID: 2734452393827392097}

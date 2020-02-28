@@ -4064,9 +4064,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreConditionData: {fileID: 3569365171309567097}
   timerConditionData: {fileID: 3427439725888744563}
-  conditionParents:
+  scoreConditionParents:
   - {fileID: 1334200778086298797}
   - {fileID: 8481464580943978405}
+  comboConditionParents: []
   timerConditionParents:
   - {fileID: 8841682942087970567}
   - {fileID: 5573863493049091870}
@@ -4082,7 +4083,9 @@ MonoBehaviour:
   comboData:
   - {fileID: 1870874328645935310}
   fillBarData: {fileID: 7293421053369135923}
-  timerData: {fileID: 4304867707772833607}
+  timerData:
+  - {fileID: 4304867707772833607}
+  - {fileID: 2776452442434724500}
   maxScoreData:
   - {fileID: 8905695093484661469}
   maxComboData:
@@ -5012,7 +5015,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00
+  m_text: 00:01
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3c1606e6c0197314d9a7228ba213070a, type: 2}
   m_sharedMaterial: {fileID: -8219005244892711436, guid: 3c1606e6c0197314d9a7228ba213070a,
@@ -5228,7 +5231,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00
+  m_text: 00:10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3c1606e6c0197314d9a7228ba213070a, type: 2}
   m_sharedMaterial: {fileID: -8219005244892711436, guid: 3c1606e6c0197314d9a7228ba213070a,

@@ -225,7 +225,7 @@ public class JSON : MonoBehaviour
                 levelValue.bestCombo = level.level.levelProgression.maxCombo;
         }
 
-        if (!isThereScoreCondition)
+        if (!isThereTimeCondition)
         {
             //Debug.Log("NO SCORE CONDITION");
 
@@ -235,7 +235,7 @@ public class JSON : MonoBehaviour
                 levelValue.bestTime = level.level.levelProgression.minTiming;
         }
 
-        if (!isThereTimeCondition)
+        if (!isThereScoreCondition)
         {
             //Debug.Log("NO TIME CONDITION");
 
@@ -341,7 +341,7 @@ public class JSON : MonoBehaviour
 
                 presentedDATA.savedObjects[i].bestScore = 0;
                 presentedDATA.savedObjects[i].bestCombo = 0;
-                presentedDATA.savedObjects[i].bestTime = (int)levelsToSave[i].level.levelSpec.timeForThisLevel;
+                presentedDATA.savedObjects[i].bestTime = 0;
             }
         }
 

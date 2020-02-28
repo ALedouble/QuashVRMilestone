@@ -165,6 +165,10 @@ public class GameManager : MonoBehaviour
             {
                 ScoreManager.Instance.OnComboReset += LoseTheGame;
             }
+            else
+            {
+                TimeManager.Instance.OnTimerEnd += LoseTheGame;
+            }
             
             if(LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
             {
@@ -219,7 +223,7 @@ public class GameManager : MonoBehaviour
     {
         IsGameStarted = true;
 
-        TimeManager.Instance.OnTimerEnd += EndOfTheGame;
+        //TimeManager.Instance.OnTimerEnd += EndOfTheGame;
         TimeManager.Instance.StartTimer();
 
         BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;

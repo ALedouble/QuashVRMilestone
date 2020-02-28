@@ -7,6 +7,9 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
     private PhotonView photonView;
+    [HideInInspector] public bool isThereTimerCondition;
+    [HideInInspector] public int timerConditionValue;
+    private bool hasTimerConditionFailed = false;
 
 
     public delegate void  TimeEvent();
@@ -87,6 +90,18 @@ public class TimeManager : MonoBehaviour
         if (currentTimer > 0)
         {
             CurrentTimer -= Time.fixedDeltaTime * timerSpeedModifier;
+
+            if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
+            {
+                if (isThereTimerCondition)
+                {
+                    if (CurrentTimer < timerConditionValue)
+                    {
+                        LevelManager.instance.playersHUD.TimerConditionFailed();
+                        hasTimerConditionFailed = true;
+                    }
+                }
+            }
         }
 
         if (currentTimer <= 0)

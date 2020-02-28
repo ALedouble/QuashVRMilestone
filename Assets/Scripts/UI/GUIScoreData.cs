@@ -5,11 +5,13 @@ using UnityEngine;
 public class GUIScoreData : GUIComponent
 {
     public GUIScoreAnim anim;
-
+    public bool cannotPlayAnim;
 
     public override void UpdateText(string newText)
     {
         base.UpdateText(newText);
-        anim.PlayAnimScoreIncrease();
+
+        if (!cannotPlayAnim)
+            anim.PlayAnimScoreIncrease();
     }
 }

@@ -18,8 +18,6 @@ public class LevelManager : MonoBehaviour
     protected int AndTheWinnerIs;
     public AudioSource music;
 
-
-
     [Header("Level Parameters")]
     public int debugThisLevel;
     public int numberOfPlayers;
@@ -222,12 +220,9 @@ public class LevelManager : MonoBehaviour
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
 
                 int length = currentLevel.level.levelProgression.numberOfAdditionalConditions;
-                Debug.Log("PUTAIN");
 
                 if (length > 0)
                 {
-                    Debug.Log("Set values in IF");
-
                     bool isScoreType = false;
                     bool isComboType = false;
                     bool isTimerType = false;
@@ -239,8 +234,6 @@ public class LevelManager : MonoBehaviour
                             case CompleteConditionType.Score:
                                 if (!isScoreType)
                                 {
-                                    Debug.Log("Set SCORE");
-
                                     ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[1];
                                     playersHUD.ScoreConditionParents[1].SetActive(true);
 
@@ -256,8 +249,6 @@ public class LevelManager : MonoBehaviour
                             case CompleteConditionType.Combo:
                                 if (!isComboType)
                                 {
-                                    Debug.Log("Set COMBO");
-
                                     ScoreManager.Instance.isThereComboCondition = true;
                                     ScoreManager.Instance.comboConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
                                 }
@@ -266,12 +257,11 @@ public class LevelManager : MonoBehaviour
                             case CompleteConditionType.Timing:
                                 if (!isTimerType)
                                 {
-                                    Debug.Log("Set TIMER");
-
                                     playersHUD.TimerConditionParents[1].SetActive(true);
                                     TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[1]);
                                     TimeManager.Instance.timerConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
 
+                                    string text = "";
 
                                     int minutes = (int)TimeManager.Instance.timerConditionValue / 60;
                                     int seconds = (int)TimeManager.Instance.timerConditionValue - (minutes * 60);
@@ -280,22 +270,26 @@ public class LevelManager : MonoBehaviour
                                     {
                                         if (seconds < 10)
                                         {
-                                            playersHUD.TimerConditionData.UpdateText("0" + minutes + ":" + "0" + seconds);
+                                            text = "0" + minutes + ":" + "0" + seconds;
+                                            playersHUD.TimerConditionData.UpdateText(text);
                                         }
                                         else
                                         {
-                                            playersHUD.TimerConditionData.UpdateText("0" + minutes + ":" + seconds);
+                                            text = "0" + minutes + ":" + seconds;
+                                            playersHUD.TimerConditionData.UpdateText(text);
                                         }
                                     }
                                     else
                                     {
                                         if (seconds < 10)
                                         {
-                                            playersHUD.TimerConditionData.UpdateText(minutes + ":" + "0" + seconds);
+                                            text = minutes + ":" + "0" + seconds;
+                                            playersHUD.TimerConditionData.UpdateText(text);
                                         }
                                         else
                                         {
-                                            playersHUD.TimerConditionData.UpdateText(minutes + ":" + seconds);
+                                            text = minutes + ":" + seconds;
+                                            playersHUD.TimerConditionData.UpdateText(text);
                                         }
                                     }
 
@@ -317,7 +311,6 @@ public class LevelManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("length == 0");
                     playersHUD.ScoreConditionParents[0].SetActive(true);
                     playersHUD.TimerConditionParents[0].SetActive(true);
                     ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
@@ -326,7 +319,6 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Set values in ELSE");
                 playersHUD.ScoreConditionParents[0].SetActive(true);
                 playersHUD.TimerConditionParents[0].SetActive(true);
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];

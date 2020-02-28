@@ -6,12 +6,12 @@ public class PillarAnimation : MonoBehaviour
 {
     [SerializeField] Animator animator;
 
-    public void StartOpenAnim()
+    public void CloseAnim()
     {
         animator.SetTrigger("Start");
     }
 
-    public void StartCloseAnim()
+    public void OpenAnim()
     {
         animator.SetTrigger("Reset");
     }

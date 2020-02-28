@@ -142,7 +142,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
     public void InstanciateBall()
     {
         Debug.Log("GameManager Instanciate ball");
@@ -158,15 +157,33 @@ public class GameManager : MonoBehaviour
         // Abonner endofgame/LoseGame
         // Initialize tout ce qu'il faut
 
-        BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
-
         if (offlineMode)
         {
+            BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
             
+            if(LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
+            {
+                ScoreManager.Instance.OnComboReset += LoseTheGame;
+            }
+            else
+            {
+                TimeManager.Instance.OnTimerEnd += LoseTheGame;
+            }
+            
+            if(LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
+            {
+                TimeManager.Instance.OnTimerEnd += LevelManager.instance.OnTimerNextLayer;
+                LevelManager.instance.onLayerEndEvent += ScoreManager.Instance.OnTimeAttack;
+            }
+            
+            if(LevelManager.instance.currentLevel.level.levelSpec.mandatoryBounce)
+            {
+                LockWallManager.Instance.Initialize();
+            }
         }
         else
         {
-
+            BallManager.instance.BallColorBehaviour.Initialize(ColorSwitchType.RACKETEMPOWERED);
         }
     }
 
@@ -206,7 +223,7 @@ public class GameManager : MonoBehaviour
     {
         IsGameStarted = true;
 
-        TimeManager.Instance.OnTimerEnd += EndOfTheGame;
+        //TimeManager.Instance.OnTimerEnd += EndOfTheGame;
         TimeManager.Instance.StartTimer();
 
         BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;

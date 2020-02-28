@@ -14,6 +14,8 @@ public class Campaign : MonoBehaviour
     public RectTransform CampaignPanel;
     public List<LevelsScriptable> levelsImplemented;
     public LevelRecap levelRecapValues;
+    public GameObject upButton;
+    public GameObject downButton;
 
     private int numberOfPanelPositions = 34;
     private float positionQuotient = 0;
@@ -24,6 +26,7 @@ public class Campaign : MonoBehaviour
     private float panelBottom = 49.3f;
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
+    private int lastIndex = 0;
     private bool isMoving;
     [Range(0.01f, 3f)] public float scrollingSpeed;
 
@@ -78,6 +81,8 @@ public class Campaign : MonoBehaviour
         {
             panelPositions[i] = panelBottom - (positionQuotient * i);
         }
+
+        lastIndex = GetPanelIndex(levelsImplemented[0]);
     }
 
 
@@ -114,8 +119,6 @@ public class Campaign : MonoBehaviour
         if (level.level.levelProgression.isDone)
         {
             totalOfStars += 1;
-
-            Debug.Log("Level is Done");
 
             for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
             {
@@ -191,7 +194,7 @@ public class Campaign : MonoBehaviour
 
             if (levelComparer <= comparer)
             {
-                int finalIndex = numberOfPanelPositions - (y + 1);
+                int finalIndex = numberOfPanelPositions - (y + 2);
                 return finalIndex;
             }
         }
@@ -203,9 +206,9 @@ public class Campaign : MonoBehaviour
     /// Set last panel index
     /// </summary>
     /// <param name="newIndex"></param>
-    private void SetLastPanelIndex(int newIndex)
+    private void SetLastRecordedPanelIndex(int newIndex)
     {
-        CampaignLevel.Instance.lastPanelIndex = newIndex;
+        CampaignLevel.Instance.lastRecordedPanelIndex = newIndex;
     }
 
     /// <summary>
@@ -213,7 +216,7 @@ public class Campaign : MonoBehaviour
     /// </summary>
     private void SetUpPanelPositionAtStart()
     {
-        SetPanelPosition(CampaignLevel.Instance.lastPanelIndex);
+        SetPanelPosition(CampaignLevel.Instance.lastRecordedPanelIndex);
 
         for (int i = 0; i < levelsImplemented.Count; i++)
         {
@@ -241,7 +244,7 @@ public class Campaign : MonoBehaviour
 
                         MoveCampaignPanelTo(finalIndex);
 
-                        SetLastPanelIndex(finalIndex);
+                        SetLastRecordedPanelIndex(finalIndex);
                         return;
                     }
                 }
@@ -254,11 +257,11 @@ public class Campaign : MonoBehaviour
     /// </summary>
     private void SetUpCampaign()
     {
-        //Set up notching 4 panel Move
-        SetUpPanelPositions();
-
         //Set Up the number of stars
         Check4ImplementedLevels();
+
+        //Set up notching 4 panel Move
+        SetUpPanelPositions();
 
         JSON.instance.SetUpDATAs();
 
@@ -659,7 +662,7 @@ public class Campaign : MonoBehaviour
 
         isLevelLaunch = true;
 
-        SetLastPanelIndex(GetPanelIndex(levelToPlay));
+        SetLastRecordedPanelIndex(GetPanelIndex(levelToPlay));
         CampaignLevel.Instance.SelectLevel(levelToPlay);
     }
 
@@ -679,6 +682,33 @@ public class Campaign : MonoBehaviour
             new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), scrollingSpeed);
     }
 
+    private void CheckPanelIndex()
+    {
+        Debug.Log("last Index : " + lastIndex);
+        Debug.Log("panel Index : " + panelIndex);
+
+        if (panelIndex >= lastIndex)
+        {
+            panelIndex = lastIndex;
+            upButton.SetActive(false);
+        }
+
+        if (panelIndex < lastIndex)
+        {
+            upButton.SetActive(true);
+        }
+
+        if (panelIndex == 0)
+        {
+            downButton.SetActive(false);
+        }
+        
+        if (panelIndex > 0)
+        {
+            downButton.SetActive(true);
+        }
+    }
+
     /// <summary>
     /// Set panel position at panel index position
     /// </summary>
@@ -686,6 +716,8 @@ public class Campaign : MonoBehaviour
     private void SetPanelPosition(int panelPosIndex)
     {
         panelIndex = panelPosIndex;
+
+        CheckPanelIndex();
 
         nextPanelPosition = panelPositions[panelIndex];
 
@@ -700,7 +732,7 @@ public class Campaign : MonoBehaviour
     {
         int newIndex = panelIndex + upOrDown;
 
-        if (newIndex >= 0 && newIndex <= numberOfPanelPositions)
+        if (newIndex >= 0 && newIndex <= lastIndex)
         {
             panelIndex = newIndex;
         }
@@ -708,6 +740,8 @@ public class Campaign : MonoBehaviour
         {
             return;
         }
+
+        CheckPanelIndex();
 
         nextPanelPosition = panelPositions[panelIndex];
 
@@ -720,7 +754,7 @@ public class Campaign : MonoBehaviour
     /// <param name="newPanelIndex"></param>
     public void MoveCampaignPanelTo(int newPanelIndex)
     {
-        if (newPanelIndex != panelIndex && newPanelIndex <= numberOfPanelPositions && newPanelIndex >= 0)
+        if (newPanelIndex != panelIndex && newPanelIndex <= lastIndex && newPanelIndex >= 0)
         {
             panelIndex = newPanelIndex;
         }
@@ -728,6 +762,8 @@ public class Campaign : MonoBehaviour
         {
             return;
         }
+
+        CheckPanelIndex();
 
         nextPanelPosition = panelPositions[panelIndex];
 

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class LevelRecap : MonoBehaviour
 {
     public TextMeshProUGUI levelTitle;
+    public TextMeshProUGUI button;
 
     public TextMeshProUGUI bestTime;
     public TextMeshProUGUI highScore;

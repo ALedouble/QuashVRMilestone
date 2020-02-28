@@ -13,6 +13,13 @@ public class ScoreManager : MonoBehaviour
     public float maxTextSize;
     public float maxScoreValue;
 
+    [HideInInspector] public bool isThereScoreCondition;
+    [HideInInspector] public bool isThereComboCondition;
+    [HideInInspector] public int scoreConditionValue;
+    [HideInInspector] public int comboConditionValue;
+    private bool hasScoreConditionSucceeded = false;
+    private bool hasComboConditionSucceeded = false;
+
     [Space]
 
     [Header("Score variables")]
@@ -56,13 +63,24 @@ public class ScoreManager : MonoBehaviour
     {
         score[playerID] += brickValue * combo[playerID];
 
+        if (GameManager.Instance.offlineMode && !hasScoreConditionSucceeded)
+        {
+            if (isThereScoreCondition)
+            {
+                Debug.Log("Condition Check");
+                if (score[playerID] > scoreConditionValue)
+                {
+                    Debug.Log("Score Anim PLEASE");
+                    LevelManager.instance.playersHUD.ScoreConditionCompleted();
+                    hasScoreConditionSucceeded = true;
+                    StartCoroutine(ConditionCompleteTime());
+                }
+            }
+        }
+
         string textScore = score[playerID].ToString();
         displayedScore[playerID].UpdateText(textScore);
-
-        //Trigger de l'anim
-        //GUIScoreAnim.instance.PlayAnimScoreIncrease();
     }
-
 
     /// <summary>
     /// Incremente le score
@@ -145,5 +163,14 @@ public class ScoreManager : MonoBehaviour
         //scoreText.GetComponent<HitScoreBehaviour>().SetHitValues(newScore, LevelManager.instance.colorPresets[0].colorPresets[colorID].coreEmissiveColors);
 
         PoolManager.instance.SpawnFromPool("ScoreText", position, rotation).GetComponent<HitScoreBehaviour>().SetHitValues(scoreValue * combo[(int)BallManager.instance.GetLastPlayerWhoHitTheBall()], LevelManager.instance.colorPresets[0].colorPresets[colorID].coreEmissiveColors);
+    }
+
+    IEnumerator ConditionCompleteTime()
+    {
+        displayedScore[0].cannotPlayAnim = true;
+
+        yield return new WaitForSeconds(0.45f);
+
+        displayedScore[0].cannotPlayAnim = false;
     }
 }

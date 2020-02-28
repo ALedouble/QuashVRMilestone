@@ -24102,7 +24102,7 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       buttonName: 20
-      LevelIndex: 19
+      LevelIndex: 12
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -24110,10 +24110,9 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      numberOfAdditionalConditions: 2
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
-      levelPos: {x: 549, y: 6878}
+      levelPos: {x: 596, y: 7903}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0
@@ -24125,7 +24124,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 2
     levelSpec:
       levelName: GrowingWall
       timeForThisLevel: 360
@@ -24138,3 +24137,4 @@ MonoBehaviour:
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: c8fdfa613dec86e4aa895c81c9b59913,
         type: 3}
+      goToSpawn: {fileID: 0}

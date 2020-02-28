@@ -41,12 +41,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
 
     private void Start() {
-        StartCoroutine("checkCurrentRoom");
+        StartCoroutine("checkCurrentRoom");   
+        
     }
 
     private void Update() {
-
-        
         if (PhotonNetwork.IsMasterClient)
         {
             buttonLaunch.SetActive(true);
@@ -167,6 +166,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             mainScreen.SetActive(true);
             currentRoom.SetActive(false);
         }
+
+        Instantiate(GameManager.Instance.warningPrefab, GameManager.Instance.warningTransform);
     }
 }
 

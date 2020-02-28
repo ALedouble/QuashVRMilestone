@@ -80,10 +80,10 @@ public class RacketManager : MonoBehaviour
         {
             case RacketActionType.RACKETEMPOWERED:
                 racketAction = EmpoweredStateAction;
-                BallManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
                 break;
             case RacketActionType.BALLOPPOSITE:
-                BallManager.instance.OnBallColorSwitch += SwitchRacketColor;
+                BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
                 break;
             default:
                 break;
@@ -98,10 +98,10 @@ public class RacketManager : MonoBehaviour
         {
             case RacketActionType.RACKETEMPOWERED:
                 racketAction = null;
-                BallManager.instance.OnBallColorSwitch -= SwitchRacketColor;
+                BallEventManager.instance.OnBallColorSwitch -= SwitchRacketColor;
                 break;
             case RacketActionType.BALLOPPOSITE:
-                BallManager.instance.OnBallColorSwitch -= SwitchRacketColor;
+                BallEventManager.instance.OnBallColorSwitch -= SwitchRacketColor;
                 break;
             default:
                 break;
@@ -219,14 +219,15 @@ public class RacketManager : MonoBehaviour
 
     private void SwitchLocalRacketColor()
     {
-        localRacketRenderer.sharedMaterials = racketMats[(BallManager.instance.GetBallColorID() + 1) % 2 + 1].racketMaterial;
-        localRacketRenderer.sharedMaterials = racketMats[racketColorID % 2 + 1].racketMaterial;
+        racketColorID = racketColorID % 2 + 1;
+        localRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        foreignRacketRenderer.sharedMaterials = racketMats[racketColorID % 2 + 1].racketMaterial;
+        racketColorID = racketColorID % 2 + 1;
+        foreignRacketRenderer.sharedMaterials = racketMats[racketColorID].racketMaterial;
     }
 
     void EndLocalSwitchColor()

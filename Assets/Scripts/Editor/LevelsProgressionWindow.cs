@@ -201,7 +201,7 @@ public class LevelsProgressionWindow : EditorWindow
             configBottom = 135;
 
             currentLevel.level.levelSpec.switchColorBehaviourForThisLevel =
-                (ColorSwitchBehaviour)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + 175), new Vector2(130, 15)),
+                (ColorSwitchType)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x + 125, position.height - boxSize.y + 175), new Vector2(130, 15)),
                 currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
 
             if (EditorGUI.EndChangeCheck())

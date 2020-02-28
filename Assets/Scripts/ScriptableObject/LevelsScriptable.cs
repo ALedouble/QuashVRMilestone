@@ -61,12 +61,13 @@ public class LevelSpecifics
     public float impactRadiusForThisLevel;
     public float balleSpeedForThisLevel;
 
-    public ColorSwitchBehaviour switchColorBehaviourForThisLevel;
+    public ColorSwitchType switchColorBehaviourForThisLevel;
     public bool suddenDeath;
     public bool timeAttack;
     public bool noWallsMode;
     public bool mandatoryBounce;
     public AudioClip musicForThisLevel;
+    public GameObject goToSpawn;
 
     public LevelSpecifics()
     {
@@ -76,11 +77,12 @@ public class LevelSpecifics
         impactRadiusForThisLevel = 1.7f;
         balleSpeedForThisLevel = 1f;
 
-        switchColorBehaviourForThisLevel = ColorSwitchBehaviour.NORMAL;
+        switchColorBehaviourForThisLevel = ColorSwitchType.RACKETEMPOWERED;
         suddenDeath = false;
         noWallsMode = false;
         mandatoryBounce = false;
         musicForThisLevel = null;
+        goToSpawn = null;
     }
 }
 

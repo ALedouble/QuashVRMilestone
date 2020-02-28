@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsBrickFreeToMove { get; private set; }                                                                                                                     
     public bool IsGameStarted { get; private set; }
-    public bool HasLost { get => (IsGameStarted) && (TimeManager.Instance.CurrentTimer <= 0); }
+    public bool HasLost { get; private set; }
 
     [HideInInspector]
     public int levelIndex;
@@ -148,6 +148,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetupGameRules()
+    {
+        // Lire le level scriptable
+        // Abonner endofgame/LoseGame
+        // Initialize tout ce qu'il faut
+        if (offlineMode)
+        {
+            
+        }
+        else
+        {
+
+        }
+    }
+
     [PunRPC]
     public void StartBrickMovement()
     {
@@ -188,6 +203,12 @@ public class GameManager : MonoBehaviour
         TimeManager.Instance.StartTimer();
 
         BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
+    }
+
+    public void LoseTheGame()
+    {
+        HasLost = true;
+        EndOfTheGame();
     }
 
     public void EndOfTheGame()
@@ -310,7 +331,7 @@ public class GameManager : MonoBehaviour
         photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
     }
 
-    public void DisconnectToMenu(){
+    public void DisconnectGameToMenu(){
         if(gameMod == GameMod.GAMEPLAY)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1){
@@ -321,6 +342,22 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update() {
-        DisconnectToMenu();
+        if(!offlineMode){
+            DisconnectGameToMenu();
+        }
+        
+    }
+
+    public void OnClick_DisconnectToMenu(){
+        if(PhotonNetwork.IsMasterClient){
+            photonView.RPC("GoBackToMenu", RpcTarget.Others);
+        }
+    }
+
+    [PunRPC]
+    public void GoBackToMenu(){
+        Debug.Log("hello");
+        PhotonNetwork.DestroyAll();
+        SceneManager.LoadScene(0);
     }
 }

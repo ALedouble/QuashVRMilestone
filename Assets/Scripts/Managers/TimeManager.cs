@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
@@ -16,7 +17,6 @@ public class TimeManager : MonoBehaviour
     public event TimeEvent OnTimerEnd;
 
 
-    
     public float timerSpeedModifier = 1f;
     private float currentTimer;
     public float CurrentTimer 
@@ -28,6 +28,7 @@ public class TimeManager : MonoBehaviour
             timerHasChanged = true;
         }
     }
+
     public float LevelMaxTime { get; set; }
     public bool IsTimeFlying { get; private set; }
 
@@ -38,7 +39,6 @@ public class TimeManager : MonoBehaviour
     private bool timerHasChanged = true;
 
     
-
     private void Awake()
     {
         Instance = this;
@@ -68,7 +68,12 @@ public class TimeManager : MonoBehaviour
         timerGUI = timerData;
     }
 
-    
+    public void SetNewTimer(float newTimer)
+    {
+        currentTimer = newTimer;
+        LevelMaxTime = newTimer;
+    }
+
     public void StartTimer()
     {
         IsTimeFlying = true;
@@ -84,7 +89,6 @@ public class TimeManager : MonoBehaviour
         CurrentTimer = LevelMaxTime;
     }
 
-
     private void UpdateTimer()
     {
         if (currentTimer > 0)
@@ -97,6 +101,8 @@ public class TimeManager : MonoBehaviour
                 {
                     if (CurrentTimer < timerConditionValue)
                     {
+                        Debug.Log("CurrentTimer : " + CurrentTimer);
+                        Debug.Log("timerConditionValue : " + timerConditionValue);
                         LevelManager.instance.playersHUD.TimerConditionFailed();
                         hasTimerConditionFailed = true;
                     }

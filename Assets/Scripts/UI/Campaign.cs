@@ -265,12 +265,17 @@ public class Campaign : MonoBehaviour
         //Set up notching 4 panel Move
         SetUpPanelPositions();
 
+        for (int i = 0; i < levelsImplemented.Count; i++)
+        {
+            //Counting STARS
+            CountingStars(levelsImplemented[i]);
+        }
 
         //Set Up Graphic Elements
         for (int i = 0; i < levelsImplemented.Count; i++)
         {
             //Counting STARS
-            CountingStars(levelsImplemented[i]);
+            //CountingStars(levelsImplemented[i]);
 
             //Spawn Level ICON 
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();

@@ -128,22 +128,22 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     void InitRoom()
     {
-        playersHUD = new GUIHUD();
-        roomShaker = new Shaker();
+        playersHUD = new GUIHUD();                                                                                                                              //Problem Here! (Sert à rien)
+        roomShaker = new Shaker();                                                                                                                              //Problem Here! (Sert à rien)
 
         Vector3 roomPos = new Vector3(
                 startPos4Player1.x,
                 startPos4Player1.y,
                 startPos4Player1.z);
 
-        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
-        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                                  //Erreur de tag!
+        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                            //Erreur de tag!
 
         if (currentLevel.level.levelSpec.goToSpawn != null)
             Instantiate(currentLevel.level.levelSpec.goToSpawn);
 
-        playersHUD = goHUD.GetComponent<GUIHUD>();
-        roomShaker = goRoom.GetComponent<Shaker>();
+        playersHUD = goHUD.GetComponent<GUIHUD>();                                                                                                              //Problem Here! (Ok en fait)
+        roomShaker = goRoom.GetComponent<Shaker>();                                                                                                             //Problem Here! (Ok en fait)
         playroomElements = goRoom.GetComponent<PlayroomElements>();
 
         allMeshes = playroomElements.renderers;

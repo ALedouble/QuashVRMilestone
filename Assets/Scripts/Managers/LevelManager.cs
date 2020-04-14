@@ -136,8 +136,8 @@ public class LevelManager : MonoBehaviour
                 startPos4Player1.y,
                 startPos4Player1.z);
 
-        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                                  //Erreur de tag!
-        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                            //Erreur de tag!
+        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                                  
+        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                            
 
         if (currentLevel.level.levelSpec.goToSpawn != null)
             Instantiate(currentLevel.level.levelSpec.goToSpawn);
@@ -327,11 +327,11 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                playersHUD.ScoreConditionParents[0].SetActive(true);
-                playersHUD.TimerConditionParents[0].SetActive(true);
+                //playersHUD.ScoreConditionParents[0].SetActive(true);
+                //playersHUD.TimerConditionParents[0].SetActive(true);
 
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
-                TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
+                TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[0]);
             }
 
             ScoreManager.Instance.displayedCombo[i] = playersHUD.ComboData[i];

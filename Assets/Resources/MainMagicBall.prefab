@@ -562,18 +562,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsUsed: 1
-  hitMaxSpeed: 20
+  hitMaxSpeed: 40
   hitMinSpeed: 0.5
   hitSpeedMultiplier: 3
   racketFriction: 1
   mixRatio: 0
-  maxYAngle: 0
-  maxZAngle: 0
-  magnitudeSlope: 0
-  minMagnitude: 0
-  maxMagnitude: 0
   globalSpeedMultiplier: 1
-  slowness: 2
+  slowness: 1.4
   baseGravity: 9.81
   depthVelocity: 10
   xAcceleration: 0

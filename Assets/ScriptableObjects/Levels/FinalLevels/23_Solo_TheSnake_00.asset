@@ -54498,9 +54498,9 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 9000
+        conditionReachedAt: 60000
       - conditionType: 2
-        conditionComparator: 0
+        conditionComparator: 1
         conditionReachedAt: 240
       numberOfAdditionalConditions: 2
     levelSpec:

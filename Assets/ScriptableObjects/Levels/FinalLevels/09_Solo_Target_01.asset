@@ -17183,9 +17183,9 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 20000
+        conditionReachedAt: 10000
       - conditionType: 2
-        conditionComparator: 0
+        conditionComparator: 1
         conditionReachedAt: 120
       numberOfAdditionalConditions: 2
     levelSpec:

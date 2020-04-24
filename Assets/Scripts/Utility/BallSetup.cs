@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Lumin;
 
 public class BallSetup : MonoBehaviour
 {
@@ -13,6 +14,6 @@ public class BallSetup : MonoBehaviour
         {
             Debug.Log("ReadyCheck BallFirstSpawn!");
             GameManager.Instance.ReadyCheck(GameManager.Instance.BallFirstSpawn);
-        }    
+        } 
     }
 }

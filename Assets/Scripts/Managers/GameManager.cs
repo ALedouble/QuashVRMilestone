@@ -67,9 +67,12 @@ public class GameManager : MonoBehaviour
         if (offlineMode || PhotonNetwork.IsMasterClient)
         {
             isReadyToContinue = true;
+            Debug.Log("GM Start Instanciate Ball");
             ReadyCheck(InstanciateBall);
-            AddTaskToReadyCheck(SetupGameRules);
-            AddTaskToReadyCheck(StartBrickMovement);
+            Debug.Log("GM Start Instanciate Ball");
+            ReadyCheck(SetupGameRules);
+            Debug.Log("GM Start Instanciate Ball");
+            ReadyCheck(StartBrickMovement);
         }
     }
 
@@ -153,6 +156,8 @@ public class GameManager : MonoBehaviour
 
     public void SetupGameRules()
     {
+        Debug.Log("SetupGameRules");
+
         // Lire le level scriptable
         // Abonner endofgame/LoseGame
         // Initialize tout ce qu'il faut
@@ -333,6 +338,7 @@ public class GameManager : MonoBehaviour
                 ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
                 ReadyCheckDelegate();
                 photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
+                Debug.Log("Send ResumeReadyCheck RPC");
             }
         }
     }
@@ -340,6 +346,7 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     public void ResumeReadyCheck()
     {
+        Debug.Log("ResumeReadyCheck");
         isReadyToContinue = true;
         ReadyCheck();
     }
@@ -365,6 +372,7 @@ public class GameManager : MonoBehaviour
     public void SendResumeRPC()
     {
         photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
+        Debug.Log("Send ResumeReadyCheck");
     }
 
     public void DisconnectGameToMenu(){

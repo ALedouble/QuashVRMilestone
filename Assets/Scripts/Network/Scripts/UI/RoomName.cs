@@ -22,7 +22,7 @@ public class RoomName : MonoBehaviour
     [PunRPC]
     void RoomTitle()
     {
-        text.text = CreateRoom.Instance._roomName.text;
+        text.text = PhotonNetwork.MasterClient.NickName;
     }
 
     // Update is called once per frame

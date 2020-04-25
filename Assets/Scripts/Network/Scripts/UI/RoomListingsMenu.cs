@@ -58,4 +58,10 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             }
         }
     }
+
+
+    public void OnClick_Refresh()
+    {
+        PhotonNetwork.JoinLobby();
+    }
 }

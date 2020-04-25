@@ -146,6 +146,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public void OnClick_KickPlayer(){
         OnPlayerLeftRoom(PhotonNetwork.PlayerListOthers[0]);
         photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
+        
     }
 
     public void OnClick_BackToMenu(){
@@ -165,9 +166,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         if(!PhotonNetwork.IsMasterClient){
             mainScreen.SetActive(true);
             currentRoom.SetActive(false);
+            PhotonNetwork.Disconnect();
+
         }
 
-        Instantiate(GameManager.Instance.warningPrefab, GameManager.Instance.warningTransform);
+        //Instantiate(GameManager.Instance.warningPrefab, GameManager.Instance.warningTransform);
     }
 }
 

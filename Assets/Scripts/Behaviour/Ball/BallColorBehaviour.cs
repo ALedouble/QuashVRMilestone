@@ -44,7 +44,15 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         SetupColors();
         colorSwitchType = ColorSwitchType.NONE;
 
-        SetBallColor(BallManager.instance.spawnColorID);
+        if (GameManager.Instance.offlineMode)
+        {
+            SetBallColor(BallManager.instance.spawnColorID);
+        }
+        else
+        {
+            photonView.RPC("SetBallColor", RpcTarget.All, BallManager.instance.spawnColorID);
+        }
+        
     }
 
     public void Initialize(ColorSwitchType newColorSwitchType)
@@ -194,6 +202,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         return materials;
     }
 
+    [PunRPC]
     public void SetBallColor(int colorID)                                                               //A Mettre en reseau!
     {
         this.colorID = colorID;

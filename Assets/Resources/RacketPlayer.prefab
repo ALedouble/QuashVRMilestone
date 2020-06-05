@@ -274,9 +274,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 690903eebdeb7c84eb42a56c755573df, type: 2}
-  - {fileID: 2100000, guid: d8298b16608afda459475cbc38eac948, type: 2}
-  - {fileID: 2100000, guid: 0a94608d5fd9ef045922135380f6c821, type: 2}
+  - {fileID: 2100000, guid: c7962604d192e8f4c9b06f31f2ac7123, type: 2}
+  - {fileID: 2100000, guid: 0d006efa3346e24489061735d6ecfcfe, type: 2}
+  - {fileID: 2100000, guid: 97439b2486fbb7c4897f1e2c9fde090c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -407,12 +407,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4121388297604437447, guid: 443b362652ec1134b8d5100e463e2f2c,
+    - target: {fileID: 2423683376095224785, guid: 443b362652ec1134b8d5100e463e2f2c,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2423683376095224785, guid: 443b362652ec1134b8d5100e463e2f2c,
+    - target: {fileID: 6433650703572855711, guid: 443b362652ec1134b8d5100e463e2f2c,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -427,7 +427,7 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6433650703572855711, guid: 443b362652ec1134b8d5100e463e2f2c,
+    - target: {fileID: 4121388297604437447, guid: 443b362652ec1134b8d5100e463e2f2c,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -477,6 +477,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3796761571110127514}
     m_Modifications:
+    - target: {fileID: 5170862702514152613, guid: ccfd8388449fb0f4dadc5b220f725060,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_ColorSwitchGreen
+      objectReference: {fileID: 0}
     - target: {fileID: 7379065283189228697, guid: ccfd8388449fb0f4dadc5b220f725060,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -531,11 +536,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170862702514152613, guid: ccfd8388449fb0f4dadc5b220f725060,
-        type: 3}
-      propertyPath: m_Name
-      value: FX_ColorSwitchGreen
       objectReference: {fileID: 0}
     - target: {fileID: 6433650703572855711, guid: ccfd8388449fb0f4dadc5b220f725060,
         type: 3}
@@ -602,6 +602,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3796761571110127514}
     m_Modifications:
+    - target: {fileID: 5170862702514152613, guid: bc62ad96dc1da7545b27d757cfe1cccc,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_ColorSwitchedBlue
+      objectReference: {fileID: 0}
     - target: {fileID: 7379065283189228697, guid: bc62ad96dc1da7545b27d757cfe1cccc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -656,11 +661,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170862702514152613, guid: bc62ad96dc1da7545b27d757cfe1cccc,
-        type: 3}
-      propertyPath: m_Name
-      value: FX_ColorSwitchedBlue
       objectReference: {fileID: 0}
     - target: {fileID: 7609120025582971906, guid: bc62ad96dc1da7545b27d757cfe1cccc,
         type: 3}
@@ -785,6 +785,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3796761571110127514}
     m_Modifications:
+    - target: {fileID: 5170862702514152613, guid: 4e0b24a9564a9924ab524fb9237f4575,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_ColorSwitchedGreen
+      objectReference: {fileID: 0}
     - target: {fileID: 7379065283189228697, guid: 4e0b24a9564a9924ab524fb9237f4575,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -839,11 +844,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170862702514152613, guid: 4e0b24a9564a9924ab524fb9237f4575,
-        type: 3}
-      propertyPath: m_Name
-      value: FX_ColorSwitchedGreen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e0b24a9564a9924ab524fb9237f4575, type: 3}

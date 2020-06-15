@@ -52,17 +52,24 @@ public class BallManager : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
-    public void InstantiateBall()
+    public GameObject InstantiateBall()
     {
         if (GameManager.Instance.offlineMode)
         {
-            Debug.Log("Instanciate OfflineMode");
-            Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
+            Debug.Log("Instanciate Ball OfflineMode");
+            GameObject returnBall = Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
+            returnBall.SetActive(false);
+            return returnBall;
         }
         else if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Instanciate MasterClient");
-            PhotonNetwork.Instantiate(ballPrefab.name, -Vector3.one, Quaternion.identity);
+            Debug.Log("Instanciate Ball MasterClient");
+            return PhotonNetwork.Instantiate(ballPrefab.name, -Vector3.one, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError("Wrong use of BallManagerInstantiateBall");
+            return null;
         }
     }
 
@@ -75,8 +82,6 @@ public class BallManager : MonoBehaviour
         SetupBallManager();
 
         //ballColorBehaviour.SetBallColor(spawnColorID);                                            // Ball Starting Color in levelManager?
-
-        Ball.SetActive(false);
 
         Sh_GlobalDissolvePosition.Setup();
 

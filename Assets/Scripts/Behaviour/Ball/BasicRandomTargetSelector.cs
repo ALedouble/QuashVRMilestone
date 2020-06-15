@@ -12,7 +12,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     private QPlayer currentTarget;
 
     public GameObject targetTestIndicator;
-    public Vector3 CurrentTargetPlayerPosition {get {return GameManager.Instance.GetPlayerSpawn()[(int)currentTarget % GameManager.Instance.GetPlayerSpawn().Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
+    public Vector3 CurrentTargetPlayerPosition {get {return GameManager.Instance.PlayerSpawn[(int)currentTarget % GameManager.Instance.PlayerSpawn.Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
 
     public void SwitchTarget()

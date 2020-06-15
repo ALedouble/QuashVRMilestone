@@ -29,60 +29,83 @@ public class GameManager : MonoBehaviour
     public GameObject racketPrefab;
 
     public Transform[] playerSpawn;
+    public Transform[] PlayerSpawn { get => playerSpawn; }
 
     [Header("Offline Mode")]
     public bool offlineMode = false;
 
-    public bool IsBrickFreeToMove { get; private set; }                                                                                                                     
+    [Header("Menu Canvas")]
+    public GameObject warningPrefab;
+    public Transform warningTransform;
+
+
+    public bool IsBrickFreeToMove { get; private set; }
     public bool IsGameStarted { get; private set; }
     public bool HasLost { get; private set; }
 
     [HideInInspector]
     public int levelIndex;
 
-    [Header("Menu Canvas")]
-    public GameObject warningPrefab;
-    public Transform warningTransform;
+    private bool allPlayersAreReady;
+    private Queue<SequenceTask> sequenceTaskQueue;
 
-    private bool isReadyToContinue = false;
-    private Queue<Action> ReadyCheckDelegateQueue;
+    private GameObject tempBall;
 
     PhotonView photonView;
 
-
     void Awake()
     {
-        BrickBehaviours.ResetBrickCount();
         Instance = this;
         SetupOfflineMod();
         photonView = GetComponent<PhotonView>();
-        ReadyCheckDelegateQueue = new Queue<Action>();
+
+        sequenceTaskQueue = new Queue<SequenceTask>();      //A supprimer
+        allPlayersAreReady = false;
+
+        BrickBehaviours.ResetBrickCount();                  //A deplacer sur l'instantiation des briques dans la pool
     }
 
     void Start()
     {
+        
         InstantiatePlayers();
         SpawnLevel();
 
-        if (offlineMode || PhotonNetwork.IsMasterClient)
+        if (gameMod == GameMod.GAMEPLAY)
         {
-            isReadyToContinue = true;
-            Debug.Log("GM Start Instanciate Ball");
-            ReadyCheck(InstanciateBall);
-            Debug.Log("GM Start Instanciate Ball");
-            ReadyCheck(SetupGameRules);
-            Debug.Log("GM Start Instanciate Ball");
-            ReadyCheck(StartBrickMovement);
+            if(offlineMode || PhotonNetwork.IsMasterClient)
+            {
+                AddSequenceTaskToQueue(InstanciateBall, false);
+                AddSequenceTaskToQueue(SetupBall);
+
+                AddSequenceTaskToQueue(SetupGameRules);
+
+                AddSequenceTaskToQueue(StartGameplayLoop);
+
+                if (offlineMode)
+                    ResumeTaskSequence();
+                else
+                    StartCoroutine(SetupSequenceWaitCoroutine());
+            }
+            else
+            {
+                photonView.RPC("BecomeReady", RpcTarget.MasterClient);
+            }
         }
+        
     }
+
+
+
+    #region SetupMethod
+
+    #region MainSetup
 
     private void SetupOfflineMod()
     {
         if (offlineMode)
         {
             PhotonNetwork.Disconnect();
-            //Debug.Log(PhotonNetwork.OfflineMode);
-            // PhotonNetwork.OfflineMode = true;
         }
         else
         {
@@ -127,6 +150,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region GameplaySetup
+
+    private IEnumerator SetupSequenceWaitCoroutine()
+    {
+        while(!allPlayersAreReady)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        StartSequence();
+    }
+
+    [PunRPC]
+    public void BecomeReady()
+    {
+        allPlayersAreReady = true;
+    }
+
     private void SpawnLevel()
     {
         if (offlineMode)
@@ -138,7 +181,7 @@ public class GameManager : MonoBehaviour
             if (gameMod == GameMod.GAMEPLAY)
             {
                 Debug.Log(MultiLevel.Instance.levelIndex);
-              //  photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
+                //photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
 
                  SelectionLevelMulti(MultiLevel.Instance.levelIndex);
             }
@@ -147,10 +190,20 @@ public class GameManager : MonoBehaviour
 
     public void InstanciateBall()
     {
-        Debug.Log("GameManager Instanciate ball");
-        if(gameMod == GameMod.GAMEPLAY)
+        if (offlineMode || PhotonNetwork.IsMasterClient)
         {
-            BallManager.instance.InstantiateBall();
+            Debug.Log("GameManager Instanciate ball");
+            tempBall = BallManager.instance.InstantiateBall();
+        }
+    }
+
+    public void SetupBall()
+    {
+        if (offlineMode)
+            tempBall.GetComponent<BallSetup>().SetupBall();
+        else if(PhotonNetwork.IsMasterClient)
+        {
+            tempBall.GetComponent<BallSetup>().SendSetupBallRPC();
         }
     }
 
@@ -195,6 +248,102 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    #endregion
+
+    #endregion
+
+    #region NetworkSequencer
+
+    #region Sequencer
+    private struct SequenceTask
+    {
+        public Action action;
+        public bool isAutomaticallyResumed;
+
+        public SequenceTask(Action nextAction, bool isAutomatic)
+        {
+            action = nextAction;
+            isAutomaticallyResumed = isAutomatic;
+        }
+    }
+
+    private void AddSequenceTaskToQueue(Action nextAction, bool isAutomaticallyResumed = true)
+    {
+        if (nextAction != null)
+        {
+            sequenceTaskQueue.Enqueue(new SequenceTask(nextAction, isAutomaticallyResumed));
+        }
+    }
+
+    [PunRPC]
+    public void ResumeTaskSequence()
+    {
+        //Debug.Log("ResumeTaskSequence");
+        ExecuteNextTask();
+    }
+
+    public void ExecuteNextTask()
+    {
+        if (sequenceTaskQueue.Count > 0)
+        {
+            SequenceTask newSequenceTask;
+            if (offlineMode)
+            {
+                newSequenceTask = sequenceTaskQueue.Dequeue();
+                newSequenceTask.action();
+                ResumeTaskSequence();
+            }
+            else if (PhotonNetwork.IsMasterClient)
+            {
+                newSequenceTask = sequenceTaskQueue.Dequeue();
+                newSequenceTask.action();                                                               // Is there too much latenty?
+                photonView.RPC("DistantExecute", RpcTarget.Others, newSequenceTask.action.Method.Name, newSequenceTask.isAutomaticallyResumed);
+            }
+        }
+    }
+
+    [PunRPC]
+    private void DistantExecute(string methodName, bool isAutomaticallyResumed)
+    {
+        MethodInfo methodInfo = this.GetType().GetMethod(methodName);
+        if (methodInfo != null)
+        {
+            methodInfo.Invoke(this, null);
+            //ReadyCheck((Action)Delegate.CreateDelegate(typeof(Action), this, methodInfo));
+
+            if (isAutomaticallyResumed)
+            {
+                photonView.RPC("ResumeTaskSequence", RpcTarget.MasterClient);
+                Debug.Log("Send ResumeTaskSequence RPC");
+            }
+        }
+        else
+            Debug.LogError("GameManager.DistantExecute(string) : method " + methodName + " doesn't exist!");
+    }
+    #endregion
+
+    public void SendResumeRPC()
+    {
+        Debug.Log("Send ResumeTaskSequence RPC");
+        photonView.RPC("ResumeTaskSequence", RpcTarget.MasterClient);
+    }
+
+    public void StartSequence()
+    {
+        ResumeTaskSequence();
+    }
+
+    #endregion
+
+    #region GameplayControlMethods
+
+    public void StartGameplayLoop()
+    {
+        StartBrickMovement();
+        BallFirstSpawn();
+    }
+
     [PunRPC]
     public void StartBrickMovement()
     {
@@ -207,12 +356,6 @@ public class GameManager : MonoBehaviour
         BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
         BallManager.instance.BallFirstSpawn();
     }
-
-    public Transform[] GetPlayerSpawn()
-    {
-        return playerSpawn;
-    }
-
     
     public void StartTheGame()
     {
@@ -263,7 +406,9 @@ public class GameManager : MonoBehaviour
         //    JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
         //}
     }
+    #endregion
 
+    #region SceneControlMethods
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -306,101 +451,39 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.StartLevelInitialization(selection);
     }
 
-    [PunRPC]
-    public void ReadyCheck(Action nextAction = null)
+    public void DisconnectGameToMenu()
     {
-        if (nextAction != null)
+        if (gameMod == GameMod.GAMEPLAY)
         {
-            ReadyCheckDelegateQueue.Enqueue(nextAction);
-        }
-
-        Action ReadyCheckDelegate;
-        if(ReadyCheckDelegateQueue.Count > 0)
-        {
-            if (offlineMode)
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
-                ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
-                ReadyCheckDelegate();
-                ReadyCheck();
-            }
-            else if (PhotonNetwork.IsMasterClient)
-            {
-                if (isReadyToContinue)
-                {
-                    isReadyToContinue = false;
-                    ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
-                    ReadyCheckDelegate();                                                               // Is there too much latenty?
-                    photonView.RPC("ReadyCheck", RpcTarget.Others, ReadyCheckDelegate.Method.Name);
-                }
-            }
-            else
-            {
-                ReadyCheckDelegate = ReadyCheckDelegateQueue.Dequeue();
-                ReadyCheckDelegate();
-                photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
-                Debug.Log("Send ResumeReadyCheck RPC");
-            }
-        }
-    }
-
-    [PunRPC]
-    public void ResumeReadyCheck()
-    {
-        Debug.Log("ResumeReadyCheck");
-        isReadyToContinue = true;
-        ReadyCheck();
-    }
-
-    [PunRPC]
-    private void ReadyCheck(string methodName)
-    {
-        MethodInfo methodInfo = this.GetType().GetMethod(methodName);
-        if (methodInfo != null)
-            ReadyCheck((Action)Delegate.CreateDelegate(typeof(Action), this, methodInfo));
-        else
-            Debug.LogError("GameManager.ReadyCheck(string) : method " + methodName + " doesn't exist!");
-    }
-
-    private void AddTaskToReadyCheck(Action nextAction)
-    {
-        if (nextAction != null)
-        {
-            ReadyCheckDelegateQueue.Enqueue(nextAction);
-        }
-    }
-
-    public void SendResumeRPC()
-    {
-        photonView.RPC("ResumeReadyCheck", RpcTarget.MasterClient);
-        Debug.Log("Send ResumeReadyCheck");
-    }
-
-    public void DisconnectGameToMenu(){
-        if(gameMod == GameMod.GAMEPLAY)
-        {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1){
                 PhotonNetwork.DestroyAll();
                 SceneManager.LoadScene(0);
             }
         }
     }
 
-    private void Update() {
-        if(!offlineMode){
+    private void Update()
+    {
+        if (!offlineMode)
+        {
             DisconnectGameToMenu();
         }
-        
     }
 
-    public void OnClick_DisconnectToMenu(){
-        if(PhotonNetwork.IsMasterClient){
+    public void OnClick_DisconnectToMenu()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
             photonView.RPC("GoBackToMenu", RpcTarget.Others);
         }
     }
 
     [PunRPC]
-    public void GoBackToMenu(){
+    public void GoBackToMenu()
+    {
         PhotonNetwork.DestroyAll();
         SceneManager.LoadScene(0);
     }
+    #endregion
 }

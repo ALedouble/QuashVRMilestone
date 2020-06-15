@@ -144,16 +144,22 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public void OnClick_KickPlayer(){
-        OnPlayerLeftRoom(PhotonNetwork.PlayerListOthers[0]);
-        photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
-        
+        Player player = PhotonNetwork.PlayerList[1];
+        PhotonNetwork.CloseConnection(player);
+        OnPlayerLeftRoom(player);
     }
 
     public void OnClick_BackToMenu(){
         if(PhotonNetwork.IsMasterClient){
             OnPlayerLeftRoom(PhotonNetwork.PlayerListOthers[0]);
             photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
-        } 
+            PhotonNetwork.LeaveRoom();
+        }
+        else
+        {
+            PhotonNetwork.LeaveRoom();
+            OnPlayerLeftRoom(PhotonNetwork.PlayerList[1]);
+        }
     }
 
     public void KickPlayer(Player player){

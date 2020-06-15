@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        
         InstantiatePlayers();
         SpawnLevel();
 
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void InstantiatePlayers()
     {
-        if (!offlineMode)
+        if (!offlineMode && gameMod == GameMod.GAMEPLAY)
         {
             if (PhotonNetwork.IsMasterClient)
             {

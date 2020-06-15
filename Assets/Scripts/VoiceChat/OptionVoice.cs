@@ -13,14 +13,21 @@ public class OptionVoice : MonoBehaviour
     public Toggle muteToggle;
     PhotonView photonView;
 
+    bool isMuted;
+
     private void Awake()
     {
         comms = dissonance.GetComponent<DissonanceComms>();
         vbt = dissonance.GetComponent<VoiceBroadcastTrigger>();
         photonView = GetComponent<PhotonView>();
+
+        if (isMuted == true)
+        {
+            comms.IsMuted = true;
+        }
     }
 
-
+    
 
     private void Update()
     {
@@ -30,6 +37,7 @@ public class OptionVoice : MonoBehaviour
     public void IsMuted()
     {
         comms.IsMuted = muteToggle.isOn;
+        isMuted = muteToggle;
     }
 
     public void Toggle_MuteOtherPlayer(){

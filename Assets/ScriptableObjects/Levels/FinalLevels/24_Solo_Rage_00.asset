@@ -27631,8 +27631,8 @@ MonoBehaviour:
       conditionsToComplete:
       - conditionType: 0
         conditionComparator: 0
-        conditionReachedAt: 1500
-      - conditionType: 0
+        conditionReachedAt: 50000
+      - conditionType: 2
         conditionComparator: 1
         conditionReachedAt: 240
       numberOfAdditionalConditions: 2

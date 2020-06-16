@@ -3465,7 +3465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8379674731775917664
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4099,7 +4099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreConditionData: {fileID: 3569365171309567097}
-  timerConditionData: {fileID: 0}
+  timerConditionData: {fileID: 1996656603898091077}
   scoreConditionParents:
   - {fileID: 1334200778086298797}
   - {fileID: 8481464580943978405}
@@ -4113,6 +4113,9 @@ MonoBehaviour:
   - {fileID: 6460775419107258322}
   - {fileID: 6240738437146168691}
   - {fileID: 1143563717806940785}
+  TimerStars:
+  - {fileID: 5586832959718126379}
+  - {fileID: 2318642036216272373}
   scoreDATAs:
   - {fileID: 7684950553098863549}
   - {fileID: 2378152548827728617}
@@ -4120,8 +4123,8 @@ MonoBehaviour:
   - {fileID: 1870874328645935310}
   fillBarData: {fileID: 7293421053369135923}
   timerData:
-  - {fileID: 0}
-  - {fileID: 2776452442434724500}
+  - {fileID: 7391310189988555749}
+  - {fileID: 4186439101979318352}
   maxScoreData:
   - {fileID: 8905695093484661469}
   maxComboData:
@@ -4983,7 +4986,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6765634266479756947}
   - component: {fileID: 8695447573306574606}
-  - component: {fileID: 2776452442434724500}
+  - component: {fileID: 1996656603898091077}
   - component: {fileID: 2655476293936027388}
   m_Layer: 5
   m_Name: _withConditionTimerData
@@ -5019,7 +5022,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6957114986105807606}
   m_CullTransparentMesh: 0
---- !u!114 &2776452442434724500
+--- !u!114 &1996656603898091077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5028,7 +5031,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6957114986105807606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85e3f50576bd1f94cae8c38dd70659df, type: 3}
+  m_Script: {fileID: 11500000, guid: fb9c3fcae71a1bc448d44d8d822caf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 2655476293936027388}
@@ -5746,7 +5749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3198267155082833563
 Transform:
   m_ObjectHideFlags: 0

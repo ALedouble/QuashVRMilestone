@@ -37,16 +37,24 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
         PhotonNetwork.JoinOrCreateRoom(PhotonNetwork.NickName, options, TypedLobby.Default);
-        
     }
 
     public override void OnCreatedRoom(){
       Debug.Log("Created room successfully.");
       roomCanvases.CurrentRoomCanvas.Show();
       roomCanvases.CreateOrJoinRoomCanvas.Hide();
+      PlayerListingsMenu.Instance.GetCurrentRoomPlayers();
+        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message){
         Debug.Log("Room creation failed:" + message, this);
+    }
+
+    IEnumerator GetCurrentRoom()
+    {
+        yield return new WaitForSeconds(1f);
+       
+        Debug.Log("checking success");
     }
 }

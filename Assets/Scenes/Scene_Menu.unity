@@ -3267,7 +3267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a074c45a9b42f7439cee3f3c999eb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createRoomMenu: {fileID: 220916262}
+  createRoomMenu: {fileID: 0}
   _roomListingsMenu: {fileID: 1918277309}
 --- !u!1 &220916260
 GameObject:
@@ -3282,7 +3282,6 @@ GameObject:
   - component: {fileID: 220916265}
   - component: {fileID: 220916264}
   - component: {fileID: 220916263}
-  - component: {fileID: 220916262}
   - component: {fileID: 220916267}
   - component: {fileID: 220916268}
   - component: {fileID: 220916269}
@@ -3315,20 +3314,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 4, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &220916262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220916260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c752ec2f413342643b4e00b9b63f27f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _roomName: {fileID: 981584210}
-  buttonCreate: {fileID: 0}
 --- !u!114 &220916263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34974,7 +34959,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587210049}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c752ec2f413342643b4e00b9b63f27f1, type: 3}
   m_Name: 
@@ -35043,7 +35028,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 220916262}
+      - m_Target: {fileID: 587210051}
         m_MethodName: OnClick_CreateRoom
         m_Mode: 1
         m_Arguments:
@@ -41890,6 +41875,7 @@ MonoBehaviour:
   content: {fileID: 451449331}
   _playerListing: {fileID: -693392574943863421, guid: 255b804da88dd2c49b08c343e1376f71,
     type: 3}
+  _listings: []
   levelSelectionCanvas: {fileID: 1499934103}
   buttonLaunch: {fileID: 1139281838}
   kickPlayerButton: {fileID: 4507639601109803443}
@@ -46334,8 +46320,8 @@ MonoBehaviour:
           m_StringArgument: A_Window_Disappear
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1110452253}
-        m_MethodName: OnClick_BackToMenu
+      - m_Target: {fileID: 4507639602031599892}
+        m_MethodName: OnClick_LeaveRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

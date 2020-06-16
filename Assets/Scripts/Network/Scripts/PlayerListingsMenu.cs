@@ -23,7 +23,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [SerializeField]
     private PlayerListing _playerListing;
 
-    private List<PlayerListing> _listings = new List<PlayerListing>();
+    public List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
 
     public GameObject levelSelectionCanvas;
@@ -45,9 +45,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         
     }
 
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        for(int i = 0; i < _listings.Count; i++)
+        {
+            Destroy(_listings[i].gameObject);
+        }
+
+        _listings.Clear();
+    }
+
     private void Update() {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log(_listings.Count);
             buttonLaunch.SetActive(true);
         }
         else
@@ -75,11 +87,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         _roomsCanvases = canvases;
     }
 
-    public override void OnLeftRoom(){
-        content.DestroyChildren();
-    }
 
-    private void GetCurrentRoomPlayers(){
+
+    public void GetCurrentRoomPlayers(){
         if(!PhotonNetwork.IsConnected)
             return;
 
@@ -92,12 +102,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     private void AddPlayerListing(Player player){
-        PlayerListing listing = Instantiate(_playerListing, content);
-        
-            if (listing != null){
+        int index = _listings.FindIndex(x => x.Player == player);
+        if(index != -1)
+        {
+            _listings[index].SetPlayerInfo(player);
+        }
+        else
+        {
+            PlayerListing listing = Instantiate(_playerListing, content);
+
+            if (listing != null)
+            {
                 listing.SetPlayerInfo(player);
                 _listings.Add(listing);
-            }    
+            }
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
@@ -145,8 +164,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public void OnClick_KickPlayer(){
         Player player = PhotonNetwork.PlayerList[1];
-        PhotonNetwork.CloseConnection(player);
         OnPlayerLeftRoom(player);
+        PhotonNetwork.CloseConnection(player);
+       
+        photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
     }
 
     public void OnClick_BackToMenu(){
@@ -158,7 +179,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         else
         {
             PhotonNetwork.LeaveRoom();
-            OnPlayerLeftRoom(PhotonNetwork.PlayerList[1]);
+           // OnPlayerLeftRoom(PhotonNetwork.PlayerList[1]);
         }
     }
 
@@ -170,9 +191,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ResetPlayerToMainScreen(){
         if(!PhotonNetwork.IsMasterClient){
+            PhotonNetwork.LeaveRoom();
+            _listings = new List<PlayerListing>();
             mainScreen.SetActive(true);
             currentRoom.SetActive(false);
-            PhotonNetwork.Disconnect();
+           // PhotonNetwork.Disconnect();
 
         }
 

@@ -93,7 +93,8 @@ public class TimeManager : MonoBehaviour
     {
         if (currentTimer > 0)
         {
-            CurrentTimer -= Time.fixedDeltaTime * timerSpeedModifier;
+            //Incrémente le timer
+            CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;
 
             if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
             {
@@ -110,6 +111,17 @@ public class TimeManager : MonoBehaviour
             }
         }
 
+        //No more time left
+        if (currentTimer <= LevelMaxTime)
+        {
+            CurrentTimer = LevelMaxTime;
+            IsTimeFlying = false;
+
+            OnTimerEnd?.Invoke();
+        }
+
+        // Old Stuff
+        /*
         if (currentTimer <= 0)
         {
             CurrentTimer = 0;
@@ -117,6 +129,7 @@ public class TimeManager : MonoBehaviour
 
             OnTimerEnd?.Invoke();
         }
+        */
     }
 
     private void UpdateTimeText()
@@ -154,6 +167,7 @@ public class TimeManager : MonoBehaviour
                 }
             }
 
+            //Décrémentation de l'UI (fill image) pour le timer 
             timerGUI.FillImage(currentTimer / LevelMaxTime);
         }
     }

@@ -220,7 +220,7 @@ public class LevelManager : MonoBehaviour
             {
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
 
-                playersHUD.ScoreConditionParents[0].SetActive(true);
+                //playersHUD.ScoreConditionParents[0].SetActive(true);
 
 
                 //Set text value for levelMax timer
@@ -299,6 +299,7 @@ public class LevelManager : MonoBehaviour
                                     playersHUD.TimerConditionParents[1].SetActive(true);
                                     //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[1]);
                                     TimeManager.Instance.timerConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
+                                    TimeManager.Instance.isThereTimerCondition = true;
 
                                     string text = "";
 

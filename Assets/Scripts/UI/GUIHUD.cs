@@ -243,7 +243,7 @@ public class GUIHUD : MonoBehaviour
                                 case CompleteConditionType.Timing:
                                     if (time < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                                     {
-                                        if (time > level.level.levelProgression.minTiming)
+                                        if (time < level.level.levelProgression.minTiming)
                                             levelValue.bestTime = time;
                                         else
                                             levelValue.bestTime = level.level.levelProgression.minTiming;
@@ -251,7 +251,13 @@ public class GUIHUD : MonoBehaviour
                                         completedStars[i + 1].SetActive(true);
                                     }
                                     else
-                                        levelValue.bestTime = level.level.levelProgression.minTiming;
+                                    {
+                                        if (time < level.level.levelProgression.minTiming)
+                                            levelValue.bestTime = time;
+                                        else
+                                            levelValue.bestTime = level.level.levelProgression.minTiming;
+                                    }
+                                        
 
                                     isThereTimeCondition = true;
                                     break;

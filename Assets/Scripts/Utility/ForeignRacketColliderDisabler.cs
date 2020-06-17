@@ -9,7 +9,7 @@ public class ForeignRacketColliderDisabler : MonoBehaviour
     {
        if(!GameManager.Instance.offlineMode && !(gameObject.GetComponent<PhotonView>().IsMine))
        {
-            Debug.Log("Foreign Collider Deactivation + Set in Racket Manager");
+            //Debug.Log("Foreign Collider Deactivation + Set in Racket Manager");
             gameObject.GetComponent<BoxCollider>().enabled = false;
             RacketManager.instance.SetForeignPlayerRacket(gameObject);
        }

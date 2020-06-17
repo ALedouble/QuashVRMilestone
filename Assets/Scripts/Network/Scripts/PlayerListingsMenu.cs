@@ -14,7 +14,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         Instance = this;
         photonView = GetComponent<PhotonView>();
-        GetCurrentRoomPlayers();
     }
     #endregion
 

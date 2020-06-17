@@ -3267,7 +3267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a074c45a9b42f7439cee3f3c999eb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createRoomMenu: {fileID: 0}
+  createRoomMenu: {fileID: 2820985663557350354}
   _roomListingsMenu: {fileID: 1918277309}
 --- !u!1 &220916260
 GameObject:
@@ -49952,6 +49952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adc7b2345ac8c548819b1bf513a396d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomCanvases: {fileID: 0}
 --- !u!95 &1653237345
 Animator:
   serializedVersion: 3
@@ -61111,6 +61112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adc7b2345ac8c548819b1bf513a396d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomCanvases: {fileID: 0}
 --- !u!224 &4507639601109803442
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61446,6 +61448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adc7b2345ac8c548819b1bf513a396d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomCanvases: {fileID: 8013209652902522248}
 --- !u!114 &4645583260713444362
 MonoBehaviour:
   m_ObjectHideFlags: 0

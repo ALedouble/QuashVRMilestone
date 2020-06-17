@@ -164,6 +164,8 @@ public class FXManager : MonoBehaviour
         //    photonView.RPC("PlayExplosionFX", RpcTarget.All, origin, playerID);
         //}
 
+        // Beurk! Caca! A refaire!
+
         PlayExplosionFX(origin, playerID);
         isExplosion = true;
     }
@@ -184,6 +186,7 @@ public class FXManager : MonoBehaviour
     private void PlayExplosionFXRPC(Vector3 origin, int playerID)
     {
         originPos = origin;
+        Vector3 fxPos = new Vector3(origin.x, origin.y, -0.5f);
         //maxRadius = intensity * intensityModifier;
         maxRadius = playersRadius[playerID];
 
@@ -191,12 +194,12 @@ public class FXManager : MonoBehaviour
         switch (BallManager.instance.GetBallColorID())
         {
             case 0:
-                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", originPos, Quaternion.identity);
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);
 
                 break;
 
             case 1:
-                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", originPos, Quaternion.identity);
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", fxPos, Quaternion.identity);
 
                 break;
         }

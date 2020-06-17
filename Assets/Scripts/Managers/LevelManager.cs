@@ -188,7 +188,8 @@ public class LevelManager : MonoBehaviour
         FXManager.Instance.playersRadius = new float[numberOfPlayers];
 
         TimeManager.Instance.LevelMaxTime = currentLevel.level.levelSpec.timeForThisLevel;
-        TimeManager.Instance.CurrentTimer = currentLevel.level.levelSpec.timeForThisLevel;
+        TimeManager.Instance.CurrentTimer = 0;
+        //TimeManager.Instance.CurrentTimer = currentLevel.level.levelSpec.timeForThisLevel;
 
         InitRoom();
 
@@ -218,6 +219,44 @@ public class LevelManager : MonoBehaviour
             if (i == 0 && GameManager.Instance.offlineMode)
             {
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
+
+                playersHUD.ScoreConditionParents[0].SetActive(true);
+
+
+                //Set text value for levelMax timer
+                string textForLevelMax = "";
+
+                int minutesForLevelMax = (int)TimeManager.Instance.LevelMaxTime / 60;
+                int secondsForLevelMax = (int)TimeManager.Instance.LevelMaxTime - (minutesForLevelMax * 60);
+
+                if (minutesForLevelMax < 10)
+                {
+                    if (secondsForLevelMax < 10)
+                    {
+                        textForLevelMax = "0" + minutesForLevelMax + ":" + "0" + secondsForLevelMax;
+                        playersHUD.TimerData[1].UpdateText(textForLevelMax);
+                    }
+                    else
+                    {
+                        textForLevelMax = "0" + minutesForLevelMax + ":" + secondsForLevelMax;
+                        playersHUD.TimerData[1].UpdateText(textForLevelMax);
+                    }
+                }
+                else
+                {
+                    if (secondsForLevelMax < 10)
+                    {
+                        textForLevelMax = minutesForLevelMax + ":" + "0" + secondsForLevelMax;
+                        playersHUD.TimerData[1].UpdateText(textForLevelMax);
+                    }
+                    else
+                    {
+                        textForLevelMax = minutesForLevelMax + ":" + secondsForLevelMax;
+                        playersHUD.TimerData[1].UpdateText(textForLevelMax);
+                    }
+                }
+
+
 
                 int length = currentLevel.level.levelProgression.numberOfAdditionalConditions;
 
@@ -258,7 +297,7 @@ public class LevelManager : MonoBehaviour
                                 if (!isTimerType)
                                 {
                                     playersHUD.TimerConditionParents[1].SetActive(true);
-                                    TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[1]);
+                                    //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[1]);
                                     TimeManager.Instance.timerConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
 
                                     string text = "";
@@ -295,7 +334,19 @@ public class LevelManager : MonoBehaviour
 
                                     isTimerType = true;
 
-                                    TimeManager.Instance.isThereTimerCondition = true;
+                                    //Check if timer condition is already completed
+                                    if (currentLevel.level.levelProgression.minTiming < TimeManager.Instance.timerConditionValue)
+                                    {
+                                        //YES
+                                        playersHUD.TimerStars[1].SetActive(true);
+                                        TimeManager.Instance.isThereTimerCondition = false;
+                                    }
+                                    else
+                                    {
+                                        //NO
+                                        playersHUD.TimerStars[0].SetActive(true);
+                                        TimeManager.Instance.isThereTimerCondition = true;
+                                    }
                                 }
                                 break;
                         }
@@ -310,20 +361,22 @@ public class LevelManager : MonoBehaviour
 
                     if (!isTimerType)
                     {
-                        playersHUD.TimerConditionParents[0].SetActive(true);
-                        TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
+                        //playersHUD.TimerConditionParents[0].SetActive(true);
+                        //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
                     }
 
                 }
                 else
                 {
                     playersHUD.ScoreConditionParents[0].SetActive(true);
-                    playersHUD.TimerConditionParents[0].SetActive(true);
+                    //playersHUD.TimerConditionParents[0].SetActive(true);
 
                     Debug.Log("LOGY LOGY");
                     ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
-                    TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
+                    //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
                 }
+
+                TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[0]);
             }
             else
             {

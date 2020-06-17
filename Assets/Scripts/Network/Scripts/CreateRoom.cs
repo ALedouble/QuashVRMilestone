@@ -32,7 +32,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if(!PhotonNetwork.IsConnected){
             return;
         }
-            
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 2;
@@ -40,10 +39,8 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     }
 
     public override void OnCreatedRoom(){
-      Debug.Log("Created room successfully.");
       roomCanvases.CurrentRoomCanvas.Show();
       roomCanvases.CreateOrJoinRoomCanvas.Hide();
-      PlayerListingsMenu.Instance.GetCurrentRoomPlayers();
         Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
     }
 

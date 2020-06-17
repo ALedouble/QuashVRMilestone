@@ -47,7 +47,7 @@ public class TimeManager : MonoBehaviour
 
         IsTimeFlying = false;
         currentTimer = 0f;
-        LevelMaxTime = 0f;
+        //LevelMaxTime = 0f;
     }
 
     private void Update()
@@ -70,8 +70,10 @@ public class TimeManager : MonoBehaviour
 
     public void SetNewTimer(float newTimer)
     {
-        currentTimer = newTimer;
+        currentTimer = 0;
         LevelMaxTime = newTimer;
+        //currentTimer = newTimer;
+        //LevelMaxTime = newTimer;
     }
 
     public void StartTimer()
@@ -86,20 +88,22 @@ public class TimeManager : MonoBehaviour
 
     public void ResetTimer()
     {
-        CurrentTimer = LevelMaxTime;
+        CurrentTimer = 0;
+        //CurrentTimer = LevelMaxTime;
     }
 
     private void UpdateTimer()
     {
         if (currentTimer > 0)
         {
-            CurrentTimer -= Time.fixedDeltaTime * timerSpeedModifier;
+            //Incrémente le timer
+            CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;
 
             if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
             {
                 if (isThereTimerCondition)
                 {
-                    if (CurrentTimer < timerConditionValue)
+                    if (CurrentTimer > timerConditionValue)
                     {
                         Debug.Log("CurrentTimer : " + CurrentTimer);
                         Debug.Log("timerConditionValue : " + timerConditionValue);
@@ -110,6 +114,17 @@ public class TimeManager : MonoBehaviour
             }
         }
 
+        //No more time left
+        if (currentTimer >= LevelMaxTime)
+        {
+            CurrentTimer = LevelMaxTime;
+            IsTimeFlying = false;
+
+            OnTimerEnd?.Invoke();
+        }
+
+        // Old Stuff
+        /*
         if (currentTimer <= 0)
         {
             CurrentTimer = 0;
@@ -117,6 +132,7 @@ public class TimeManager : MonoBehaviour
 
             OnTimerEnd?.Invoke();
         }
+        */
     }
 
     private void UpdateTimeText()
@@ -154,6 +170,7 @@ public class TimeManager : MonoBehaviour
                 }
             }
 
+            //Décrémentation de l'UI (fill image) pour le timer 
             timerGUI.FillImage(currentTimer / LevelMaxTime);
         }
     }

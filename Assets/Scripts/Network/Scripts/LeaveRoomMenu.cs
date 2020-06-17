@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class LeaveRoomMenu : MonoBehaviour
 {
-   private RoomCanvasGroup roomCanvases;
+   public RoomCanvasGroup roomCanvases;
 
    public void FirstInitialize(RoomCanvasGroup canvases){
        roomCanvases = canvases;
    }
 
    public void OnClick_LeaveRoom(){
-       PhotonNetwork.LeaveRoom(true);
+       PhotonNetwork.LeaveRoom(false);
        roomCanvases.CurrentRoomCanvas.Hide();
    }
 }

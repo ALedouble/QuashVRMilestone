@@ -17,6 +17,8 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] Animator scoreCompletedAnim;
     [SerializeField] GameObject[] completedStars;
 
+    public GameObject[] TimerStars;
+
     [Header("HUD References")]
     [SerializeField] GUIScoreData[] scoreDATAs;
     [SerializeField] GUIComboData[] comboData;
@@ -56,6 +58,8 @@ public class GUIHUD : MonoBehaviour
     public GameObject[] ScoreConditionParents { get => scoreConditionParents; }
     //public GameObject[] ComboConditionParents { get => comboConditionParents; }
     public GameObject[] TimerConditionParents { get => timerConditionParents; }
+
+    
 
     public GUIComboData[] ComboData { get => comboData; }
     public GUIFillBarData FillBarData { get => fillBarData; }

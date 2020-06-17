@@ -38,6 +38,11 @@ public class Campaign : MonoBehaviour
     [HideInInspector] public int totalOfStars;
     public TextMeshProUGUI starCounter;
 
+    [Header("Conditions Specifics")]
+    public string timingConditionEntry;
+    public string scoreConditionEntry;
+    public string comboConditionEntry;
+
     [Header("Side Panel")]
     public GameObject sidePanel;
 
@@ -486,12 +491,28 @@ public class Campaign : MonoBehaviour
         //Set Up COndition if necessary
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
         {
-            if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator == CompleteConditionComparator.Min)
-                levelRecapValues.conditionComparator[0].text = ">";
-            else
-                levelRecapValues.conditionComparator[0].text = "<";
+            //if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator == CompleteConditionComparator.Min)
+            //    levelRecapValues.conditionComparator[0].text = ">";
+            //else
+            //    levelRecapValues.conditionComparator[0].text = "<";
 
-            levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
+
+            switch (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType)
+            {
+                case CompleteConditionType.Combo:
+                    levelRecapValues.conditionType[0].text = comboConditionEntry;
+                    break;
+
+                case CompleteConditionType.Score:
+                    levelRecapValues.conditionType[0].text = scoreConditionEntry;
+                    break;
+
+                case CompleteConditionType.Timing:
+                    levelRecapValues.conditionType[0].text = timingConditionEntry;
+                    break;
+            }
+
+            //levelRecapValues.conditionType[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType.ToString();
 
             if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType == CompleteConditionType.Timing)
             {
@@ -531,13 +552,63 @@ public class Campaign : MonoBehaviour
 
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 1)
         {
-            if (selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator == CompleteConditionComparator.Min)
-                levelRecapValues.conditionComparator[1].text = ">";
-            else
-                levelRecapValues.conditionComparator[1].text = "<";
+            //if (selectedLevel.level.levelProgression.conditionsToComplete[1].conditionComparator == CompleteConditionComparator.Min)
+            //    levelRecapValues.conditionComparator[1].text = ">";
+            //else
+            //    levelRecapValues.conditionComparator[1].text = "<";
 
-            levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
-            levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
+            switch(selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType)
+            {
+                case CompleteConditionType.Combo:
+                    levelRecapValues.conditionType[1].text = comboConditionEntry;
+                    break;
+
+                case CompleteConditionType.Score:
+                    levelRecapValues.conditionType[1].text = scoreConditionEntry;
+                    break;
+
+                case CompleteConditionType.Timing:
+                    levelRecapValues.conditionType[1].text = timingConditionEntry;
+                    break;
+            }
+
+            //levelRecapValues.conditionType[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType.ToString();
+            //levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
+
+            if (selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType == CompleteConditionType.Timing)
+            {
+                int conditionMinutes = (int)selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt / 60;
+                int conditionSeconds = (int)selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt - (conditionMinutes * 60);
+
+                if (conditionMinutes < 10)
+                {
+                    if (conditionSeconds < 10)
+                    {
+                        levelRecapValues.conditionReachedAt[1].text = ("0" + conditionMinutes + ":" + "0" + conditionSeconds);
+                    }
+                    else
+                    {
+                        levelRecapValues.conditionReachedAt[1].text = ("0" + conditionMinutes + ":" + conditionSeconds);
+                    }
+                }
+                else
+                {
+                    if (conditionSeconds < 10)
+                    {
+                        levelRecapValues.conditionReachedAt[1].text = (conditionMinutes + ":" + "0" + conditionSeconds);
+                    }
+                    else
+                    {
+                        levelRecapValues.conditionReachedAt[1].text = (conditionMinutes + ":" + conditionSeconds);
+                    }
+                }
+
+
+            }
+            else
+            {
+                levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
+            }
         }
 
 

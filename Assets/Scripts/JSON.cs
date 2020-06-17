@@ -342,7 +342,8 @@ public class JSON : MonoBehaviour
 
                 presentedDATA.savedObjects[i].bestScore = 0;
                 presentedDATA.savedObjects[i].bestCombo = 0;
-                presentedDATA.savedObjects[i].bestTime = 0;
+                presentedDATA.savedObjects[i].bestTime = (int)levelsToSave[i].level.levelSpec.timeForThisLevel;
+                //presentedDATA.savedObjects[i].bestTime = 0;
             }
         }
 

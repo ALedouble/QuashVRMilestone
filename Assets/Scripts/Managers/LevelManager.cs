@@ -335,18 +335,18 @@ public class LevelManager : MonoBehaviour
                                     isTimerType = true;
 
                                     //Check if timer condition is already completed
-                                    if (currentLevel.level.levelProgression.minTiming < TimeManager.Instance.timerConditionValue)
-                                    {
-                                        //YES
-                                        playersHUD.TimerStars[1].SetActive(true);
-                                        TimeManager.Instance.isThereTimerCondition = false;
-                                    }
-                                    else
-                                    {
-                                        //NO
-                                        playersHUD.TimerStars[0].SetActive(true);
-                                        TimeManager.Instance.isThereTimerCondition = true;
-                                    }
+                                    //if (currentLevel.level.levelProgression.minTiming < TimeManager.Instance.timerConditionValue)
+                                    //{
+                                    //    //YES
+                                    //    playersHUD.TimerStars[1].SetActive(true);
+                                    //    TimeManager.Instance.isThereTimerCondition = false;
+                                    //}
+                                    //else
+                                    //{
+                                    //    //NO
+                                    //    playersHUD.TimerStars[0].SetActive(true);
+                                    //    TimeManager.Instance.isThereTimerCondition = true;
+                                    //}
                                 }
                                 break;
                         }

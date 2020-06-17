@@ -56,14 +56,14 @@ public class BallManager : MonoBehaviour
     {
         if (GameManager.Instance.offlineMode)
         {
-            Debug.Log("Instanciate Ball OfflineMode");
+            //Debug.Log("Instanciate Ball OfflineMode");
             GameObject returnBall = Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
             returnBall.SetActive(false);
             return returnBall;
         }
         else if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Instanciate Ball MasterClient");
+            //Debug.Log("Instanciate Ball MasterClient");
             return PhotonNetwork.Instantiate(ballPrefab.name, -Vector3.one, Quaternion.identity);
         }
         else
@@ -102,7 +102,12 @@ public class BallManager : MonoBehaviour
 
     public void BallBecomeInPlay()                                                                              //Check util?
     {
-        SetBallInPlay();
+        if(GameManager.Instance.offlineMode)
+            SetBallInPlay();
+        else
+        {
+            photonView.RPC("SetBallInPlay", RpcTarget.All);
+        }
     }
 
     [PunRPC]
@@ -122,7 +127,7 @@ public class BallManager : MonoBehaviour
     #region Ball Manipulation
     public void BallFirstSpawn()
     {
-        Debug.Log("BallFirstSpawn SpawnBallLocally!");
+        //Debug.Log("BallFirstSpawn SpawnBallLocally!");
         SpawnBallLocaly();
         
         BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);

@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
 
         sequenceTaskQueue = new Queue<SequenceTask>();      //A supprimer
         allPlayersAreReady = false;
+        IsGameStarted = false;
 
         BrickBehaviours.ResetBrickCount();                  //A deplacer sur l'instantiation des briques dans la pool
     }
@@ -192,7 +193,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode || PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("GameManager Instanciate ball");
+            //Debug.Log("GameManager Instanciate ball");
             tempBall = BallManager.instance.InstantiateBall();
         }
     }
@@ -209,11 +210,13 @@ public class GameManager : MonoBehaviour
 
     public void SetupGameRules()
     {
-        Debug.Log("SetupGameRules");
+        //Debug.Log("SetupGameRules");
 
         // Lire le level scriptable
         // Abonner endofgame/LoseGame
         // Initialize tout ce qu'il faut
+
+        BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
 
         if (offlineMode)
         {
@@ -245,6 +248,9 @@ public class GameManager : MonoBehaviour
         else
         {
             BallManager.instance.BallColorBehaviour.Initialize(ColorSwitchType.RACKETEMPOWERED);
+            
+            if(PhotonNetwork.IsMasterClient)
+                TimeManager.Instance.OnTimerEnd += LoseTheGame;
         }
     }
 
@@ -325,7 +331,7 @@ public class GameManager : MonoBehaviour
 
     public void SendResumeRPC()
     {
-        Debug.Log("Send ResumeTaskSequence RPC");
+        //Debug.Log("Send ResumeTaskSequence RPC");
         photonView.RPC("ResumeTaskSequence", RpcTarget.MasterClient);
     }
 
@@ -352,8 +358,7 @@ public class GameManager : MonoBehaviour
 
     public void BallFirstSpawn()
     {
-        Debug.Log("BallFirstSpawn");
-        BallEventManager.instance.OnCollisionWithRacket += StartTheGame;
+        //Debug.Log("BallFirstSpawn");
         BallManager.instance.BallFirstSpawn();
     }
     
@@ -363,7 +368,7 @@ public class GameManager : MonoBehaviour
         {
             StartTheGameRPC();
         }
-        else if(PhotonNetwork.IsMasterClient)
+        else
         {
             photonView.RPC("StartTheGameRPC", RpcTarget.All);
         }
@@ -372,12 +377,15 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void StartTheGameRPC()
     {
-        IsGameStarted = true;
+        if(!IsGameStarted)
+        {
+            IsGameStarted = true;
 
-        //TimeManager.Instance.OnTimerEnd += EndOfTheGame;
-        TimeManager.Instance.StartTimer();
+            //TimeManager.Instance.OnTimerEnd += EndOfTheGame;
+            TimeManager.Instance.StartTimer();
 
-        BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
+            BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
+        }
     }
 
     public void LoseTheGame()

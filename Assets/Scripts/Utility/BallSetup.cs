@@ -30,7 +30,7 @@ public class BallSetup : MonoBehaviour
     {
         //Ajouter la mise au point de la couleur?
         //GameManager.Instance.BallFirstSpawn();
-        Debug.Log("SetupBall");
+        //Debug.Log("SetupBall");
         BallManager.instance.SetupBall(gameObject);
     }
 

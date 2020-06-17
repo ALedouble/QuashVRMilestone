@@ -81,6 +81,7 @@ public class BallEventManager : MonoBehaviour
 
     public void SendBallColorSwitchEvent()
     {
+        //Debug.Log("BallColorSwitchEvent");
         OnBallColorSwitch?.Invoke();
     }
 }

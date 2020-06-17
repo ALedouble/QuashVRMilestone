@@ -41,7 +41,7 @@ public class RacketManager : MonoBehaviour
     public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
     public Vector3 racketRotationOffset = new Vector3(0f, 180f, 90f);
 
-    
+
     public bool IsEmpowered { get; private set; }
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
@@ -59,6 +59,7 @@ public class RacketManager : MonoBehaviour
     private Action racketAction;
 
     public int RacketColorID { get; private set; }
+    public int ForeignRacketColorID { get; private set; }
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class RacketManager : MonoBehaviour
         photonView = GetComponent<PhotonView>();
 
         racketActionType = RacketActionType.NONE;
+        IsEmpowered = false;
         //Initialize(RacketActionType.RACKETEMPOWERED);
     }
 
@@ -79,7 +81,9 @@ public class RacketManager : MonoBehaviour
     {
         TerminateRacketAction();
 
-        switch(newRacketActionType)
+        //Debug.Log("RacketManager.Initialize( TYPE : " + newRacketActionType + ")");
+
+        switch (newRacketActionType)
         {
             case RacketActionType.RACKETEMPOWERED:
                 racketAction = EmpoweredStateAction;
@@ -131,7 +135,7 @@ public class RacketManager : MonoBehaviour
 
     public void SetForeignPlayerRacket(GameObject foreignRacket)
     {
-        Debug.Log("Set foreignRacket in RacketManager");
+        //Debug.Log("Set foreignRacket in RacketManager");
         foreignPlayerRacket = foreignRacket;
 
         foreignRacketRenderer = foreignPlayerRacket.GetComponentInChildren<MeshRenderer>();
@@ -188,11 +192,13 @@ public class RacketManager : MonoBehaviour
     public void SetRacketsColor(int newColorID)
     {
         RacketColorID = newColorID;
+        ForeignRacketColorID = newColorID;
+
         localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
         if(!GameManager.Instance.offlineMode)
-            foreignRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
+            foreignRacketRenderer.sharedMaterials = racketMats[ForeignRacketColorID].racketMaterial;
 
-        Debug.Log("SetRacketColor colorID: " + RacketColorID);
+        //Debug.Log("SetRacketColor colorID: " + RacketColorID);
     }
 
     public void SwitchRacketColor()                                                                     //Rendre plus propre?
@@ -201,10 +207,7 @@ public class RacketManager : MonoBehaviour
 
         if (!GameManager.Instance.offlineMode)
         {
-            if (foreignPlayerRacket)
-                photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
-            else
-                Debug.LogError("NullException : ForeignPlayerRacket not set");
+            photonView.RPC("SwitchForeignRacketColor", RpcTarget.Others);
         }
     }
 
@@ -215,13 +218,16 @@ public class RacketManager : MonoBehaviour
 
         if (IsEmpowered)
             localRacketFX.FXSwitchColorFX();
+
+        //Debug.Log("LocalRacketColor Switched!");
     }
 
     [PunRPC]
     private void SwitchForeignRacketColor()
     {
-        RacketColorID = RacketColorID % 2 + 1;
-        foreignRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
+        ForeignRacketColorID = ForeignRacketColorID % 2 + 1;
+        foreignRacketRenderer.sharedMaterials = racketMats[ForeignRacketColorID].racketMaterial;
+        //Debug.Log("ForeignRacketColor Switched!");
     }
     #endregion
 
@@ -254,7 +260,8 @@ public class RacketManager : MonoBehaviour
     public void EnterEmpoweredState()
     {
         IsEmpowered = true;
-        
+
+        //Debug.Log("Empower Switch");
         SwitchRacketColor();
 
         localRacketFX.PlaySwitchColorFX();
@@ -282,6 +289,7 @@ public class RacketManager : MonoBehaviour
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
 
+        Debug.Log("Desempower Switch");
         SwitchRacketColor();
     }
     #endregion

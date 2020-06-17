@@ -168,6 +168,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         SendBallCollisionExitEvent(collision.gameObject.tag);
     }
 
+
+    #region A ranger
+
     private void SendBallCollisionEvent(string tag)
     {
         if (GameManager.Instance.offlineMode)
@@ -176,7 +179,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
         else if (tag == "Racket")
         {
-            photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
+            //photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
+            BallEventManager.instance.OnBallCollision(tag);
         }
         else
         {
@@ -309,6 +313,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             currentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
         }
     }
+
+    #endregion
 
     #region RacketInteraction
 

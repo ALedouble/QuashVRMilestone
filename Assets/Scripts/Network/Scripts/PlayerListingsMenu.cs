@@ -20,7 +20,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
      [SerializeField]
     private Transform content;
     [SerializeField]
-    private PlayerListing _playerListing;
+    public PlayerListing _playerListing;
 
     public List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomCanvasGroup _roomsCanvases;
@@ -39,9 +39,9 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     bool launchingGame = false;
 
 
-    private void Start() {
-        StartCoroutine("checkCurrentRoom");   
-        
+    public override void OnEnable() {
+
+        CheckCurrentRoom();
     }
 
     public override void OnDisable()
@@ -58,7 +58,6 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     private void Update() {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log(_listings.Count);
             buttonLaunch.SetActive(true);
         }
         else
@@ -77,8 +76,10 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator checkCurrentRoom(){
+    IEnumerator CheckCurrentRoom(){
+        
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("test coroutine");
         GetCurrentRoomPlayers();
     }
 
@@ -104,12 +105,13 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         int index = _listings.FindIndex(x => x.Player == player);
         if(index != -1)
         {
+            Debug.Log("index not - 1");
             _listings[index].SetPlayerInfo(player);
         }
         else
         {
             PlayerListing listing = Instantiate(_playerListing, content);
-
+            Debug.Log("index - 1");
             if (listing != null)
             {
                 listing.SetPlayerInfo(player);
@@ -119,6 +121,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
+        Debug.Log("entered in room");
        AddPlayerListing(newPlayer);
       // checkCurrentRoom();
     }
@@ -164,8 +167,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     public void OnClick_KickPlayer(){
         Player player = PhotonNetwork.PlayerList[1];
         OnPlayerLeftRoom(player);
-        PhotonNetwork.CloseConnection(player);
-       
+        PhotonNetwork.CloseConnection(player); 
         photonView.RPC("ResetPlayerToMainScreen", RpcTarget.Others);
     }
 

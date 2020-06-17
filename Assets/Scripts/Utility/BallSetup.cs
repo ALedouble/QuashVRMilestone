@@ -15,7 +15,7 @@ public class BallSetup : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("BallSetup.Start");
+        //Debug.Log("BallSetup.Start");
         
         if(!GameManager.Instance.offlineMode)
         {

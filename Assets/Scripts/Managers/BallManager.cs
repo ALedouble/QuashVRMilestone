@@ -263,10 +263,15 @@ public class BallManager : MonoBehaviour
 
     public void StartBallResetCountdown()
     {
-        BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
-        BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
+        Debug.Log("StartBallResetCountdown");
+        if(GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)
+        {
+            BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
+            BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
 
-        resetCoroutine = StartCoroutine(BallResetCoroutine());
+            Debug.Log("StartBallResetCountdown : Start Coroutine!");
+            resetCoroutine = StartCoroutine(BallResetCoroutine());
+        }
     }
 
     private void StopBallResetCountdown()
@@ -279,6 +284,7 @@ public class BallManager : MonoBehaviour
 
     private IEnumerator BallResetCoroutine()
     {
+        Debug.Log("BallResetCoroutine");
         float resetTime = Time.time + delayBeforeReset;
         while (Time.time < resetTime)
         {
@@ -287,6 +293,7 @@ public class BallManager : MonoBehaviour
 
         BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
         LoseBall();
+        Debug.Log("BallResetCoroutine: LoseBall");
     }
     #endregion
 

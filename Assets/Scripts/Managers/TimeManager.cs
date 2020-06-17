@@ -94,7 +94,7 @@ public class TimeManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if (currentTimer > 0)
+        if (currentTimer < LevelMaxTime)
         {
             //Incrémente le timer
             CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;

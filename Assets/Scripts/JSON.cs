@@ -11,7 +11,7 @@ public class JSON : MonoBehaviour
     public static JSON instance;
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
-
+    string saveFileName = "/QuashSave";
 
     [System.Serializable]
     public class SavedObject
@@ -69,11 +69,11 @@ public class JSON : MonoBehaviour
     {
         levelsToSave = Campaign.instance.levelsImplemented;
 
-        if (!File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
+        if (!File.Exists(Application.persistentDataPath + saveFileName))
         {
             //Get Steam DATAs
 
-            Debug.Log("N 'EXISTE POAS");
+            Debug.Log("N 'EXISTE PAS");
             //If no DATA then
             SaveDATA(null);
         }
@@ -279,7 +279,7 @@ public class JSON : MonoBehaviour
             return;
         }
 
-        string loadString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
+        string loadString = File.ReadAllText(Application.persistentDataPath + saveFileName);
         SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
 
         for (int i = 0; i < levelsToSave.Count; i++)
@@ -306,7 +306,7 @@ public class JSON : MonoBehaviour
 
         string json = JsonUtility.ToJson(newDATA);
 
-        File.WriteAllText(Application.persistentDataPath + "/SavedByTheQuash", json);
+        File.WriteAllText(Application.persistentDataPath + saveFileName, json);
     }
 
     /// <summary>
@@ -350,11 +350,11 @@ public class JSON : MonoBehaviour
         string json = "";
 
         //If there's already DATA on file
-        if (File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
+        if (File.Exists(Application.persistentDataPath + saveFileName))
         {
             //Debug.Log("DATA IS HERE");
 
-            string loadString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
+            string loadString = File.ReadAllText(Application.persistentDataPath + saveFileName);
             SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
 
             for (int i = 0; i < levelsToSave.Count; i++)
@@ -392,7 +392,7 @@ public class JSON : MonoBehaviour
             json = JsonUtility.ToJson(presentedDATA);
         }
 
-        File.WriteAllText(Application.persistentDataPath + "/SavedByTheQuash", json);
+        File.WriteAllText(Application.persistentDataPath + saveFileName, json);
     }
 
     /// <summary>
@@ -400,7 +400,7 @@ public class JSON : MonoBehaviour
     /// </summary>
     public void SaveDATAonSteam()
     {
-        string savedString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
+        string savedString = File.ReadAllText(Application.persistentDataPath + saveFileName);
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
         //TO DO
@@ -419,7 +419,7 @@ public class JSON : MonoBehaviour
     /// </summary>
     public void LoadDATA()
     {
-        if (!File.Exists(Application.persistentDataPath + "/SavedByTheQuash"))
+        if (!File.Exists(Application.persistentDataPath + saveFileName))
         {
             Debug.Log("NO FILE TO LOAD");
             return;
@@ -427,7 +427,7 @@ public class JSON : MonoBehaviour
 
         Debug.Log("LOADING DATAS");
 
-        string savedString = File.ReadAllText(Application.persistentDataPath + "/SavedByTheQuash");
+        string savedString = File.ReadAllText(Application.persistentDataPath + saveFileName);
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
         for (int i = 0; i < levelsToSave.Count; i++)

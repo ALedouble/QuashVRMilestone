@@ -96,6 +96,21 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private List<Vector3> forcesToApply;
 
+    private Coroutine IgnoreCollisionCoroutine;
+
+    private bool isOnFrontWallCollisionFrame;
+    private bool IsOnFrontWallCollisionFrame { 
+        get => isOnFrontWallCollisionFrame;
+        set 
+        {
+            if (value == true)
+                StartCoroutine(ResetFrontWallCollisionBoolValue());
+
+            isOnFrontWallCollisionFrame = value;
+        } 
+    }
+    
+
     private void Awake()
     {
         photonView = GetComponent<PhotonView>();
@@ -113,6 +128,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         InitialiseTargetSwitchType();
 
         ApplyBaseGravity();
+
+        IsOnFrontWallCollisionFrame = false;
     }
 
     private void FixedUpdate()
@@ -121,6 +138,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         
         ApplyForces();
     }
+
+    #region Collision
 
     private void OnCollisionEnter(Collision other)
     {
@@ -134,6 +153,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
                 break;
             case "FrontWall":
                 ReturnInteration();
+                IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
                 AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
                 break;
             case "Brick":
@@ -160,16 +180,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         SendBallCollisionEvent(other.gameObject.tag);
 
         //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
-        
+
     }
 
     private void OnCollisionExit(Collision collision)
     {
         SendBallCollisionExitEvent(collision.gameObject.tag);
     }
-
-
-    #region A ranger
 
     private void SendBallCollisionEvent(string tag)
     {
@@ -214,6 +231,26 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         BallEventManager.instance.OnBallCollisionExit(tag);
     }
+
+    private IEnumerator IgnoreCollision()
+    {
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), true);
+
+        yield return new WaitForSeconds(0.1f);
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), false);
+    }
+
+    private IEnumerator ResetFrontWallCollisionBoolValue()
+    {
+        yield return new WaitForFixedUpdate();
+        isOnFrontWallCollisionFrame = false;
+    }
+    #endregion
+
+    #region MovementHandling
 
     [PunRPC]
     private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState, bool IsSpeedStateChangingSpeed)
@@ -418,26 +455,34 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     /// contactPoint : données de collision entre la balle et l'autre objet
     private void StandardBounce(ContactPoint contactPoint)
     {
-        Vector3 normal = Vector3.Normalize(contactPoint.normal);
-        float normalVelocity = Vector3.Dot(normal, lastVelocity);
-        if (normalVelocity > 0)
-            normalVelocity = -normalVelocity;
+        if(IsOnFrontWallCollisionFrame)
+        {
+            rigidbody.velocity = lastVelocity;
+        }
+        else 
+        {
+            Vector3 normal = Vector3.Normalize(contactPoint.normal);
+            float normalVelocity = Vector3.Dot(normal, lastVelocity);
+            if (normalVelocity > 0)
+                normalVelocity = -normalVelocity;
 
-        Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
-        float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
+            Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
+            float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
 
-        ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal));
+            ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal));
+        }
     }
 
     #endregion
 
-    #region ReturnMechanics
+    #region BallReturn
 
     private void ReturnInteration()
     {
         //MagicalBounce3();
         RandomReturnWithoutBounce();
         //RandomReturnWithBounce();
+        IsOnFrontWallCollisionFrame = true;
         SetMidWallStatus(false);
     }
 

@@ -38,15 +38,18 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     PhotonView photonView;
     bool launchingGame = false;
 
-
+    private Coroutine checkCurrentRoomCoroutine;
     public override void OnEnable() {
 
-        CheckCurrentRoom();
+        checkCurrentRoomCoroutine = StartCoroutine(CheckCurrentRoom());
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
+
+        StopCoroutine(checkCurrentRoomCoroutine);
+
         for(int i = 0; i < _listings.Count; i++)
         {
             Destroy(_listings[i].gameObject);

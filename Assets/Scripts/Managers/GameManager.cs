@@ -381,7 +381,6 @@ public class GameManager : MonoBehaviour
         {
             IsGameStarted = true;
 
-            //TimeManager.Instance.OnTimerEnd += EndOfTheGame;
             TimeManager.Instance.StartTimer();
 
             BallEventManager.instance.OnCollisionWithRacket -= StartTheGame;
@@ -391,12 +390,21 @@ public class GameManager : MonoBehaviour
     public void LoseTheGame()
     {
         HasLost = true;
+
         EndOfTheGame();
     }
-
+    
     public void EndOfTheGame()
     {
-        TimeManager.Instance.OnTimerEnd -= EndOfTheGame;
+        if (offlineMode)
+            EndTheGamelocaly();
+        else
+            photonView.RPC("EndTheGamelocaly", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void EndTheGamelocaly()
+    {
         TimeManager.Instance.StopTimer();
 
         PlayerInputManager.instance.SetInputMod(InputMod.MENU);
@@ -405,8 +413,6 @@ public class GameManager : MonoBehaviour
 
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();
-
-        
 
         ////If the player who WINS is ALONE
         //if(!HasLost && offlineMode)

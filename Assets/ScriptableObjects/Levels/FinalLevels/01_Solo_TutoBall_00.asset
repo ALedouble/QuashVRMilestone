@@ -17017,7 +17017,7 @@ MonoBehaviour:
       isImplemented: 1
       maxScore: 9460
       maxCombo: 9
-      minTiming: 300
+      minTiming: 44
       unlockConditions: []
       levelPos: {x: 289, y: 9947}
       levelID: 0
@@ -17028,7 +17028,7 @@ MonoBehaviour:
       - conditionType: 2
         conditionComparator: 1
         conditionReachedAt: 20
-      numberOfAdditionalConditions: 2
+      numberOfAdditionalConditions: 0
     levelSpec:
       levelName: Entry
       timeForThisLevel: 300

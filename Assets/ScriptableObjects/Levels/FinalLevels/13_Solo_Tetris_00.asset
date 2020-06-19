@@ -14172,7 +14172,7 @@ MonoBehaviour:
       isImplemented: 1
       maxScore: 0
       maxCombo: 0
-      minTiming: 0
+      minTiming: 300
       unlockConditions:
       - {fileID: 11400000, guid: 6913af92ef75edb43b160744ad6efe55, type: 2}
       - {fileID: 11400000, guid: 624c602734c8afd48958713c5cbb69f2, type: 2}
@@ -14182,7 +14182,7 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 20000
-      - conditionType: 0
+      - conditionType: 2
         conditionComparator: 1
         conditionReachedAt: 150
       numberOfAdditionalConditions: 2

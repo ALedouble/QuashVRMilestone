@@ -11,6 +11,7 @@ public class JSON : MonoBehaviour
     public static JSON instance;
     public LevelsScriptable currentLevelFocused;
 
+
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave";
 
@@ -199,11 +200,13 @@ public class JSON : MonoBehaviour
                     case CompleteConditionType.Timing:
                         if (time < level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
                         {
-                            if (time > level.level.levelProgression.minTiming)
+                            if (time < level.level.levelProgression.minTiming)
                                 levelValue.bestTime = time;
                             else
                                 levelValue.bestTime = level.level.levelProgression.minTiming;
                         }
+                        else if (time < level.level.levelProgression.minTiming)
+                            levelValue.bestTime = time;
                         else
                             levelValue.bestTime = level.level.levelProgression.minTiming;
 

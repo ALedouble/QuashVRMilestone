@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
         {
-            SelectionLevel(CampaignLevel.Instance.levelScriptSelected);
+            SelectionLevel(CampaignLevel.instance.levelScriptSelected);
         }
         else
         {
@@ -484,6 +484,11 @@ public class GameManager : MonoBehaviour
         if (!offlineMode)
         {
             DisconnectGameToMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EndOfTheGame();
         }
     }
 

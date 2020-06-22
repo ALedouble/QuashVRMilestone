@@ -13,16 +13,23 @@ public class CampaignLevel : MonoBehaviour
     [HideInInspector] public int lastRecordedPanelIndex;
 
 
-    
-    public static CampaignLevel Instance;
+    public static CampaignLevel instance;
 
 
 
 
     void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(transform.gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SelectLevel(int levelIndex)

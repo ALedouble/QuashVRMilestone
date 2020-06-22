@@ -105,7 +105,6 @@ public class Campaign : MonoBehaviour
             {
                 levelsImplemented.Add(levelsToCheck[i]);
                 //levelsToCheck[i].level.levelProgression.LevelIndex = i;
-
             }
         }
 
@@ -190,7 +189,7 @@ public class Campaign : MonoBehaviour
     /// </summary>
     /// <param name="levelIndex">level reference</param>
     /// <returns></returns>
-    private int GetPanelIndex(LevelsScriptable levelIndex)
+    public int GetPanelIndex(LevelsScriptable levelIndex)
     {
         float levelComparer = (((levelIndex.level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
 
@@ -214,7 +213,7 @@ public class Campaign : MonoBehaviour
     /// <param name="newIndex"></param>
     private void SetLastRecordedPanelIndex(int newIndex)
     {
-        CampaignLevel.Instance.lastRecordedPanelIndex = newIndex;
+        CampaignLevel.instance.lastRecordedPanelIndex = newIndex;
     }
 
     /// <summary>
@@ -222,7 +221,7 @@ public class Campaign : MonoBehaviour
     /// </summary>
     private void SetUpPanelPositionAtStart()
     {
-        SetPanelPosition(CampaignLevel.Instance.lastRecordedPanelIndex);
+        SetPanelPosition(CampaignLevel.instance.lastRecordedPanelIndex);
 
         for (int i = 0; i < levelsImplemented.Count; i++)
         {
@@ -743,7 +742,7 @@ public class Campaign : MonoBehaviour
         isLevelLaunch = true;
 
         SetLastRecordedPanelIndex(GetPanelIndex(levelToPlay));
-        CampaignLevel.Instance.SelectLevel(levelToPlay);
+        CampaignLevel.instance.SelectLevel(levelToPlay);
     }
 
     /// <summary>
@@ -762,6 +761,9 @@ public class Campaign : MonoBehaviour
             new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z), scrollingSpeed);
     }
 
+    /// <summary>
+    /// Check if there are any level left up or down
+    /// </summary>
     private void CheckPanelIndex()
     {
         if (panelIndex >= lastIndex)

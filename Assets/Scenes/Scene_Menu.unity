@@ -35909,7 +35909,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh158310
+  m_Name: pb_Mesh48494
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -51249,12 +51249,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1551231596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18c21a9deb080cd43910267f7dc037d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ff8fb0a93350e14a864023e030a55f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  campaignNewScreenGO: {fileID: 0}
-  titleCampaignGO: {fileID: 0}
-  animToPlay: {fileID: 0}
+  campaignNewScreenGO: {fileID: 1930187396}
+  titleCampaignGO: {fileID: 1583857600}
+  animToPlay: {fileID: 3591302381172348693}
 --- !u!4 &1551231598
 Transform:
   m_ObjectHideFlags: 0
@@ -57899,9 +57899,9 @@ MonoBehaviour:
   unlockedStarSprite: {fileID: 21300000, guid: 0997ec5c1ba24fa47a6adb4af054f6ce, type: 3}
   totalOfStars: 0
   starCounter: {fileID: 2097007287}
-  timingConditionEntry: 
-  scoreConditionEntry: 
-  comboConditionEntry: 
+  timingConditionEntry: time
+  scoreConditionEntry: score
+  comboConditionEntry: combo
   sidePanel: {fileID: 159380465}
 --- !u!114 &1930187406
 MonoBehaviour:

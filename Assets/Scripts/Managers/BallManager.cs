@@ -44,12 +44,15 @@ public class BallManager : MonoBehaviour
     public event Action OnFirstBounce;
     public event Action OnReturnStart;
 
+    public bool IsBallPaused { get; set; }
+
     private PhotonView photonView;
 
     private void Awake()
     {
         instance = this;
         photonView = GetComponent<PhotonView>();
+        IsBallPaused = false;
     }
 
     public GameObject InstantiateBall()
@@ -124,6 +127,18 @@ public class BallManager : MonoBehaviour
         BallPhysicBehaviour.ResetBall();
     }
 
+    public void PauseBall()
+    {
+        IsBallPaused = true;
+        BallPhysicBehaviour.PauseBallPhysics();
+    }
+
+    public void ResumeBall()
+    {
+        IsBallPaused = false;
+        BallPhysicBehaviour.ResumeBallPhysics();
+    }
+
     #region Ball Manipulation
     public void BallFirstSpawn()
     {
@@ -168,8 +183,11 @@ public class BallManager : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
 
-            t += Time.fixedDeltaTime;
-            Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
+            if(!IsBallPaused)
+            {
+                t += Time.fixedDeltaTime;
+                Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
+            }        
         }
     }
 
@@ -285,10 +303,13 @@ public class BallManager : MonoBehaviour
     private IEnumerator BallResetCoroutine()
     {
         Debug.Log("BallResetCoroutine");
-        float resetTime = Time.time + delayBeforeReset;
-        while (Time.time < resetTime)
+        float resetTimer = 0;
+        while (resetTimer < delayBeforeReset)
         {
             yield return new WaitForFixedUpdate();
+            
+            if(!IsBallPaused)
+                resetTimer += Time.fixedDeltaTime; 
         }
 
         BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;

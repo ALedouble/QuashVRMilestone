@@ -54,19 +54,22 @@ public class PhysicInfo : MonoBehaviour
 
     void FixedUpdate()
     {
-        velocityTMinusHalf = CalculateVelocity(transform.position, positionTMinus1, Time.fixedDeltaTime);
-        angularVelocityTMinusHalf = CalculateAngularVelocity(transform.rotation, rotationTMinus1, Time.fixedDeltaTime);
+        if(!BallManager.instance.IsBallPaused)
+        {
+            velocityTMinusHalf = CalculateVelocity(transform.position, positionTMinus1, Time.fixedDeltaTime);
+            angularVelocityTMinusHalf = CalculateAngularVelocity(transform.rotation, rotationTMinus1, Time.fixedDeltaTime);
 
-        accelerationTMinus1 = CalculateAcceleration(velocityTMinusHalf, velocityTMinus3Half, Time.fixedDeltaTime, dTMinus1);
-        angularAccelerationTMinus1 = CalculateAcceleration(angularVelocityTMinusHalf, angularVelocityTMinus3half, Time.fixedDeltaTime, dTMinus1);
+            accelerationTMinus1 = CalculateAcceleration(velocityTMinusHalf, velocityTMinus3Half, Time.fixedDeltaTime, dTMinus1);
+            angularAccelerationTMinus1 = CalculateAcceleration(angularVelocityTMinusHalf, angularVelocityTMinus3half, Time.fixedDeltaTime, dTMinus1);
 
-        positionTMinus1 = transform.position;
-        rotationTMinus1 = transform.rotation;
+            positionTMinus1 = transform.position;
+            rotationTMinus1 = transform.rotation;
 
-        velocityTMinus3Half = velocityTMinusHalf;
-        angularVelocityTMinus3half = angularVelocityTMinusHalf;
+            velocityTMinus3Half = velocityTMinusHalf;
+            angularVelocityTMinus3half = angularVelocityTMinusHalf;
 
-        dTMinus1 = Time.fixedDeltaTime;
+            dTMinus1 = Time.fixedDeltaTime;
+        }
     }
 
     #region Calculation Methods

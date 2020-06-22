@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsBrickFreeToMove { get; private set; }
     public bool IsGameStarted { get; private set; }
+    public bool IsGamePaused { get; private set; }
     public bool HasLost { get; private set; }
 
     [HideInInspector]
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
         sequenceTaskQueue = new Queue<SequenceTask>();      //A supprimer
         allPlayersAreReady = false;
         IsGameStarted = false;
+        IsGamePaused = false;
 
         BrickBehaviours.ResetBrickCount();                  //A deplacer sur l'instantiation des briques dans la pool
     }
@@ -420,6 +422,39 @@ public class GameManager : MonoBehaviour
             JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
         }
     }
+
+    public void PauseGame()
+    {
+        //Pause Timer
+        TimeManager.Instance.StopTimer();
+        //Pause Ball
+        BallManager.instance.PauseBall();
+        //Pause Level Bricks
+        IsBrickFreeToMove = false;
+        //Switch Input Mode & Desable Racket
+        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+        //Display Pause UI
+        GUIMenuPause.guiMenuPause.GamePaused();
+
+        IsGamePaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        //Unpause Timer
+        TimeManager.Instance.StartTimer();
+        //UnPause la balle
+        BallManager.instance.ResumeBall();
+        //Unpause Level Bricks
+        IsBrickFreeToMove = true;
+        //Switch Input Mode & Enable Racket
+        PlayerInputManager.instance.SetInputMod(InputMod.GAMEPLAY);
+        //Undisplay Pause UI
+        GUIMenuPause.guiMenuPause.GameResumed();
+
+        IsGamePaused = false;
+    }
+
     #endregion
 
     #region SceneControlMethods

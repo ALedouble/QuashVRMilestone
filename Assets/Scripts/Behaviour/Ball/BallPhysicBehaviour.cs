@@ -84,7 +84,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float averageHitMagnitude = 10f;                            // A Changer!
 
     private PhotonView photonView;
-    private Rigidbody rigidbody;
+    [HideInInspector] public Rigidbody rigidbody;
     public Collider BallCollider { get; private set; }
 
     private SpeedState speedState;
@@ -95,6 +95,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private QPlayer lastPlayerWhoHitTheBall;
 
     private List<Vector3> forcesToApply;
+    private Vector3 pauseSavedVelocity;
 
     private Coroutine IgnoreCollisionCoroutine;
 
@@ -134,53 +135,69 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void FixedUpdate()
     {
-        lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour les calculs de rebond
-        
-        ApplyForces();
+        if(!BallManager.instance.IsBallPaused)
+        {
+            lastVelocity = rigidbody.velocity;  // Vitesse avant contact necessaire pour les calculs de rebond
+
+            ApplyForces();
+        }
+    }
+
+    public void PauseBallPhysics()
+    {
+        pauseSavedVelocity = rigidbody.velocity;
+        rigidbody.velocity = Vector3.zero;
+    }
+
+    public void ResumeBallPhysics()
+    {
+        rigidbody.velocity = pauseSavedVelocity;
+        pauseSavedVelocity = Vector3.zero;
     }
 
     #region Collision
 
     private void OnCollisionEnter(Collision other)
     {
-
-        switch (other.gameObject.tag)
+        if(!BallManager.instance.IsBallPaused)
         {
-            case "Racket":
-                RacketInteraction(other);
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
-                AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                break;
-            case "FrontWall":
-                ReturnInteration();
-                IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
-                AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                break;
-            case "Brick":
-                ReturnInteration();
-                AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                break;
-            case "BackWall":
-                BallManager.instance.LoseBall();
-                break;
-            case "Floor":
-                BallManager.instance.StartBallResetCountdown();
-                StandardBounce(other.GetContact(0));
-                AudioManager.instance.PlaySound("FloorHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                break;
-            case "Wall":
-                StandardBounce(other.GetContact(0));
-                AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                break;
-            default:
-                StandardBounce(other.GetContact(0));
-                break;
+            switch (other.gameObject.tag)
+            {
+                case "Racket":
+                    RacketInteraction(other);
+                    VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
+                    AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                    break;
+                case "FrontWall":
+                    ReturnInteration();
+                    IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
+                    AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                    break;
+                case "Brick":
+                    ReturnInteration();
+                    AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                    break;
+                case "BackWall":
+                    BallManager.instance.LoseBall();
+                    break;
+                case "Floor":
+                    BallManager.instance.StartBallResetCountdown();
+                    StandardBounce(other.GetContact(0));
+                    AudioManager.instance.PlaySound("FloorHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                    break;
+                case "Wall":
+                    StandardBounce(other.GetContact(0));
+                    AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
+                    break;
+                default:
+                    StandardBounce(other.GetContact(0));
+                    break;
+            }
+
+            SendBallCollisionEvent(other.gameObject.tag);
+
+            //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
         }
-
-        SendBallCollisionEvent(other.gameObject.tag);
-
-        //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
-
     }
 
     private void OnCollisionExit(Collision collision)
@@ -237,7 +254,15 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), true);
 
-        yield return new WaitForSeconds(0.1f);
+        float timer = 0f;
+        while(timer < 0.1f)
+        {
+            yield return new WaitForFixedUpdate();
+            if (!BallManager.instance.IsBallPaused)
+            {
+                timer += Time.fixedDeltaTime;
+            }
+        }
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), false);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), false);
@@ -245,8 +270,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private IEnumerator ResetFrontWallCollisionBoolValue()
     {
-        yield return new WaitForFixedUpdate();
-        isOnFrontWallCollisionFrame = false;
+        if (!BallManager.instance.IsBallPaused)
+        {
+            yield return new WaitForFixedUpdate();
+            isOnFrontWallCollisionFrame = false;
+        }
     }
     #endregion
 
@@ -590,7 +618,17 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private IEnumerator BallFirstSpawnCoroutine(float duration)
     {
         BallCollider.enabled = false;
-        yield return new WaitForSeconds(duration);
+
+        float timer = 0f;
+        while(timer > duration)
+        {
+            yield return new WaitForFixedUpdate();
+            if(!BallManager.instance.IsBallPaused)
+            {
+                timer += Time.fixedDeltaTime;
+            }
+        }
+
         BallCollider.enabled = true;
     }
 

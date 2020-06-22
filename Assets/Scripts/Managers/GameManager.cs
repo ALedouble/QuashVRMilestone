@@ -423,7 +423,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region SceneControlMethods
-    public void RestartScene()
+    public void RestartScene()  //Need Network Case
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

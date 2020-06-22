@@ -16,6 +16,7 @@ public class GUIMenuPause : MonoBehaviour
     {
         guiMenuPause = this;
         IsGamePaused = false;
+        Debug.Log("GUIMenuPause Awake!");
     }
 
     public void GamePaused()

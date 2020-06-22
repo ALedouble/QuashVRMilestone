@@ -414,11 +414,11 @@ public class GameManager : MonoBehaviour
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();
 
-        ////If the player who WINS is ALONE
-        //if(!HasLost && offlineMode)
-        //{
-        //    JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
-        //}
+        //If the player who WINS is ALONE
+        if (!HasLost && offlineMode)
+        {
+            JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
+        }
     }
     #endregion
 

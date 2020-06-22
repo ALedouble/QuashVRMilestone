@@ -417,6 +417,8 @@ public class GameManager : MonoBehaviour
         //If the player who WINS is ALONE
         if (!HasLost && offlineMode)
         {
+            //Debug.Log("Submit DATAS at endOfTheGame SOOOO .... NOW");
+            JSON.instance.currentLevelFocused = LevelManager.instance.currentLevel;
             JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
         }
     }

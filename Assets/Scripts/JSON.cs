@@ -9,6 +9,7 @@ using System.IO;
 public class JSON : MonoBehaviour
 {
     public static JSON instance;
+    public LevelsScriptable currentLevelFocused;
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave";
@@ -230,7 +231,7 @@ public class JSON : MonoBehaviour
         {
             //Debug.Log("NO SCORE CONDITION");
 
-            if (time > level.level.levelProgression.minTiming)
+            if (time < level.level.levelProgression.minTiming)
                 levelValue.bestTime = time;
             else
                 levelValue.bestTime = level.level.levelProgression.minTiming;

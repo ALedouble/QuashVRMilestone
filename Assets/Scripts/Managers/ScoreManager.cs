@@ -183,6 +183,10 @@ public class ScoreManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.45f);
 
+        Color32 newColor32 = displayedScore[0].TextMesh.color;
+        //Color32 newColor32 = new Color32(156, 207, 0, 255);
+
+        displayedScore[0].UpdateTextColor(newColor32); 
         displayedScore[0].cannotPlayAnim = false;
     }
 }

@@ -15,4 +15,6 @@ public interface IInputable
     void OnLeftTriggerPress();
 
     void OnLeftTriggerRelease();
+
+    void OnStartButtonPress();
 }

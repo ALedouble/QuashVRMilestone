@@ -93,18 +93,21 @@ public class PlayerInputManager : MonoBehaviour
         currentInput.OnLeftTriggerRelease();
     }
 
-    public void OnPauseButtonPress()                    //A modifier!
+    public void OnStartButtonPress()                    
     {
-        if (GameManager.Instance.offlineMode)
-        {
-            PhotonNetwork.Disconnect();
-            SceneManager.LoadScene(0);
-        } else
-        {
-            PhotonNetwork.Disconnect();
-            SceneManager.LoadScene(0);
-        }
-      //SetInputMod((InputMod)(((int)inputMod + 1) % 2));
-      //  GUIMenuPause.guiMenuPause.GamePaused();
+        //  if (GameManager.Instance.offlineMode)
+        //  {
+        //      PhotonNetwork.Disconnect();
+        //      SceneManager.LoadScene(0);
+        //  } else
+        //  {
+        //      PhotonNetwork.Disconnect();
+        //      SceneManager.LoadScene(0);
+        //  }
+        ////SetInputMod((InputMod)(((int)inputMod + 1) % 2));
+        ////  GUIMenuPause.guiMenuPause.GamePaused();
+        ///
+
+        currentInput.OnStartButtonPress();
     }
 }

@@ -59,6 +59,13 @@ public class MenuInputManager : IInputable
         
     }
 
+    public void OnStartButtonPress()
+    {
+        
+    }
+
+    #region UtilityMethods
+
     private void SwitchActiveHand()
     {
         rightHandIsActive = !rightHandIsActive;
@@ -78,4 +85,6 @@ public class MenuInputManager : IInputable
         QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_Pointer>().Toggle(activeState);
         QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = activeState;
     }
+
+    #endregion
 }

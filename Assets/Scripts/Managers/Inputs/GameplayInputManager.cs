@@ -61,5 +61,8 @@ public class GameplayInputManager : IInputable
         }
     }
 
-    //Ajouter les supers
+    public void OnStartButtonPress()
+    {
+        GUIMenuPause.guiMenuPause.GamePaused();
+    }
 }

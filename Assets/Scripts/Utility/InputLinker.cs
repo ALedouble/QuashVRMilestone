@@ -24,13 +24,15 @@ public class InputLinker : MonoBehaviour
         PlayerInputManager.instance?.OnLeftTriggerRelease();
     }
 
-    public void OnLeftPauseButtonPress()
+    public void OnLeftStartButtonPress()
     {
-        PlayerInputManager.instance?.OnPauseButtonPress();
+        Debug.Log("LeftStartButtonPressed");
+        PlayerInputManager.instance?.OnStartButtonPress();
     }
 
-    public void OnRightPauseButtonPress()
+    public void OnRightStartButtonPress()
     {
-        PlayerInputManager.instance?.OnPauseButtonPress();
+        Debug.Log("RightStartButtonPressed");
+        PlayerInputManager.instance?.OnStartButtonPress();
     }
 }

@@ -221,7 +221,8 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         {
             GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower * timeElapsed / duration);
             yield return new WaitForEndOfFrame();
-            timeElapsed += Time.deltaTime;
+            if(!BallManager.instance.IsBallPaused)
+                timeElapsed += Time.deltaTime;
         }
         
         GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower);

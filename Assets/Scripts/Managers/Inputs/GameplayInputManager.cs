@@ -63,6 +63,6 @@ public class GameplayInputManager : IInputable
 
     public void OnStartButtonPress()
     {
-        GUIMenuPause.guiMenuPause.GamePaused();
+        GameManager.Instance.PauseGame();
     }
 }

@@ -2393,7 +2393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146172495}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -2893,7 +2893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &159380466
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48837,7 +48837,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404958249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -54906,16 +54906,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1231397053711900249, guid: 3dfc7fef01518c84d87e7a47009eef8f,
         type: 2}
-    - target: {fileID: 4604327204379215524, guid: f19d40be655edc545b6adebb7c039b8e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4604327204379215524, guid: f19d40be655edc545b6adebb7c039b8e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -11.99996
-      objectReference: {fileID: 0}
     - target: {fileID: 6957521150808307180, guid: f19d40be655edc545b6adebb7c039b8e,
         type: 3}
       propertyPath: m_Color.r
@@ -54940,6 +54930,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604327204379215524, guid: f19d40be655edc545b6adebb7c039b8e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604327204379215524, guid: f19d40be655edc545b6adebb7c039b8e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -11.99996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f19d40be655edc545b6adebb7c039b8e, type: 3}
@@ -57987,7 +57987,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955778581}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 

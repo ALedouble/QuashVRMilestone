@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 370162123630791904}
   - component: {fileID: 370162123630791907}
   - component: {fileID: 370162123630791906}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnviroRoom_FrontWall
   m_TagString: FrontWall
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 370162124161717104}
   - component: {fileID: 370162124161717107}
   - component: {fileID: 370162124161717106}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnviroRoom_Roof
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1912,7 +1912,7 @@ GameObject:
   - component: {fileID: 370162124989303468}
   - component: {fileID: 370162124989303471}
   - component: {fileID: 370162124989303470}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnviroRoom_RightWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -3250,7 +3250,7 @@ GameObject:
   - component: {fileID: 370162125671393801}
   - component: {fileID: 370162125671393800}
   - component: {fileID: 370162125671393805}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnviroRoom_LeftWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -3898,7 +3898,7 @@ GameObject:
   - component: {fileID: 3488139436211301618}
   - component: {fileID: 5731771864682867634}
   - component: {fileID: 8824904660659810249}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnviroRoom_BackWall
   m_TagString: BackWall
   m_Icon: {fileID: 0}
@@ -4771,7 +4771,7 @@ GameObject:
   - component: {fileID: 7722592138839288318}
   - component: {fileID: 3661893988786575746}
   - component: {fileID: 7791302948308726307}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: EnviroRoom_FloorLines
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -5963,6 +5963,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 370162124747881594}
     m_Modifications:
+    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
+        type: 3}
+      propertyPath: m_Name
+      value: WinManagerVFX
+      objectReference: {fileID: 0}
     - target: {fileID: 6597264739539240870, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6018,11 +6023,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6597264739539240864, guid: b08a6a6eb623a984b9fbe393ae51e8a9,
-        type: 3}
-      propertyPath: m_Name
-      value: WinManagerVFX
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08a6a6eb623a984b9fbe393ae51e8a9, type: 3}
 --- !u!4 &4054823533399642305 stripped
@@ -6050,6 +6050,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 370162124747881594}
     m_Modifications:
+    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
+        type: 3}
+      propertyPath: m_Name
+      value: LayerEffect
+      objectReference: {fileID: 0}
     - target: {fileID: 8487549815786722163, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6104,11 +6109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487549815786722161, guid: 0358e28f473d7cf48bec8022b2bdd086,
-        type: 3}
-      propertyPath: m_Name
-      value: LayerEffect
       objectReference: {fileID: 0}
     - target: {fileID: 8487549817151244820, guid: 0358e28f473d7cf48bec8022b2bdd086,
         type: 3}

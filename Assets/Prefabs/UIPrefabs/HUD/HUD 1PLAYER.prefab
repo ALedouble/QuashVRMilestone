@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 3652
+  m_PixelsPerUnitMultiplier: 700
 --- !u!1 &2652018335634166694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,7 +1570,7 @@ RectTransform:
   m_GameObject: {fileID: 2849006568472999199}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5.78}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 382506295993332728}
   m_Father: {fileID: 6885061630627397367}
@@ -6117,7 +6117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7623437287703578713
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7289,12 +7289,12 @@ PrefabInstance:
     - target: {fileID: 270723340313265109, guid: 1d05449f3c439614b9c7805055b90e88,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3228225739075062915, guid: 1d05449f3c439614b9c7805055b90e88,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3228225739075062915, guid: 1d05449f3c439614b9c7805055b90e88,
         type: 3}

@@ -46296,7 +46296,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 1167478023}
   m_TextComponent: {fileID: 314524824}
   m_materialReferenceIndex: 1
@@ -47921,7 +47921,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 1271532632}
   m_TextComponent: {fileID: 1569457149}
   m_materialReferenceIndex: 1
@@ -58599,8 +58599,8 @@ MonoBehaviour:
   unlockedStarSprite: {fileID: 21300000, guid: 0997ec5c1ba24fa47a6adb4af054f6ce, type: 3}
   totalOfStars: 0
   starCounter: {fileID: 2097007287}
-  timingConditionEntry: time
-  scoreConditionEntry: score
+  timingConditionEntry: 'Time Limit :'
+  scoreConditionEntry: 'Score Minimum :'
   comboConditionEntry: combo
   sidePanel: {fileID: 159380465}
 --- !u!114 &1930187406

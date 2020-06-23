@@ -10,7 +10,7 @@ public class JSON : MonoBehaviour
 {
     public static JSON instance;
     public LevelsScriptable currentLevelFocused;
-
+    public bool isGoingStraightToCampaign = false;
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave";

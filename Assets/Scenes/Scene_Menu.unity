@@ -2087,7 +2087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &108147632
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50512,6 +50512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevelFocused: {fileID: 0}
+  isGoingStraightToCampaign: 0
   levelsToSave: []
 --- !u!4 &1408327277
 Transform:
@@ -50581,6 +50582,7 @@ GameObject:
   - component: {fileID: 1416203998}
   - component: {fileID: 1416203997}
   - component: {fileID: 1416203996}
+  - component: {fileID: 1416203999}
   m_Layer: 5
   m_Name: Button Right Handed
   m_TagString: Untagged
@@ -50664,7 +50666,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1416203999}
+        m_MethodName: OnDominantHandButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1416203998
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50673,6 +50686,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416203994}
   m_CullTransparentMesh: 0
+--- !u!114 &1416203999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416203994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c51fc2e9add9274dbbb1dda9f55ca8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonHand: 2
+  activeBackground: {fileID: 1819276951}
+  inactiveBackground: {fileID: 297887704}
 --- !u!1 &1422655980
 GameObject:
   m_ObjectHideFlags: 0
@@ -56623,7 +56651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1819276952
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59368,6 +59396,7 @@ GameObject:
   - component: {fileID: 1934712410}
   - component: {fileID: 1934712409}
   - component: {fileID: 1934712408}
+  - component: {fileID: 1934712411}
   m_Layer: 5
   m_Name: Button Left Handed
   m_TagString: Untagged
@@ -59451,7 +59480,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1934712411}
+        m_MethodName: OnDominantHandButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1934712410
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -59460,6 +59500,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934712406}
   m_CullTransparentMesh: 0
+--- !u!114 &1934712411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934712406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c51fc2e9add9274dbbb1dda9f55ca8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonHand: 1
+  activeBackground: {fileID: 1374080951}
+  inactiveBackground: {fileID: 108147631}
 --- !u!1 &1939270137
 GameObject:
   m_ObjectHideFlags: 0
@@ -64206,6 +64261,7 @@ GameObject:
   - component: {fileID: 3591302381172348693}
   - component: {fileID: 3591302381172348694}
   - component: {fileID: 3591302381172348695}
+  - component: {fileID: 3591302381172348696}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Main Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: Untagged
@@ -64356,6 +64412,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &3591302381172348696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3591302381172348688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eba0d45fc06a214ba646a039a5efb1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightHandedButton: {fileID: 1416203994}
+  leftHandedButton: {fileID: 1934712406}
 --- !u!114 &3727946449740942714
 MonoBehaviour:
   m_ObjectHideFlags: 0

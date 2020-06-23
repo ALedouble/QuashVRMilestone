@@ -23,8 +23,9 @@ public class PlayerSettings : MonoBehaviour
             {
                 playerPreferences.dominantHand = (int)value;
                 SavePlayerSettings();
+
+                DominantHandMainMenu.Instance?.UpdateDominantHandButton();
             }
-                
         }
     }
     public float PlayerShoulderHeight 

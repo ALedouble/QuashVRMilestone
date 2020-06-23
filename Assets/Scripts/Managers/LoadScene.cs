@@ -13,6 +13,12 @@ public class LoadScene : MonoBehaviour
         StartCoroutine(AnimFade());
     }
 
+    public void LoadingSceneToCampaign()
+    {
+        JSON.instance.isGoingStraightToCampaign = true;
+        LoadingScene();
+    }
+
     IEnumerator AnimFade()
     {
         yield return new WaitForSeconds(1.5f);

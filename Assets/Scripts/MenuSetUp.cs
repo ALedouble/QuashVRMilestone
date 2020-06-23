@@ -10,8 +10,9 @@ public class MenuSetUp : MonoBehaviour
 
     void Start()
     {
-        if(JSON.instance.currentLevelFocused != null)
+        if(JSON.instance.currentLevelFocused != null & JSON.instance.isGoingStraightToCampaign)
         {
+            JSON.instance.isGoingStraightToCampaign = false;
             GoToCampaign();
         }
     }

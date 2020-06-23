@@ -18,14 +18,6 @@ public enum PlayerHand
     LEFT = 1
 }
 
-public enum GrabState
-{
-    UNUSED,
-    DELAYED,
-    ATTRACTED,
-    GRABBED
-}
-
 public class QPlayerManager : MonoBehaviourPun
 {
     #region Singleton
@@ -47,8 +39,6 @@ public class QPlayerManager : MonoBehaviourPun
 
     private GameObject localPlayerRightController;
     private GameObject localPlayerLeftController;
-
-    private PlayerHand playerMainHand;
 
     public QPlayer LocalPlayerID
     {
@@ -81,18 +71,11 @@ public class QPlayerManager : MonoBehaviourPun
         }
     }
 
-    public PlayerHand GetMainHand()
-    {
-        return playerMainHand;
-    }
-
     private void SetupControllers()
     {
         localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().Get();
         localPlayerRightController = localPlayer.GetComponentInChildren<RightControllerGetter>().Get();
 
         PlayerInputManager.instance.SetupInputMod();
-        //Find PlayerSettings
-        playerMainHand = PlayerHand.RIGHT;
     }
 }

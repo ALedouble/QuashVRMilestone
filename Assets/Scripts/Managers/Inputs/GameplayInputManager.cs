@@ -3,17 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
 
-public enum MainHand
-{
-    RIGHTHANDED,
-    LEFTHANDED
-}
-
 public class GameplayInputManager : IInputable
 {
-    //Player settings (Gaucher/Droitier, pouvoirs utilises, ...)
-    public MainHand mainHand = MainHand.RIGHTHANDED;
-
     public void EnterInputMod()
     {
         RacketManager.instance?.EnableRackets(true);
@@ -31,7 +22,7 @@ public class GameplayInputManager : IInputable
 
     public void OnRightTriggerPress()
     {
-        if(mainHand == MainHand.RIGHTHANDED)
+        if(PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
         {
             RacketManager.instance.RacketAction();
         }
@@ -39,7 +30,7 @@ public class GameplayInputManager : IInputable
 
     public void OnLeftTriggerPress()
     {
-        if (mainHand == MainHand.LEFTHANDED)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT)
         {
             RacketManager.instance.RacketAction();
         }
@@ -47,7 +38,7 @@ public class GameplayInputManager : IInputable
 
     public void OnRightTriggerRelease()
     {
-        if (mainHand == MainHand.RIGHTHANDED)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
         {
             RacketManager.instance.RacketAction();
         }
@@ -55,7 +46,7 @@ public class GameplayInputManager : IInputable
 
     public void OnLeftTriggerRelease()
     {
-        if (mainHand == MainHand.LEFTHANDED)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT)
         {
             RacketManager.instance.RacketAction();
         }

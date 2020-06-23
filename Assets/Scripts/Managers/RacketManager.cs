@@ -145,8 +145,7 @@ public class RacketManager : MonoBehaviour
 
     private void AssociateRacketWithController()
     {
-        PlayerHand playerMainHand = QPlayerManager.instance.GetMainHand();
-        RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(playerMainHand).transform;
+        RacketManager.instance.localPlayerRacket.transform.parent = QPlayerManager.instance.GetLocalController(PlayerSettings.Instance.PlayerDominantHand).transform;
         localPlayerRacket.GetComponent<Rigidbody>().useGravity = false;
         localPlayerRacket.GetComponent<Rigidbody>().isKinematic = true;
         localPlayerRacket.transform.localPosition = racketOffset;
@@ -197,11 +196,9 @@ public class RacketManager : MonoBehaviour
         localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
         if(!GameManager.Instance.offlineMode)
             foreignRacketRenderer.sharedMaterials = racketMats[ForeignRacketColorID].racketMaterial;
-
-        //Debug.Log("SetRacketColor colorID: " + RacketColorID);
     }
 
-    public void SwitchRacketColor()                                                                     //Rendre plus propre?
+    public void SwitchRacketColor()                               
     {
         SwitchLocalRacketColor();
 
@@ -218,8 +215,6 @@ public class RacketManager : MonoBehaviour
 
         if (IsEmpowered)
             localRacketFX.FXSwitchColorFX();
-
-        //Debug.Log("LocalRacketColor Switched!");
     }
 
     [PunRPC]
@@ -227,7 +222,6 @@ public class RacketManager : MonoBehaviour
     {
         ForeignRacketColorID = ForeignRacketColorID % 2 + 1;
         foreignRacketRenderer.sharedMaterials = racketMats[ForeignRacketColorID].racketMaterial;
-        //Debug.Log("ForeignRacketColor Switched!");
     }
     #endregion
 
@@ -261,13 +255,9 @@ public class RacketManager : MonoBehaviour
     {
         IsEmpowered = true;
 
-        //Debug.Log("Empower Switch");
         SwitchRacketColor();
 
         localRacketFX.PlaySwitchColorFX();
-
-        //if (!GameManager.Instance.offlineMode)                                                            //Not what you expected
-        //    foreignRacketFX.PlaySwitchColorFX();
 
         empoweredSound.Play();
 
@@ -279,12 +269,10 @@ public class RacketManager : MonoBehaviour
         IsEmpowered = false;
 
         localRacketFX.StopSwitchColorFX();
-        //if (!GameManager.Instance.offlineMode)
-        //    foreignRacketFX.StopSwitchColorFX();
 
         empoweredSound.Stop();
         
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));

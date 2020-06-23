@@ -20,7 +20,7 @@ public class VibrationManager : MonoBehaviour
 
     public void VibrateOn(AudioClip clipVib, float modifier = 1f)
     {
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -30,7 +30,7 @@ public class VibrationManager : MonoBehaviour
 
     public void VibrateOnDuration(AudioClip clipVib, float duration, float modifier = 1f)
     {
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -40,7 +40,7 @@ public class VibrationManager : MonoBehaviour
 
     public void VibrateOnRepeat(AudioClip clipVib, float modifier = 1f)
     {
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -52,7 +52,7 @@ public class VibrationManager : MonoBehaviour
     public void VibrateOn(float strength)
     {
 
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -68,7 +68,7 @@ public class VibrationManager : MonoBehaviour
     /// <param name="pulseInterval">Temps entre chaque vibration</param>
     public void VibrateOnDuration(float strength, float duration, float pulseInterval)
     {
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -78,7 +78,7 @@ public class VibrationManager : MonoBehaviour
 
     public void VibrateOnRepeat(float strength, float pulseInterval)
     {
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -112,7 +112,7 @@ public class VibrationManager : MonoBehaviour
             return;
         }
 
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -145,7 +145,7 @@ public class VibrationManager : MonoBehaviour
             return;
         }
 
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
@@ -178,7 +178,7 @@ public class VibrationManager : MonoBehaviour
             return;
         }
 
-        if (QPlayerManager.instance.GetMainHand() == PlayerHand.RIGHT)
+        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);

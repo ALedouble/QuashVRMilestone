@@ -101,7 +101,7 @@ public class PlayerSettings : MonoBehaviour
     {
         playerPreferences = new PlayerPreferences();
         playerPreferences.dominantHand = 2;
-        playerPreferences.shoulderHeight = 1.50f;
+        playerPreferences.shoulderHeight = 1f;
 
         SavePlayerSettings();
     }

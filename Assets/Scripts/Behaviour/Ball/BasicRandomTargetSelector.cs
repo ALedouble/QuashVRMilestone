@@ -14,6 +14,17 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public GameObject targetTestIndicator;
     public Vector3 CurrentTargetPlayerPosition {get {return GameManager.Instance.PlayerSpawn[(int)currentTarget % GameManager.Instance.PlayerSpawn.Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
 
+    private Vector3 CenterOffset { get; set; }
+    private float MinRadius { get; set; }
+    private float MaxRadius { get; set; }
+
+    private void Awake()
+    {
+        CenterOffset = offset;
+        //CenterOffset = new Vector3(0, PlayerSettings.Instance.PlayerShoulderHeight, 0); //Add left/right handed offset
+        MinRadius = minRange;
+        MaxRadius = maxRange;
+    }
 
     public void SwitchTarget()
     {
@@ -27,7 +38,7 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 
     public Vector3 GetNewTargetPosition()
     {
-        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint() + offset;
+        Vector3 newTarget = CurrentTargetPlayerPosition + GetRandomRelativeTargetPoint() + CenterOffset;
 
         return newTarget;
     }
@@ -49,11 +60,11 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 
     private Vector3 GetRandomRelativeTargetPoint()
     {
-        float randomRange = Random.Range(minRange, maxRange);
+        float randomRadius = Random.Range(MinRadius, MaxRadius);
         float randomAngle = Random.Range(0f, angleSpread);
 
         randomAngle = ((randomAngle - angleSpread / 2f) + 90f) * Mathf.PI / 180f;
 
-        return new Vector3(randomRange * Mathf.Cos(randomAngle), randomRange * Mathf.Sin(randomAngle), 0);
+        return new Vector3(randomRadius * Mathf.Cos(randomAngle), randomRadius * Mathf.Sin(randomAngle), 0);
     }
 }

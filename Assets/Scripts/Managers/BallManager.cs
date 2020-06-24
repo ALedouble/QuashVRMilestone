@@ -18,8 +18,10 @@ public class BallManager : MonoBehaviour
     public GameObject ballPrefab;
     public GameObject Ball { get; private set; }
 
+    
     [Header("Spawn Settings")]
-    public Vector3 spawnOffset;
+    public Vector3 leftHandedSpawnOffset;
+    public Vector3 rightHandedSpawnOffset;
     public int spawnColorID = 0;
     public float firstSpawnAnimationDuration = 1;
 
@@ -31,7 +33,12 @@ public class BallManager : MonoBehaviour
     public float delayBeforeReset;
 
     public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
-   
+
+
+    public Vector3 SpawnOffset
+    {
+        get => (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT) ? leftHandedSpawnOffset : rightHandedSpawnOffset;
+    }
     public BallColorBehaviour BallColorBehaviour { get; private set; }
     public BallPhysicBehaviour BallPhysicBehaviour { get; private set; }
     public PhysicInfo BallPhysicInfo { get; private set; }
@@ -163,7 +170,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SpawnBallLocaly()
     {
-        Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + spawnOffset;
+        Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + SpawnOffset;
         Ball.SetActive(true);
         BallColorBehaviour.DeactivateTrail();
 

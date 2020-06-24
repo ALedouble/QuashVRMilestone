@@ -197,3 +197,15 @@ MonoBehaviour:
       panStereo: 0
       minVolume: 0.879
       maxVolume: 1
+  - soundPoolName: Layer_Completed
+    tag: 6
+    cooldown: 0
+    sounds:
+    - clip: {fileID: 8300000, guid: 199e44bd42c12e842b7b348ec4e4869e, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1

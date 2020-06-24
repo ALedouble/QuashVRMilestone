@@ -442,6 +442,10 @@ public class LevelManager : MonoBehaviour
         // Rajout d'animation FIN d'un layer
         playersLayerCompletedFX[playerID].StartEffect();
 
+
+        // Play SFX Level Completed
+        AudioManager.instance.PlaySound("Level_Completed", Vector3.zero);
+
         if (!isThereAnotherLayer[playerID])
         {
             AndTheWinnerIs = playerID;

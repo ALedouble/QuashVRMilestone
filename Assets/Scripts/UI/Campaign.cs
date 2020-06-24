@@ -474,7 +474,7 @@ public class Campaign : MonoBehaviour
         //Deactivate Conditions
         for (int i = 0; i < levelRecapValues.conditionComparator.Length; i++)
         {
-            levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(false);
+            //levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(false);
 
             levelRecapValues.stars[i + 1].gameObject.SetActive(false);
         }
@@ -482,7 +482,7 @@ public class Campaign : MonoBehaviour
         //Reactivate Conditions depending on the level
         for (int i = 0; i < selectedLevel.level.levelProgression.numberOfAdditionalConditions; i++)
         {
-            levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(true);
+            //levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(true);
 
             levelRecapValues.stars[i + 1].gameObject.SetActive(true);
         }

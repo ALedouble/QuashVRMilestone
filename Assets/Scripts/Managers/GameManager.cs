@@ -521,10 +521,11 @@ public class GameManager : MonoBehaviour
             DisconnectGameToMenu();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EndOfTheGame();
-        }
+        ///DEBUG POUR TESTER LA FIN DE NIVEAU
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    EndOfTheGame();
+        //}
     }
 
     public void OnClick_DisconnectToMenu()

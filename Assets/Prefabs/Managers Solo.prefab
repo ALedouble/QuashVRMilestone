@@ -198,6 +198,11 @@ PrefabInstance:
       propertyPath: maxCounter
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: completedScoreColor.rgba
+      value: 4278243228
+      objectReference: {fileID: 0}
     - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: playersRadius.Array.size

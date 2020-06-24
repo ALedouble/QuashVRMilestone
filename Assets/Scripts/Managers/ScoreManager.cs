@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
     public float minTextSize;
     public float maxTextSize;
     public float maxScoreValue;
+    public Color32 completedScoreColor;
 
     [HideInInspector] public bool isThereScoreCondition;
     [HideInInspector] public bool isThereComboCondition;
@@ -28,7 +29,7 @@ public class ScoreManager : MonoBehaviour
     [HideInInspector] public int[] combo;
     [HideInInspector] public int[] brickCounterGauge;
     public int[] playersMaxCombo;
-    
+
 
     [HideInInspector] public GUIScoreData[] displayedScore;
     [HideInInspector] public GUIComboData[] displayedCombo;
@@ -54,7 +55,6 @@ public class ScoreManager : MonoBehaviour
         pV = GetComponent<PhotonView>();
     }
 
-
     /// <summary>
     /// Incremente le score
     /// </summary>
@@ -68,10 +68,10 @@ public class ScoreManager : MonoBehaviour
         {
             if (isThereScoreCondition)
             {
-                Debug.Log("Condition Check");
+                //Debug.Log("Condition Check");
                 if (score[playerID] > scoreConditionValue)
                 {
-                    Debug.Log("Score Anim PLEASE");
+                    //Debug.Log("Score Anim PLEASE");
                     LevelManager.instance.playersHUD.ScoreConditionCompleted();
                     hasScoreConditionSucceeded = true;
                     StartCoroutine(ConditionCompleteTime());
@@ -90,8 +90,8 @@ public class ScoreManager : MonoBehaviour
     [PunRPC]
     public void SetCombo(int playerID)
     {
-        brickCounterGauge[playerID] ++;
-        
+        brickCounterGauge[playerID]++;
+
 
         if (brickCounterGauge[playerID] >= maxCounter)
         {
@@ -103,7 +103,7 @@ public class ScoreManager : MonoBehaviour
 
             displayedCombo[playerID].FillImage(brickCounterGauge[playerID] / maxCounter);
 
-            if(combo[playerID] > playersMaxCombo[playerID])
+            if (combo[playerID] > playersMaxCombo[playerID])
             {
                 playersMaxCombo[playerID] = combo[playerID];
             }
@@ -151,13 +151,13 @@ public class ScoreManager : MonoBehaviour
 
     public void CheckForComboBreak()
     {
-        if(GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
+        if (GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
         {
             resetCombo = true;
             StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()));          //BallID
         }
     }
-    
+
     private IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)
     {
         yield return new WaitForSeconds(timeBeforeCheck);
@@ -181,12 +181,12 @@ public class ScoreManager : MonoBehaviour
     {
         displayedScore[0].cannotPlayAnim = true;
 
-        yield return new WaitForSeconds(0.45f);
+        yield return new WaitForSeconds(0.15f);
 
-        //Color32 newColor32 = displayedScore[0].TextMesh.color;
-        Color32 newColor32 = new Color32(156, 207, 0, 255);
+        displayedScore[0].UpdateTextColor(completedScoreColor);
 
-        displayedScore[0].UpdateTextColor(newColor32); 
+        yield return new WaitForSeconds(0.30f);
+
         displayedScore[0].cannotPlayAnim = false;
     }
 }

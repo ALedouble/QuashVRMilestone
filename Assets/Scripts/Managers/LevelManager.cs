@@ -444,7 +444,7 @@ public class LevelManager : MonoBehaviour
 
 
         // Play SFX Level Completed
-        AudioManager.instance.PlaySound("Level_Completed", Vector3.zero);
+        AudioManager.instance.PlaySound("Layer_Completed", Vector3.zero);
 
         if (!isThereAnotherLayer[playerID])
         {

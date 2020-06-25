@@ -64,6 +64,10 @@ public class BallManager : MonoBehaviour
 
     public GameObject InstantiateBall()
     {
+        //Avoid Akward collision bug during stream Kappa
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), false);
+
         if (GameManager.Instance.offlineMode)
         {
             //Debug.Log("Instanciate Ball OfflineMode");
@@ -151,12 +155,17 @@ public class BallManager : MonoBehaviour
     {
         //Debug.Log("BallFirstSpawn SpawnBallLocally!");
         SpawnBallLocaly();
-        
+
+        StartBallFisrtSpawnCoroutine();
+
+        // Ajouter le Timer
+    }
+
+    private void StartBallFisrtSpawnCoroutine()
+    {
         BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
 
         BallColorBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
-
-        // Ajouter le Timer
     }
 
     public void SpawnTheBall()

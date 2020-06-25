@@ -200,7 +200,10 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     public void DeactivateTrail()
     {
-        trails[colorID].SetActive(false);
+        foreach(GameObject trail in trails)
+        {
+            trail.SetActive(false);
+        }
     }
     #endregion
 

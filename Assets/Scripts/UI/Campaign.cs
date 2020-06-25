@@ -294,13 +294,138 @@ public class Campaign : MonoBehaviour
             //Set LEVEL icon position
             level.rectTransform.anchoredPosition3D = new Vector3(xPos, yPos, 0);
 
-            //Set Level Title
-            level.text.text = levelsImplemented[i].level.levelProgression.buttonName;
+            //Set Level Number
+            for (int u = 0; u < level.buttonTexts.Count; u++)
+            {
+                level.buttonTexts[u].text = levelsImplemented[i].level.levelProgression.buttonName;
+            }
 
             //Set onClick Event to reload values on the Level Panel
             LevelsScriptable lvl = levelsImplemented[i];
             level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
+            if(levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
+            {
+                if (!levelsImplemented[i].level.levelProgression.isUnlocked)
+                {
+                    //Debug.Log("LOCKED level : " + levelsImplemented[i]);
+
+                    if (totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                    {
+                        //Debug.Log("UNLEASH the level : " + levelsImplemented[i]);
+                        levelsImplemented[i].level.levelProgression.isUnlocked = true;
+                        level.button.interactable = true;
+                        //line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
+
+
+                        for (int x = 0; x < level.unlockImages.Count; x++)
+                        {
+                            level.unlockImages[x].SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        //line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
+                        level.button.interactable = false;
+
+
+                        for (int x = 0; x < level.lockImages.Count; x++)
+                        {
+                            level.lockImages[x].SetActive(true);
+                        }
+                    }
+                }
+                else
+                {
+                    //Debug.Log("UNLOCKED level : " + levelsImplemented[i]);
+
+                    //line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
+                    level.button.interactable = true;
+
+                    if (levelsImplemented[i].level.levelProgression.isDone)
+                    {
+                        if (levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0)
+                        {
+                            int conditionCompleted = 0;
+
+                            for (int o = 0; o < levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions; o++)
+                            {
+                                if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionComparator == 0)
+                                {
+                                    switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
+                                    {
+                                        case CompleteConditionType.Score:
+                                            if (levelsImplemented[i].level.levelProgression.maxScore > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Combo:
+                                            if (levelsImplemented[i].level.levelProgression.maxCombo > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Timing:
+                                            if (levelsImplemented[i].level.levelProgression.minTiming > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
+                                    {
+                                        case CompleteConditionType.Score:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxScore)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Combo:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxCombo)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Timing:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.minTiming)
+                                                conditionCompleted += 1;
+                                            break;
+                                    }
+                                }
+                            }
+
+                            if (conditionCompleted == levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions)
+                            {
+
+                                for (int x = 0; x < level.fullStarsImages.Count; x++)
+                                {
+                                    level.fullStarsImages[x].SetActive(true);
+                                }
+                            }
+                            else
+                            {
+                                for (int x = 0; x < level.doneImages.Count; x++)
+                                {
+                                    level.doneImages[x].SetActive(true);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int x = 0; x < level.fullStarsImages.Count; x++)
+                            {
+                                level.fullStarsImages[x].SetActive(true);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        for (int x = 0; x < level.unlockImages.Count; x++)
+                        {
+                            level.unlockImages[x].SetActive(true);
+                        }
+                    }
+                }
+            }
 
             for (int y = 0; y < levelsImplemented[i].level.levelProgression.unlockConditions.Count; y++)
             {
@@ -342,19 +467,11 @@ public class Campaign : MonoBehaviour
 
 
                 ////////////    CHECK UN/LOCK CONDITIONS    ////////////
+                //Debug.Log("level : " + levelsImplemented[i] + " of number -> " + i);
 
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
                     //Debug.Log("LOCKED level : " + levelsImplemented[i]);
-
-                    line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
-                    level.button.interactable = false;
-
-                    for (int x = 0; x < level.lockImages.Count; x++)
-                    {
-                        level.lockImages[x].SetActive(true);
-                        level.unlockImages[x].SetActive(false);
-                    }
 
                     if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                     {
@@ -364,10 +481,22 @@ public class Campaign : MonoBehaviour
                         line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
 
 
+                        for (int x = 0; x < level.unlockImages.Count; x++)
+                        {
+                            //level.lockImages[x].SetActive(false);
+                            level.unlockImages[x].SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        line.color = new Color32((byte)150, (byte)150, (byte)150, (byte)255);
+                        level.button.interactable = false;
+
+
                         for (int x = 0; x < level.lockImages.Count; x++)
                         {
-                            level.lockImages[x].SetActive(false);
-                            level.unlockImages[x].SetActive(true);
+                            level.lockImages[x].SetActive(true);
+                            //level.unlockImages[x].SetActive(false);
                         }
                     }
                 }
@@ -378,11 +507,94 @@ public class Campaign : MonoBehaviour
                     line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
                     level.button.interactable = true;
 
-                    for (int x = 0; x < level.lockImages.Count; x++)
+                    if(levelsImplemented[i].level.levelProgression.isDone)
                     {
-                        level.lockImages[x].SetActive(false);
-                        level.unlockImages[x].SetActive(true);
+                        if(levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0)
+                        {
+                            int conditionCompleted = 0;
+
+                            for (int o = 0; o < levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions; o++)
+                            {
+                                if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionComparator == 0)
+                                {
+                                    switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
+                                    {
+                                        case CompleteConditionType.Score:
+                                            if (levelsImplemented[i].level.levelProgression.maxScore > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Combo:
+                                            if (levelsImplemented[i].level.levelProgression.maxCombo > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Timing:
+                                            if (levelsImplemented[i].level.levelProgression.minTiming > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
+                                    {
+                                        case CompleteConditionType.Score:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxScore)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Combo:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxCombo)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Timing:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.minTiming)
+                                                conditionCompleted += 1;
+                                            break;
+                                    }
+                                }
+                            }
+
+                            if (conditionCompleted == levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions)
+                            {
+
+                                for (int x = 0; x < level.fullStarsImages.Count; x++)
+                                {
+                                    //level.lockImages[x].SetActive(false);
+                                    level.fullStarsImages[x].SetActive(true);
+                                }
+                            }
+                            else
+                            {
+                                for (int x = 0; x < level.doneImages.Count; x++)
+                                {
+                                    //level.lockImages[x].SetActive(false);
+                                    level.doneImages[x].SetActive(true);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int x = 0; x < level.fullStarsImages.Count; x++)
+                            {
+                                //level.lockImages[x].SetActive(false);
+                                level.fullStarsImages[x].SetActive(true);
+                            }
+                        }
+                        
                     }
+                    else
+                    {
+                        for (int x = 0; x < level.unlockImages.Count; x++)
+                        {
+                            //level.lockImages[x].SetActive(false);
+                            level.unlockImages[x].SetActive(true);
+                        }
+                    }
+
+                    
                 }
             }
 

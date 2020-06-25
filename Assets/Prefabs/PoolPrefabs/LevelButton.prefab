@@ -116,7 +116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2944414878455620065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2144085279999263175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -345,7 +345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8035455218316239123
 RectTransform:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8875726555438930362
 Transform:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3794105717371636897
 RectTransform:
   m_ObjectHideFlags: 0
@@ -714,7 +714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6503107392834054764
 RectTransform:
   m_ObjectHideFlags: 0
@@ -943,7 +943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6503107393278017114
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1167,7 +1167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f841017aa9827478bc216eab8a141d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 6503107392834054765}
+  buttonTexts:
+  - {fileID: 6503107392834054765}
+  - {fileID: 5931142720648831648}
+  - {fileID: 5540886053240136123}
   button: {fileID: 6503107393599488599}
   rectTransform: {fileID: 6503107393599488597}
   lockImages:
@@ -1176,6 +1179,13 @@ MonoBehaviour:
   unlockImages:
   - {fileID: 6503107392834054755}
   - {fileID: 6503107393278017113}
+  doneImages:
+  - {fileID: 4147535036997309044}
+  - {fileID: 3764984858514734532}
+  fullStarsImages:
+  - {fileID: 8916303382548271633}
+  - {fileID: 5858999410450059907}
+  - {fileID: 4073219728977777132}
 --- !u!1 &6738620642603844602
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,7 +1309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1020063545468463615
 Transform:
   m_ObjectHideFlags: 0
@@ -1334,7 +1344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5168112224190961112
 RectTransform:
   m_ObjectHideFlags: 0

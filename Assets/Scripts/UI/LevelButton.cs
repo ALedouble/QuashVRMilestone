@@ -7,10 +7,12 @@ using UnityEngine.UI;
 public class LevelButton : MonoBehaviour
 {
     [Header ("References")]
-    public TextMeshProUGUI text;
+    public List<TextMeshProUGUI> buttonTexts;
     public Button button;
     public RectTransform rectTransform;
 
     public List<GameObject> lockImages;
     public List<GameObject> unlockImages;
+    public List<GameObject> doneImages;
+    public List<GameObject> fullStarsImages;
 }

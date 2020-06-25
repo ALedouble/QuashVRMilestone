@@ -620,7 +620,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallCollider.enabled = false;
 
         float timer = 0f;
-        while(timer > duration)
+        while(timer < duration)
         {
             yield return new WaitForFixedUpdate();
             if(!BallManager.instance.IsBallPaused)

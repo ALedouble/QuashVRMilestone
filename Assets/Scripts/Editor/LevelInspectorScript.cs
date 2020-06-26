@@ -541,17 +541,18 @@ public class LevelInspectorScript : Editor
             EditorGUILayout.EndVertical();
 
             EditorGUI.BeginChangeCheck();
-            currentLevel.level.levelSpec.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.level.levelSpec.timeForThisLevel);
-            if(EditorGUI.EndChangeCheck())
-            {
-                currentLevel.level.levelProgression.minTiming = (int)currentLevel.level.levelSpec.timeForThisLevel;
-            }
+            /////// No More DEFEAT by Time Limit 
+            //currentLevel.level.levelSpec.timeForThisLevel = EditorGUILayout.FloatField("Durée du Timer", currentLevel.level.levelSpec.timeForThisLevel);
+            //if(EditorGUI.EndChangeCheck())
+            //{
+            //    currentLevel.level.levelProgression.minTiming = (int)currentLevel.level.levelSpec.timeForThisLevel;
+            //}
 
-            if (currentLevel.level.levelSpec.timeForThisLevel == 0)
-            {
-                EditorGUILayout.HelpBox("Le Timer ne peut être égale à 0", MessageType.Warning);
-                EditorGUILayout.HelpBox("Non mais allo quoi ?!", MessageType.Error);
-            }
+            //if (currentLevel.level.levelSpec.timeForThisLevel == 0)
+            //{
+            //    EditorGUILayout.HelpBox("Le Timer ne peut être égale à 0", MessageType.Warning);
+            //    EditorGUILayout.HelpBox("Non mais allo quoi ?!", MessageType.Error);
+            //}
 
             currentLevel.level.levelSpec.impactRadiusForThisLevel = EditorGUILayout.FloatField("Taille de l'impact", currentLevel.level.levelSpec.impactRadiusForThisLevel);
 

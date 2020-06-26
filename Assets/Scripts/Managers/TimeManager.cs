@@ -9,17 +9,17 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance { get; private set; }
     private PhotonView photonView;
     [HideInInspector] public bool isThereTimerCondition;
-    [HideInInspector] public int timerConditionValue;
+    [HideInInspector] public float timerConditionValue;
     private bool hasTimerConditionFailed = false;
 
 
-    public delegate void  TimeEvent();
+    public delegate void TimeEvent();
     public event TimeEvent OnTimerEnd;
 
 
     public float timerSpeedModifier = 1f;
     private float currentTimer;
-    public float CurrentTimer 
+    public float CurrentTimer
     {
         get => currentTimer;
         set
@@ -38,7 +38,7 @@ public class TimeManager : MonoBehaviour
 
     private bool timerHasChanged = true;
 
-    
+
     private void Awake()
     {
         Instance = this;
@@ -52,13 +52,13 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
-        if(timerHasChanged)
-            UpdateTimeText(); 
+        if (timerHasChanged)
+            UpdateTimeText();
     }
 
     private void FixedUpdate()
     {
-        if(IsTimeFlying)
+        if (IsTimeFlying)
             UpdateTimer();
     }
 
@@ -94,27 +94,31 @@ public class TimeManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if (currentTimer < LevelMaxTime)
-        {
-            //Incrémente le timer
-            CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;
+        /////// If there's a timer
+        //if (currentTimer < LevelMaxTime)
+        //{
 
-            if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
+        //Incrémente le timer
+        CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;
+
+        if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
+        {
+            if (isThereTimerCondition)
             {
-                if (isThereTimerCondition)
+                if (CurrentTimer > timerConditionValue)
                 {
-                    if (CurrentTimer > timerConditionValue)
-                    {
-                        Debug.Log("CurrentTimer : " + CurrentTimer);
-                        Debug.Log("timerConditionValue : " + timerConditionValue);
-                        LevelManager.instance.playersHUD.TimerConditionFailed();
-                        hasTimerConditionFailed = true;
-                    }
+                    Debug.Log("CurrentTimer : " + CurrentTimer);
+                    Debug.Log("timerConditionValue : " + timerConditionValue);
+                    LevelManager.instance.playersHUD.TimerConditionFailed();
+                    hasTimerConditionFailed = true;
                 }
             }
         }
 
+        //}
+
         //No more time left
+        /*
         if (currentTimer >= LevelMaxTime)
         {
             CurrentTimer = LevelMaxTime;
@@ -122,7 +126,7 @@ public class TimeManager : MonoBehaviour
 
             OnTimerEnd?.Invoke();
         }
-
+        */
         // Old Stuff
         /*
         if (currentTimer <= 0)
@@ -170,8 +174,19 @@ public class TimeManager : MonoBehaviour
                 }
             }
 
-            //Décrémentation de l'UI (fill image) pour le timer 
-            timerGUI.FillImage(currentTimer / LevelMaxTime);
+            if (isThereTimerCondition && currentTimer <= timerConditionValue)
+            {
+                float timerPercent = 1 - (currentTimer / timerConditionValue);
+
+                //Décrémentation de l'UI (fill image) pour le timer 
+                timerGUI.FillImage(timerPercent);
+                //Debug.Log("Timer percent : " + timerPercent);
+            }
+            else
+            {
+                timerGUI.FillImage(0);
+            }
+                
         }
     }
 }

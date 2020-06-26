@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 using TMPro;
+using System.Linq;
 
 public class Campaign : MonoBehaviour
 {
@@ -304,7 +305,7 @@ public class Campaign : MonoBehaviour
             LevelsScriptable lvl = levelsImplemented[i];
             level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
 
-            if(levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
+            if (levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
             {
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
@@ -507,9 +508,9 @@ public class Campaign : MonoBehaviour
                     line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
                     level.button.interactable = true;
 
-                    if(levelsImplemented[i].level.levelProgression.isDone)
+                    if (levelsImplemented[i].level.levelProgression.isDone)
                     {
-                        if(levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0)
+                        if (levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0)
                         {
                             int conditionCompleted = 0;
 
@@ -583,7 +584,7 @@ public class Campaign : MonoBehaviour
                                 level.fullStarsImages[x].SetActive(true);
                             }
                         }
-                        
+
                     }
                     else
                     {
@@ -594,7 +595,7 @@ public class Campaign : MonoBehaviour
                         }
                     }
 
-                    
+
                 }
             }
 
@@ -699,7 +700,7 @@ public class Campaign : MonoBehaviour
             levelRecapValues.stars[i + 1].gameObject.SetActive(true);
         }
 
-        //Set Up COndition if necessary
+        //Set Up Condition if necessary
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
         {
             //if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator == CompleteConditionComparator.Min)
@@ -707,6 +708,11 @@ public class Campaign : MonoBehaviour
             //else
             //    levelRecapValues.conditionComparator[0].text = "<";
 
+            for (int h = selectedLevel.level.levelProgression.numberOfAdditionalConditions; h < levelRecapValues.conditionType.Length; h++)
+            {
+                levelRecapValues.conditionType[h].text = "";
+                levelRecapValues.conditionReachedAt[h].text = "";
+            }
 
             switch (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionType)
             {
@@ -760,6 +766,14 @@ public class Campaign : MonoBehaviour
                 levelRecapValues.conditionReachedAt[0].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
             }
         }
+        else
+        {
+            for (int h = 0; h < levelRecapValues.conditionType.Length; h++)
+            {
+                levelRecapValues.conditionType[h].text = "";
+                levelRecapValues.conditionReachedAt[h].text = "";
+            }
+        }
 
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 1)
         {
@@ -768,7 +782,7 @@ public class Campaign : MonoBehaviour
             //else
             //    levelRecapValues.conditionComparator[1].text = "<";
 
-            switch(selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType)
+            switch (selectedLevel.level.levelProgression.conditionsToComplete[1].conditionType)
             {
                 case CompleteConditionType.Combo:
                     levelRecapValues.conditionType[1].text = comboConditionEntry;

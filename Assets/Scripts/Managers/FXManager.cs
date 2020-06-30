@@ -195,12 +195,12 @@ public class FXManager : MonoBehaviour
         {
             case 0:
                 impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);
-
                 break;
-
             case 1:
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);
+                break;
+            case 2:
                 impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", fxPos, Quaternion.identity);
-
                 break;
         }
 

@@ -190,7 +190,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [PunRPC]
     private void SwitchColorLocally()
     {
-        colorID = ( (colorID + 1) % 2 ) + 1;
+        colorID = ( colorID % 2 ) + 1;
         myRenderer.sharedMaterial = materials[colorID];
 
         UpdateTrail();

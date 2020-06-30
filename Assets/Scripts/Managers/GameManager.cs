@@ -222,9 +222,10 @@ public class GameManager : MonoBehaviour
 
         if (offlineMode)
         {
-            if(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel == ColorSwitchType.NONE)
-                BallManager.instance.BallColorBehaviour.Initialize(ColorSwitchType.RACKETEMPOWERED);
-            else
+
+            //if(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel == ColorSwitchType.NONE)
+            //    BallManager.instance.BallColorBehaviour.Initialize(ColorSwitchType.NONE);
+            //else
                 BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
 
             if (LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)

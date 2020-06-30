@@ -195,12 +195,12 @@ public class FXManager : MonoBehaviour
         {
             case 0:
                 impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);
-
                 break;
-
             case 1:
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);
+                break;
+            case 2:
                 impactGo = PoolManager.instance.SpawnFromPool("ImpactColor02", fxPos, Quaternion.identity);
-
                 break;
         }
 
@@ -242,7 +242,7 @@ public class FXManager : MonoBehaviour
             {
                 if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
+                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
                     {
                         //hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                         BrickManager.Instance.HitBrickByID(hit.collider.gameObject.GetComponent<BrickBehaviours>().BrickID);

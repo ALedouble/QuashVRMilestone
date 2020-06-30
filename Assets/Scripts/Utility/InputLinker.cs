@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputLinker : MonoBehaviour
 {
+    public GameObject leftControllerModel, rightControllerModel;
+
     public void OnRightTriggerPress()
     {
         PlayerInputManager.instance?.OnRightTriggerPress();
@@ -34,5 +36,11 @@ public class InputLinker : MonoBehaviour
     {
         Debug.Log("RightStartButtonPressed");
         PlayerInputManager.instance?.OnStartButtonPress();
+    }
+
+    public void ControllerModelSetActive(bool value)
+    {
+        leftControllerModel.SetActive(value);
+        rightControllerModel.SetActive(value);
     }
 }

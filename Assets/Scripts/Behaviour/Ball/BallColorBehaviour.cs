@@ -37,25 +37,22 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         myRenderer = gameObject.GetComponent<Renderer>();
 
         SetupColors();
-        colorSwitchType = ColorSwitchType.NONE;
 
-        if (GameManager.Instance.offlineMode)
-        {
-            SetBallColor(BallManager.instance.spawnColorID);
-        }
-        else
-        {
-            photonView.RPC("SetBallColor", RpcTarget.All, BallManager.instance.spawnColorID);
-        }
-        
+        colorSwitchType = ColorSwitchType.NONE;
+        SetBallColor(LevelManager.instance.currentLevel.level.levelSpec.ballSpawnColorID);
     }
 
     public void Initialize(ColorSwitchType newColorSwitchType)
     {
         TerminateSwitchColor();
 
-        switch(newColorSwitchType)
+        SetBallColor(LevelManager.instance.currentLevel.level.levelSpec.ballSpawnColorID);
+
+        switch (newColorSwitchType)
         {
+            case ColorSwitchType.NONE:
+                RacketManager.instance.Initialize(RacketActionType.NONE);
+                break;
             case ColorSwitchType.RACKETEMPOWERED:
                 BallEventManager.instance.OnCollisionWithRacket += RacketEmpoweredSwitchColor;
                 RacketManager.instance.Initialize(RacketActionType.RACKETEMPOWERED);
@@ -96,24 +93,32 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void SetupMaterials()
     {
-        materials = new Material[2];
+        materials = new Material[3];
 
         materials[0] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
         materials[1] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
+        materials[2] = new Material(Shader.Find("Shader Graphs/Sh_Ball00"));
 
         //Glow Color
-        materials[0].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors * 6);
+        materials[0].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors * 6);
         //Ball Color
-        materials[0].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors);
+        materials[0].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors);
         //Line Color
-        materials[0].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors);
+        materials[0].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[0].fresnelColors);
+        
+        //Glow Color
+        materials[1].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors * 6);
+        //Ball Color
+        materials[1].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors);
+        //Line Color
+        materials[1].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors);
 
         //Glow Color
-        materials[1].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 6);
+        materials[2].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 6);
         //Ball Color
-        materials[1].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors);
+        materials[2].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors);
         //Line Color
-        materials[1].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[2].fresnelColors);
+        materials[2].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[2].fresnelColors);
 
 
         myRenderer.sharedMaterial = materials[colorID];
@@ -123,11 +128,14 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     private void SetupTrails()
     {
-        trails[0].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors;
-        trails[1].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors;
+        trails[0].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors;
+        trails[1].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors;
+        trails[2].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors;
 
-        trails[colorID].SetActive(true);
-        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);   // Prevent negative value of modulo
+        foreach(GameObject trail in trails)
+        {
+            trail.SetActive(false);
+        }
     }
     #endregion
 
@@ -182,7 +190,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [PunRPC]
     private void SwitchColorLocally()
     {
-        colorID = (colorID + 1) % materials.Length;
+        colorID = ( colorID % 2 ) + 1;
         myRenderer.sharedMaterial = materials[colorID];
 
         UpdateTrail();
@@ -194,8 +202,10 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     #region Trail Methods
     public void UpdateTrail()
     {
-        trails[colorID].SetActive(true);
-        trails[((colorID - 1) % trails.Length + trails.Length) % trails.Length].SetActive(false);
+        for(int i = 0; i < trails.Length; i++)
+        {
+            trails[i].SetActive(i == colorID);
+        }
     }
 
     public void DeactivateTrail()

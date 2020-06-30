@@ -85,17 +85,20 @@ public class RacketManager : MonoBehaviour
 
         switch (newRacketActionType)
         {
+            case RacketActionType.NONE:
+                SetRacketsColor(BallManager.instance.BallColorBehaviour.GetBallColor());
+                break;
             case RacketActionType.RACKETEMPOWERED:
                 racketAction = EmpoweredStateAction;
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
-                SetRacketsColor(BallManager.instance.GetBallColorID() + 1);
+                SetRacketsColor(BallManager.instance.GetBallColorID());
                 break;
             case RacketActionType.BALLOPPOSITE:
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
-                SetRacketsColor((BallManager.instance.GetBallColorID() + 1) % 2 + 1);
+                SetRacketsColor((BallManager.instance.GetBallColorID() + 1) % 2);
                 break;
             default:
-                SetRacketsColor(BallManager.instance.GetBallColorID() + 1);
+                SetRacketsColor(BallManager.instance.GetBallColorID());
                 break;
         }
 
@@ -166,26 +169,14 @@ public class RacketManager : MonoBehaviour
     {
         //racketMats = new RacketMaterials[3];
 
-        for (int i = 0; i < racketMats.Length; i++)
-        {
-            switch (i)
-            {
-                case 0:
-                    racketMats[i].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors);
-                    racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors);
-                    break;
-
-                case 1:
-                    racketMats[i].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors * 1.5f);
-                    racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].fresnelColors * 1.5f);
-                    break;
-
-                case 2:
-                    racketMats[i].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors * 3);
-                    racketMats[i].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[i].coreEmissiveColors * 3);
-                    break;
-            }
-        }
+        racketMats[0].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors);
+        racketMats[0].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors);
+                    
+        racketMats[1].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors * 1.5f);
+        racketMats[1].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors * 1.5f);
+                    
+        racketMats[2].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 3);
+        racketMats[2].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 3);
     }
 
     public void SetRacketsColor(int newColorID)

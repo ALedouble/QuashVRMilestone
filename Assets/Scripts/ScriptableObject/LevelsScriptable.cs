@@ -61,6 +61,7 @@ public class LevelSpecifics
     public float impactRadiusForThisLevel;
     public float balleSpeedForThisLevel;
 
+    public int ballSpawnColorID = 1;
     public ColorSwitchType switchColorBehaviourForThisLevel;
     public bool suddenDeath;
     public bool timeAttack;

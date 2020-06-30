@@ -35,6 +35,8 @@ public class PlayerInputManager : MonoBehaviour
     public InputMod inputMod = InputMod.GAMEPLAY;
     public IInputable currentInput;
 
+    public InputLinker LocalPlayerInputLinker { get; set; }
+
     private IInputable gameplayAction = new GameplayInputManager();
     private IInputable menuAction = new MenuInputManager();
 
@@ -75,22 +77,22 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnRightTriggerPress()
     {
-        currentInput.OnRightTriggerPress();
+        currentInput?.OnRightTriggerPress();
     }
 
     public void OnRightTriggerRelease()
     {
-        currentInput.OnRightTriggerRelease();
+        currentInput?.OnRightTriggerRelease();
     }
 
     public void OnLeftTriggerPress()
     {
-        currentInput.OnLeftTriggerPress();
+        currentInput?.OnLeftTriggerPress();
     }
 
     public void OnLeftTriggerRelease()
     {
-        currentInput.OnLeftTriggerRelease();
+        currentInput?.OnLeftTriggerRelease();
     }
 
     public void OnStartButtonPress()                    
@@ -108,6 +110,6 @@ public class PlayerInputManager : MonoBehaviour
         ////  GUIMenuPause.guiMenuPause.GamePaused();
         ///
 
-        currentInput.OnStartButtonPress();
+        currentInput?.OnStartButtonPress();
     }
 }

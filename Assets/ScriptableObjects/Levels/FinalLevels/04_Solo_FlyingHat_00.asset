@@ -17067,12 +17067,12 @@ MonoBehaviour:
       buttonName: 04
       LevelIndex: 26
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
       maxCombo: 0
-      minTiming: 0
+      minTiming: 300
       unlockConditions:
       - {fileID: 11400000, guid: abd0a0e442e31cd4dbfdf7f3d4c94d9b, type: 2}
       levelPos: {x: 446, y: 9618}
@@ -17093,6 +17093,7 @@ MonoBehaviour:
       timeForThisLevel: 300
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
+      ballSpawnColorID: 0
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 using System.IO;
+using Photon.Pun.Demo.SlotRacer.Utils;
 
 public static class CSV_ExportTool
 {
@@ -17,7 +18,7 @@ public static class CSV_ExportTool
 
     private static string[] reportHeaders = new string[5]
     {
-        "Joueur",
+        "",
         "Level",
         "Score",
         "Combo",
@@ -70,14 +71,26 @@ public static class CSV_ExportTool
         saveDatas = new SavedObject[0];
         saveFiles = new DefaultAsset[0];
 
-        VerifyDirectory();
-        VerifyFile();
-
         if (AssetDatabase.IsValidFolder(loadDirectoryPath))
         {
             string[] filesPaths = AssetDatabase.FindAssets("t:DefaultAsset", new[] { loadDirectoryPath });
             saveDatas = new SavedObject[filesPaths.Length];
             saveFiles = new DefaultAsset[filesPaths.Length];
+
+            for (int i = 0; i < filesPaths.Length; i++)
+            {
+                string savedString = File.ReadAllText(AssetDatabase.GUIDToAssetPath(filesPaths[i]));
+
+                DefaultAsset loadObject = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(filesPaths[i]), typeof(DefaultAsset)) as DefaultAsset;
+                saveFiles[i] = loadObject;
+
+                SavedObject loadData = JsonUtility.FromJson<SavedObject>(savedString);
+                saveDatas[i] = loadData;
+            }
+
+            VerifyDirectory();
+            VerifyFile();
+
             LoadEveryDatas(filesPaths);
         }
         else
@@ -86,23 +99,19 @@ public static class CSV_ExportTool
             AssetDatabase.CreateFolder("Assets/Editor", "Saves_To_Compare");
             Debug.LogError("NO folder THUS NO save files");
         }
+
+        
+
+        
     }
 
     static void LoadEveryDatas(string[] paths)
     {
-        for (int i = 0; i < paths.Length; i++)
-        {
-            string savedString = File.ReadAllText(AssetDatabase.GUIDToAssetPath(paths[i]));
-
-            DefaultAsset loadObject = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(paths[i]), typeof(DefaultAsset)) as DefaultAsset;
-            saveFiles[i] = loadObject;
-
-            SavedObject loadData = JsonUtility.FromJson<SavedObject>(savedString);
-            saveDatas[i] = loadData;
-        }
-
         for (int i = 0; i < saveDatas.Length; i++)
         {
+            List<string> line = new List<string>();
+            line.Add(saveFiles[i].name);
+
             for (int y = saveDatas[i].savedObjects.Count - 1; y >= 0 ; y--)
             {
                 int levelNumber = saveDatas[i].savedObjects.Count - y;
@@ -135,17 +144,11 @@ public static class CSV_ExportTool
                     }
                 }
 
-                string[] line = new string[5]
-                {
-                saveFiles[i].name,
-                "Level_" + levelNumber.ToString(),
-                saveDatas[i].savedObjects[y].bestScore.ToString(),
-                saveDatas[i].savedObjects[y].bestCombo.ToString(),
-                saveDatas[i].savedObjects[y].bestTime.ToString() + " <=> " + bestTimeDisplay
-                };
-
-                AppendToReport(line);
+                line.Add(saveDatas[i].savedObjects[y].bestScore.ToString());
+                line.Add(saveDatas[i].savedObjects[y].bestCombo.ToString());
+                line.Add(saveDatas[i].savedObjects[y].bestTime.ToString() + " == " + bestTimeDisplay);
             }
+                AppendToReport(line);
         }
     }
 
@@ -153,27 +156,43 @@ public static class CSV_ExportTool
 
     static void CreateReport()
     {
+        if (saveDatas.Length == 0)
+            return;
+
         using (StreamWriter sw = File.CreateText(GetFilePath()))
         {
             string finalString = "";
-            for (int i = 0; i < reportHeaders.Length; i++)
+            for (int i = saveDatas[0].savedObjects.Count - 1; i >= 0; i--)
             {
+                int levelNumber = saveDatas[0].savedObjects.Count - i;
+
                 if (finalString != "")
                 {
                     finalString += separator;
                 }
-                finalString += reportHeaders[i];
+                finalString += separator;
+                finalString += "Level_" + levelNumber.ToString();
+                finalString += separator;
+            }
+            sw.WriteLine(finalString);
+
+            finalString = separator;
+            for (int i = saveDatas[0].savedObjects.Count - 1; i >= 0; i--)
+            {
+                finalString += "Score" + separator;
+                finalString += "Combo" + separator;
+                finalString += "Time" + separator;
             }
             sw.WriteLine(finalString);
         }
     }
 
-    static void AppendToReport(string[] strings)
+    static void AppendToReport(List<string> strings)
     {
         using (StreamWriter sw = File.AppendText(GetFilePath()))
         {
             string finalString = "";
-            for (int i = 0; i < strings.Length; i++)
+            for (int i = 0; i < strings.Count; i++)
             {
                 if (finalString != "")
                 {

@@ -194,7 +194,7 @@ public class FXManager : MonoBehaviour
         switch (BallManager.instance.GetBallColorID())
         {
             case 0:
-                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);
+                impactGo = PoolManager.instance.SpawnFromPool("ImpactColor00", fxPos, Quaternion.identity);
                 break;
             case 1:
                 impactGo = PoolManager.instance.SpawnFromPool("ImpactColor01", fxPos, Quaternion.identity);

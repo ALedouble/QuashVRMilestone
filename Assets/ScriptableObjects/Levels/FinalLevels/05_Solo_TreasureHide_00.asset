@@ -20745,13 +20745,13 @@ MonoBehaviour:
     levelProgression:
       buttonName: 05
       LevelIndex: 25
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 0
-      minTiming: 0
+      maxScore: 63450
+      maxCombo: 26
+      minTiming: 68
       unlockConditions:
       - {fileID: 11400000, guid: 545fae8b7e89c5843b4fba6a54620421, type: 2}
       - {fileID: 11400000, guid: 192435ca37cde9f4bb89eadd6c813d7f, type: 2}
@@ -20773,6 +20773,7 @@ MonoBehaviour:
       timeForThisLevel: 300
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
+      ballSpawnColorID: 0
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0

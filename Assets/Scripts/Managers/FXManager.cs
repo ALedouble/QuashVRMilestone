@@ -242,7 +242,7 @@ public class FXManager : MonoBehaviour
             {
                 if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID() + 1)
+                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
                     {
                         //hit.collider.gameObject.GetComponent<BrickBehaviours>().HitBrick();
                         BrickManager.Instance.HitBrickByID(hit.collider.gameObject.GetComponent<BrickBehaviours>().BrickID);

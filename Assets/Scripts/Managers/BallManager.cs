@@ -22,7 +22,6 @@ public class BallManager : MonoBehaviour
     [Header("Spawn Settings")]
     public Vector3 leftHandedSpawnOffset;
     public Vector3 rightHandedSpawnOffset;
-    public int spawnColorID = 0;
     public float firstSpawnAnimationDuration = 1;
 
     [Header("Float Settings")]
@@ -94,8 +93,6 @@ public class BallManager : MonoBehaviour
 
         Ball = newBall;
         SetupBallManager();
-
-        //ballColorBehaviour.SetBallColor(spawnColorID);                                            // Ball Starting Color in levelManager?
 
         Sh_GlobalDissolvePosition.Setup();
 
@@ -303,7 +300,6 @@ public class BallManager : MonoBehaviour
             BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
             BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
 
-            Debug.Log("StartBallResetCountdown : Start Coroutine!");
             resetCoroutine = StartCoroutine(BallResetCoroutine());
         }
     }
@@ -318,7 +314,6 @@ public class BallManager : MonoBehaviour
 
     private IEnumerator BallResetCoroutine()
     {
-        Debug.Log("BallResetCoroutine");
         float resetTimer = 0;
         while (resetTimer < delayBeforeReset)
         {
@@ -348,11 +343,6 @@ public class BallManager : MonoBehaviour
     public Material[] GetBallMaterials()
     {
         return BallColorBehaviour.GetBallMaterials();
-    }
-
-    public int GetSpawnColorID()
-    {
-        return spawnColorID;
     }
     #endregion
 

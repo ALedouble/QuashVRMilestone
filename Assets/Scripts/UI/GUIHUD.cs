@@ -123,7 +123,7 @@ public class GUIHUD : MonoBehaviour
                 int combo = ScoreManager.Instance.playersMaxCombo[0];
                 int time = (int)TimeManager.Instance.CurrentTimer;
 
-                JSON.SavedValues levelValue = new JSON.SavedValues
+                SavedValues levelValue = new SavedValues
                 {
                     unlock = true,
                     done = true,

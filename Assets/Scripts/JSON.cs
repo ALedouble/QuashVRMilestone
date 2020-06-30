@@ -4,6 +4,35 @@ using UnityEngine;
 using System.IO;
 
 
+[System.Serializable]
+public class SavedObject
+{
+    public List<SavedValues> savedObjects;
+
+    public SavedObject()
+    {
+        savedObjects = new List<SavedValues>();
+    }
+}
+
+[System.Serializable]
+public class SavedValues
+{
+    public bool unlock;
+    public bool done;
+    public int bestScore;
+    public int bestCombo;
+    public int bestTime;
+
+    public SavedValues()
+    {
+        unlock = false;
+        done = false;
+        bestScore = 0;
+        bestCombo = 0;
+        bestTime = 0;
+    }
+}
 
 
 public class JSON : MonoBehaviour
@@ -15,38 +44,10 @@ public class JSON : MonoBehaviour
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave";
 
-    [System.Serializable]
-    public class SavedObject
+    public string GetFilePath()
     {
-        public List<SavedValues> savedObjects;
-
-        public SavedObject()
-        {
-            savedObjects = new List<SavedValues>();
-        }
+        return Application.persistentDataPath + saveFileName;
     }
-
-    [System.Serializable]
-    public class SavedValues
-    {
-        public bool unlock;
-        public bool done;
-        public int bestScore;
-        public int bestCombo;
-        public int bestTime;
-
-        public SavedValues()
-        {
-            unlock = false;
-            done = false;
-            bestScore = 0;
-            bestCombo = 0;
-            bestTime = 0;
-        }
-    }
-
-
-
 
 
     void Awake()

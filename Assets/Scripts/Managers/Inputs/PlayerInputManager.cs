@@ -35,6 +35,8 @@ public class PlayerInputManager : MonoBehaviour
     public InputMod inputMod = InputMod.GAMEPLAY;
     public IInputable currentInput;
 
+    public InputLinker LocalPlayerInputLinker { get; set; }
+
     private IInputable gameplayAction = new GameplayInputManager();
     private IInputable menuAction = new MenuInputManager();
 

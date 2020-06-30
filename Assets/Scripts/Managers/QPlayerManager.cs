@@ -76,6 +76,8 @@ public class QPlayerManager : MonoBehaviourPun
         localPlayerLeftController = localPlayer.GetComponentInChildren<LeftControllerGetter>().Get();
         localPlayerRightController = localPlayer.GetComponentInChildren<RightControllerGetter>().Get();
 
+        PlayerInputManager.instance.LocalPlayerInputLinker = localPlayer.GetComponentInChildren<InputLinker>();
+        
         PlayerInputManager.instance.SetupInputMod();
     }
 }

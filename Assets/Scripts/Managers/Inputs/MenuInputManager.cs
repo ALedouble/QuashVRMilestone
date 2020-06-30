@@ -18,6 +18,8 @@ public class MenuInputManager : IInputable
         SetRightPointerActive(true);
         //SetRightPointerActive(rightHandIsActive);
         //SetLeftPointerActive(!rightHandIsActive);
+
+        PlayerInputManager.instance.LocalPlayerInputLinker.ControllerModelSetActive(true);
     }
 
     public void ExitInputMod()

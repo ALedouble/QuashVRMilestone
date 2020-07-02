@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Steamworks;
 
 
 [System.Serializable]
@@ -48,6 +49,14 @@ public class JSON : MonoBehaviour
     {
         return Application.persistentDataPath + saveFileName;
     }
+    
+    public string GetFilePathWithSteamID()
+    {
+        if (SteamManager.Initialized)
+            return Application.persistentDataPath + "/" + SteamUser.GetSteamID() + saveFileName;
+        else
+            return GetFilePath();
+    }
 
 
     void Awake()
@@ -72,7 +81,7 @@ public class JSON : MonoBehaviour
     {
         levelsToSave = Campaign.instance.levelsImplemented;
 
-        if (!File.Exists(Application.persistentDataPath + saveFileName))
+        if (!File.Exists(GetFilePathWithSteamID()))
         {
             //Get Steam DATAs
 
@@ -313,7 +322,7 @@ public class JSON : MonoBehaviour
             return;
         }
 
-        string loadString = File.ReadAllText(Application.persistentDataPath + saveFileName);
+        string loadString = File.ReadAllText(GetFilePathWithSteamID());
         SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
 
         for (int i = 0; i < levelsToSave.Count; i++)
@@ -340,7 +349,7 @@ public class JSON : MonoBehaviour
 
         string json = JsonUtility.ToJson(newDATA);
 
-        File.WriteAllText(Application.persistentDataPath + saveFileName, json);
+        File.WriteAllText(GetFilePathWithSteamID(), json);
     }
 
     /// <summary>
@@ -384,11 +393,11 @@ public class JSON : MonoBehaviour
         string json = "";
 
         //If there's already DATA on file
-        if (File.Exists(Application.persistentDataPath + saveFileName))
+        if (File.Exists(GetFilePathWithSteamID()))
         {
             //Debug.Log("DATA IS HERE");
 
-            string loadString = File.ReadAllText(Application.persistentDataPath + saveFileName);
+            string loadString = File.ReadAllText(GetFilePathWithSteamID());
             SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
 
             for (int i = 0; i < levelsToSave.Count; i++)
@@ -426,7 +435,7 @@ public class JSON : MonoBehaviour
             json = JsonUtility.ToJson(presentedDATA);
         }
 
-        File.WriteAllText(Application.persistentDataPath + saveFileName, json);
+        File.WriteAllText(GetFilePathWithSteamID(), json);
     }
 
     /// <summary>
@@ -434,7 +443,7 @@ public class JSON : MonoBehaviour
     /// </summary>
     public void SaveDATAonSteam()
     {
-        string savedString = File.ReadAllText(Application.persistentDataPath + saveFileName);
+        string savedString = File.ReadAllText(GetFilePathWithSteamID());
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
         //TO DO
@@ -453,7 +462,7 @@ public class JSON : MonoBehaviour
     /// </summary>
     public void LoadDATA()
     {
-        if (!File.Exists(Application.persistentDataPath + saveFileName))
+        if (!File.Exists(GetFilePathWithSteamID()))
         {
             Debug.Log("NO FILE TO LOAD");
             return;
@@ -461,7 +470,7 @@ public class JSON : MonoBehaviour
 
         Debug.Log("LOADING DATAS");
 
-        string savedString = File.ReadAllText(Application.persistentDataPath + saveFileName);
+        string savedString = File.ReadAllText(GetFilePathWithSteamID());
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
         for (int i = 0; i < levelsToSave.Count; i++)

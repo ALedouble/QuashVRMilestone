@@ -13,8 +13,8 @@ public class PlayerSetter : MonoBehaviour
             GameObject leftController = GetComponentInChildren<LeftControllerGetter>().gameObject;
             GameObject rightController = GetComponentInChildren<RightControllerGetter>().gameObject;
 
-            leftController.GetComponent<VRTK_Pointer>().enabled = false;
-            rightController.GetComponent<VRTK_Pointer>().enabled = false;
+            //leftController.GetComponent<VRTK_Pointer>().enabled = false;
+            //rightController.GetComponent<VRTK_Pointer>().enabled = false;
         }
     }
 }

@@ -9,10 +9,8 @@ public class GameplayInputManager : IInputable
     {
         RacketManager.instance?.EnableRackets(true);
 
-        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_Pointer>().Toggle(false);
-        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = false;
-        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_Pointer>().Toggle(false);
-        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = false;
+        SetRightPointerActive(false);
+        SetLeftPointerActive(false);
 
         PlayerInputManager.instance.LocalPlayerInputLinker.ControllerModelSetActive(false);
     }
@@ -58,4 +56,23 @@ public class GameplayInputManager : IInputable
     {
         GameManager.Instance.PauseGame();
     }
+
+    #region Utility
+
+    private void SetRightPointerActive(bool activeState)
+    {
+        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = activeState;
+        QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_Pointer>().Toggle(activeState);
+        //QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_Pointer>().enabled = activeState;
+    }
+
+    private void SetLeftPointerActive(bool activeState)
+    {
+        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = activeState;
+        QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_Pointer>().Toggle(activeState);
+        //QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_Pointer>().enabled = activeState;
+    }
+
+    #endregion
+
 }

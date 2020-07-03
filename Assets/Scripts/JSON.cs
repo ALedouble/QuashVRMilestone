@@ -43,7 +43,7 @@ public class JSON : MonoBehaviour
     public bool isGoingStraightToCampaign = false;
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
-    string saveFileName = "/QuashSave";
+    string saveFileName = "/QuashSave.sav";
 
     public string GetFilePath()
     {
@@ -56,6 +56,11 @@ public class JSON : MonoBehaviour
             return Application.persistentDataPath + "/" + SteamUser.GetSteamID() + saveFileName;
         else
             return GetFilePath();
+    }
+
+    private string GetDirectory()
+    {
+        return Application.persistentDataPath + "/" + SteamUser.GetSteamID();
     }
 
 
@@ -83,10 +88,10 @@ public class JSON : MonoBehaviour
 
         if (!File.Exists(GetFilePathWithSteamID()))
         {
-            //Get Steam DATAs
-
             Debug.Log("N 'EXISTE PAS");
-            //If no DATA then
+            if (!Directory.Exists(GetDirectory()))
+                Directory.CreateDirectory(GetDirectory());
+
             SaveDATA(null);
         }
 

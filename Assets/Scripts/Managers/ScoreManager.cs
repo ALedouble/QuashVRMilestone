@@ -133,7 +133,7 @@ public class ScoreManager : MonoBehaviour
         //VibrationManager.instance.VibrateOn("Vibration_Mistake");
 
         //Trigger du son
-        AudioManager.instance.PlaySound("Mistake", Vector3.zero);
+        AudioManager.instance.PlaySound("Break_Combo", Vector3.zero);
 
         OnComboReset(); //Combo reset delegate
     }

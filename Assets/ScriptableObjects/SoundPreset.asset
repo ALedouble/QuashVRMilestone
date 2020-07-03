@@ -209,3 +209,31 @@ MonoBehaviour:
       panStereo: 0
       minVolume: 0.879
       maxVolume: 1
+  - soundPoolName: Break_Combo
+    tag: 6
+    cooldown: 0
+    sounds:
+    - clip: {fileID: 8300000, guid: 4c320c5ac368e9d4ca1a06f168217bfc, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: bdd35a7cfa0b6cc4d902f5929271c988, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: f18799a587b3ca34d8a50835812e204a, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1

@@ -17,4 +17,12 @@ public interface IInputable
     void OnLeftTriggerRelease();
 
     void OnStartButtonPress();
+
+    void OnLeftControllerGlanceEnter();
+
+    void OnLeftControllerGlanceExit();
+
+    void OnRightControllerGlanceEnter();
+
+    void OnRightControllerGlanceExit();
 }

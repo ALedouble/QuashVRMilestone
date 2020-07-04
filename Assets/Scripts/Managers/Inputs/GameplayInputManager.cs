@@ -57,6 +57,26 @@ public class GameplayInputManager : IInputable
         GameManager.Instance.PauseGame();
     }
 
+    public void OnLeftControllerGlanceEnter()
+    {
+
+    }
+
+    public void OnLeftControllerGlanceExit()
+    {
+
+    }
+
+    public void OnRightControllerGlanceEnter()
+    {
+
+    }
+
+    public void OnRightControllerGlanceExit()
+    {
+
+    }
+
     #region Utility
 
     private void SetRightPointerActive(bool activeState)

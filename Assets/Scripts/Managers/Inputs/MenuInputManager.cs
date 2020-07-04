@@ -5,13 +5,19 @@ using VRTK;
 
 public class MenuInputManager : IInputable
 {
+    private bool isLeftPointerInSight;
+    private bool isRightPointerInSight;
+
+    private bool shouldLeftPointerBeActive;
+    private bool shouldRightPointerBeActive;
+
+
     public void EnterInputMod()
     {
-        if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT)
-            SetLeftPointerActive(true);
-        else
-            SetRightPointerActive(true);
-
+        bool activeState = PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT;
+        shouldLeftPointerBeActive = activeState;
+        shouldRightPointerBeActive = !activeState;
+            
         PlayerInputManager.instance.LocalPlayerInputLinker.ControllerModelSetActive(true);
     }
 
@@ -23,12 +29,12 @@ public class MenuInputManager : IInputable
 
     public void OnRightTriggerPress()
     {
-        SetRightPointerActive(true);
+        TryToSetRightPointerActive(true);
     }
 
     public void OnLeftTriggerPress()
     {
-        SetLeftPointerActive(true);
+        TryToSetLeftPointerActive(true);
     }
 
     public void OnRightTriggerRelease()
@@ -49,7 +55,49 @@ public class MenuInputManager : IInputable
         }
     }
 
+    #region Headset Glance
+
+    public void OnLeftControllerGlanceEnter()
+    {
+        isLeftPointerInSight = true;
+
+        if (shouldLeftPointerBeActive)
+            SetLeftPointerActive(true);
+    }
+
+    public void OnLeftControllerGlanceExit()
+    {
+        isLeftPointerInSight = false;
+        SetLeftPointerActive(false);
+    }
+
+    public void OnRightControllerGlanceEnter()
+    {
+        isRightPointerInSight = true;
+
+        if (shouldRightPointerBeActive)
+            SetRightPointerActive(true);
+    }
+
+    public void OnRightControllerGlanceExit()
+    {
+        isRightPointerInSight = false;
+        SetRightPointerActive(false);
+    }
+
+    #endregion
+
     #region UtilityMethods
+
+    private void TryToSetRightPointerActive(bool activeState)
+    {
+        shouldRightPointerBeActive = activeState;
+
+        if(isRightPointerInSight)
+        {
+            SetRightPointerActive(activeState);
+        }
+    }
 
     private void SetRightPointerActive(bool activeState)
     {
@@ -58,6 +106,16 @@ public class MenuInputManager : IInputable
 
         if (activeState)
             QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_Pointer>().Toggle(true);
+    }
+
+    private void TryToSetLeftPointerActive(bool activeState)
+    {
+        shouldLeftPointerBeActive = activeState;
+        
+        if(isLeftPointerInSight)
+        {
+            SetLeftPointerActive(activeState);
+        }
     }
 
     private void SetLeftPointerActive(bool activeState)

@@ -112,4 +112,24 @@ public class PlayerInputManager : MonoBehaviour
 
         currentInput?.OnStartButtonPress();
     }
+
+    public void OnLeftControllerGlanceEnter()
+    {
+        currentInput?.OnLeftControllerGlanceEnter();
+    }
+
+    public void OnLeftControllerGlanceExit()
+    {
+        currentInput?.OnLeftControllerGlanceExit();
+    }
+
+    public void OnRightControllerGlanceEnter()
+    {
+        currentInput?.OnRightControllerGlanceEnter();
+    }
+
+    public void OnRightControllerGlanceExit()
+    {
+        currentInput?.OnRightControllerGlanceExit();
+    }
 }

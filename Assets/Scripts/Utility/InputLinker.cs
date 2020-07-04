@@ -43,4 +43,24 @@ public class InputLinker : MonoBehaviour
         leftControllerModel.SetActive(value);
         rightControllerModel.SetActive(value);
     }
+
+    public void OnLeftControllerGlanceEnter()
+    {
+        PlayerInputManager.instance?.OnLeftControllerGlanceEnter();
+    }
+
+    public void OnLeftControllerGlanceExit()
+    {
+        PlayerInputManager.instance?.OnLeftControllerGlanceExit();
+    }
+    
+    public void OnRightControllerGlanceEnter()
+    {
+        PlayerInputManager.instance?.OnRightControllerGlanceEnter();
+    }
+
+    public void OnRightControllerGlanceExit()
+    {
+        PlayerInputManager.instance?.OnRightControllerGlanceExit();
+    }
 }

@@ -41,6 +41,7 @@ public class JSON : MonoBehaviour
     public static JSON instance;
     public LevelsScriptable currentLevelFocused;
     public bool isGoingStraightToCampaign = false;
+    public bool devMode;
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave.sav";
@@ -52,10 +53,18 @@ public class JSON : MonoBehaviour
     
     public string GetFilePathWithSteamID()
     {
-        if (SteamManager.Initialized)
-            return Application.persistentDataPath + "/" + SteamUser.GetSteamID() + saveFileName;
-        else
+        if(devMode)
+        {
             return GetFilePath();
+        }
+        else
+        {
+            if (SteamManager.Initialized)
+                return Application.persistentDataPath + "/" + SteamUser.GetSteamID() + saveFileName;
+            else
+                return GetFilePath();
+        }
+        
     }
 
     private string GetDirectory()

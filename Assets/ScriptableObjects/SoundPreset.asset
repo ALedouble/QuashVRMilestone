@@ -237,3 +237,59 @@ MonoBehaviour:
       panStereo: 0
       minVolume: 0.879
       maxVolume: 1
+  - soundPoolName: Open_Pause
+    tag: 6
+    cooldown: 0
+    sounds:
+    - clip: {fileID: 8300000, guid: 72fa2b15ef242824d8059cf830eceb30, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: a614190aadeb7f945b40973395dafaed, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: f1b9018cb22f1ad4894bcbe4e224ed66, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+  - soundPoolName: Close_Pause
+    tag: 6
+    cooldown: 0
+    sounds:
+    - clip: {fileID: 8300000, guid: 60a3f42cdb4056842aff6ce6e5ccd2e8, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: e2ee4427c69acb84cadcfa5154774696, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: 0615eb61f0f52644389eb486bb2106df, type: 3}
+      defaultVolume: 1
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.879
+      maxVolume: 1

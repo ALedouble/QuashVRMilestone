@@ -19,6 +19,7 @@ public class GUIMenuPause : MonoBehaviour
     public void GamePaused()
     {
         gameObject.SetActive(true);
+        AudioManager.instance.PlaySound("Open_Pause", Vector3.zero);
     }
 
     public void GameResumed()
@@ -29,5 +30,6 @@ public class GUIMenuPause : MonoBehaviour
     public void ResumeGame()
     {
         GameManager.Instance.ResumeGame();
+        AudioManager.instance.PlaySound("Close_Pause", Vector3.zero);
     }
 }

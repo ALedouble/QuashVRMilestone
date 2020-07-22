@@ -198,24 +198,24 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     [PunRPC]
     public void HitBrick(int p_dmgPoints = 1)
     {
-        if (!hasBeenHit)
-        {
-            hasBeenHit = true;
+        //if (!hasBeenHit)
+        //{
+        //    hasBeenHit = true;
 
-            brickInfo.armorValue--;
+        //    brickInfo.armorValue--;
 
-            if (brickInfo.armorValue <= 0)
-            {
-                hasBeenHit = false;
+        //    if (brickInfo.armorValue <= 0)
+        //    {
+        //        hasBeenHit = false;
                 AudioManager.instance.PlaySound("BrickExplosion", Vector3.zero);
                 DestroyBrick();
-            }
-            //else
-            //{
-            //    StartCoroutine(HitRecoverDelay(1));
-            //}
+        //    }
+        //    //else
+        //    //{
+        //    //    StartCoroutine(HitRecoverDelay(1));
+        //    //}
 
-        }
+        //}
         //other case scenario
     }
 

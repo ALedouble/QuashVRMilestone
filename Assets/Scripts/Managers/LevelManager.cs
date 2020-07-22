@@ -607,6 +607,8 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator GoWALLgO(int playerID)
     {
+        BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
+
         yield return new WaitForSeconds(0.90f);
 
         BrickManager.Instance.ActivateMovingBricks(playerID);
@@ -620,8 +622,6 @@ public class LevelManager : MonoBehaviour
                 SetWaypoints(playerID, i);
             }
         }
-
-        BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
     }
 
 

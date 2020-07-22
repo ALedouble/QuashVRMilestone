@@ -69,7 +69,7 @@ public class ScoreManager : MonoBehaviour
             if (isThereScoreCondition)
             {
                 //Debug.Log("Condition Check");
-                if (score[playerID] > scoreConditionValue)
+                if (score[playerID] >= scoreConditionValue)
                 {
                     //Debug.Log("Score Anim PLEASE");
                     LevelManager.instance.playersHUD.ScoreConditionCompleted();

@@ -230,11 +230,11 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
     /// Détruit la brique, augmente le score, renvoie les feedbacks et spawn les bonus/malus
     public void DestroyBrick()
     {
+        ScorePoints();
+
         DespawnBrick();
 
         SendBreakFeedbacks();
-
-        ScorePoints();
 
         DropBonusMalus();
 

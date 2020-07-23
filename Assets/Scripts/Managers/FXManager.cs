@@ -57,7 +57,7 @@ public class FXManager : MonoBehaviour
             }
             else
             {
-                impactCurentTime += Time.deltaTime;
+                impactCurentTime += Time.fixedDeltaTime;
 
                 RadialRaycast(originPos, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
                 RadialRaycast(originPos, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
@@ -65,7 +65,7 @@ public class FXManager : MonoBehaviour
                 RadialRaycast(originPos, new Vector2(-1, 0), new Vector2(1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
             }
 
-            impactPercent = minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(impactCurentTime));
+            impactPercent = minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(impactCurentTime / impactMaxTime));
         }
 
 

@@ -69,7 +69,15 @@ public class JSON : MonoBehaviour
 
     private string GetDirectory()
     {
-        return Application.persistentDataPath + "/" + SteamUser.GetSteamID();
+        if (devMode)
+        {
+            return Application.persistentDataPath;
+        }
+        else
+        {
+            return Application.persistentDataPath + "/" + SteamUser.GetSteamID();
+        }
+        
     }
 
 

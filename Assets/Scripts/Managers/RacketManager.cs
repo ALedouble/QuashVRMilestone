@@ -57,6 +57,7 @@ public class RacketManager : MonoBehaviour
 
     private RacketActionType racketActionType;
     private Action racketAction;
+    private Action racketStopAction;
 
     public int RacketColorID { get; private set; }
     public int ForeignRacketColorID { get; private set; }
@@ -76,6 +77,11 @@ public class RacketManager : MonoBehaviour
     {
         racketAction?.Invoke();
     }
+    
+    public void RacketStopAction()
+    {
+        racketStopAction?.Invoke();
+    }
 
     public void Initialize(RacketActionType newRacketActionType)
     {
@@ -89,7 +95,8 @@ public class RacketManager : MonoBehaviour
                 SetRacketsColor(BallManager.instance.BallColorBehaviour.GetBallColor());
                 break;
             case RacketActionType.RACKETEMPOWERED:
-                racketAction = EmpoweredStateAction;
+                racketAction = EnterEmpoweredState;
+                racketStopAction = ExitEmpoweredState;
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
                 SetRacketsColor(BallManager.instance.GetBallColorID());
                 break;
@@ -244,6 +251,9 @@ public class RacketManager : MonoBehaviour
 
     public void EnterEmpoweredState()
     {
+        if (IsEmpowered)
+            return;
+
         IsEmpowered = true;
 
         SwitchRacketColor();
@@ -257,6 +267,9 @@ public class RacketManager : MonoBehaviour
 
     public void ExitEmpoweredState()
     {
+        if (!IsEmpowered)
+            return;
+
         IsEmpowered = false;
 
         localRacketFX.StopSwitchColorFX();

@@ -40,7 +40,7 @@ public class GameplayInputManager : IInputable
     {
         if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
         {
-            RacketManager.instance.RacketAction();
+            RacketManager.instance.RacketStopAction();
         }
     }
 
@@ -48,7 +48,7 @@ public class GameplayInputManager : IInputable
     {
         if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT)
         {
-            RacketManager.instance.RacketAction();
+            RacketManager.instance.RacketStopAction();
         }
     }
 

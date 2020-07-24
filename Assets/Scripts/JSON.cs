@@ -8,10 +8,12 @@ using Steamworks;
 [System.Serializable]
 public class SavedObject
 {
+    public string saveGameVersion;
     public List<SavedValues> savedObjects;
 
     public SavedObject()
     {
+        saveGameVersion = "";
         savedObjects = new List<SavedValues>();
     }
 }
@@ -39,6 +41,7 @@ public class SavedValues
 public class JSON : MonoBehaviour
 {
     public static JSON instance;
+    private string currentGameVersion = "0.9.1";
     public LevelsScriptable currentLevelFocused;
     public bool isGoingStraightToCampaign = false;
     public bool devMode;
@@ -50,10 +53,10 @@ public class JSON : MonoBehaviour
     {
         return Application.persistentDataPath + saveFileName;
     }
-    
+
     public string GetFilePathWithSteamID()
     {
-        if(devMode)
+        if (devMode)
         {
             return GetFilePath();
         }
@@ -64,7 +67,7 @@ public class JSON : MonoBehaviour
             else
                 return GetFilePath();
         }
-        
+
     }
 
     private string GetDirectory()
@@ -77,7 +80,7 @@ public class JSON : MonoBehaviour
         {
             return Application.persistentDataPath + "/" + SteamUser.GetSteamID();
         }
-        
+
     }
 
 
@@ -262,7 +265,7 @@ public class JSON : MonoBehaviour
                         {
                             levelValue.bestTime = time;
                         }
-                        
+
 
                         isThereTimeCondition = true;
                         break;
@@ -335,7 +338,7 @@ public class JSON : MonoBehaviour
 
         //New Virgin Save DATAs
         SavedObject newDATA = new SavedObject() { };
-
+        newDATA.saveGameVersion = currentGameVersion;
 
         //DATA presented
         if (levelValues == null)
@@ -394,6 +397,7 @@ public class JSON : MonoBehaviour
         {
             Debug.Log("RESET DATA");
             presentedDATA = new SavedObject() { };
+            presentedDATA.saveGameVersion = currentGameVersion;
 
             for (int i = 0; i < levelsToSave.Count; i++)
             {
@@ -421,6 +425,8 @@ public class JSON : MonoBehaviour
 
             string loadString = File.ReadAllText(GetFilePathWithSteamID());
             SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
+
+            CheckGameVersion(loadDATA);
 
             for (int i = 0; i < levelsToSave.Count; i++)
             {
@@ -460,23 +466,47 @@ public class JSON : MonoBehaviour
         File.WriteAllText(GetFilePathWithSteamID(), json);
     }
 
-    /// <summary>
-    /// Back up on Steam
-    /// </summary>
-    public void SaveDATAonSteam()
-    {
-        string savedString = File.ReadAllText(GetFilePathWithSteamID());
-        SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
-        //TO DO
-    }
-
-    /// <summary>
-    /// Get Steam DATA et Set the GAME ones
-    /// </summary>
-    public void LoadDATAfromSteam()
+    public void CheckGameVersion(SavedObject saveVersion)
     {
-        //TO DO
+        if (saveVersion.saveGameVersion != currentGameVersion)
+        {
+            Debug.Log("Save VERSION OLDLLDLDLLDLDLDLDL");
+
+
+            //Changes with new save version
+
+            SavedObject newDATA = new SavedObject() { };
+            newDATA.saveGameVersion = currentGameVersion;
+
+            string savedString = File.ReadAllText(GetFilePathWithSteamID());
+            SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+            string json = "";
+
+            for (int i = 0; i < levelsToSave.Count; i++)
+            {
+                newDATA.savedObjects.Add(new SavedValues());
+
+                newDATA.savedObjects[i].unlock = loadObject.savedObjects[i].unlock;
+                newDATA.savedObjects[i].done = loadObject.savedObjects[i].done;
+
+                newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i].bestScore;
+                newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i].bestCombo;
+                newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i].bestTime;
+
+            }
+
+            json = JsonUtility.ToJson(newDATA);
+            File.WriteAllText(GetFilePathWithSteamID(), json);
+
+            Debug.Log(saveVersion.saveGameVersion);
+        }
+        else
+        {
+            Debug.Log("GOOD VERSION");
+        }
+
     }
 
     /// <summary>
@@ -494,6 +524,9 @@ public class JSON : MonoBehaviour
 
         string savedString = File.ReadAllText(GetFilePathWithSteamID());
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+
+        CheckGameVersion(loadObject);
 
         for (int i = 0; i < levelsToSave.Count; i++)
         {

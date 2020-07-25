@@ -243,6 +243,8 @@ public class BallManager : MonoBehaviour
             VibrationManager.instance.VibrateOn("Vibration_Mistake");
         }
 
+        ScoreManager.Instance.ResetCombo((int)GetPlayerWhoLostTheBall());
+
         AudioManager.instance.PlaySound("Mistake", Vector3.zero);
 
         DespawnBallLocaly();

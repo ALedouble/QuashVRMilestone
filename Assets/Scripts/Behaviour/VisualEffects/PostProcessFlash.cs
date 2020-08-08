@@ -17,10 +17,17 @@ public class PostProcessFlash : MonoBehaviour
     [SerializeField, ReadOnly] protected float minBloomIntensity;
     [SerializeField] protected float maxBloomIntensity;
 
+    private float effectiveMaxBloomIntensity;
+
     protected virtual void Start()
     {
         bloom = volume.profile.GetSetting<Bloom>();
         minBloomIntensity = bloom.intensity.value;
+
+        if (PlayerSettings.Instance?.FlashIntensity != null)
+            effectiveMaxBloomIntensity = maxBloomIntensity * PlayerSettings.Instance.FlashIntensity;
+        else
+            effectiveMaxBloomIntensity = maxBloomIntensity;
     }
 
     protected virtual void Update()
@@ -39,7 +46,7 @@ public class PostProcessFlash : MonoBehaviour
     {
         if (!isAnimating) return;
         animCount += Time.deltaTime;
-        bloom.intensity.value = Mathf.Lerp(minBloomIntensity, maxBloomIntensity, bloomEvolution.Evaluate(AlphaCount()));
+        bloom.intensity.value = Mathf.Lerp(minBloomIntensity, effectiveMaxBloomIntensity, bloomEvolution.Evaluate(AlphaCount()));
 
         if(AlphaCount() >= 1.0f)
         {

@@ -8,36 +8,91 @@ public class PlayerSettings : MonoBehaviour
     [System.Serializable]
     private class PlayerPreferences
     {
-        public int dominantHand;
-        public float shoulderHeight;
+        public PlayerHand dominantHand;
+        //public float shoulderHeight;
+
+        public SwitchColorInputType switchColorInputType;
+        [Range(0f,1f)]
+        public float flashIntensity;
+
+        public PlayerPreferences(PlayerHand dominantHand, /* float shoulderHeight, */SwitchColorInputType switchColorInputType, float flashIntensity)
+        {
+            this.dominantHand = dominantHand;
+            //this.shoulderHeight = shoulderHeight;
+            this.switchColorInputType = switchColorInputType;
+            this.flashIntensity = flashIntensity;
+        }
     }
 
 
     public static PlayerSettings Instance;
-    public PlayerHand PlayerDominantHand 
-    {
-        get => (PlayerHand)playerPreferences.dominantHand;
-        set
-        {
-            if((int)value > 0 && (int)value < 3)
-            {
-                playerPreferences.dominantHand = (int)value;
-                SavePlayerSettings();
 
-                DominantHandMainMenu.Instance?.UpdateDominantHandButton();
-            }
-        }
-    }
-    public float PlayerShoulderHeight 
+    #region Settings Min Max Default Values
+
+    [Header("DominantHand Settings")]
+    public PlayerHand dominantHandDefaultValue = PlayerHand.RIGHT;
+
+    //[Header("ShoulderHeight Settings")]
+    //public float shoulderHeightMin;
+    //public float shoulderHeightMax;
+    //public float shoulderHeightDefaultValue;
+
+    [Header("SwitchColorInputType Settings")]
+    public SwitchColorInputType switchColorInputTypeDefaultValue = SwitchColorInputType.Hold;
+
+    [Header("FlashIntensity Settings")]
+    [Range(0f,1f)]
+    public float flashIntensityDefaultValue = 1;
+
+    #endregion
+
+    public PlayerHand PlayerDominantHand 
     {
         get => playerPreferences.dominantHand;
         set
         {
-            if(playerPreferences.shoulderHeight < -2f || playerPreferences.shoulderHeight > 4f)
+            if(IsDominantHandValid(value))
             {
-                playerPreferences.shoulderHeight = value;
+                playerPreferences.dominantHand = value;
                 SavePlayerSettings();
             }
+        }
+    }
+    //public float PlayerShoulderHeight 
+    //{
+    //    get => playerPreferences.dominantHand;
+    //    set
+    //    {
+    //        if(playerPreferences.shoulderHeight < -2f || playerPreferences.shoulderHeight > 4f)
+    //        {
+    //            playerPreferences.shoulderHeight = value;
+    //            SavePlayerSettings();
+    //        }
+    //    }
+    //}
+    public SwitchColorInputType SwitchColorInputType
+    {
+        get => playerPreferences.switchColorInputType;
+        set 
+        {
+            if(IsSwitchColorInputTypeValid(value))
+            {
+                playerPreferences.switchColorInputType = value;
+                SavePlayerSettings();
+            }
+        }
+    }
+    public float FlashIntensity
+    {
+        get => playerPreferences.flashIntensity;
+        set
+        {
+            if (IsFlashIntensityValid(value))
+            {
+                playerPreferences.flashIntensity = value;
+                SavePlayerSettings();
+            }
+                
         }
     }
 
@@ -57,12 +112,13 @@ public class PlayerSettings : MonoBehaviour
         {
             string preferencesToLoad = System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerSettings.json");
             playerPreferences = JsonUtility.FromJson<PlayerPreferences>(preferencesToLoad);
-            CheckPreferenceIntegrity();
+            if(!CheckPreferencesIntegrity(playerPreferences))
+                SavePlayerSettings();
         }
         else
         {
-            //CreateNewPlayerSettings();
-            CreateDefaultPlayerSettings();
+            playerPreferences = CreateNewPlayerPreferences();
+            SavePlayerSettings();
         }
     }
 
@@ -72,37 +128,84 @@ public class PlayerSettings : MonoBehaviour
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerSettings.json", preferencesToSave);
     }
 
-    public void CreateNewPlayerSettings()
+    private PlayerPreferences CreateNewPlayerPreferences()
     {
+        PlayerPreferences newDefaultPlayerSettings = new PlayerPreferences(dominantHandDefaultValue,/* shoulderHeightDefaultValue,*/ switchColorInputTypeDefaultValue, flashIntensityDefaultValue);
 
+        return newDefaultPlayerSettings;
     }
 
-    private void CheckPreferenceIntegrity()
+    private bool CheckPreferencesIntegrity(PlayerPreferences preferrences)
     {
-        if (!AreFieldValid())
-            //CreateNewPlayerSettings();
-            CreateDefaultPlayerSettings();
+        bool preferencesWasValid = true;
+
+        if(!IsDominantHandValid(preferrences.dominantHand))
+        {
+            preferrences.dominantHand = dominantHandDefaultValue;
+            preferencesWasValid = false;
+        }
+
+        //if(!IsShoulderHeightValid(preferences.shoulderHeight))
+        //{
+        //    preferences.shoulderHeight = shoulderHeightDefaultValue;
+        //    preferenceWasValid = false;
+        //}
+
+        if (!IsSwitchColorInputTypeValid(preferrences.switchColorInputType))
+        {
+            preferrences.switchColorInputType = switchColorInputTypeDefaultValue;
+            preferencesWasValid = false;
+        }
+
+        if(!IsFlashIntensityValid(preferrences.flashIntensity))
+        {
+            preferrences.flashIntensity = flashIntensityDefaultValue;
+            preferencesWasValid = false;
+        }
+
+        return preferencesWasValid;
     }
 
-    private bool AreFieldValid()
+    #region Validity Methods
+
+    private bool IsPreferenceValid(PlayerPreferences preferences)
     {
         bool isValid = true;
 
-        if (playerPreferences.dominantHand < 0 || playerPreferences.dominantHand > 3)
+        if (!IsDominantHandValid(preferences.dominantHand))
             isValid = false;
 
-        if (playerPreferences.shoulderHeight < -2f || playerPreferences.shoulderHeight > 4f)
+        //if (!IsShoulderHeightValid(preferences.shoulderHeight))
+        //    isValid = false;
+
+        if (!IsSwitchColorInputTypeValid(preferences.switchColorInputType))
+            isValid = false;
+
+        if (!IsFlashIntensityValid(preferences.flashIntensity))
             isValid = false;
 
         return isValid;
     }
 
-    private void CreateDefaultPlayerSettings()
+    private bool IsDominantHandValid(PlayerHand value)
     {
-        playerPreferences = new PlayerPreferences();
-        playerPreferences.dominantHand = 2;
-        playerPreferences.shoulderHeight = 1f;
-
-        SavePlayerSettings();
+        return value == PlayerHand.LEFT || value == PlayerHand.RIGHT;
     }
+
+    //private bool IsShoulderHeightValid(float value)
+    //{
+    //    return value >= shoulderHeightMin && value <= shoulderHeightMax;
+    //}
+
+    private bool IsSwitchColorInputTypeValid(SwitchColorInputType value)
+    {
+        return value == SwitchColorInputType.Hold || value == SwitchColorInputType.Click;
+    }
+
+    private bool IsFlashIntensityValid(float value)
+    {
+        return value >= 0 && value <= 1;
+    }
+
+    #endregion
 }

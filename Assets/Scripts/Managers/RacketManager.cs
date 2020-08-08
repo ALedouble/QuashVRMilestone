@@ -75,12 +75,18 @@ public class RacketManager : MonoBehaviour
 
     public void RacketAction()
     {
-        racketAction?.Invoke();
+        if(PlayerSettings.Instance.SwitchColorInputType == SwitchColorInputType.Hold)
+            racketAction?.Invoke();
+        else
+        {
+            EmpoweredStateAction();
+        }
     }
     
     public void RacketStopAction()
     {
-        racketStopAction?.Invoke();
+        if (PlayerSettings.Instance.SwitchColorInputType == SwitchColorInputType.Hold)
+            racketStopAction?.Invoke();
     }
 
     public void Initialize(RacketActionType newRacketActionType)

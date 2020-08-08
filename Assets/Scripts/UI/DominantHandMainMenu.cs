@@ -27,8 +27,7 @@ public class DominantHandMainMenu : MonoBehaviour
 
     public void UpdateDominantHandButton()
     {
-        Debug.Log("UpdateDominantHandButton");
-        rightHandedButtonScript.SetBackground(PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT);
-        leftHandedButtonScript.SetBackground(PlayerSettings.Instance.PlayerDominantHand == PlayerHand.LEFT);
+        rightHandedButtonScript.UpdateBackground();
+        leftHandedButtonScript.UpdateBackground();
     }
 }

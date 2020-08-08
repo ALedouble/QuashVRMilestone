@@ -12,12 +12,15 @@ public class DominantHandButton : MonoBehaviour
     public void OnDominantHandButtonClick()
     {
         if(PlayerSettings.Instance.PlayerDominantHand != buttonHand)
+        {
             PlayerSettings.Instance.PlayerDominantHand = buttonHand;
+            DominantHandMainMenu.Instance.UpdateDominantHandButton();
+        } 
     }
 
-    public void SetBackground(bool isActive)
+    public void UpdateBackground()
     {
-        activeBackground.SetActive(isActive);
-        inactiveBackground.SetActive(!isActive);
+        activeBackground.SetActive(PlayerSettings.Instance.PlayerDominantHand == buttonHand);
+        inactiveBackground.SetActive(PlayerSettings.Instance.PlayerDominantHand != buttonHand);
     }
 }

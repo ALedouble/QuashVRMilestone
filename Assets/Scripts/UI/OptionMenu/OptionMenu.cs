@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class OptionMenu : MonoBehaviour
     public GameObject colorSwitchInputHoldButton;
     public GameObject colorSwitchInputClickButton;
 
-    public GameObject flashIntensitySlider;
+    public Slider flashIntensitySlider;
 
     private ColorSwitchInputButton holdButtonScript;
     private ColorSwitchInputButton clickButtonScript;
@@ -25,6 +27,12 @@ public class OptionMenu : MonoBehaviour
     private void OnEnable()
     {
         UpdateOptionMenuDisplay();
+        flashIntensitySlider.onValueChanged.AddListener(delegate { ApplyFlashIntensityChange(); });
+    }
+
+    private void OnDisable()
+    {
+        flashIntensitySlider.onValueChanged.RemoveAllListeners();
     }
 
     private void UpdateOptionMenuDisplay()
@@ -41,6 +49,12 @@ public class OptionMenu : MonoBehaviour
 
     public void UpdateFlashIntensitySlider()
     {
+        flashIntensitySlider.value = PlayerSettings.Instance.FlashIntensity;
+    }
 
+    private void ApplyFlashIntensityChange()
+    {
+        PlayerSettings.Instance.FlashIntensity = flashIntensitySlider.value;
+        //Faire un flash test
     }
 }

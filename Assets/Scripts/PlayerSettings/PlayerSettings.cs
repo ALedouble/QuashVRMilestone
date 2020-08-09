@@ -41,8 +41,8 @@ public class PlayerSettings : MonoBehaviour
     public SwitchColorInputType switchColorInputTypeDefaultValue = SwitchColorInputType.Hold;
 
     [Header("FlashIntensity Settings")]
-    [Range(0f,1f)]
-    public float flashIntensityDefaultValue = 1;
+    [Range(1f,2f)]
+    public float flashIntensityDefaultValue = 2;
 
     #endregion
 
@@ -84,7 +84,7 @@ public class PlayerSettings : MonoBehaviour
     }
     public float FlashIntensity
     {
-        get => playerPreferences.flashIntensity;
+        get => playerPreferences.flashIntensity - 1f;
         set
         {
             if (IsFlashIntensityValid(value))
@@ -204,7 +204,7 @@ public class PlayerSettings : MonoBehaviour
 
     private bool IsFlashIntensityValid(float value)
     {
-        return value >= 0 && value <= 1;
+        return value >= 1f && value <= 2f;
     }
 
     #endregion

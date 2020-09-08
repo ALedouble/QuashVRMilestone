@@ -11,28 +11,22 @@ public enum QPlayer          //Util?
     PLAYER2 = 1
 }
 
-public enum RacketInteractionType
-{
-    BASICARCADE,
-    BASICPHYSIC,
-    MEDIUMPHYSIC,
-    MIXED
-}
-
 public enum TargetSwitchType
 {
     RACKETBASED,
     WALLBASED
 }
 
+public enum SpeedState
+{
+    NORMAL = 0,
+    SLOW = 1
+}
+
 public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 {
     //Ajouter Le slow en RPC
-    private enum SpeedState
-    {
-        NORMAL = 0,
-        SLOW = 1
-    }
+    
 
     [Header("Racket Settings")]
     public RacketInteractionType physicsUsed;
@@ -159,45 +153,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void OnCollisionEnter(Collision other)
     {
-        if(!BallManager.instance.IsBallPaused)
-        {
-            switch (other.gameObject.tag)
-            {
-                case "Racket":
-                    RacketInteraction(other);
-                    VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
-                    AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                    break;
-                case "FrontWall":
-                    ReturnInteration();
-                    IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
-                    AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                    break;
-                case "Brick":
-                    ReturnInteration();
-                    AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                    break;
-                case "BackWall":
-                    BallManager.instance.LoseBall();
-                    break;
-                case "Floor":
-                    BallManager.instance.StartBallResetCountdown();
-                    StandardBounce(other.GetContact(0));
-                    AudioManager.instance.PlaySound("FloorHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                    break;
-                case "Wall":
-                    StandardBounce(other.GetContact(0));
-                    AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude / averageHitMagnitude);
-                    break;
-                default:
-                    StandardBounce(other.GetContact(0));
-                    break;
-            }
 
-            SendBallCollisionEvent(other.gameObject.tag);
-
-            //Revoir audio manager pour qu'il utilise le OnBallCollision event system?
-        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -281,7 +237,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     #region MovementHandling
 
     [PunRPC]
-    private void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState, bool IsSpeedStateChangingSpeed)
+    public void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState, bool IsSpeedStateChangingSpeed)
     {
         transform.position = positionWhenHit;
         rigidbody.velocity = newVelocity;
@@ -289,7 +245,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         SetSpeedState((SpeedState)newSpeedState, IsSpeedStateChangingSpeed);
     }
 
-    private void ApplyNewVelocity(Vector3 newVelocity)
+    public void ApplyNewVelocity(Vector3 newVelocity)
     {
         rigidbody.velocity = newVelocity;
     }
@@ -472,32 +428,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             {
                 photonView.RPC("SwitchTarget", RpcTarget.All);
             }
-        }
-    }
-
-    #endregion
-
-    #region Standard Bounce
-
-    /// Méthode qui calcul le rebond de la balle (calcul vectorielle basique) et modifie la trajectoire en conséquence
-    /// contactPoint : données de collision entre la balle et l'autre objet
-    private void StandardBounce(ContactPoint contactPoint)
-    {
-        if(IsOnFrontWallCollisionFrame)
-        {
-            rigidbody.velocity = lastVelocity;
-        }
-        else 
-        {
-            Vector3 normal = Vector3.Normalize(contactPoint.normal);
-            float normalVelocity = Vector3.Dot(normal, lastVelocity);
-            if (normalVelocity > 0)
-                normalVelocity = -normalVelocity;
-
-            Vector3 tangent = Vector3.Normalize(lastVelocity - normalVelocity * normal);
-            float tangentVelocity = Vector3.Dot(tangent, lastVelocity);
-
-            ApplyNewVelocity(((1 - dynamicFriction) * tangentVelocity * tangent - bounciness * normalVelocity * normal));
         }
     }
 

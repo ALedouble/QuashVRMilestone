@@ -17,6 +17,35 @@ public class BallInfo : MonoBehaviour
     public int WallHitCount { get => wallHitCount; }
     public BallStatus CurrentBallStatus { get => currentBallStatus; }
 
+    private Vector3 lastVelocity;
+    public Vector3 LastVelocity { get => lastVelocity; }
+    
+    private bool isOnFrontWallCollisionFrame;
+    public bool IsOnFrontWallCollisionFrame
+    {
+        get => isOnFrontWallCollisionFrame;
+        private set
+        {
+            if (value == true)
+                StartCoroutine(ResetFrontWallCollisionBoolValue());
+
+            isOnFrontWallCollisionFrame = value;
+        }
+    }
+
+    private Rigidbody ballRigidbody;
+
+    private void Awake()
+    {
+        ballRigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        if(!BallManager.instance.IsBallPaused)
+            lastVelocity = ballRigidbody.velocity;  // Vitesse avant contact necessaire pour les calculs de rebond
+    }
+
     public void SetupBallInfo()
     {
         BallEventManager.instance.OnCollisionWithWall += IncrementWallHitCount;
@@ -26,6 +55,7 @@ public class BallInfo : MonoBehaviour
         BallEventManager.instance.OnCollisionWithRacket += EnterHitState;
 
         BallEventManager.instance.OnCollisionWithFrontWall += EnterReturnState;
+        BallEventManager.instance.OnCollisionWithBrick += EnterReturnState;
 
         BallEventManager.instance.OnBallSpawn += EnterFloatingState;
         BallEventManager.instance.OnBallDespawn += EnterInactiveState;
@@ -63,8 +93,23 @@ public class BallInfo : MonoBehaviour
 
     private void EnterReturnState()
     {
+        IsOnFrontWallCollisionFrame = true;
         currentBallStatus = BallStatus.ReturnState;
 
         BallManager.instance.SendOnReturnStart();
     }
+
+    #region FrontWallCollision
+
+    private IEnumerator ResetFrontWallCollisionBoolValue()
+    {
+        do
+        {
+            yield return new WaitForFixedUpdate();
+            isOnFrontWallCollisionFrame = false;
+        }
+        while (BallManager.instance.IsBallPaused);
+    }
+
+    #endregion
 }

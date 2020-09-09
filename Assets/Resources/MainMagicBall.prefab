@@ -516,7 +516,6 @@ MonoBehaviour:
   globalSpeedMultiplier: 1
   slowness: 1.6
   baseGravity: 9.81
-  CurrentGravity: 0
   bounciness: 0.8
   dynamicFriction: 0
 --- !u!114 &1898624170034445779
@@ -543,7 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65fe859fe9f14544bb63a23daf20a1e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeReset: 0
+  delayBeforeReset: 1
 --- !u!114 &1348177422002083294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee0ecc3139fb5949a092fa8a69306a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depthVelocity: 0
+  depthVelocity: 10
   xAcceleration: 0
 --- !u!114 &6000792008277380485
 MonoBehaviour:
@@ -570,7 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a42c28924981419a48b1f6416ca72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depthVelocity: 0
+  depthVelocity: 10
   xAcceleration: 0
 --- !u!114 &4866844152105119356
 MonoBehaviour:
@@ -597,11 +596,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsUsed: 0
-  hitMaxSpeed: 0
-  hitMinSpeed: 0
-  hitSpeedMultiplier: 0
+  hitMaxSpeed: 40
+  hitMinSpeed: 0.5
+  hitSpeedMultiplier: 3
   mixRatio: 0
-  racketFriction: 0
+  racketFriction: 1
 --- !u!114 &4786920642494746230
 MonoBehaviour:
   m_ObjectHideFlags: 0

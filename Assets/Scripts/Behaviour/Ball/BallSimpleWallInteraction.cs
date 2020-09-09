@@ -5,18 +5,14 @@ using Photon.Pun;
 
 public class BallSimpleWallInteraction : MonoBehaviour
 {
-    private Rigidbody ballRigidbody;
     private BallPhysicBehaviour ballPhysicBehaviour;
-    private BallInfo ballInfo;
 
     private PhotonView photonView;
 
 
     private void Awake()
     {
-        ballRigidbody = GetComponent<Rigidbody>();
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
-        ballInfo = GetComponent<BallInfo>();
 
         photonView = GetComponent<PhotonView>();
     }
@@ -38,12 +34,12 @@ public class BallSimpleWallInteraction : MonoBehaviour
     private void StandardBounce(ContactPoint contactPoint)
     {
             Vector3 normal = Vector3.Normalize(contactPoint.normal);
-            float normalVelocity = Vector3.Dot(normal, ballInfo.LastVelocity);
+            float normalVelocity = Vector3.Dot(normal, ballPhysicBehaviour.LastVelocity);
             if (normalVelocity > 0)
                 normalVelocity = -normalVelocity;
 
-            Vector3 tangent = Vector3.Normalize(ballInfo.LastVelocity - normalVelocity * normal);
-            float tangentVelocity = Vector3.Dot(tangent, ballInfo.LastVelocity);
+            Vector3 tangent = Vector3.Normalize(ballPhysicBehaviour.LastVelocity - normalVelocity * normal);
+            float tangentVelocity = Vector3.Dot(tangent, ballPhysicBehaviour.LastVelocity);
 
             ballPhysicBehaviour.ApplyNewVelocity(((1 - ballPhysicBehaviour.dynamicFriction) * tangentVelocity * tangent - ballPhysicBehaviour.bounciness * normalVelocity * normal));
     }

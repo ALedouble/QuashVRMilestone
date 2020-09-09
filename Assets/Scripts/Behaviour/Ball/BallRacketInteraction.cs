@@ -27,8 +27,18 @@ public class BallRacketInteraction : MonoBehaviour
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
+    private ITargetSelector targetSelector;
 
     private PhotonView photonView;
+
+    private void Awake()
+    {
+        ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
+        ballInfo = GetComponent<BallInfo>();
+        targetSelector = GetComponent<ITargetSelector>();
+
+        photonView = GetComponent<PhotonView>();
+    }
 
     private void OnCollisionEnter(Collision other)
     {
@@ -74,7 +84,6 @@ public class BallRacketInteraction : MonoBehaviour
 
     #endregion
 
-
     #region RacketInteraction
 
     private void RacketInteraction(Collision other)
@@ -84,7 +93,7 @@ public class BallRacketInteraction : MonoBehaviour
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
         SetLastPlayerWhoHitTheBall();
-        RacketBasedSwitchTarget();
+        SwitchTarget();
         SetMidWallStatus(true);
     }
 
@@ -124,39 +133,61 @@ public class BallRacketInteraction : MonoBehaviour
         }
     }
 
-    private void SetLastPlayerWhoHitTheBall()
+    private Vector3 ClampVelocity(Vector3 velocity)        //Nom à modifier
     {
-        if (GameManager.Instance.offlineMode)
+        if (velocity.magnitude < hitMinSpeed)
         {
-            lastPlayerWhoHitTheBall = QPlayer.PLAYER1;
+            return hitMinSpeed * Vector3.Normalize(velocity);
+        }
+        else if (velocity.magnitude > hitMaxSpeed)
+        {
+            return hitMaxSpeed * Vector3.Normalize(velocity);
         }
         else
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("SetLastPlayerToHitTheBallToPlayer1", RpcTarget.All);
-            }
-            else
-            {
-                photonView.RPC("SetLastPlayerToHitTheBallToPlayer2", RpcTarget.All);
-            }
-        }
+            return velocity;
     }
 
-    private void RacketBasedSwitchTarget()
+    #region Racket Physics
+
+    private Vector3 RacketArcadeHit()
     {
-        if (switchTargetIsRacketBased)
-        {
-            if (GameManager.Instance.offlineMode)                                              // Really?
-            {
-                SwitchTarget();
-            }
-            else
-            {
-                photonView.RPC("SwitchTarget", RpcTarget.All);
-            }
-        }
+        return RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity();
     }
+
+    private Vector3 RacketBasicPhysicHit(Collision collision)       // Ajout d'un seuil pour pouvoir jouer avec la balle?
+    {
+        Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
+        Vector3 relativeVelocity = ballPhysicBehaviour.LastVelocity - racketVelocity;
+        Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
+
+        Vector3 normalVelocity = Vector3.Dot(contactPointNormal, relativeVelocity) * contactPointNormal;
+        Vector3 tangentVelocity = (relativeVelocity - normalVelocity) * (1 - racketFriction);        // Ajouter frottement
+
+        return -normalVelocity + tangentVelocity;
+    }
+
+    private Vector3 RacketMediumPhysicHit(Collision collision) // Ajout d'un seuil pour pouvoir jouer avec la balle?
+    {
+        Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
+
+        Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
+
+        Vector3 normalVelocity = (2 * Vector3.Dot(contactPointNormal, racketVelocity) - Vector3.Dot(contactPointNormal, ballPhysicBehaviour.LastVelocity)) * contactPointNormal;
+        Vector3 tangentVelocity = (ballPhysicBehaviour.LastVelocity - Vector3.Dot(contactPointNormal, ballPhysicBehaviour.LastVelocity) * contactPointNormal) * (1 - racketFriction);        // Ajouter frottement
+
+        return normalVelocity + tangentVelocity;
+    }
+
+    private Vector3 RacketMixedHit(Collision collision)
+    {
+        return RacketArcadeHit() * (1 - mixRatio) + RacketBasicPhysicHit(collision) * mixRatio;
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Multi MidWallStatus
 
     private void SetMidWallStatus(bool isCollidable)
     {
@@ -200,55 +231,55 @@ public class BallRacketInteraction : MonoBehaviour
 
     #endregion
 
-    #region RacketInteraction
+    #region ReturnTarget
 
-    private Vector3 RacketArcadeHit()
+    private void SwitchTarget()
     {
-        return RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity();
+        if (!GameManager.Instance.offlineMode)
+            photonView.RPC("SwitchTargetRPC", RpcTarget.All);
     }
 
-    private Vector3 RacketBasicPhysicHit(Collision collision)       // Ajout d'un seuil pour pouvoir jouer avec la balle?
+    [PunRPC]
+    private void SwitchTargetRPC()
     {
-        Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
-        Vector3 relativeVelocity = ballInfo.LastVelocity - racketVelocity;
-        Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
-
-        Vector3 normalVelocity = Vector3.Dot(contactPointNormal, relativeVelocity) * contactPointNormal;
-        Vector3 tangentVelocity = (relativeVelocity - normalVelocity) * (1 - racketFriction);        // Ajouter frottement
-
-        return -normalVelocity + tangentVelocity;
-    }
-
-    private Vector3 RacketMediumPhysicHit(Collision collision) // Ajout d'un seuil pour pouvoir jouer avec la balle?
-    {
-        Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
-
-        Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
-
-        Vector3 normalVelocity = (2 * Vector3.Dot(contactPointNormal, racketVelocity) - Vector3.Dot(contactPointNormal, ballInfo.LastVelocity)) * contactPointNormal;
-        Vector3 tangentVelocity = (ballInfo.LastVelocity - Vector3.Dot(contactPointNormal, ballInfo.LastVelocity) * contactPointNormal) * (1 - racketFriction);        // Ajouter frottement
-
-        return normalVelocity + tangentVelocity;
-    }
-
-    private Vector3 RacketMixedHit(Collision collision)
-    {
-        return RacketArcadeHit() * (1 - mixRatio) + RacketBasicPhysicHit(collision) * mixRatio;
+        targetSelector.SwitchTarget();
     }
 
     #endregion
 
-    private Vector3 ClampVelocity(Vector3 velocity)        //Nom à modifier
+    #region LastPlayerWhoHitTheBall
+
+    private void SetLastPlayerWhoHitTheBall()
     {
-        if (velocity.magnitude < hitMinSpeed)
+        if (GameManager.Instance.offlineMode)
         {
-            return hitMinSpeed * Vector3.Normalize(velocity);
-        }
-        else if (velocity.magnitude > hitMaxSpeed)
-        {
-            return hitMaxSpeed * Vector3.Normalize(velocity);
+            ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER1;
         }
         else
-            return velocity;
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("SetLastPlayerToHitTheBallToPlayer1", RpcTarget.All);
+            }
+            else
+            {
+                photonView.RPC("SetLastPlayerToHitTheBallToPlayer2", RpcTarget.All);
+            }
+        }
     }
+
+    [PunRPC]
+    private void SetLastPlayerToHitTheBallToPlayer1()
+    {
+        ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER1;
+    }
+
+    [PunRPC]
+    private void SetLastPlayerToHitTheBallToPlayer2()
+    {
+        ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER2;
+    }
+
+    #endregion
+
 }

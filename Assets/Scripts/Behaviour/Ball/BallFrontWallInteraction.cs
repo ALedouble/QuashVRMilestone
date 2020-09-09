@@ -13,6 +13,7 @@ public class BallFrontWallInteraction : MonoBehaviour
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
+    private BallPhysicInfo ballPhysicInfo;
 
     private Coroutine IgnoreCollisionCoroutine;
 
@@ -22,7 +23,10 @@ public class BallFrontWallInteraction : MonoBehaviour
     {
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
         ballInfo = GetComponent<BallInfo>();
+        ballPhysicInfo = GetComponent<BallPhysicInfo>();
+
         nBMagicReturn = new NoBounceMagicReturn(depthVelocity, ballPhysicBehaviour.baseGravity, xAcceleration);
+        targetSelector = GetComponent<ITargetSelector>();
 
         photonView = GetComponent<PhotonView>();
     }
@@ -37,6 +41,8 @@ public class BallFrontWallInteraction : MonoBehaviour
             AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
             SendBallCollisionEvent("FrontWall");
+
+            ballPhysicInfo.IsOnFrontWallCollisionFrame = true;
         }
     }
 

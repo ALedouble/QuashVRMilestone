@@ -7,9 +7,7 @@ public class BallFloorInteraction : MonoBehaviour
 {
     public float delayBeforeReset;
 
-    private Rigidbody ballRigidbody;
     private BallPhysicBehaviour ballPhysicBehaviour;
-    private BallInfo ballInfo;
 
     private Coroutine resetCoroutine;
 
@@ -18,9 +16,7 @@ public class BallFloorInteraction : MonoBehaviour
 
     private void Awake()
     {
-        ballRigidbody = GetComponent<Rigidbody>();
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
-        ballInfo = GetComponent<BallInfo>();
 
         photonView = GetComponent<PhotonView>();
     }
@@ -38,17 +34,25 @@ public class BallFloorInteraction : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.tag == "Floor")
+            SendBallCollisionExitEvent("Floor");
+    }
+
+    
+
     /// Méthode qui calcul le rebond de la balle (calcul vectorielle basique) et modifie la trajectoire en conséquence
     /// contactPoint : données de collision entre la balle et l'autre objet
     private void StandardBounce(ContactPoint contactPoint)
     {
         Vector3 normal = Vector3.Normalize(contactPoint.normal);
-        float normalVelocity = Vector3.Dot(normal, ballInfo.LastVelocity);
+        float normalVelocity = Vector3.Dot(normal, ballPhysicBehaviour.LastVelocity);
         if (normalVelocity > 0)
             normalVelocity = -normalVelocity;
 
-        Vector3 tangent = Vector3.Normalize(ballInfo.LastVelocity - normalVelocity * normal);
-        float tangentVelocity = Vector3.Dot(tangent, ballInfo.LastVelocity);
+        Vector3 tangent = Vector3.Normalize(ballPhysicBehaviour.LastVelocity - normalVelocity * normal);
+        float tangentVelocity = Vector3.Dot(tangent, ballPhysicBehaviour.LastVelocity);
 
         ballPhysicBehaviour.ApplyNewVelocity(((1 - ballPhysicBehaviour.dynamicFriction) * tangentVelocity * tangent - ballPhysicBehaviour.bounciness * normalVelocity * normal));
     }
@@ -78,6 +82,24 @@ public class BallFloorInteraction : MonoBehaviour
     private void OnBallCollisionRPC(string tag)
     {
         BallEventManager.instance.OnBallCollision(tag);
+    }
+
+    private void SendBallCollisionExitEvent(string tag)
+    {
+        if (GameManager.Instance.offlineMode)
+        {
+            OnBallCollisionExitRPC(tag);
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("OnBallCollisionExitRPC", RpcTarget.All, tag);
+        }
+    }
+
+    [PunRPC]
+    private void OnBallCollisionExitRPC(string tag)
+    {
+        BallEventManager.instance.OnBallCollisionExit(tag);
     }
 
     #region ResetImmobileBall

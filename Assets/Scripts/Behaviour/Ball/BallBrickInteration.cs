@@ -12,15 +12,17 @@ public class BallBrickFrontWallInteration : MonoBehaviour
     private NoBounceMagicReturn nBMagicReturn;
 
     private BallPhysicBehaviour ballPhysicBehaviour;
-    private BallInfo ballInfo;
+    private BallPhysicInfo ballPhysicInfo;
 
     private PhotonView photonView;
 
     private void Awake()
     {
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
-        ballInfo = GetComponent<BallInfo>();
+        ballPhysicInfo = GetComponent<BallPhysicInfo>();
+
         nBMagicReturn = new NoBounceMagicReturn(depthVelocity, ballPhysicBehaviour.baseGravity, xAcceleration);
+        targetSelector = GetComponent<ITargetSelector>();
 
         photonView = GetComponent<PhotonView>();
     }
@@ -34,6 +36,8 @@ public class BallBrickFrontWallInteration : MonoBehaviour
             AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
             SendBallCollisionEvent("Brick");
+
+            ballPhysicInfo.IsOnFrontWallCollisionFrame = true;
         }
     }
 

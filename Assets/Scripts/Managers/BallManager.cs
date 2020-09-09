@@ -102,7 +102,7 @@ public class BallManager : MonoBehaviour
         BallPhysicBehaviour = Ball.GetComponent<BallPhysicBehaviour>();
         BallPhysicInfo = Ball.GetComponent<PhysicInfo>();
         
-        TargetSelector = BallPhysicBehaviour.GetTargetSelector();
+        TargetSelector = BallPhysicBehaviour.GetComponent<ITargetSelector>();
         BallInfo = Ball.GetComponent<BallInfo>();
         BallInfo.SetupBallInfo();                                                                               // A transformer en start
     }
@@ -121,7 +121,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SetBallInPlay()
     {
-        BallPhysicBehaviour.ApplyBaseGravity();
+        BallPhysicBehaviour.ResetGravity();
         BallColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
         StopCoroutine(floatCoroutine);
@@ -252,7 +252,7 @@ public class BallManager : MonoBehaviour
 
     public QPlayer GetLastPlayerWhoHitTheBall()
     {
-        return BallPhysicBehaviour.GetLastPlayerWhoHitTheBall();
+        return BallInfo.LastPlayerWhoHitTheBall;
     }
 
     private QPlayer GetNextPlayerTarget()

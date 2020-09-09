@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BallBrickFrontWallInteration : MonoBehaviour
+public class BallBrickInteration : MonoBehaviour
 {
     public float depthVelocity;
     public float xAcceleration;

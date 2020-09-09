@@ -31,7 +31,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     [Header("Gravity Settings")]
     public float baseGravity;
-    public float CurrentGravity;
+    public float CurrentGravity { get; private set; }
 
     [Header("Standard Bounce Settings")]
     public float bounciness;

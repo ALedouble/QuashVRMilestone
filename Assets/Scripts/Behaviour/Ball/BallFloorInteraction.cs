@@ -30,14 +30,14 @@ public class BallFloorInteraction : MonoBehaviour
             // Sound Magnitude TO BE FIX !!!
             AudioManager.instance.PlaySound("FloorHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
-            SendBallCollisionEvent("Floor");
+            BallEventManager.instance.OnBallCollision("Floor");
         }
     }
 
     private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.tag == "Floor")
-            SendBallCollisionExitEvent("Floor");
+            BallEventManager.instance.OnBallCollisionExit("Floor");
     }
 
     
@@ -55,51 +55,6 @@ public class BallFloorInteraction : MonoBehaviour
         float tangentVelocity = Vector3.Dot(tangent, ballPhysicBehaviour.LastVelocity);
 
         ballPhysicBehaviour.ApplyNewVelocity(((1 - ballPhysicBehaviour.dynamicFriction) * tangentVelocity * tangent - ballPhysicBehaviour.bounciness * normalVelocity * normal));
-    }
-
-    //Need Rework!!!
-    private void SendBallCollisionEvent(string tag)
-    {
-        if (GameManager.Instance.offlineMode)
-        {
-            OnBallCollisionRPC(tag);
-        }
-        else if (tag == "Racket")
-        {
-            //photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            BallEventManager.instance.OnBallCollision(tag);
-        }
-        else
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            }
-        }
-    }
-
-    [PunRPC]
-    private void OnBallCollisionRPC(string tag)
-    {
-        BallEventManager.instance.OnBallCollision(tag);
-    }
-
-    private void SendBallCollisionExitEvent(string tag)
-    {
-        if (GameManager.Instance.offlineMode)
-        {
-            OnBallCollisionExitRPC(tag);
-        }
-        else if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("OnBallCollisionExitRPC", RpcTarget.All, tag);
-        }
-    }
-
-    [PunRPC]
-    private void OnBallCollisionExitRPC(string tag)
-    {
-        BallEventManager.instance.OnBallCollisionExit(tag);
     }
 
     #region ResetImmobileBall

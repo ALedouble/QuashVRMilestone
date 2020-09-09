@@ -40,42 +40,11 @@ public class BallFrontWallInteraction : MonoBehaviour
             // Sound Magnitude TO BE FIX !!!
             AudioManager.instance.PlaySound("FrontWallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
-            SendBallCollisionEvent("FrontWall");
+            BallEventManager.instance.OnBallCollision("FrontWall");
 
             ballPhysicInfo.IsOnFrontWallCollisionFrame = true;
         }
     }
-
-    #region CollisionEvent
-
-    //Need Rework!!!
-    private void SendBallCollisionEvent(string tag)
-    {
-        if (GameManager.Instance.offlineMode)
-        {
-            OnBallCollisionRPC(tag);
-        }
-        else if (tag == "Racket")
-        {
-            //photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            BallEventManager.instance.OnBallCollision(tag);
-        }
-        else
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            }
-        }
-    }
-
-    [PunRPC]
-    private void OnBallCollisionRPC(string tag)
-    {
-        BallEventManager.instance.OnBallCollision(tag);
-    }
-
-    #endregion
 
     #region ReturnInteraction
 

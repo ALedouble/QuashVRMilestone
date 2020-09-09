@@ -25,7 +25,7 @@ public class BallSimpleWallInteraction : MonoBehaviour
             // Sound Magnitude TO BE FIX
             AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
-            SendBallCollisionEvent("Wall");
+            BallEventManager.instance.OnBallCollision("Wall");
         }
     }
 
@@ -42,32 +42,5 @@ public class BallSimpleWallInteraction : MonoBehaviour
             float tangentVelocity = Vector3.Dot(tangent, ballPhysicBehaviour.LastVelocity);
 
             ballPhysicBehaviour.ApplyNewVelocity(((1 - ballPhysicBehaviour.dynamicFriction) * tangentVelocity * tangent - ballPhysicBehaviour.bounciness * normalVelocity * normal));
-    }
-
-    //Need Rework!!!
-    private void SendBallCollisionEvent(string tag)
-    {
-        if (GameManager.Instance.offlineMode)
-        {
-            OnBallCollisionRPC(tag);
-        }
-        else if (tag == "Racket")
-        {
-            //photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            BallEventManager.instance.OnBallCollision(tag);
-        }
-        else
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            }
-        }
-    }
-
-    [PunRPC]
-    private void OnBallCollisionRPC(string tag)
-    {
-        BallEventManager.instance.OnBallCollision(tag);
     }
 }

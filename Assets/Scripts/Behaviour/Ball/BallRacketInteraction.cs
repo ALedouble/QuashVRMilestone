@@ -48,41 +48,10 @@ public class BallRacketInteraction : MonoBehaviour
             VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
             AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
-            SendBallCollisionEvent("Racket");
+            BallEventManager.instance.OnBallCollision("Racket");
         }
 
     }
-
-    #region CollisionEvent
-
-    //Need Rework!!!
-    private void SendBallCollisionEvent(string tag)
-    {
-        if (GameManager.Instance.offlineMode)
-        {
-            OnBallCollisionRPC(tag);
-        }
-        else if (tag == "Racket")
-        {
-            //photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            BallEventManager.instance.OnBallCollision(tag);
-        }
-        else
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("OnBallCollisionRPC", RpcTarget.All, tag);
-            }
-        }
-    }
-
-    [PunRPC]
-    private void OnBallCollisionRPC(string tag)
-    {
-        BallEventManager.instance.OnBallCollision(tag);
-    }
-
-    #endregion
 
     #region RacketInteraction
 

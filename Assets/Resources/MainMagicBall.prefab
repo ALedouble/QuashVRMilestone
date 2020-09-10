@@ -596,11 +596,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsUsed: 1
-  hitMaxSpeed: 40
+  hitMaxSpeed: 80
   hitMinSpeed: 0.5
   hitSpeedMultiplier: 3
-  mixRatio: 0
   racketFriction: 1
+  ballSpeedFactorRatio: 0.5
+  mixRatio: 0
 --- !u!114 &4786920642494746230
 MonoBehaviour:
   m_ObjectHideFlags: 0

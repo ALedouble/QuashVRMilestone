@@ -21,9 +21,15 @@ public class BallRacketInteraction : MonoBehaviour
     public float hitSpeedMultiplier;
 
     [Range(0, 1)]
+    public float ballSpeedFactorRatio;
+
+    [Range(0, 1)]
+    public float racketFriction;
+
+    [Range(0, 1)]
     public float mixRatio;
 
-    public float racketFriction;
+    
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
@@ -126,13 +132,14 @@ public class BallRacketInteraction : MonoBehaviour
     private Vector3 RacketBasicPhysicHit(Collision collision)       // Ajout d'un seuil pour pouvoir jouer avec la balle?
     {
         Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
-        Vector3 relativeVelocity = ballPhysicBehaviour.LastVelocity - racketVelocity;
+        //Vector3 relativeVelocity = ballPhysicBehaviour.LastVelocity - racketVelocity;
+        Vector3 relativeVelocity = racketVelocity - ballPhysicBehaviour.LastVelocity * ballSpeedFactorRatio;
         Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
 
         Vector3 normalVelocity = Vector3.Dot(contactPointNormal, relativeVelocity) * contactPointNormal;
-        Vector3 tangentVelocity = (relativeVelocity - normalVelocity) * (1 - racketFriction);        // Ajouter frottement
+        Vector3 tangentVelocity = (relativeVelocity - normalVelocity) * (1 - racketFriction);        
 
-        return -normalVelocity + tangentVelocity;
+        return normalVelocity + tangentVelocity;
     }
 
     private Vector3 RacketMediumPhysicHit(Collision collision) // Ajout d'un seuil pour pouvoir jouer avec la balle?

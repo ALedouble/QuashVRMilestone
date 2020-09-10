@@ -28,9 +28,6 @@ public class BallManager : MonoBehaviour
     public float floatAmplitude;
     public float floatPeriod;
 
-    [Header("Reset Settings")]
-    public float delayBeforeReset;
-
     public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
 
 
@@ -45,7 +42,7 @@ public class BallManager : MonoBehaviour
     public ITargetSelector TargetSelector { get; private set; }
 
     private Coroutine floatCoroutine;
-    private Coroutine resetCoroutine;
+    
 
     public event Action OnFirstBounce;
     public event Action OnReturnStart;
@@ -105,7 +102,7 @@ public class BallManager : MonoBehaviour
         BallPhysicBehaviour = Ball.GetComponent<BallPhysicBehaviour>();
         BallPhysicInfo = Ball.GetComponent<PhysicInfo>();
         
-        TargetSelector = BallPhysicBehaviour.GetTargetSelector();
+        TargetSelector = BallPhysicBehaviour.GetComponent<ITargetSelector>();
         BallInfo = Ball.GetComponent<BallInfo>();
         BallInfo.SetupBallInfo();                                                                               // A transformer en start
     }
@@ -124,7 +121,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     private void SetBallInPlay()
     {
-        BallPhysicBehaviour.ApplyBaseGravity();
+        BallPhysicBehaviour.ResetGravity();
         BallColorBehaviour.UpdateTrail();
         BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
         StopCoroutine(floatCoroutine);
@@ -255,7 +252,7 @@ public class BallManager : MonoBehaviour
 
     public QPlayer GetLastPlayerWhoHitTheBall()
     {
-        return BallPhysicBehaviour.GetLastPlayerWhoHitTheBall();
+        return BallInfo.LastPlayerWhoHitTheBall;
     }
 
     private QPlayer GetNextPlayerTarget()
@@ -294,41 +291,9 @@ public class BallManager : MonoBehaviour
         return playerWhoLostTheBall;
     }
 
-    public void StartBallResetCountdown()
-    {
-        Debug.Log("StartBallResetCountdown");
-        if(GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)
-        {
-            BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
-            BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
+    
 
-            resetCoroutine = StartCoroutine(BallResetCoroutine());
-        }
-    }
-
-    private void StopBallResetCountdown()
-    {
-        BallEventManager.instance.OnCollisionExitWithFloor -= StopBallResetCountdown;
-        BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
-
-        StopCoroutine(resetCoroutine);
-    }
-
-    private IEnumerator BallResetCoroutine()
-    {
-        float resetTimer = 0;
-        while (resetTimer < delayBeforeReset)
-        {
-            yield return new WaitForFixedUpdate();
-            
-            if(!IsBallPaused)
-                resetTimer += Time.fixedDeltaTime; 
-        }
-
-        BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
-        LoseBall();
-        Debug.Log("BallResetCoroutine: LoseBall");
-    }
+    
     #endregion
 
     #region Color

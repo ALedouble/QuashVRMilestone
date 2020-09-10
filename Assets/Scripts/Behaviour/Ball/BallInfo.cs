@@ -16,6 +16,7 @@ public class BallInfo : MonoBehaviour
     private BallStatus currentBallStatus = BallStatus.Inactive;
     public int WallHitCount { get => wallHitCount; }
     public BallStatus CurrentBallStatus { get => currentBallStatus; }
+    public QPlayer LastPlayerWhoHitTheBall { get; set; }
 
     public void SetupBallInfo()
     {
@@ -26,6 +27,7 @@ public class BallInfo : MonoBehaviour
         BallEventManager.instance.OnCollisionWithRacket += EnterHitState;
 
         BallEventManager.instance.OnCollisionWithFrontWall += EnterReturnState;
+        BallEventManager.instance.OnCollisionWithBrick += EnterReturnState;
 
         BallEventManager.instance.OnBallSpawn += EnterFloatingState;
         BallEventManager.instance.OnBallDespawn += EnterInactiveState;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PillarAnimation : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    public MeshCollider col;
 
     public void CloseAnim()
     {

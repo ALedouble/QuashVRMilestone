@@ -23955,14 +23955,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 08
+      levelNumber: 8
       LevelIndex: 22
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 8
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: e4994cf9dcd62de47bebee80027ec7c6, type: 2}

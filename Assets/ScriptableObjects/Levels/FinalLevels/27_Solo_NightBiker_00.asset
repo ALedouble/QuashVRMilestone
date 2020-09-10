@@ -29026,14 +29026,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 27
+      levelNumber: 27
       LevelIndex: 3
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 27
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 23bc4ea2e01cdf9459f331950728eb66, type: 2}

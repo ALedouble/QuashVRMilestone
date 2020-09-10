@@ -17167,14 +17167,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 09
+      levelNumber: 9
       LevelIndex: 21
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 9
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77, type: 2}

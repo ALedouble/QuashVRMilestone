@@ -109,6 +109,7 @@ public class Campaign : MonoBehaviour
             }
         }
 
+
         ReorderCampaign();
 
         JSON.instance.SetUpDATAs();
@@ -194,7 +195,7 @@ public class Campaign : MonoBehaviour
     {
         float levelComparer = (((levelIndex.level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
 
-        for (int y = numberOfPanelPositions; y > -1; y--)
+        for (int y = 0; y < numberOfPanelPositions; y++)
         {
             float comparer = (positionQuotient * y) * -1;
 
@@ -298,7 +299,10 @@ public class Campaign : MonoBehaviour
             //Set Level Number
             for (int u = 0; u < level.buttonTexts.Count; u++)
             {
-                level.buttonTexts[u].text = levelsImplemented[i].level.levelProgression.buttonName;
+                if (levelsImplemented[i].level.levelProgression.levelNumber < 10)
+                    level.buttonTexts[u].text = "0" + levelsImplemented[i].level.levelProgression.levelNumber.ToString();
+                else
+                    level.buttonTexts[u].text = levelsImplemented[i].level.levelProgression.levelNumber.ToString();
             }
 
             //Set onClick Event to reload values on the Level Panel
@@ -680,8 +684,10 @@ public class Campaign : MonoBehaviour
         else
             levelRecapValues.levelTitle.text = "NO NAME";
 
-
-        levelRecapValues.button.text = selectedLevel.level.levelProgression.buttonName;
+        if (selectedLevel.level.levelProgression.levelNumber < 10)
+            levelRecapValues.button.text = "0" + selectedLevel.level.levelProgression.levelNumber.ToString();
+        else
+            levelRecapValues.button.text = selectedLevel.level.levelProgression.levelNumber.ToString();
 
 
         //Deactivate Conditions
@@ -1024,6 +1030,7 @@ public class Campaign : MonoBehaviour
 
         CheckPanelIndex();
 
+        Debug.Log("panelIndex : " + panelIndex);
         nextPanelPosition = panelPositions[panelIndex];
 
         CampaignPanel.anchoredPosition3D = new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z);

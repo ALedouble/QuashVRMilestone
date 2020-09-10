@@ -17175,14 +17175,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 10
+      levelNumber: 10
       LevelIndex: 20
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 10
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: e095047db8c8f01419e3cf83329570f4, type: 2}

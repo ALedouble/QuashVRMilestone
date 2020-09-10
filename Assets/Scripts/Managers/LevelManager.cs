@@ -187,9 +187,11 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.playersMaxCombo = new int[numberOfPlayers];
         FXManager.Instance.playersRadius = new float[numberOfPlayers];
 
-        TimeManager.Instance.LevelMaxTime = currentLevel.level.levelSpec.timeForThisLevel;
-        TimeManager.Instance.CurrentTimer = 0;
-        //TimeManager.Instance.CurrentTimer = currentLevel.level.levelSpec.timeForThisLevel;
+
+        TimeManager.Instance.SetNewTimer(currentLevel.level.levelSpec.timePerLayer);
+
+        //TimeManager.Instance.LevelMaxTime = currentLevel.level.levelSpec.timeForThisLevel;
+        //TimeManager.Instance.CurrentTimer = 0;
 
         InitRoom();
 

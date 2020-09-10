@@ -68,12 +68,18 @@ public class TimeManager : MonoBehaviour
         timerGUI = timerData;
     }
 
-    public void SetNewTimer(float newTimer)
+    public void SetNewTimer(float newTimer = 0)
     {
-        currentTimer = 0;
-        LevelMaxTime = newTimer;
-        //currentTimer = newTimer;
-        //LevelMaxTime = newTimer;
+        if (!LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
+        {
+            CurrentTimer = 0;
+            LevelMaxTime = newTimer;
+        }
+        else
+        {
+            CurrentTimer = newTimer;
+            LevelMaxTime = newTimer;
+        }
     }
 
     public void StartTimer()
@@ -94,49 +100,37 @@ public class TimeManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        /////// If there's a timer
-        //if (currentTimer < LevelMaxTime)
-        //{
-
-        //Incrémente le timer
-        CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;
-
-        if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
+        if (!LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
         {
-            if (isThereTimerCondition)
+            //Incrémente le timer
+            CurrentTimer += Time.fixedDeltaTime * timerSpeedModifier;
+
+            if (GameManager.Instance.offlineMode && !hasTimerConditionFailed)
             {
-                if (CurrentTimer > timerConditionValue)
+                if (isThereTimerCondition)
                 {
-                    Debug.Log("CurrentTimer : " + CurrentTimer);
-                    Debug.Log("timerConditionValue : " + timerConditionValue);
-                    LevelManager.instance.playersHUD.TimerConditionFailed();
-                    hasTimerConditionFailed = true;
+                    if (CurrentTimer > timerConditionValue)
+                    {
+                        LevelManager.instance.playersHUD.TimerConditionFailed();
+                        hasTimerConditionFailed = true;
+                    }
                 }
             }
         }
-
-        //}
-
-        //No more time left
-        /*
-        if (currentTimer >= LevelMaxTime)
+        else
         {
-            CurrentTimer = LevelMaxTime;
-            IsTimeFlying = false;
+            //Décrémente le timer
+            CurrentTimer -= Time.fixedDeltaTime * timerSpeedModifier;
 
-            OnTimerEnd?.Invoke();
-        }
-        */
-        // Old Stuff
-        /*
-        if (currentTimer <= 0)
-        {
-            CurrentTimer = 0;
-            IsTimeFlying = false;
+            //No more time left
+            if (currentTimer <= 0)
+            {
+                CurrentTimer = 0;
+                IsTimeFlying = false;
 
-            OnTimerEnd?.Invoke();
+                OnTimerEnd?.Invoke();
+            }
         }
-        */
     }
 
     private void UpdateTimeText()
@@ -186,7 +180,7 @@ public class TimeManager : MonoBehaviour
             {
                 timerGUI.FillImage(0);
             }
-                
+
         }
     }
 }

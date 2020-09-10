@@ -17009,22 +17009,22 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 01
+      levelNumber: 1
       LevelIndex: 29
       isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 25110
-      maxCombo: 18
-      minTiming: 37
+      maxScore: 25290
+      maxCombo: 1
+      minTiming: 36
       unlockConditions: []
       levelPos: {x: 289, y: 9947}
       levelID: 0
       conditionsToComplete:
-      - conditionType: 0
+      - conditionType: 2
         conditionComparator: 0
-        conditionReachedAt: 2000
+        conditionReachedAt: 60
       - conditionType: 2
         conditionComparator: 1
         conditionReachedAt: 20
@@ -17037,8 +17037,8 @@ MonoBehaviour:
       ballSpawnColorID: 0
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
-      timeAttack: 0
-      timePerLayer: 0
+      timeAttack: 1
+      timePerLayer: 10
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 33dcca6c4dc63904ea8050c763d317da,

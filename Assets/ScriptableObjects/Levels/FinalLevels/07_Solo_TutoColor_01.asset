@@ -20230,14 +20230,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 07
+      levelNumber: 7
       LevelIndex: 23
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 9
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 7
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 7af4b538575dde6439f2d011d4980ad9, type: 2}

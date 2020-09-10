@@ -13912,14 +13912,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 11
+      levelNumber: 11
       LevelIndex: 19
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 0
+      maxScore: 223
+      maxCombo: 11
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 6913af92ef75edb43b160744ad6efe55, type: 2}

@@ -17064,15 +17064,15 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 04
+      levelNumber: 4
       LevelIndex: 26
-      isDone: 0
+      isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
-      minTiming: 300
+      maxCombo: 4
+      minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: abd0a0e442e31cd4dbfdf7f3d4c94d9b, type: 2}
       levelPos: {x: 446, y: 9618}

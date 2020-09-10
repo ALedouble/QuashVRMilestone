@@ -232,14 +232,23 @@ public class GameManager : MonoBehaviour
             {
                 ScoreManager.Instance.OnComboReset += LoseTheGame;
             }
-            else
+
+            ////////   Useful ?
+            /*
+            else 
             {
                 TimeManager.Instance.OnTimerEnd += LoseTheGame;
             }
-            
-            if(LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
+            */
+
+            if (LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
             {
-                TimeManager.Instance.OnTimerEnd += LevelManager.instance.OnTimerNextLayer;
+                //????????????? DON'T KNOW If the game stops or continues ??????????????//
+                 // is this mode meant to be easy to win/complete like regular level ? //
+
+                //TimeManager.Instance.OnTimerEnd += LevelManager.instance.OnTimerNextLayer;
+                TimeManager.Instance.OnTimerEnd += LoseTheGame;
+
                 LevelManager.instance.onLayerEndEvent += ScoreManager.Instance.OnTimeAttack;
             }
             

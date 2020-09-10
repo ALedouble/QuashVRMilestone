@@ -21492,14 +21492,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 15
+      levelNumber: 15
       LevelIndex: 15
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 15
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 624c602734c8afd48958713c5cbb69f2, type: 2}

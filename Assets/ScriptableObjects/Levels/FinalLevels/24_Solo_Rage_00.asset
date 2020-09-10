@@ -27615,14 +27615,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 24
+      levelNumber: 24
       LevelIndex: 5
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 0
+      maxScore: 6666
+      maxCombo: 25
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: ab4b64dcbdb75264b97c395e51c3d866, type: 2}

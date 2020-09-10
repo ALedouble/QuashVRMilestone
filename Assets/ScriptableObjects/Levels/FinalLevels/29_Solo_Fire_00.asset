@@ -44127,14 +44127,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 29
+      levelNumber: 29
       LevelIndex: 1
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 29
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 932ff6bba7df54a429f9f692d3930fe0, type: 2}

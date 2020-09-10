@@ -24,6 +24,7 @@ public class BallSimpleWallInteraction : MonoBehaviour
             StandardBounce(other.GetContact(0));
             // Sound Magnitude TO BE FIX
             AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
+            FXManager.Instance.PlayWallBounceFX(other.GetContact(0).point, other.contacts[0].normal);
 
             BallEventManager.instance.OnBallCollision("Wall");
         }

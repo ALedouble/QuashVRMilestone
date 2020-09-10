@@ -50,9 +50,10 @@ public class BallRacketInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
-            RacketInteraction(other);
+            Vector3 ballNewVelocity = RacketInteraction(other);
+
             VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
-            AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
+            AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, ballNewVelocity.magnitude / hitMaxSpeed);
 
             BallEventManager.instance.OnBallCollision("Racket");
         }
@@ -61,18 +62,20 @@ public class BallRacketInteraction : MonoBehaviour
 
     #region RacketInteraction
 
-    private void RacketInteraction(Collision other)
+    private Vector3 RacketInteraction(Collision other)
     {
-        ApplyRacketPhysic(other);
+        Vector3 ballNewVelocity = ApplyRacketPhysic(other);
 
         RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
         SetLastPlayerWhoHitTheBall();
         SwitchTarget();
         SetMidWallStatus(true);
+
+        return ballNewVelocity;
     }
 
-    private void ApplyRacketPhysic(Collision other)
+    private Vector3 ApplyRacketPhysic(Collision other)
     {
         Vector3 newVelocity = Vector3.zero;
 
@@ -106,6 +109,8 @@ public class BallRacketInteraction : MonoBehaviour
             //Marche pas!
             photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);     // Modif globalSpeedMultiplier
         }
+
+        return newVelocity;
     }
 
     private Vector3 ClampVelocity(Vector3 velocity)        //Nom à modifier

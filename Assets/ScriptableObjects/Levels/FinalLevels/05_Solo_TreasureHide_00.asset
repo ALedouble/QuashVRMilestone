@@ -20743,15 +20743,15 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 05
+      levelNumber: 5
       LevelIndex: 25
       isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 63450
-      maxCombo: 26
-      minTiming: 68
+      maxScore: 0
+      maxCombo: 5
+      minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 545fae8b7e89c5843b4fba6a54620421, type: 2}
       - {fileID: 11400000, guid: 192435ca37cde9f4bb89eadd6c813d7f, type: 2}

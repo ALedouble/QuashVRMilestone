@@ -33977,14 +33977,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 17
+      levelNumber: 17
       LevelIndex: 13
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 17
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}

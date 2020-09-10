@@ -17534,14 +17534,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 14
+      levelNumber: 14
       LevelIndex: 16
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 24
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 14
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: 3abf081b725d4ec4695d45e25f47e1c1, type: 2}

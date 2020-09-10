@@ -20780,15 +20780,15 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 02
+      levelNumber: 2
       LevelIndex: 28
       isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 5870
-      maxCombo: 5
-      minTiming: 89
+      maxScore: 0
+      maxCombo: 2
+      minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: cd9106b90196ae84783bb538d034444e, type: 2}
       levelPos: {x: 291, y: 9792}

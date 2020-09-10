@@ -28204,14 +28204,14 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 30
+      levelNumber: 30
       LevelIndex: 0
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 60
       isImplemented: 1
       maxScore: 0
-      maxCombo: 0
+      maxCombo: 30
       minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: b059a84deaf48ec469490d054291fb48, type: 2}

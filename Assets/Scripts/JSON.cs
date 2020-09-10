@@ -9,11 +9,13 @@ using Steamworks;
 public class SavedObject
 {
     public string saveGameVersion;
+    public bool hasBeenWarnedAboutHand;
     public List<SavedValues> savedObjects;
 
     public SavedObject()
     {
         saveGameVersion = "";
+        hasBeenWarnedAboutHand = false;
         savedObjects = new List<SavedValues>();
     }
 }
@@ -41,10 +43,13 @@ public class SavedValues
 public class JSON : MonoBehaviour
 {
     public static JSON instance;
-    private string currentGameVersion = "0.9.1";
     public LevelsScriptable currentLevelFocused;
     public bool isGoingStraightToCampaign = false;
     public bool devMode;
+
+    private string currentGameVersion = "0.9.4";
+    private int key = 324;
+
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave.sav";
@@ -107,7 +112,7 @@ public class JSON : MonoBehaviour
 
         if (!File.Exists(GetFilePathWithSteamID()))
         {
-            Debug.Log("N 'EXISTE PAS");
+            //Debug.Log("N 'EXISTE PAS");
             if (!Directory.Exists(GetDirectory()))
                 Directory.CreateDirectory(GetDirectory());
 
@@ -331,7 +336,7 @@ public class JSON : MonoBehaviour
     {
         if (levelsToSave.Count == 0)
         {
-            Debug.LogError("NO DATA TO SAVE ! ASSHOLE");
+            //Debug.LogError("NO DATA TO SAVE !");
             return;
         }
 
@@ -342,7 +347,7 @@ public class JSON : MonoBehaviour
         //DATA presented
         if (levelValues == null)
         {
-            Debug.LogError("NO VALUES TO SAVE");
+            //Debug.LogError("NO VALUES TO SAVE");
             return;
         }
 
@@ -364,7 +369,7 @@ public class JSON : MonoBehaviour
             }
             else
             {
-                Debug.Log("Data is Saved for level : " + levelsToSave[i]);
+                //Debug.Log("Data is Saved for level : " + levelsToSave[i]);
                 newDATA.savedObjects.Add(new SavedValues());
                 newDATA.savedObjects[i] = levelValues;
             }
@@ -394,13 +399,14 @@ public class JSON : MonoBehaviour
         //Reset DATAs
         if (presentedDATA == null)
         {
-            Debug.Log("RESET DATA");
+            //Debug.Log("RESET DATA");
             presentedDATA = new SavedObject() { };
             presentedDATA.saveGameVersion = currentGameVersion;
 
             for (int i = 0; i < levelsToSave.Count; i++)
             {
                 presentedDATA.savedObjects.Add(new SavedValues());
+                //Unlock first level
                 if (i == levelsToSave.Count - 1)
                     presentedDATA.savedObjects[i].unlock = true;
                 else
@@ -410,7 +416,6 @@ public class JSON : MonoBehaviour
 
                 presentedDATA.savedObjects[i].bestScore = 0;
                 presentedDATA.savedObjects[i].bestCombo = 0;
-                //presentedDATA.savedObjects[i].bestTime = (int)levelsToSave[i].level.levelSpec.timeForThisLevel;
                 presentedDATA.savedObjects[i].bestTime = 0;
             }
         }
@@ -420,10 +425,9 @@ public class JSON : MonoBehaviour
         //If there's already DATA on file
         if (File.Exists(GetFilePathWithSteamID()))
         {
-            //Debug.Log("DATA IS HERE");
-
             string loadString = File.ReadAllText(GetFilePathWithSteamID());
             SavedObject loadDATA = JsonUtility.FromJson<SavedObject>(loadString);
+            //JsonUtility.FromJsonOverwrite(loadString, loadDATA);    BETTER FOR NEXT TIME
 
             CheckGameVersion(loadDATA);
 
@@ -457,55 +461,12 @@ public class JSON : MonoBehaviour
         }
         else //NO DATA on file
         {
-            Debug.Log("NO DATA");
-
             json = JsonUtility.ToJson(presentedDATA);
         }
 
+        /////SaveHash(json);
+
         File.WriteAllText(GetFilePathWithSteamID(), json);
-    }
-
-
-    public void CheckGameVersion(SavedObject saveVersion)
-    {
-        if (saveVersion.saveGameVersion != currentGameVersion)
-        {
-            Debug.Log("Save VERSION OLDLLDLDLLDLDLDLDL");
-
-
-            //Changes with new save version
-
-            SavedObject newDATA = new SavedObject() { };
-            newDATA.saveGameVersion = currentGameVersion;
-
-            string savedString = File.ReadAllText(GetFilePathWithSteamID());
-            SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
-
-            string json = "";
-
-            for (int i = 0; i < levelsToSave.Count; i++)
-            {
-                newDATA.savedObjects.Add(new SavedValues());
-
-                newDATA.savedObjects[i].unlock = loadObject.savedObjects[i].unlock;
-                newDATA.savedObjects[i].done = loadObject.savedObjects[i].done;
-
-                newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i].bestScore;
-                newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i].bestCombo;
-                newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i].bestTime;
-
-            }
-
-            json = JsonUtility.ToJson(newDATA);
-            File.WriteAllText(GetFilePathWithSteamID(), json);
-
-            Debug.Log(saveVersion.saveGameVersion);
-        }
-        else
-        {
-            Debug.Log("GOOD VERSION");
-        }
-
     }
 
     /// <summary>
@@ -519,14 +480,23 @@ public class JSON : MonoBehaviour
             return;
         }
 
-        Debug.Log("LOADING DATAS");
-
         string savedString = File.ReadAllText(GetFilePathWithSteamID());
+
+        //if(!VerifyHash(savedString))
+        //{
+        //    Debug.LogError("Invalid Hash, Data has been modified. You're bad... very bad... very very bad");
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("Valid hash or no hash yet");
+        //}
+
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
 
         CheckGameVersion(loadObject);
 
+        /*
         for (int i = 0; i < levelsToSave.Count; i++)
         {
             levelsToSave[i].level.levelProgression.isUnlocked = loadObject.savedObjects[i].unlock;
@@ -534,6 +504,292 @@ public class JSON : MonoBehaviour
             levelsToSave[i].level.levelProgression.maxScore = loadObject.savedObjects[i].bestScore;
             levelsToSave[i].level.levelProgression.maxCombo = loadObject.savedObjects[i].bestCombo;
             levelsToSave[i].level.levelProgression.minTiming = loadObject.savedObjects[i].bestTime;
+        }
+        */
+    }
+
+
+    private void SaveHash(string json)
+    {
+        string hashValue = SecureData.Hash(json);
+
+        File.WriteAllText(GetFilePathWithSteamID(), json);
+    }
+
+    private bool VerifyHash(string json)
+    {
+        string defaultValue = "No_Hash_Generated";
+        string hashValue = SecureData.Hash(json);
+        string hashStored = File.ReadAllText(GetFilePathWithSteamID());
+
+        return hashValue == hashStored || hashStored == defaultValue;
+    }
+
+
+    void ChangeToNextGameVersion(string nextGameVersion)
+    {
+        switch (nextGameVersion)
+        {
+            case ("0.9.1"):
+                {
+                    SavedObject newDATA = new SavedObject() { };
+                    newDATA.saveGameVersion = "0.9.2";
+
+                    //Debug.Log("Evolve at " + newDATA.saveGameVersion);
+
+                    string savedString = File.ReadAllText(GetFilePathWithSteamID());
+                    SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+                    string json = "";
+
+                    for (int i = 0; i < levelsToSave.Count; i++)
+                    {
+                        newDATA.savedObjects.Add(new SavedValues());
+
+                        newDATA.savedObjects[i].unlock = loadObject.savedObjects[i].unlock;
+                        newDATA.savedObjects[i].done = loadObject.savedObjects[i].done;
+
+                        newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i].bestScore;
+                        newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i].bestCombo;
+                        newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i].bestTime;
+
+                    }
+
+                    json = JsonUtility.ToJson(newDATA);
+                    File.WriteAllText(GetFilePathWithSteamID(), json);
+
+                    CheckGameVersion(newDATA);
+
+                    break;
+                }
+
+            //Invert levels data
+            case ("0.9.2"):
+                {
+                    SavedObject newDATA = new SavedObject() { };
+                    newDATA.saveGameVersion = "0.9.3";
+
+                    //Debug.Log("Evolve at " + newDATA.saveGameVersion);
+
+                    string savedString = File.ReadAllText(GetFilePathWithSteamID());
+                    SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+                    string json = "";
+
+
+                    for (int i = 0; i < levelsToSave.Count; i++)
+                    {
+                        newDATA.savedObjects.Add(new SavedValues());
+                    }
+
+
+                    for (int z = 0; z < levelsToSave.Count; z++)
+                    {
+                        //Debug.Log("BEFORE SET     !" + "index : " + z + "     number : " + levelsToSave[z].level.levelProgression.levelNumber + "     combo : " + loadObject.savedObjects[z].bestCombo.ToString());
+
+
+                        newDATA.savedObjects[z].unlock = loadObject.savedObjects[(levelsToSave.Count - 1) - z].unlock;
+                        newDATA.savedObjects[z].done = loadObject.savedObjects[(levelsToSave.Count - 1) - z].done;
+
+                        newDATA.savedObjects[z].bestScore = loadObject.savedObjects[(levelsToSave.Count - 1) - z].bestScore;
+                        newDATA.savedObjects[z].bestCombo = loadObject.savedObjects[(levelsToSave.Count - 1) - z].bestCombo;
+                        newDATA.savedObjects[z].bestTime = loadObject.savedObjects[(levelsToSave.Count - 1) - z].bestTime;
+
+                        //Debug.Log("FROM NOW ON     !" + "index : " + z + "     number : " + levelsToSave[z].level.levelProgression.levelNumber + "     combo : " + newDATA.savedObjects[z].bestCombo.ToString());
+
+                    }
+
+                    json = JsonUtility.ToJson(newDATA);
+                    File.WriteAllText(GetFilePathWithSteamID(), json);
+
+                    CheckGameVersion(newDATA);
+
+                    break;
+                }
+
+            //Exchange some levels datas
+            case ("0.9.3"):
+                {
+                    SavedObject newDATA = new SavedObject() { };
+                    newDATA.saveGameVersion = "0.9.4";
+
+                    //Debug.Log("Evolve at " + newDATA.saveGameVersion);
+
+                    string savedString = File.ReadAllText(GetFilePathWithSteamID());
+                    SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+                    string json = "";
+
+
+                    for (int i = 0; i < levelsToSave.Count; i++)
+                    {
+                        newDATA.savedObjects.Add(new SavedValues());
+                    }
+
+
+                    for (int i = 0; i < levelsToSave.Count; i++)
+                    {
+                        if (i == 11)
+                        {
+                            int temp = i + 1;
+
+                            //12 <= 13
+                            newDATA.savedObjects[i].unlock = loadObject.savedObjects[temp].unlock;
+                            newDATA.savedObjects[i].done = loadObject.savedObjects[temp].done;
+
+                            newDATA.savedObjects[i].bestScore = loadObject.savedObjects[temp].bestScore;
+                            newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[temp].bestCombo;
+                            newDATA.savedObjects[i].bestTime = loadObject.savedObjects[temp].bestTime;
+
+                            //13 <= 12
+                            newDATA.savedObjects[temp].unlock = loadObject.savedObjects[i].unlock;
+                            newDATA.savedObjects[temp].done = loadObject.savedObjects[i].done;
+
+                            newDATA.savedObjects[temp].bestScore = loadObject.savedObjects[i].bestScore;
+                            newDATA.savedObjects[temp].bestCombo = loadObject.savedObjects[i].bestCombo;
+                            newDATA.savedObjects[temp].bestTime = loadObject.savedObjects[i].bestTime;
+
+                            //i = 12
+                            i = 12;
+
+                            continue;
+                        }
+                        else if (i == 17)
+                        {
+                            //18 <= 19
+                            newDATA.savedObjects[i].unlock = loadObject.savedObjects[i + 1].unlock;
+                            newDATA.savedObjects[i].done = loadObject.savedObjects[i + 1].done;
+
+                            newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i + 1].bestScore;
+                            newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i + 1].bestCombo;
+                            newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i + 1].bestTime;
+
+                            //19 <= 20
+                            newDATA.savedObjects[i + 1].unlock = loadObject.savedObjects[i + 2].unlock;
+                            newDATA.savedObjects[i + 1].done = loadObject.savedObjects[i + 2].done;
+
+                            newDATA.savedObjects[i + 1].bestScore = loadObject.savedObjects[i + 2].bestScore;
+                            newDATA.savedObjects[i + 1].bestCombo = loadObject.savedObjects[i + 2].bestCombo;
+                            newDATA.savedObjects[i + 1].bestTime = loadObject.savedObjects[i + 2].bestTime;
+
+                            //20 <= 18
+                            newDATA.savedObjects[i + 2].unlock = loadObject.savedObjects[i].unlock;
+                            newDATA.savedObjects[i + 2].done = loadObject.savedObjects[i].done;
+
+                            newDATA.savedObjects[i + 2].bestScore = loadObject.savedObjects[i].bestScore;
+                            newDATA.savedObjects[i + 2].bestCombo = loadObject.savedObjects[i].bestCombo;
+                            newDATA.savedObjects[i + 2].bestTime = loadObject.savedObjects[i].bestTime;
+
+                            //i = 19
+                            i = 19;
+                            continue;
+                        }
+                        else if (i == 23)
+                        {
+                            //24 <= 25
+                            newDATA.savedObjects[i].unlock = loadObject.savedObjects[i + 1].unlock;
+                            newDATA.savedObjects[i].done = loadObject.savedObjects[i + 1].done;
+
+                            newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i + 1].bestScore;
+                            newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i + 1].bestCombo;
+                            newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i + 1].bestTime;
+
+                            //25 <= 24
+                            newDATA.savedObjects[i + 1].unlock = loadObject.savedObjects[i].unlock;
+                            newDATA.savedObjects[i + 1].done = loadObject.savedObjects[i].done;
+
+                            newDATA.savedObjects[i + 1].bestScore = loadObject.savedObjects[i].bestScore;
+                            newDATA.savedObjects[i + 1].bestCombo = loadObject.savedObjects[i].bestCombo;
+                            newDATA.savedObjects[i + 1].bestTime = loadObject.savedObjects[i].bestTime;
+
+                            //i = 24
+                            i = 24;
+                            continue;
+                        }
+                        else
+                        {
+                            //Debug.Log("i = " + i);
+                            newDATA.savedObjects[i].unlock = loadObject.savedObjects[i].unlock;
+                            newDATA.savedObjects[i].done = loadObject.savedObjects[i].done;
+
+                            newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i].bestScore;
+                            newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i].bestCombo;
+                            newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i].bestTime;
+                        }
+                    }
+
+                    json = JsonUtility.ToJson(newDATA);
+                    File.WriteAllText(GetFilePathWithSteamID(), json);
+
+                    CheckGameVersion(newDATA);
+
+                    break;
+                }
+
+            case "":
+                {
+                    //Debug.Log("FROM NOTHING");
+                    SavedObject newDATA = new SavedObject() { };
+                    newDATA.saveGameVersion = "0.9.1";
+
+
+
+                    string savedString = File.ReadAllText(GetFilePathWithSteamID());
+                    SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+                    string json = "";
+
+                    for (int i = 0; i < levelsToSave.Count; i++)
+                    {
+                        newDATA.savedObjects.Add(new SavedValues());
+
+                        newDATA.savedObjects[i].unlock = loadObject.savedObjects[i].unlock;
+                        newDATA.savedObjects[i].done = loadObject.savedObjects[i].done;
+
+                        newDATA.savedObjects[i].bestScore = loadObject.savedObjects[i].bestScore;
+                        newDATA.savedObjects[i].bestCombo = loadObject.savedObjects[i].bestCombo;
+                        newDATA.savedObjects[i].bestTime = loadObject.savedObjects[i].bestTime;
+
+                    }
+
+                    json = JsonUtility.ToJson(newDATA);
+                    File.WriteAllText(GetFilePathWithSteamID(), json);
+
+                    CheckGameVersion(newDATA);
+
+                    break;
+                }
+
+            default:
+                {
+                    break;
+                }
+        }
+    }
+
+    public void CheckGameVersion(SavedObject saveVersion)
+    {
+        if (saveVersion.saveGameVersion != currentGameVersion)
+        {
+            //Debug.Log("Save VERSION OLDLLDLDLLDLDLDLDL = " + saveVersion.saveGameVersion);
+
+            //Changes with new save version
+            ChangeToNextGameVersion(saveVersion.saveGameVersion);
+        }
+        else
+        {
+            //Debug.Log("GOOD VERSION");
+
+            for (int i = 0; i < levelsToSave.Count; i++)
+            {
+                //Debug.Log("   AFTER GET    " + "index : " + i + "     number : " + levelsToSave[i].level.levelProgression.levelNumber + "     combo : "+ saveVersion.savedObjects[i].bestCombo.ToString());
+
+                levelsToSave[i].level.levelProgression.isUnlocked = saveVersion.savedObjects[i].unlock;
+                levelsToSave[i].level.levelProgression.isDone = saveVersion.savedObjects[i].done;
+                levelsToSave[i].level.levelProgression.maxScore = saveVersion.savedObjects[i].bestScore;
+                levelsToSave[i].level.levelProgression.maxCombo = saveVersion.savedObjects[i].bestCombo;
+                levelsToSave[i].level.levelProgression.minTiming = saveVersion.savedObjects[i].bestTime;
+            }
         }
     }
 }

@@ -24,6 +24,11 @@ public class WallLinesManager : MonoBehaviour
     {
         for (int i = 0; i < pillarAnimations.Length; i++)
         {
+            pillarAnimations[i].col.enabled = true;
+        }
+
+        for (int i = 0; i < pillarAnimations.Length; i++)
+        {
             pillarAnimations[i].CloseAnim();
             yield return new WaitForSeconds(delay);
         }
@@ -31,6 +36,11 @@ public class WallLinesManager : MonoBehaviour
 
     IEnumerator OpenAllLines()
     {
+        for (int i = 0; i < pillarAnimations.Length; i++)
+        {
+            pillarAnimations[i].col.enabled = false;
+        }
+
         for (int i = 0; i < pillarAnimations.Length; i++)
         {
             pillarAnimations[i].OpenAnim();

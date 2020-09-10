@@ -28888,15 +28888,15 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 19
+      levelNumber: 19
       LevelIndex: 10
-      isDone: 0
-      isUnlocked: 0
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 0
-      minTiming: 300
+      maxScore: 1234
+      maxCombo: 20
+      minTiming: 0
       unlockConditions:
       - {fileID: 11400000, guid: ac415bbcd762c0b4c90d05abb88148ed, type: 2}
       levelPos: {x: 436, y: 7831}

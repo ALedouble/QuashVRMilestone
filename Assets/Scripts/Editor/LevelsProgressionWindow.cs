@@ -131,23 +131,23 @@ public class LevelsProgressionWindow : EditorWindow
             EditorGUI.BeginChangeCheck();
 
             GUI.color = Color.red;
-            if (GUI.Button(new Rect(new Vector2(position.width - 85, position.height - boxSize.y - 3f), new Vector2(69, 20)), ""))
+            if (GUI.Button(new Rect(new Vector2(position.width - 70, position.height - boxSize.y - 3f), new Vector2(55, 20)), ""))
             {
                 RemoveLevel(currentLevel);
                 return;
             }
             GUI.color = Color.white;
 
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y), new Vector2(245, 15)), "- " + currentLevel.name + " - " + currentLevel.level.levelProgression.buttonName, selectedStyle);
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y), new Vector2(245, 15)), "- " + currentLevel.name + " - " + currentLevel.level.levelProgression.levelNumber.ToString(), selectedStyle);
 
-            GUI.Label(new Rect(new Vector2(position.width - 80, position.height - boxSize.y), new Vector2(69, 20)), "Remove", selectedStyle);
+            GUI.Label(new Rect(new Vector2(position.width - 66, position.height - boxSize.y), new Vector2(50, 20)), "Delete", selectedStyle);
 
 
             //Text 4 the button
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 18), new Vector2(120, 15)), " Button Text -");
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 18), new Vector2(120, 15)), " Level Number -");
 
-            currentLevel.level.levelProgression.buttonName = GUI.TextField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 18), new Vector2(40, 15)),
-                currentLevel.level.levelProgression.buttonName);
+            currentLevel.level.levelProgression.levelNumber = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 18), new Vector2(40, 15)),
+                currentLevel.level.levelProgression.levelNumber);
 
             //Is the level unlocked ?
             //currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(90, 15)),
@@ -200,8 +200,8 @@ public class LevelsProgressionWindow : EditorWindow
             int numberOfSpecificRules = 0;
             ///Level Specifics (exotic rules)
             //Ligne 0
-            currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY), new Vector2(110, 15)),
-                currentLevel.level.levelSpec.noWallsMode, " No Walls Mode");
+            //currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY), new Vector2(110, 15)),
+            //    currentLevel.level.levelSpec.noWallsMode, " No Walls Mode");
 
             currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY), new Vector2(100, 15)),
                             currentLevel.level.levelSpec.mandatoryBounce, " Bounce Mode");
@@ -455,7 +455,7 @@ public class LevelsProgressionWindow : EditorWindow
         }
 
 
-        if (GUI.Button(levelRect, levelConcerned.level.levelProgression.buttonName))
+        if (GUI.Button(levelRect, levelConcerned.level.levelProgression.levelNumber.ToString()))
         {
             if (Event.current.button == 0 && !isControlDown)
             {
@@ -534,13 +534,13 @@ public class LevelsProgressionWindow : EditorWindow
                 {
                     EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)), Color.Lerp(Color.white, Color.black, 0.75f));
                     GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)),
-                        levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.buttonName, selectedStyle);
+                        levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.levelNumber.ToString(), selectedStyle);
                 }
                 else
                 {
                     EditorGUI.DrawRect(new Rect(new Vector2(position.width - boxSize.x + 3, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)), Color.grey);
                     GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 7, position.height - boxSize.y + topLevelsBox + 7 + (space * i)), new Vector2(250, 20)),
-                        levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.buttonName, labelStyle);
+                        levelsToDisplay[i].name + "     - " + levelsToDisplay[i].level.levelProgression.levelNumber.ToString(), labelStyle);
                 }
             }
 

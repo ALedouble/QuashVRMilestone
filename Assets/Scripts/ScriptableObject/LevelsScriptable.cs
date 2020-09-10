@@ -18,9 +18,9 @@ public class LevelsScriptable : ScriptableObject, IComparable<LevelsScriptable>,
 
     public int CompareTo(LevelsScriptable secondLevel)
     {
-        if (secondLevel.level.levelProgression.levelPos.y > level.levelProgression.levelPos.y)
+        if (secondLevel.level.levelProgression.levelNumber > level.levelProgression.levelNumber)
             return -1;
-        else if (secondLevel.level.levelProgression.levelPos.y == level.levelProgression.levelPos.y)
+        else if (secondLevel.level.levelProgression.levelNumber == level.levelProgression.levelNumber)
             return 0;
         else
             return 1;
@@ -92,7 +92,7 @@ public class LevelSpecifics
 [System.Serializable]
 public class ProgressionSettings
 {
-    public string buttonName;
+    public int levelNumber;
 
     public int LevelIndex;
 
@@ -115,7 +115,6 @@ public class ProgressionSettings
 
     public ProgressionSettings()
     {
-        buttonName = "00";
         LevelIndex = 0;
         isDone = false;
         isUnlocked = false;

@@ -47,7 +47,7 @@ public class JSON : MonoBehaviour
     public bool isGoingStraightToCampaign = false;
     public bool devMode;
 
-    private string currentGameVersion = "0.9.4";
+    private string currentGameVersion = "0.9.5";
     private int key = 324;
 
 
@@ -378,6 +378,8 @@ public class JSON : MonoBehaviour
 
         string json = JsonUtility.ToJson(newDATA);
 
+        SaveHash(json);
+
         File.WriteAllText(GetFilePathWithSteamID(), json);
     }
 
@@ -464,7 +466,7 @@ public class JSON : MonoBehaviour
             json = JsonUtility.ToJson(presentedDATA);
         }
 
-        /////SaveHash(json);
+        SaveHash(json);
 
         File.WriteAllText(GetFilePathWithSteamID(), json);
     }
@@ -481,46 +483,34 @@ public class JSON : MonoBehaviour
         }
 
         string savedString = File.ReadAllText(GetFilePathWithSteamID());
-
-        //if(!VerifyHash(savedString))
-        //{
-        //    Debug.LogError("Invalid Hash, Data has been modified. You're bad... very bad... very very bad");
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("Valid hash or no hash yet");
-        //}
+        //PlayerPrefs.SetString("HASH", "No_Hash_Generated");
+        if (!VerifyHash(savedString))
+        {
+            Debug.LogError("Invalid Hash, Data has been modified. You're bad... very bad... very very bad");
+        }
+        else
+        {
+            Debug.LogWarning("Valid hash or no hash yet");
+            SaveHash(savedString);
+        }
 
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
-
         CheckGameVersion(loadObject);
-
-        /*
-        for (int i = 0; i < levelsToSave.Count; i++)
-        {
-            levelsToSave[i].level.levelProgression.isUnlocked = loadObject.savedObjects[i].unlock;
-            levelsToSave[i].level.levelProgression.isDone = loadObject.savedObjects[i].done;
-            levelsToSave[i].level.levelProgression.maxScore = loadObject.savedObjects[i].bestScore;
-            levelsToSave[i].level.levelProgression.maxCombo = loadObject.savedObjects[i].bestCombo;
-            levelsToSave[i].level.levelProgression.minTiming = loadObject.savedObjects[i].bestTime;
-        }
-        */
     }
 
 
     private void SaveHash(string json)
     {
         string hashValue = SecureData.Hash(json);
-
-        File.WriteAllText(GetFilePathWithSteamID(), json);
+        PlayerPrefs.SetString("HASH", hashValue);
     }
 
     private bool VerifyHash(string json)
     {
         string defaultValue = "No_Hash_Generated";
         string hashValue = SecureData.Hash(json);
-        string hashStored = File.ReadAllText(GetFilePathWithSteamID());
+        string hashStored = PlayerPrefs.GetString("HASH");
 
         return hashValue == hashStored || hashStored == defaultValue;
     }

@@ -285,7 +285,8 @@ public class Campaign : MonoBehaviour
 
             //Spawn Level ICON 
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
-            level.transform.parent = CampaignPanel.transform;
+            level.transform.SetParent(CampaignPanel.transform);
+            //level.transform.parent = CampaignPanel.transform;
 
             //Transpose editor position into campaign position
             float xPos = (levelsImplemented[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
@@ -439,8 +440,8 @@ public class Campaign : MonoBehaviour
                 //Spawn a LineRenderer from the Pool
                 UILineRenderer line = PoolManager.instance.SpawnFromPool("Connection", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
                 RectTransform rect = line.gameObject.GetComponent<RectTransform>();
-
-                line.transform.parent = CampaignPanel.transform;
+                line.transform.SetParent(CampaignPanel.transform);
+                //line.transform.parent = CampaignPanel.transform;
 
                 //rect.sizeDelta = new Vector2(0, 0);
 
@@ -624,7 +625,8 @@ public class Campaign : MonoBehaviour
                 if (leftBorder.x > levelBorderOffset)
                 {
                     UILineRenderer leftLine = PoolManager.instance.SpawnFromPool("Stargate", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
-                    leftLine.gameObject.transform.parent = CampaignPanel.gameObject.transform;
+                    leftLine.gameObject.transform.SetParent(CampaignPanel.gameObject.transform);
+                    //leftLine.gameObject.transform.parent = CampaignPanel.gameObject.transform;
                     leftLine.rectTransform.anchoredPosition3D = new Vector3(leftLevelSide.x, leftLevelSide.y, 0);
                     leftLine.Points[1] = new Vector2(-leftBorder.x, 0);
                     leftGate = leftLine.gameObject.GetComponent<StargateValues>();
@@ -633,7 +635,8 @@ public class Campaign : MonoBehaviour
                 if (rightBorder.x > levelBorderOffset)
                 {
                     UILineRenderer rightLine = PoolManager.instance.SpawnFromPool("Stargate", Vector3.zero, Quaternion.identity).GetComponent<UILineRenderer>();
-                    rightLine.gameObject.transform.parent = CampaignPanel.gameObject.transform;
+                    rightLine.gameObject.transform.SetParent(CampaignPanel.gameObject.transform);
+                    //rightLine.gameObject.transform.parent = CampaignPanel.gameObject.transform;
                     rightLine.rectTransform.anchoredPosition3D = new Vector3(rightLevelSide.x, rightLevelSide.y, 0);
                     rightLine.Points[1] = rightBorder;
                     rightGate = rightLine.gameObject.GetComponent<StargateValues>();

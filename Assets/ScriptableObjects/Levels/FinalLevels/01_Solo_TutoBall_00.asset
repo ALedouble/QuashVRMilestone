@@ -17010,14 +17010,14 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       levelNumber: 1
-      LevelIndex: 29
+      LevelIndex: 0
       isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 25290
-      maxCombo: 1
-      minTiming: 36
+      maxScore: 12590
+      maxCombo: 11
+      minTiming: 37
       unlockConditions: []
       levelPos: {x: 289, y: 9947}
       levelID: 0
@@ -17037,7 +17037,7 @@ MonoBehaviour:
       ballSpawnColorID: 0
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
-      timeAttack: 1
+      timeAttack: 0
       timePerLayer: 10
       noWallsMode: 0
       mandatoryBounce: 0

@@ -7,17 +7,9 @@ public class BrickDestruction : MonoBehaviour
 {
     private BrickInfo brickInfo;
 
-
     private void Awake()
     {
         brickInfo = GetComponent<BrickInfo>();
-    }
-
-    [PunRPC]
-    public void HitBrick(int p_dmgPoints = 1)
-    {
-        AudioManager.instance.PlaySound("BrickExplosion", Vector3.zero);
-        DestroyBrick();
     }
 
     /// <summary>
@@ -44,6 +36,9 @@ public class BrickDestruction : MonoBehaviour
 
     private void SendBreakFeedbacks()
     {
+        /// SFX
+        AudioManager.instance.PlaySound("BrickExplosion", Vector3.zero);
+
         /// FX
         switch (brickInfo.colorID)
         {
@@ -59,13 +54,10 @@ public class BrickDestruction : MonoBehaviour
                 PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
                 break;
         }
-        //PoolManager.instance.SpawnFromPool("CubeDeathFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
 
-        ///Skake
+        /// Skake
         LevelManager.instance.ShakeLayer(brickInfo.wallID);         //WTF?
     }
-
-
 
     private void ScorePoints()
     {

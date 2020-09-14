@@ -6,12 +6,6 @@ using Photon.Pun;
 
 public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 {
-
-    public static int brickCount = 0;
-    private int brickID;
-    public int BrickID { get => brickID; }
-
-
     [Header("Waypoint")]
     public bool isAMovingBrick;
     [Tooltip("Enter waypoints positions here")]
@@ -61,16 +55,16 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     void Start()
     {
-        SetupBallID();
+        SetupBrick();
 
         isWaiting = false;
     }
 
 
-    private void SetupBallID()
+    private void SetupBrick()
     {
-        brickID = brickCount++;
         brickInfo = GetComponent<BrickInfo>();
+        brickInfo.SetBrickID();
         BrickManager.Instance.AddBrick(gameObject);
     }
 
@@ -189,10 +183,5 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
         isWaiting = false;
 
         NextWaypoint();
-    }
-
-    public static void ResetBrickCount()
-    {
-        brickCount = 0;
     }
 }

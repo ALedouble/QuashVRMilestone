@@ -55,7 +55,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
     public void AddBrick(GameObject newBrick)
     {
-        if(newBrick.GetComponent<BrickBehaviours>().BrickID != AllBricks.Count)
+        if(newBrick.GetComponent<BrickInfo>().BrickID != AllBricks.Count)
         {
             Debug.Log("Bad BrickID");
         }
@@ -159,49 +159,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void HitBrickByID(int brickID)
-    {
-        if (brickID < AllBricks.Count && brickID >= 0)
-        {
-            if(GameManager.Instance.offlineMode)
-            {
-                AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
-            }
-            else if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("HitBrickOnlineRPC", RpcTarget.All, brickID);
-            }
-        }
-    }
-
-    [PunRPC]
-    public void HitBrickOnlineRPC(int brickID)
-    {
-        AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
-    }
-
-    //public void DestroyBrickByID(int brickID)
-    //{
-    //    Debug.Log("DestroyBrickByID");
-    //    if (brickID < AllBricks.Count && brickID >= 0)
-    //    {
-    //        if (PhotonNetwork.OfflineMode)
-    //        {
-    //            AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
-    //        }
-    //        else if (PhotonNetwork.IsMasterClient)
-    //        {
-    //            photonView.RPC("DestroyBrickByIDRPC", RpcTarget.All, brickID);
-    //        }
-    //    }
-    //}
-
-    //[PunRPC]
-    //private void DestroyBrickByIDRPC(int brickID)
-    //{
-    //    AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
-    //}
-
     /// <summary>
     /// Activate bricks movement on the current front layer
     /// </summary>
@@ -268,5 +225,16 @@ public class BrickManager : MonoBehaviourPunCallbacks
         Debug.Log("ScorePointsRPC");
         ScoreManager.Instance.SetScore(scoreValue, playerID);
         ScoreManager.Instance.SetCombo(playerID);
+    }
+
+
+    //A Déplacer dans son propre scripte
+    public void HitBrickByID(int brickID)
+    {
+        //Systeme de Memoire
+        if (brickID < AllBricks.Count && brickID >= 0)
+        {
+            AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
+        }
     }
 }

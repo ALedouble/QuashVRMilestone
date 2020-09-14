@@ -154,7 +154,7 @@ public class ScoreManager : MonoBehaviour
         if (GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
         {
             resetCombo = true;
-            StartCoroutine(CheckComboCondition(FXManager.Instance.impactMaxTime, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()));          //BallID
+            StartCoroutine(CheckComboCondition(ExplosionManager.Instance.impactDuration, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()));          //BallID
         }
     }
 

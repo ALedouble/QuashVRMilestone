@@ -16,6 +16,7 @@ public class BallExplosion : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
+    // !!! Rework Explosion !!!
     private void OnCollisionEnter(Collision collision)
     {
         if (!BallManager.instance.IsBallPaused)
@@ -33,7 +34,7 @@ public class BallExplosion : MonoBehaviour
 
                 if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
                 {
-                    BrickManager.Instance.HitBrickByID(collision.gameObject.GetComponent<BrickBehaviours>().BrickID);
+                    BrickManager.Instance.HitBrickByID(collision.gameObject.GetComponent<BrickInfo>().BrickID);
                 }
             }
         }
@@ -46,8 +47,7 @@ public class BallExplosion : MonoBehaviour
             ScoreManager.Instance.CheckForComboBreak();
 
             Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
-            FXManager.Instance.PlayExplosion(pos, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-            //CallForExplosion(collision);
+            ExplosionManager.Instance.CreateExplosion(pos, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
         }
     }
 }

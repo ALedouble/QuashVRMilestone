@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         IsGameStarted = false;
         IsGamePaused = false;
 
-        BrickBehaviours.ResetBrickCount();                  //A deplacer sur l'instantiation des briques dans la pool
+        BrickInfo.ResetBrickCount();                  //A deplacer sur l'instantiation des briques dans la pool
     }
 
     void Start()

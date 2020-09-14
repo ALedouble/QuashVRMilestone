@@ -136,8 +136,8 @@ public class LevelManager : MonoBehaviour
                 startPos4Player1.y,
                 startPos4Player1.z);
 
-        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                                  
-        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);                            
+        GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+        GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
 
         if (currentLevel.level.levelSpec.goToSpawn != null)
             Instantiate(currentLevel.level.levelSpec.goToSpawn);
@@ -374,7 +374,7 @@ public class LevelManager : MonoBehaviour
                     playersHUD.ScoreConditionParents[0].SetActive(true);
                     //playersHUD.TimerConditionParents[0].SetActive(true);
 
-                    Debug.Log("LOGY LOGY");
+                    //Debug.Log("LOGY LOGY");
                     ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
                     //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
                 }
@@ -485,7 +485,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void SetNextLayer(int playerID)
     {
-        if (onLayerEndEvent != null)
+        if (onLayerEndEvent != null && isThereAnotherLayer[playerID])
             onLayerEndEvent();
 
         if (isThereAnotherLayer[playerID])
@@ -515,7 +515,7 @@ public class LevelManager : MonoBehaviour
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
-                Debug.Log("numberOfLayerToDisplay - 1 : " + (numberOfLayerToDisplay - 1));
+                //Debug.Log("numberOfLayerToDisplay - 1 : " + (numberOfLayerToDisplay - 1));
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
 
@@ -525,6 +525,9 @@ public class LevelManager : MonoBehaviour
         if (firstSetUpDone[playerID])
         {
             EndOfLayerUpdates(playerID, currentLayer[playerID] - 1);
+
+            if (isThereAnotherLayer[playerID])
+                TimeManager.Instance.OnTimeAttackBoost();
         }
 
         if (currentLayer[playerID] >= currentLevelConfig.levelWallBuilds.walls.Length - 1)

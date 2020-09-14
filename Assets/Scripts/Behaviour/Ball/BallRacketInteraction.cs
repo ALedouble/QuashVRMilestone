@@ -29,7 +29,12 @@ public class BallRacketInteraction : MonoBehaviour
     [Range(0, 1)]
     public float mixRatio;
 
-    
+
+    private float minVib = 0.0006f;
+    private float maxVib = 0.025f;
+
+    private float minHit = 3.3f;
+    private float maxHit = 50f;
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
@@ -51,9 +56,42 @@ public class BallRacketInteraction : MonoBehaviour
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
             RacketInteraction(other);
-            VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
-            AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
+            //Debug.Log("LAST Velocity : " + ballPhysicBehaviour.LastVelocity.magnitude);
+            
+            float ballVelocity = ballPhysicBehaviour.LastVelocity.magnitude;
+            float hitRange = maxHit - minHit;
+            float vibRange = maxVib - minVib;
+            float hitPercent;
+            float hitRate;
+            float vib;
 
+
+            if (ballVelocity <= minHit)
+            {
+                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", minVib); hitRate = 0.01f; //Debug.Log("VIB percent : " + vibPercent);
+            }
+            else if (ballVelocity >= maxHit)
+            {
+                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", maxVib); hitRate = 1f; //Debug.Log("VIB percent : " + vibPercent);
+            }
+            else
+            {
+                hitPercent = ((ballVelocity - minHit) * 0.01f) / hitRange;
+                vib = ((hitPercent * vibRange) * 0.01f) + minVib;
+                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
+
+                //Debug.Log("hit percent : " + hitPercent);
+                hitRate = hitPercent * 100f;
+                //Debug.Log("Hit RATE : " + hitRate);
+                //Debug.Log("VIB : " + vib);
+            }
+
+            
+
+            AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, hitRate);
+            //AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
+
+            RacketManager.instance.racketPostProcess.bloomPercent = hitRate;
             BallEventManager.instance.OnBallCollision("Racket");
         }
 
@@ -137,7 +175,7 @@ public class BallRacketInteraction : MonoBehaviour
         Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
 
         Vector3 normalVelocity = Vector3.Dot(contactPointNormal, relativeVelocity) * contactPointNormal;
-        Vector3 tangentVelocity = (relativeVelocity - normalVelocity) * (1 - racketFriction);        
+        Vector3 tangentVelocity = (relativeVelocity - normalVelocity) * (1 - racketFriction);
 
         return normalVelocity + tangentVelocity;
     }

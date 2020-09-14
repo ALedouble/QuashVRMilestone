@@ -18,6 +18,17 @@ public class LevelRecap : MonoBehaviour
     public TextMeshProUGUI[] conditionReachedAt;
     public TextMeshProUGUI levelCondition;
 
+    public TextMeshProUGUI exoticCondition;
+
+    [Space]
+
+    public string bounceModeTitle;
+    [TextArea] public string mandatoryBounceDescription;
+    public string suddenDeathTitle;
+    [TextArea] public string suddenDeathDescription;
+    public string timeAttackTitle;
+    [TextArea] public string timeAttackDescription;
+
     public Image[] stars;
 
     public Button playButton;

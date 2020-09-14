@@ -260,6 +260,7 @@ namespace VRTK
                 }
                 float currentSample = Mathf.Abs(audioData[sampleIndex - sampleOffset]);
                 ushort hapticStrength = (ushort)(hapticScalar * currentSample);
+
                 VRTK_SDK_Bridge.HapticPulse(controllerReference, hapticStrength, modifier);
                 yield return null;
             }

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     #region Singleton
     public static GameManager Instance;
 
-   
+
     #endregion
 
     [Header("Mode Settings")]
@@ -70,13 +70,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+
         InstantiatePlayers();
         SpawnLevel();
 
         if (gameMod == GameMod.GAMEPLAY)
         {
-            if(offlineMode || PhotonNetwork.IsMasterClient)
+            if (offlineMode || PhotonNetwork.IsMasterClient)
             {
                 AddSequenceTaskToQueue(InstanciateBall, false);
                 AddSequenceTaskToQueue(SetupBall);
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
                 photonView.RPC("BecomeReady", RpcTarget.MasterClient);
             }
         }
-        
+
     }
 
 
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SetupSequenceWaitCoroutine()
     {
-        while(!allPlayersAreReady)
+        while (!allPlayersAreReady)
         {
             yield return new WaitForFixedUpdate();
         }
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log(MultiLevel.Instance.levelIndex);
                 //photonView.RPC("SelectionLevelRPC", RpcTarget.All, MultiLevel.Instance.levelIndex);
 
-                 SelectionLevelMulti(MultiLevel.Instance.levelIndex);
+                SelectionLevelMulti(MultiLevel.Instance.levelIndex);
             }
         }
     }
@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
             tempBall.GetComponent<BallSetup>().SetupBall();
-        else if(PhotonNetwork.IsMasterClient)
+        else if (PhotonNetwork.IsMasterClient)
         {
             tempBall.GetComponent<BallSetup>().SendSetupBallRPC();
         }
@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
             //if(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel == ColorSwitchType.NONE)
             //    BallManager.instance.BallColorBehaviour.Initialize(ColorSwitchType.NONE);
             //else
-                BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
+            BallManager.instance.BallColorBehaviour.Initialize(LevelManager.instance.currentLevel.level.levelSpec.switchColorBehaviourForThisLevel);
 
             if (LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
             {
@@ -244,15 +244,15 @@ public class GameManager : MonoBehaviour
             if (LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
             {
                 //????????????? DON'T KNOW If the game stops or continues ??????????????//
-                 // is this mode meant to be easy to win/complete like regular level ? //
+                // is this mode meant to be easy to win/complete like regular level ? //
 
                 //TimeManager.Instance.OnTimerEnd += LevelManager.instance.OnTimerNextLayer;
                 TimeManager.Instance.OnTimerEnd += LoseTheGame;
 
-                LevelManager.instance.onLayerEndEvent += ScoreManager.Instance.OnTimeAttack;
+                //LevelManager.instance.onLayerEndEvent += TimeManager.Instance.OnTimeAttackBoost;
             }
-            
-            if(LevelManager.instance.currentLevel.level.levelSpec.mandatoryBounce)
+
+            if (LevelManager.instance.currentLevel.level.levelSpec.mandatoryBounce)
             {
                 LockWallManager.Instance.Initialize();
             }
@@ -260,8 +260,8 @@ public class GameManager : MonoBehaviour
         else
         {
             BallManager.instance.BallColorBehaviour.Initialize(ColorSwitchType.RACKETEMPOWERED);
-            
-            if(PhotonNetwork.IsMasterClient)
+
+            if (PhotonNetwork.IsMasterClient)
                 TimeManager.Instance.OnTimerEnd += LoseTheGame;
         }
     }
@@ -373,10 +373,10 @@ public class GameManager : MonoBehaviour
         //Debug.Log("BallFirstSpawn");
         BallManager.instance.BallFirstSpawn();
     }
-    
+
     public void StartTheGame()
     {
-        if(offlineMode)
+        if (offlineMode)
         {
             StartTheGameRPC();
         }
@@ -389,7 +389,7 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void StartTheGameRPC()
     {
-        if(!IsGameStarted)
+        if (!IsGameStarted)
         {
             IsGameStarted = true;
 
@@ -405,7 +405,7 @@ public class GameManager : MonoBehaviour
 
         EndOfTheGame();
     }
-    
+
     public void EndOfTheGame()
     {
         if (offlineMode)
@@ -429,6 +429,9 @@ public class GameManager : MonoBehaviour
         //If the player who WINS is ALONE
         if (!HasLost && offlineMode)
         {
+            if (LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
+                ScoreManager.Instance.OnTimeAttackBonus();
+
             //Debug.Log("Submit DATAS at endOfTheGame SOOOO .... NOW");
             JSON.instance.currentLevelFocused = LevelManager.instance.currentLevel;
             JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
@@ -479,7 +482,7 @@ public class GameManager : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(ReloaSceneCor());  
+            StartCoroutine(ReloaSceneCor());
         }
     }
 
@@ -501,7 +504,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SelectionLevelMulti(int selection){
+    public void SelectionLevelMulti(int selection)
+    {
         //LevelManager.instance.ConfigDistribution(selection);
         LevelManager.instance.StartLevelInitialization(selection);
     }

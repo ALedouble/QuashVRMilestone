@@ -27,6 +27,7 @@ public class BallInfo : MonoBehaviour
         BallEventManager.instance.OnCollisionWithRacket += EnterHitState;
 
         BallEventManager.instance.OnCollisionWithFrontWall += EnterReturnState;
+        BallEventManager.instance.OnCollisionWithRebounceWall += EnterReturnState;
         BallEventManager.instance.OnCollisionWithBrick += EnterReturnState;
 
         BallEventManager.instance.OnBallSpawn += EnterFloatingState;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoundTag { Brick, Impact, Wall, Floor, Racket, FrontWall, None }
+public enum SoundTag { Brick, Impact, Wall, Floor, Racket, FrontWall, None, RebounceWall }
 
 [System.Serializable]
 public class SoundPool
@@ -29,7 +29,7 @@ public class SoundPool
         SetAudioSource(audioSource, selectedSound);
         AdjustVolume(audioSource, selectedSound, soundIntensity);
 
-        audioSource.Play();
+        //audioSource.Play();
 
         lastPlayTime = Time.time;
 
@@ -50,13 +50,16 @@ public class SoundPool
     {
         if(soundIntensity >= 0)
         {
-            audioSource.volume *= soundIntensity;
+            audioSource.volume = soundIntensity;
+
 
             if (audioSource.volume < sound.minVolume)
                 audioSource.volume = sound.minVolume;
             else if (audioSource.volume > sound.maxVolume)
                 audioSource.volume = sound.maxVolume;
         }
+
+        audioSource.Play();
     }
 
     private Sound SelectRandomSound()

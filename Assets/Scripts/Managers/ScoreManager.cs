@@ -141,11 +141,10 @@ public class ScoreManager : MonoBehaviour
     /// <summary>
     /// Time Attack Behaviour
     /// </summary>
-    public void OnTimeAttack()
+    public void OnTimeAttackBonus()
     {
         int bonus = (int)(TimeManager.Instance.CurrentTimer * bonusScoreOnTimeAttack);
         SetScore(bonus, 0);
-        TimeManager.Instance.SetNewTimer(LevelManager.instance.currentLevel.level.levelSpec.timePerLayer);
     }
 
 

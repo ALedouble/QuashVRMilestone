@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 6000792008277380485}
   - component: {fileID: 4866844152105119356}
   - component: {fileID: 4999519374816832823}
+  - component: {fileID: 68396075229744682}
   - component: {fileID: 4786920642494746230}
   - component: {fileID: 1758958001795561115}
   - component: {fileID: 323053201}
@@ -599,9 +600,23 @@ MonoBehaviour:
   hitMaxSpeed: 80
   hitMinSpeed: 0.5
   hitSpeedMultiplier: 3
-  racketFriction: 1
   ballSpeedFactorRatio: 0.5
+  racketFriction: 1
   mixRatio: 0
+--- !u!114 &68396075229744682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e9e1cc3c3c79747a000a54d5c95f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  depthVelocity: 10
+  xAcceleration: 0
 --- !u!114 &4786920642494746230
 MonoBehaviour:
   m_ObjectHideFlags: 0

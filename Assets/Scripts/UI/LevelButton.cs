@@ -15,4 +15,7 @@ public class LevelButton : MonoBehaviour
     public List<GameObject> unlockImages;
     public List<GameObject> doneImages;
     public List<GameObject> fullStarsImages;
+
+    public List<GameObject> exoticUnlockImages;
+    public List<GameObject> exoticDoneImages;
 }

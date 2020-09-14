@@ -8,7 +8,7 @@ public class PostProcessFlash : MonoBehaviour
 {
     [SerializeField] PostProcessVolume volume;
     [SerializeField] float animDuration = 1.0f;
-    [SerializeField, ReadOnly] float animCount = 0.0f;
+    [SerializeField, ReadOnly] protected float animCount = 0.0f;
     [SerializeField, ReadOnly] protected bool isAnimating;
 
     [Header("Bloom settings")]
@@ -17,7 +17,7 @@ public class PostProcessFlash : MonoBehaviour
     [SerializeField, ReadOnly] protected float minBloomIntensity;
     [SerializeField] protected float maxBloomIntensity;
 
-    private float effectiveMaxBloomIntensity;
+    protected float effectiveMaxBloomIntensity;
 
     protected virtual void Start()
     {

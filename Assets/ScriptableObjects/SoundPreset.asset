@@ -23,7 +23,7 @@ MonoBehaviour:
       loop: 0
       spatialBlend: 0
       panStereo: 0
-      minVolume: 0.5
+      minVolume: 0.3
       maxVolume: 1
     - clip: {fileID: 8300000, guid: fb061ce8fd534674896ea3eaf9b96287, type: 3}
       defaultVolume: 0.5
@@ -31,7 +31,7 @@ MonoBehaviour:
       loop: 0
       spatialBlend: 0
       panStereo: 0
-      minVolume: 0.5
+      minVolume: 0.3
       maxVolume: 1
     - clip: {fileID: 8300000, guid: c2b5fc0df982aa24781c5dbccf7c4505, type: 3}
       defaultVolume: 0.5
@@ -39,7 +39,7 @@ MonoBehaviour:
       loop: 0
       spatialBlend: 0
       panStereo: 0
-      minVolume: 0.5
+      minVolume: 0.3
       maxVolume: 1
   - soundPoolName: FloorHit
     tag: 3
@@ -292,4 +292,24 @@ MonoBehaviour:
       spatialBlend: 0
       panStereo: 0
       minVolume: 0.879
+      maxVolume: 1
+  - soundPoolName: Bouncing_Back
+    tag: 7
+    cooldown: 1
+    sounds:
+    - clip: {fileID: 8300000, guid: 1f6688f7100ef224c89f1aa323eaf5aa, type: 3}
+      defaultVolume: 0.9
+      pitch: 1
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.5
+      maxVolume: 1
+    - clip: {fileID: 8300000, guid: d12c245a146541944beba9bd279ac01a, type: 3}
+      defaultVolume: 1
+      pitch: 1.5
+      loop: 0
+      spatialBlend: 0
+      panStereo: 0
+      minVolume: 0.5
       maxVolume: 1

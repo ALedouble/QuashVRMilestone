@@ -225,6 +225,11 @@ public class BallManager : MonoBehaviour
         if (GameManager.Instance.offlineMode)
         {
             LoseBallLocaly(nextPlayerTarget);
+
+            if (LevelManager.instance.currentLevel.level.levelSpec.mandatoryBounce)
+            {
+                LockWallManager.Instance.EnterProtectionState();
+            }
         }
         else if (PhotonNetwork.IsMasterClient)
         {

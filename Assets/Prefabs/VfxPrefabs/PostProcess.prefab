@@ -74,6 +74,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   minBloomIntensity: 0
   maxBloomIntensity: 12.8
+  bloomPercent: 0
   bloomTargetColor: {r: 0.8773585, g: 0.21106264, b: 0.21106264, a: 1}
   bloomIniColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4502151907430273128
@@ -159,6 +160,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   minBloomIntensity: 0
   maxBloomIntensity: 36
+  bloomPercent: 0
 --- !u!1 &6060072582621619404
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +235,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   minBloomIntensity: 0
   maxBloomIntensity: 30
+  bloomPercent: 0
 --- !u!1 &6203038417669669650
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +310,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   minBloomIntensity: 0
   maxBloomIntensity: 60
+  bloomPercent: 0
   bloomTargetColor: {r: 1, g: 0, b: 0, a: 1}
   bloomIniColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6937498788346901310
@@ -383,6 +387,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   minBloomIntensity: 0
   maxBloomIntensity: 46
+  bloomPercent: 1
 --- !u!1 &7007212452373148804
 GameObject:
   m_ObjectHideFlags: 0

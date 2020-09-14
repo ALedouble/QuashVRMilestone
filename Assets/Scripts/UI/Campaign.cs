@@ -515,7 +515,8 @@ public class Campaign : MonoBehaviour
 
                     if (levelsImplemented[i].level.levelProgression.isDone)
                     {
-                        if (levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0)
+                        if (levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0
+                            && !levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                         {
                             int conditionCompleted = 0;
 
@@ -598,6 +599,21 @@ public class Campaign : MonoBehaviour
                             //level.lockImages[x].SetActive(false);
                             level.unlockImages[x].SetActive(true);
                         }
+
+                        /*
+                        if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
+                        {
+                            for (int x = 0; x < level.unlockImages.Count; x++)
+                            {
+                                //level.lockImages[x].SetActive(false);
+                                level.unlockImages[x].SetActive(true);
+                            }
+                        }
+                        else
+                        {
+                            //exotic done images
+                        }
+                        */
                     }
 
 
@@ -702,12 +718,36 @@ public class Campaign : MonoBehaviour
         }
 
         //Reactivate Conditions depending on the level
-        for (int i = 0; i < selectedLevel.level.levelProgression.numberOfAdditionalConditions; i++)
+        if (!selectedLevel.level.levelSpec.suddenDeath && !selectedLevel.level.levelSpec.mandatoryBounce && !selectedLevel.level.levelSpec.timeAttack)
         {
-            //levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(true);
+            levelRecapValues.exoticCondition.text = "";
+            levelRecapValues.exoticCondition.gameObject.SetActive(false);
 
-            levelRecapValues.stars[i + 1].gameObject.SetActive(true);
+            for (int i = 0; i < selectedLevel.level.levelProgression.numberOfAdditionalConditions; i++)
+            {
+                //levelRecapValues.conditionComparator[i].transform.parent.gameObject.SetActive(true);
+
+                levelRecapValues.stars[i + 1].gameObject.SetActive(true);
+            }
         }
+        else
+        {
+            levelRecapValues.exoticCondition.gameObject.SetActive(true);
+
+            if (selectedLevel.level.levelSpec.suddenDeath)
+            {
+                levelRecapValues.exoticCondition.text = levelRecapValues.suddenDeathTitle + "\n" + levelRecapValues.suddenDeathDescription;
+            }
+            else if (selectedLevel.level.levelSpec.mandatoryBounce)
+            {
+                levelRecapValues.exoticCondition.text = levelRecapValues.bounceModeTitle + "\n" + levelRecapValues.mandatoryBounceDescription;
+            }
+            else
+            {
+                levelRecapValues.exoticCondition.text = levelRecapValues.timeAttackTitle + "\n" + selectedLevel.level.levelSpec.timePerLayer + " seconds " + levelRecapValues.timeAttackDescription;
+            }
+        }
+
 
         //Set Up Condition if necessary
         if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
@@ -841,7 +881,8 @@ public class Campaign : MonoBehaviour
             }
             else
             {
-                levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
+                //levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[0].conditionReachedAt.ToString();
+                levelRecapValues.conditionReachedAt[1].text = selectedLevel.level.levelProgression.conditionsToComplete[1].conditionReachedAt.ToString();
             }
         }
 
@@ -1033,7 +1074,7 @@ public class Campaign : MonoBehaviour
 
         CheckPanelIndex();
 
-        Debug.Log("panelIndex : " + panelIndex);
+        //Debug.Log("panelIndex : " + panelIndex);
         nextPanelPosition = panelPositions[panelIndex];
 
         CampaignPanel.anchoredPosition3D = new Vector3(CampaignPanel.anchoredPosition3D.x, nextPanelPosition, CampaignPanel.anchoredPosition3D.z);

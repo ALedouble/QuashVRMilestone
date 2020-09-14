@@ -24,6 +24,7 @@ public class RacketManager : MonoBehaviour
     public static RacketManager instance;
     #endregion
 
+    [Header("References")]
     public GameObject racketPrefab;
     //[HideInInspector]
     public GameObject localPlayerRacket;
@@ -35,18 +36,19 @@ public class RacketManager : MonoBehaviour
 
     public PhysicInfo LocalRacketPhysicInfo { get; private set; }
 
+    public PostProcessFlash_Racket racketPostProcess;
+
     public float deltaHitTime = 0.5f;
 
     [Header("Racket Grab Position/Rotation")]
     public Vector3 racketOffset = new Vector3(0f, 0.02f, 0.6f);
     public Vector3 racketRotationOffset = new Vector3(0f, 180f, 90f);
 
-
-    public bool IsEmpowered { get; private set; }
     private MeshRenderer localRacketRenderer;
     private MeshRenderer foreignRacketRenderer;
+    public bool IsEmpowered { get; private set; }
 
-    //[Header("Material")]
+    [Header("Switch Color Parameters")]
     public Material MaterialPrefab;
     public RacketMaterials[] racketMats;
 
@@ -75,14 +77,14 @@ public class RacketManager : MonoBehaviour
 
     public void RacketAction()
     {
-        if(PlayerSettings.Instance.SwitchColorInputType == SwitchColorInputType.Hold)
+        if (PlayerSettings.Instance.SwitchColorInputType == SwitchColorInputType.Hold)
             racketAction?.Invoke();
         else
         {
             EmpoweredStateAction();
         }
     }
-    
+
     public void RacketStopAction()
     {
         if (PlayerSettings.Instance.SwitchColorInputType == SwitchColorInputType.Hold)
@@ -172,7 +174,7 @@ public class RacketManager : MonoBehaviour
     public void EnableRackets(bool enabled)
     {
         localPlayerRacket?.SetActive(enabled);
-        if(!GameManager.Instance.offlineMode)
+        if (!GameManager.Instance.offlineMode)
             foreignPlayerRacket?.SetActive(enabled);
     }
     #endregion
@@ -184,10 +186,10 @@ public class RacketManager : MonoBehaviour
 
         racketMats[0].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors);
         racketMats[0].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors);
-                    
+
         racketMats[1].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors * 1.5f);
         racketMats[1].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[1].fresnelColors * 1.5f);
-                    
+
         racketMats[2].racketMaterial[0].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 3);
         racketMats[2].racketMaterial[1].SetColor("_EmissionColor", LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors * 3);
     }
@@ -198,11 +200,11 @@ public class RacketManager : MonoBehaviour
         ForeignRacketColorID = newColorID;
 
         localRacketRenderer.sharedMaterials = racketMats[RacketColorID].racketMaterial;
-        if(!GameManager.Instance.offlineMode)
+        if (!GameManager.Instance.offlineMode)
             foreignRacketRenderer.sharedMaterials = racketMats[ForeignRacketColorID].racketMaterial;
     }
 
-    public void SwitchRacketColor()                               
+    public void SwitchRacketColor()
     {
         SwitchLocalRacketColor();
 
@@ -281,7 +283,7 @@ public class RacketManager : MonoBehaviour
         localRacketFX.StopSwitchColorFX();
 
         empoweredSound.Stop();
-        
+
         if (PlayerSettings.Instance.PlayerDominantHand == PlayerHand.RIGHT)
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right));
         else

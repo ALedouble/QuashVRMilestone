@@ -13,6 +13,7 @@ public class LockWallManager : MonoBehaviour
     private WallLinesManager wallLinesManager;
     public bool IsClosing { get; private set; }
     private Coroutine closingCoroutine;
+    private bool isOpen = false;
 
     private void Awake()
     {
@@ -29,13 +30,15 @@ public class LockWallManager : MonoBehaviour
         BallManager.instance.OnReturnStart += EnterProtectionState;
     }
 
-    private void EnterProtectionState()
+    public void EnterProtectionState()
     {
-        closingCoroutine = StartCoroutine(CloseLinesCoroutine());
+        if (isOpen)
+            closingCoroutine = StartCoroutine(CloseLinesCoroutine());
     }
 
     private IEnumerator CloseLinesCoroutine()
     {
+        isOpen = false;
         IsClosing = true;
         yield return new WaitForSeconds(closingDelay);
         wallLinesManager.CloseLines();
@@ -44,6 +47,7 @@ public class LockWallManager : MonoBehaviour
 
     private void ExitProtectionState()
     {
+        isOpen = true;
         if (IsClosing)
         {
             StopCoroutine(closingCoroutine);

@@ -183,4 +183,10 @@ public class TimeManager : MonoBehaviour
 
         }
     }
+
+    public void OnTimeAttackBoost()
+    {
+        int newTime = (int)CurrentTimer + (int)LevelManager.instance.currentLevel.level.levelSpec.timePerLayer;
+        SetNewTimer(newTime);
+    }
 }

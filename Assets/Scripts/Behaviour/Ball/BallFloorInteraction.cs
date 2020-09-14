@@ -61,7 +61,7 @@ public class BallFloorInteraction : MonoBehaviour
 
     public void StartBallResetCountdown()
     {
-        Debug.Log("StartBallResetCountdown");
+        //Debug.Log("StartBallResetCountdown");
         if (GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)
         {
             BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;

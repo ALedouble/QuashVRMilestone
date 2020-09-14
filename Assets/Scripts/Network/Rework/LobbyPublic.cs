@@ -30,6 +30,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         Debug.Log("Connected to Master Photon server");
         PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.NickName = "Player " + Random.Range(0, 1000);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -57,7 +58,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         if (room.IsOpen && room.IsVisible)
         {
             GameObject tempListing = Instantiate(roomListingPrefab, roomsPanel);
-            RoomPublic tempButton = tempListing.GetComponent<RoomPublic>();
+            Room tempButton = tempListing.GetComponent<Room>();
             tempButton.roomName = room.Name;
             tempButton.SetRoom();
         }

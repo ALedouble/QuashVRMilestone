@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-public class RoomPublic : MonoBehaviour
+public class Room : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
 

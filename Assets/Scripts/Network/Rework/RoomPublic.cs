@@ -8,7 +8,9 @@ public class RoomPublic : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
 
-    public void SetRoom(string roomName)
+    public string roomName;
+
+    public void SetRoom()
     {
         nameText.text = roomName;
     }

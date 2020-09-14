@@ -36108,8 +36108,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnClick_Refresh
+      - m_Target: {fileID: 1918277309}
+        m_MethodName: JoinLobbyOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -36118,7 +36118,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: A_Window_Disappear
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &506070656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61131,10 +61131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8143bff1576eb9542aac6cdad2b25510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: 
   roomSize: 2
-  roomListingPrefab: {fileID: 1040887275}
-  roomsPanel: {fileID: 1751633824}
+  roomListingPrefab: {fileID: 2298488954211642721, guid: 8f5265fb4176f4547b6f2d952249ad03,
+    type: 3}
+  roomsPanel: {fileID: 1040887276}
 --- !u!114 &1918277310
 MonoBehaviour:
   m_ObjectHideFlags: 0

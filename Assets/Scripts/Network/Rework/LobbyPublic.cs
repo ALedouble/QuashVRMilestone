@@ -8,11 +8,13 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
     public static LobbyPublic Instance;
 
-    public string roomName;
+    private string roomName;
     public int roomSize = 2;
 
     public GameObject roomListingPrefab;
     public Transform roomsPanel;
+
+    private int numberRoom;
 
     private void Awake()
     {
@@ -38,7 +40,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         foreach(RoomInfo room in roomList)
         {
             ListRoom(room);
-
+            numberRoom = roomList.Count;
         }
     }
 
@@ -56,15 +58,17 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         {
             GameObject tempListing = Instantiate(roomListingPrefab, roomsPanel);
             RoomPublic tempButton = tempListing.GetComponent<RoomPublic>();
-            tempButton.SetRoom(room.Name);
+            tempButton.roomName = room.Name;
+            tempButton.SetRoom();
         }
     }
 
-    public void CreateRoom() // Try
+    public void CreateRoom() // Try to create room
     {
         Debug.Log("Trying to create room");
-     //   RoomOptions roomOps = new RoomOptions() { IsVisible = true, MaxPlayers = (byte)2 };
-     //   PhotonNetwork.CreateRoom("Room" + roomName, roomOps);
+
+        RoomOptions roomOps = new RoomOptions() { IsVisible = true, MaxPlayers = (byte)2 };
+        PhotonNetwork.CreateRoom(GetRoomName(), roomOps);
     }
 
     public void JoinLobbyOnClick()
@@ -73,5 +77,11 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         {
             PhotonNetwork.JoinLobby();
         }
+    }
+
+    public string GetRoomName()
+    {
+        roomName = "Room " + (PhotonNetwork.CountOfRooms + 1).ToString();
+        return roomName;
     }
 }

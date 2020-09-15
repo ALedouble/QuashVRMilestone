@@ -32,6 +32,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     [Header("Gravity Settings")]
     public float baseGravity;
     public float CurrentGravity { get; private set; }
+    public bool isSubjectToGravity { get; set; }
 
     [Header("Standard Bounce Settings")]
     public float bounciness;
@@ -111,7 +112,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void ApplyGravity()
     {
-        BallRigidbody.AddForce(CurrentGravity * Vector3.down);
+        if(isSubjectToGravity)
+            BallRigidbody.AddForce(CurrentGravity * Vector3.down);
+    }
+
+    public void SetGravityState(bool state)
+    {
+        isSubjectToGravity = state;
     }
 
     private void UpdateCurrentGravity()
@@ -129,6 +136,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public void ResetGravity()
     {
         CurrentGravity = baseGravity;
+        isSubjectToGravity = true;
     }
 
     #endregion

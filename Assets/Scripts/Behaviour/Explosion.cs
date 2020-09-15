@@ -8,6 +8,8 @@ public class Explosion : MonoBehaviour
     private LayerMask layerMask;
     private Vector3 position;
 
+    private int playerID;
+
     private float impactDuration;
     private float impactCurentTime;
     private float impactPercent;
@@ -20,9 +22,15 @@ public class Explosion : MonoBehaviour
 
     private bool isOld;
 
+    private float initialBurstRange;
+    private float mainExplosionDelay;
+    private float mainExplosionDuration;
+
     public Explosion(Vector3 position, int playerID)
     {
         this.position = position;
+
+        this.playerID = playerID;
 
         impactCurve = ExplosionManager.Instance.impactCurve;
         layerMask = ExplosionManager.Instance.layerMask;
@@ -63,7 +71,41 @@ public class Explosion : MonoBehaviour
 
     private IEnumerator ExplosionCoroutine()
     {
-        yield return 0;
+        ExplosionSpherecast(initialBurstRange);
+
+        yield return new WaitForSeconds(mainExplosionDelay);
+
+        float timer = 0f;
+
+        while(timer < mainExplosionDuration)
+        {
+            if(!GameManager.Instance.IsGamePaused)
+            {
+                timer += Time.fixedDeltaTime;
+                ExplosionSpherecast(minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(timer / mainExplosionDuration)));
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        EndExplosion();
+    }
+
+    private void ExplosionSpherecast(float radius)
+    {
+        RaycastHit[] hitsInfo = Physics.SphereCastAll(position, radius, Vector3.zero, 0f, layerMask);
+        
+        if(hitsInfo.Length != 0)
+        {
+            int[] hitBrickIDs = new int[hitsInfo.Length];
+
+            for(int i = 0; i < hitsInfo.Length; i++)
+            {
+                hitBrickIDs[i] = hitsInfo[i].collider.gameObject.GetComponent<BrickInfo>().BrickID;
+            }
+
+            BrickDestructionManager.Instance.HitBricksByID(hitBrickIDs, playerID);
+        }
     }
 
     #region Old Explosion

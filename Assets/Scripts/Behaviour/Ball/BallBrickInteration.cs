@@ -8,6 +8,8 @@ public class BallBrickInteration : MonoBehaviour
     public float depthVelocity;
     public float xAcceleration;
 
+    public float bounceDelay = 0.45f;
+
     private ITargetSelector targetSelector;
     private NoBounceMagicReturn nBMagicReturn;
 
@@ -45,15 +47,27 @@ public class BallBrickInteration : MonoBehaviour
 
     private void ReturnInteration()
     {
-        RandomReturnWithoutBounce();
+        StartCoroutine(RandomReturnWithoutBounce());
         SetMidWallStatus(false);
     }
 
-    private void RandomReturnWithoutBounce()
+    private IEnumerator RandomReturnWithoutBounce()
     {
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
+        ballPhysicBehaviour.SetGravityState(false);
+        ballPhysicBehaviour.ApplyNewVelocity(Vector3.zero);
+
+        float timer = 0f;
+        while (timer < bounceDelay)
+        {
+            if (!GameManager.Instance.IsGamePaused)
+                timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        ballPhysicBehaviour.SetGravityState(true);
         ballPhysicBehaviour.ApplyNewVelocity(newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW, true);
     }
 

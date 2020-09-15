@@ -452,6 +452,8 @@ public class LevelManager : MonoBehaviour
             playersWinFX[playerID].PlayVFX();
             GameManager.Instance.EndOfTheGame();
         }
+
+        BrickManager.Instance.
     }
 
     /// <summary>

@@ -7,7 +7,9 @@ using TMPro;
 
 public class BrickManager : MonoBehaviourPunCallbacks
 {
-    
+    [Header("Layer Update Duration")]
+    public float layerChangeDuration = 0.90f;
+
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig = new WallBuilds();
     public GameObject prefabBase;
@@ -20,8 +22,9 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public BrickTypesScriptable[] brickPresets;
     [HideInInspector] public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
-    [Header("Number of bricks on the current layer")]
-    public int[] currentBricksOnLayer;
+    public int[] currentBricksOnLayer; //Bad naming...
+    private List<List<int>>[] layersBricks;
+    public List<int>[] CurrentLayersBricks { get; private set; }
     public float offsetPerPlayer;
 
     [Header("Bonus & Malus settings")]
@@ -41,7 +44,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     //BrickInfo currentBrickInfo;
 
     private PhotonView photonView;
-    private List<GameObject> AllBricks;
+    public List<GameObject> AllBricks { get; private set; }
 
 
 
@@ -49,6 +52,10 @@ public class BrickManager : MonoBehaviourPunCallbacks
     {
         Instance = this;
         AllBricks = new List<GameObject>();
+
+        layersBricks = new List<List<int>>[2];
+        layersBricks[0] = new List<List<int>>();
+        layersBricks[1] = new List<List<int>>();
 
         photonView = GetComponent<PhotonView>();
     }
@@ -73,6 +80,8 @@ public class BrickManager : MonoBehaviourPunCallbacks
         if (currentBricksOnLayer[playerID] <= 0)
         {
             LevelManager.instance.SetNextLayer(playerID);
+
+            UpdateCurrentLayerWithDelay(playerID);
         }
     }
 
@@ -84,6 +93,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public void SpawnLayer(int playerID, int currentDisplacement)
     {
         Wall layerToSpawn = levelWallsConfig.walls[LevelManager.instance.currentLayer[playerID] + currentDisplacement];
+        List<int> layerBrickIDs = new List<int>();
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
@@ -149,9 +159,12 @@ public class BrickManager : MonoBehaviourPunCallbacks
                         objBehaviours.waypoints.Add(waypointToLayer);
                     }
                 }
+
+                layerBrickIDs.Add(brickInfo.BrickID);
             }
         }
 
+        layersBricks[playerID].Add(layerBrickIDs);
 
         if (LevelManager.instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
         {
@@ -227,14 +240,18 @@ public class BrickManager : MonoBehaviourPunCallbacks
         ScoreManager.Instance.SetCombo(playerID);
     }
 
-
-    //A Déplacer dans son propre scripte
-    public void HitBrickByID(int brickID)
+    private void UpdateCurrentLayerWithDelay(int playerID)
     {
-        //Systeme de Memoire
-        if (brickID < AllBricks.Count && brickID >= 0)
-        {
-            AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
-        }
+        StartCoroutine(UpdateCurrentLayerCoroutine(playerID));
+    }
+
+    private IEnumerator UpdateCurrentLayerCoroutine(int playerID)
+    {
+        yield return new WaitForSeconds(layerChangeDuration);
+
+        layersBricks[playerID].RemoveAt(0);
+
+        if(layersBricks[playerID].Count != 0)
+            CurrentLayersBricks[playerID] = layersBricks[playerID][0];
     }
 }

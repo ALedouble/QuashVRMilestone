@@ -55,17 +55,14 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     void Start()
     {
-        SetupBrick();
-
         isWaiting = false;
+        SetupBrick();
     }
 
 
     private void SetupBrick()
     {
         brickInfo = GetComponent<BrickInfo>();
-        brickInfo.SetBrickID();
-        BrickManager.Instance.AddBrick(gameObject);
     }
 
     private void Update()

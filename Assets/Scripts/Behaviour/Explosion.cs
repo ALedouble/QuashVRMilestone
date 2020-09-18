@@ -22,11 +22,16 @@ public class Explosion : MonoBehaviour
 
     private bool isOld;
 
-    private float initialBurstRange;
+    private float initialBurstRelativeSize;
     private float mainExplosionDelay;
     private float mainExplosionDuration;
 
-    public Explosion(Vector3 position, int playerID)
+    //public Explosion(Vector3 position, int playerID)
+    //{
+    //    Setup(position, playerID);
+    //}
+
+    public void Setup(Vector3 position, int playerID)
     {
         this.position = position;
 
@@ -46,7 +51,11 @@ public class Explosion : MonoBehaviour
         raycastOffset = ExplosionManager.Instance.raycastOffset;
         isExploding = false;
 
-        isOld = true;
+        initialBurstRelativeSize = ExplosionManager.Instance.initialBurstRelativeSize;
+        mainExplosionDelay = ExplosionManager.Instance.mainExplosionDelay;
+        mainExplosionDuration = ExplosionManager.Instance.mainExplosionDuration;
+
+        isOld = false;
     }
 
     public void StartExplosionLogic()
@@ -55,6 +64,10 @@ public class Explosion : MonoBehaviour
         {
             isExploding = true;
             StartOldExplosionCoroutine();
+        }
+        else
+        {
+            StartExplosionCoroutine();
         }
     }
 
@@ -71,7 +84,7 @@ public class Explosion : MonoBehaviour
 
     private IEnumerator ExplosionCoroutine()
     {
-        ExplosionSpherecast(initialBurstRange);
+        ExplosionSpherecast(initialBurstRelativeSize * maxRadius);
 
         yield return new WaitForSeconds(mainExplosionDelay);
 
@@ -93,8 +106,8 @@ public class Explosion : MonoBehaviour
 
     private void ExplosionSpherecast(float radius)
     {
-        RaycastHit[] hitsInfo = Physics.SphereCastAll(position, radius, Vector3.zero, 0f, layerMask);
-        
+        RaycastHit[] hitsInfo = Physics.SphereCastAll(position, radius, new Vector3(0,0,1), 0f, layerMask);
+        Debug.Log("hitsInfo length : " + hitsInfo.Length);
         if(hitsInfo.Length != 0)
         {
             int[] hitBrickIDs = new int[hitsInfo.Length];
@@ -178,7 +191,7 @@ public class Explosion : MonoBehaviour
 
     private void EndExplosion()
     {
-        ExplosionManager.Instance.EndExplosion(this);
+        ExplosionManager.Instance.EndExplosion(gameObject);
         //Disposable?
     }
 }

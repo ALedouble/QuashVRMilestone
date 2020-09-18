@@ -109,6 +109,7 @@ public class LevelManager : MonoBehaviour
             }
 
             BrickManager.Instance.SetCurrentBrickOnLayer(i);
+            BrickManager.Instance.SetCurrentActiveLayerBricks(i);
         }
     }
 

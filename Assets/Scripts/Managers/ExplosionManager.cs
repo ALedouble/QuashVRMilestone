@@ -6,16 +6,20 @@ public class ExplosionManager : MonoBehaviour
 {
     public static ExplosionManager Instance;
 
-    private List<Explosion> currentExplosions;
+    private List<GameObject> currentExplosions;
     public float[] PlayersExplosionRadius { get; set; }
 
-    [Header("Deflagration Animation")]
-    public AnimationCurve impactCurve;
-    public float impactDuration;
-    private float minRadius = 0.1f;
-
-    [Header("Deflagration Parameters")]
     public LayerMask layerMask;
+    public AnimationCurve impactCurve;
+    private float minRadius = 0.1f;
+    
+    [Header("New")]
+    public float initialBurstRelativeSize;
+    public float mainExplosionDelay;
+    public float mainExplosionDuration;
+
+    [Header("Old")]
+    public float impactDuration;
     public int numberOfDivision;
     public float raycastOffset = 0;
 
@@ -27,6 +31,8 @@ public class ExplosionManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        currentExplosions = new List<GameObject>();
     }
 
     public void CreateExplosion(Vector3 origin, int playerID)
@@ -34,14 +40,20 @@ public class ExplosionManager : MonoBehaviour
         FXManager.Instance.PlayExplosionFX(origin, playerID);
         AudioManager.instance.PlaySound("Explosion", Vector3.zero);
 
-        Explosion newExplosion = new Explosion(origin, playerID);
+        GameObject newExplosion = PoolManager.instance.SpawnFromPool("ExplosionLogic", Vector3.zero, Quaternion.identity);
         currentExplosions.Add(newExplosion);
-        newExplosion.StartExplosionLogic();
+
+        Explosion newEwplosionScript = newExplosion.GetComponent<Explosion>();
+        newEwplosionScript.Setup(origin, playerID);
+        newEwplosionScript.StartExplosionLogic();
     }
 
-    public void EndExplosion(Explosion explosion)
+    public void EndExplosion(GameObject explosion)
     {
         if (currentExplosions.Contains(explosion))
+        {
             currentExplosions.Remove(explosion);
+            explosion.SetActive(false);
+        }
     }
 }

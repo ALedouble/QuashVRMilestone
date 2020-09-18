@@ -44,29 +44,31 @@ public class BrickManager : MonoBehaviourPunCallbacks
     //BrickInfo currentBrickInfo;
 
     private PhotonView photonView;
-    public List<GameObject> AllBricks { get; private set; }
+    public Dictionary<int, GameObject> AllBricks { get; private set; }
 
 
 
     private void Awake()
     {
         Instance = this;
-        AllBricks = new List<GameObject>();
+        AllBricks = new Dictionary<int, GameObject>();
 
         layersBricks = new List<List<int>>[2];
         layersBricks[0] = new List<List<int>>();
         layersBricks[1] = new List<List<int>>();
+
+        CurrentLayersBricks = new List<int>[2];
+        CurrentLayersBricks[0] = new List<int>();
+        CurrentLayersBricks[1] = new List<int>();
+
+        BrickInfo.ResetBrickCount();
 
         photonView = GetComponent<PhotonView>();
     }
 
     public void AddBrick(GameObject newBrick)
     {
-        if(newBrick.GetComponent<BrickInfo>().BrickID != AllBricks.Count)
-        {
-            Debug.Log("Bad BrickID");
-        }
-        AllBricks.Add(newBrick);
+        AllBricks.Add(newBrick.GetComponent<BrickInfo>().BrickID, newBrick);
     }
 
     /// <summary>
@@ -132,6 +134,12 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 obj.transform.localPosition = brickNewPos;
 
 
+                if (brickInfo.BrickID == 0)
+                {
+                    brickInfo.SetBrickID();
+                    AddBrick(obj);
+                }
+                    
 
                 //brickInfo.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
                 brickInfo.armorValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
@@ -161,6 +169,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 }
 
                 layerBrickIDs.Add(brickInfo.BrickID);
+                //Debug.Log(brickInfo.BrickID);
             }
         }
 
@@ -251,7 +260,13 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
         layersBricks[playerID].RemoveAt(0);
 
-        if(layersBricks[playerID].Count != 0)
-            CurrentLayersBricks[playerID] = layersBricks[playerID][0];
+        if (layersBricks[playerID].Count != 0)
+            SetCurrentActiveLayerBricks(playerID);
+    }
+
+    public void SetCurrentActiveLayerBricks(int playerID)
+    {
+        CurrentLayersBricks[playerID] = layersBricks[playerID][0];
+        //Debug.Log("Player " + playerID + " active layer brick count : " + CurrentLayersBricks[playerID].Count);
     }
 }

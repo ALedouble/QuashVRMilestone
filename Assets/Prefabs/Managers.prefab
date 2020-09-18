@@ -1549,17 +1549,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15e7b24115509f41b2662559d91ce3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   impactCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 2.869609
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.02794411
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.03393221
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  impactDuration: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 9216
-  numberOfDivision: 0
+  initialBurstRelativeSize: 0.2
+  mainExplosionDelay: 0.2
+  mainExplosionDuration: 0.5
+  impactDuration: 1.2
+  numberOfDivision: 20
   raycastOffset: 0
 --- !u!1001 &1772361165553915443
 PrefabInstance:

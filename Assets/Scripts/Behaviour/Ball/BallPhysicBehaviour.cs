@@ -178,7 +178,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallRigidbody.velocity = Vector3.zero;
         CurrentGravity = 0;
 
-        BallManager.instance.BallPhysicInfo.SaveCurrentState();
         BallCollider.enabled = false;
     }
 
@@ -187,7 +186,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallRigidbody.velocity = velocityBeforeFreeze;
         CurrentGravity = gravityBeforeFreeze;
 
-        BallManager.instance.BallPhysicInfo.RestoreSavedState();
         BallCollider.enabled = true;
     }
 

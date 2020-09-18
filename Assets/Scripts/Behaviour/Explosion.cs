@@ -40,7 +40,7 @@ public class Explosion : MonoBehaviour
         impactCurentTime = 0f;
         impactPercent = 0f;
         maxRadius = ExplosionManager.Instance.PlayersExplosionRadius[playerID];
-        minRadius = 0.1f;
+        minRadius = 0.01f;
 
         numberOfDivision = ExplosionManager.Instance.numberOfDivision;
         raycastOffset = ExplosionManager.Instance.raycastOffset;
@@ -156,7 +156,7 @@ public class Explosion : MonoBehaviour
                 {
                     if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
                     {
-                        BrickManager.Instance.HitBrickByID(brickInfo.BrickID);
+                        BrickDestructionManager.Instance.HitBrickByID(brickInfo.BrickID, playerID);
                     }
                     else
                     {

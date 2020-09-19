@@ -55,8 +55,8 @@ public class BrickDestruction : MonoBehaviour
                 break;
         }
 
-        /// Skake
-        LevelManager.instance.ShakeLayer(brickInfo.wallID);
+        ///// Skake
+        //LevelManager.instance.ShakeLayer(brickInfo.wallID);
     }
 
     private void ScorePoints()

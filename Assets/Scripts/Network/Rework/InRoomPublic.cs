@@ -18,11 +18,18 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public bool isGameLoaded;
     public int currentScene;
 
+    public TextMeshProUGUI roomName;
     public GameObject lobbyGo;
     public GameObject roomGo;
+    public GameObject roomSelectionGo;
     public Transform playersPanel;
     public GameObject playerListingPrefab;
     public GameObject startButton;
+    public GameObject kickButton;
+
+    public PhotonView pV;
+
+    bool launchingGame;
 
     private void Awake()
     {
@@ -46,10 +53,17 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         lobbyGo.SetActive(false);
         roomGo.SetActive(true);
+        roomName.text = PhotonNetwork.CurrentRoom.Name;
 
         if (PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
+            kickButton.SetActive(true);
+        }
+        else
+        {
+            startButton.SetActive(false);
+            kickButton.SetActive(false);
         }
 
         ClearPlayerListings();
@@ -59,6 +73,8 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
+
+
     }
 
     void ClearPlayerListings()
@@ -71,12 +87,14 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void ListPlayers()
     {
+        Debug.Log("list");
         if (PhotonNetwork.InRoom)
         {
             foreach(Player player in PhotonNetwork.PlayerList)
             {
+                Debug.Log("instantiate");
                 GameObject tempList = Instantiate(playerListingPrefab, playersPanel);
-                TextMeshProUGUI tempText = tempList.transform.GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI tempText = tempList.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                 tempText.text = player.NickName;
             }
         }
@@ -89,13 +107,63 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         ListPlayers();
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom++;
+        Debug.Log("entered");
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
+
+
+
         playersInRoom--;
         ClearPlayerListings();
         ListPlayers();
+    }
+
+    public void LeaveRoomClick()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            pV.RPC("Kick", RpcTarget.Others);
+            PhotonNetwork.CurrentRoom.RemovedFromList = true;
+            roomGo.SetActive(false);
+            roomSelectionGo.SetActive(true);
+            PhotonNetwork.LeaveRoom(true);
+
+        }
+        else
+        {
+            roomSelectionGo.SetActive(true);
+            roomGo.SetActive(false);
+            PhotonNetwork.LeaveRoom(true);
+        }
+    }
+
+    [PunRPC]
+    public void Kick()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            roomSelectionGo.SetActive(true);
+            roomGo.SetActive(false);
+            PhotonNetwork.LeaveRoom(true);
+        }
+    }
+
+    public void KickPlayer()
+    {
+        pV.RPC("Kick", RpcTarget.Others);
+    }
+
+    public void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient && playersInRoom == 2 && !launchingGame)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.LoadLevel(1);
+            launchingGame = true;
+        }
     }
 }

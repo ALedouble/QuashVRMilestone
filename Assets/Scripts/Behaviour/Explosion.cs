@@ -107,7 +107,7 @@ public class Explosion : MonoBehaviour
     private void ExplosionSpherecast(float radius)
     {
         RaycastHit[] hitsInfo = Physics.SphereCastAll(position, radius, new Vector3(0,0,1), 0f, layerMask);
-        Debug.Log("hitsInfo length : " + hitsInfo.Length);
+
         if(hitsInfo.Length != 0)
         {
             int[] hitBrickIDs = new int[hitsInfo.Length];

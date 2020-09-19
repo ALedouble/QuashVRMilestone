@@ -8,6 +8,8 @@ public class BallFrontWallInteraction : MonoBehaviour
     public float depthVelocity;
     public float xAcceleration;
 
+    public float bounceDelay = 0.45f;
+
     private ITargetSelector targetSelector;
     private NoBounceMagicReturn nBMagicReturn;
 
@@ -50,15 +52,28 @@ public class BallFrontWallInteraction : MonoBehaviour
 
     private void ReturnInteration()
     {
-        RandomReturnWithoutBounce();
+        StartCoroutine(RandomReturnWithoutBounce());
+        IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
         SetMidWallStatus(false);
     }
 
-    private void RandomReturnWithoutBounce()
+    private IEnumerator RandomReturnWithoutBounce()
     {
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
+        ballPhysicBehaviour.SetGravityState(false);
+        ballPhysicBehaviour.ApplyNewVelocity(Vector3.zero);
+
+        float timer = 0f;
+        while(timer < bounceDelay)
+        {
+            if (!GameManager.Instance.IsGamePaused)
+                timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        ballPhysicBehaviour.SetGravityState(true);
         ballPhysicBehaviour.ApplyNewVelocity(newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW, true);
     }
 
@@ -108,7 +123,7 @@ public class BallFrontWallInteraction : MonoBehaviour
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), true);
 
         float timer = 0f;
-        while (timer < 0.1f)
+        while (timer < (bounceDelay + 0.1f))
         {
             yield return new WaitForFixedUpdate();
             if (!BallManager.instance.IsBallPaused)

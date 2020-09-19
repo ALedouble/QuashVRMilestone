@@ -37,7 +37,7 @@ public class BallManager : MonoBehaviour
     }
     public BallColorBehaviour BallColorBehaviour { get; private set; }
     public BallPhysicBehaviour BallPhysicBehaviour { get; private set; }
-    public PhysicInfo BallPhysicInfo { get; private set; }
+    public BallPhysicInfo BallPhysicInfo { get; private set; }
     public BallInfo BallInfo { get; private set; }
     public ITargetSelector TargetSelector { get; private set; }
 
@@ -100,7 +100,7 @@ public class BallManager : MonoBehaviour
     {
         BallColorBehaviour = Ball.GetComponent<BallColorBehaviour>();
         BallPhysicBehaviour = Ball.GetComponent<BallPhysicBehaviour>();
-        BallPhysicInfo = Ball.GetComponent<PhysicInfo>();
+        BallPhysicInfo = Ball.GetComponent<BallPhysicInfo>();
         
         TargetSelector = BallPhysicBehaviour.GetComponent<ITargetSelector>();
         BallInfo = Ball.GetComponent<BallInfo>();

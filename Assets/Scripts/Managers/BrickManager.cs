@@ -7,7 +7,9 @@ using TMPro;
 
 public class BrickManager : MonoBehaviourPunCallbacks
 {
-    
+    [Header("Layer Update Duration")]
+    public float layerChangeDuration = 0.90f;
+
     [Header("Récupération de la configuration du level")]
     public WallBuilds levelWallsConfig = new WallBuilds();
     public GameObject prefabBase;
@@ -20,8 +22,9 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public BrickTypesScriptable[] brickPresets;
     [HideInInspector] public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
-    [Header("Number of bricks on the current layer")]
-    public int[] currentBricksOnLayer;
+    public int[] currentBricksOnLayer; //Bad naming...
+    private List<List<int>>[] layersBricks;
+    public List<int>[] CurrentLayersBricks { get; private set; }
     public float offsetPerPlayer;
 
     [Header("Bonus & Malus settings")]
@@ -41,25 +44,31 @@ public class BrickManager : MonoBehaviourPunCallbacks
     //BrickInfo currentBrickInfo;
 
     private PhotonView photonView;
-    private List<GameObject> AllBricks;
+    public Dictionary<int, GameObject> AllBricks { get; private set; }
 
 
 
     private void Awake()
     {
         Instance = this;
-        AllBricks = new List<GameObject>();
+        AllBricks = new Dictionary<int, GameObject>();
+
+        layersBricks = new List<List<int>>[2];
+        layersBricks[0] = new List<List<int>>();
+        layersBricks[1] = new List<List<int>>();
+
+        CurrentLayersBricks = new List<int>[2];
+        CurrentLayersBricks[0] = new List<int>();
+        CurrentLayersBricks[1] = new List<int>();
+
+        BrickInfo.ResetBrickCount();
 
         photonView = GetComponent<PhotonView>();
     }
 
     public void AddBrick(GameObject newBrick)
     {
-        if(newBrick.GetComponent<BrickBehaviours>().BrickID != AllBricks.Count)
-        {
-            Debug.Log("Bad BrickID");
-        }
-        AllBricks.Add(newBrick);
+        AllBricks.Add(newBrick.GetComponent<BrickInfo>().BrickID, newBrick);
     }
 
     /// <summary>
@@ -73,6 +82,8 @@ public class BrickManager : MonoBehaviourPunCallbacks
         if (currentBricksOnLayer[playerID] <= 0)
         {
             LevelManager.instance.SetNextLayer(playerID);
+
+            UpdateCurrentLayerWithDelay(playerID);
         }
     }
 
@@ -84,6 +95,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public void SpawnLayer(int playerID, int currentDisplacement)
     {
         Wall layerToSpawn = levelWallsConfig.walls[LevelManager.instance.currentLayer[playerID] + currentDisplacement];
+        List<int> layerBrickIDs = new List<int>();
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
@@ -122,6 +134,12 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 obj.transform.localPosition = brickNewPos;
 
 
+                if (brickInfo.BrickID == 0)
+                {
+                    brickInfo.SetBrickID();
+                    AddBrick(obj);
+                }
+                    
 
                 //brickInfo.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
                 brickInfo.armorValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
@@ -149,58 +167,19 @@ public class BrickManager : MonoBehaviourPunCallbacks
                         objBehaviours.waypoints.Add(waypointToLayer);
                     }
                 }
+
+                layerBrickIDs.Add(brickInfo.BrickID);
+                //Debug.Log(brickInfo.BrickID);
             }
         }
 
+        layersBricks[playerID].Add(layerBrickIDs);
 
         if (LevelManager.instance.currentLayer[playerID] + currentDisplacement >= levelWallsConfig.walls.Length - 1)
         {
             LevelManager.instance.isEverythingDisplayed[playerID] = true;
         }
     }
-
-    public void HitBrickByID(int brickID)
-    {
-        if (brickID < AllBricks.Count && brickID >= 0)
-        {
-            if(GameManager.Instance.offlineMode)
-            {
-                AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
-            }
-            else if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("HitBrickOnlineRPC", RpcTarget.All, brickID);
-            }
-        }
-    }
-
-    [PunRPC]
-    public void HitBrickOnlineRPC(int brickID)
-    {
-        AllBricks[brickID].GetComponent<BrickBehaviours>().HitBrick();
-    }
-
-    //public void DestroyBrickByID(int brickID)
-    //{
-    //    Debug.Log("DestroyBrickByID");
-    //    if (brickID < AllBricks.Count && brickID >= 0)
-    //    {
-    //        if (PhotonNetwork.OfflineMode)
-    //        {
-    //            AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
-    //        }
-    //        else if (PhotonNetwork.IsMasterClient)
-    //        {
-    //            photonView.RPC("DestroyBrickByIDRPC", RpcTarget.All, brickID);
-    //        }
-    //    }
-    //}
-
-    //[PunRPC]
-    //private void DestroyBrickByIDRPC(int brickID)
-    //{
-    //    AllBricks[brickID].GetComponent<BrickBehaviours>().DestroyBrick();
-    //}
 
     /// <summary>
     /// Activate bricks movement on the current front layer
@@ -268,5 +247,26 @@ public class BrickManager : MonoBehaviourPunCallbacks
         Debug.Log("ScorePointsRPC");
         ScoreManager.Instance.SetScore(scoreValue, playerID);
         ScoreManager.Instance.SetCombo(playerID);
+    }
+
+    private void UpdateCurrentLayerWithDelay(int playerID)
+    {
+        StartCoroutine(UpdateCurrentLayerCoroutine(playerID));
+    }
+
+    private IEnumerator UpdateCurrentLayerCoroutine(int playerID)
+    {
+        yield return new WaitForSeconds(layerChangeDuration);
+
+        layersBricks[playerID].RemoveAt(0);
+
+        if (layersBricks[playerID].Count != 0)
+            SetCurrentActiveLayerBricks(playerID);
+    }
+
+    public void SetCurrentActiveLayerBricks(int playerID)
+    {
+        CurrentLayersBricks[playerID] = layersBricks[playerID][0];
+        //Debug.Log("Player " + playerID + " active layer brick count : " + CurrentLayersBricks[playerID].Count);
     }
 }

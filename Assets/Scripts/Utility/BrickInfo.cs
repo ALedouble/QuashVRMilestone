@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class BrickInfo : MonoBehaviour
 {
+    public static int brickCount = 0;
+    private int brickID;
+    public int BrickID { get => brickID; }
+
     public int scoreValue;
     public int armorValue;
     public int colorID;
     public int wallID;
     public bool isBonus;
     public bool isMalus;
+
+    public void SetBrickID()
+    {
+        brickID = brickCount++;
+    }
+
+    public static void ResetBrickCount()
+    {
+        brickCount = 0;
+    }
 
     //private int _scoreValue;
     //private int _armorValue;

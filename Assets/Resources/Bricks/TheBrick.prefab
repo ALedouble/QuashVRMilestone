@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -1300675515941316033}
   - component: {fileID: 4949246617415803204}
   - component: {fileID: -9053628078754683731}
+  - component: {fileID: 7349557834715970937}
   m_Layer: 10
   m_Name: TheBrick
   m_TagString: Brick
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f88cf0fc9dd76843b1e2f40d4712ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
+  isAMovingBrick: 0
   waypoints: []
   hasToWait: 0
   waitFor: 0
@@ -162,3 +163,15 @@ MonoBehaviour:
   wallID: 0
   isBonus: 0
   isMalus: 0
+--- !u!114 &7349557834715970937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6638883875395251446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806f255e468cb26458a959d6a03407e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

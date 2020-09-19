@@ -6,12 +6,6 @@ using Photon.Pun;
 
 public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 {
-
-    public static int brickCount = 0;
-    private int brickID;
-    public int BrickID { get => brickID; }
-
-
     [Header("Waypoint")]
     public bool isAMovingBrick;
     [Tooltip("Enter waypoints positions here")]
@@ -45,7 +39,6 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
 
     BrickInfo brickInfo;
-    bool hasBeenHit;
 
     private void Awake()
     {
@@ -62,17 +55,14 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
     void Start()
     {
-        SetupBallID();
-
         isWaiting = false;
+        SetupBrick();
     }
 
 
-    private void SetupBallID()
+    private void SetupBrick()
     {
-        brickID = brickCount++;
         brickInfo = GetComponent<BrickInfo>();
-        BrickManager.Instance.AddBrick(gameObject);
     }
 
     private void Update()
@@ -191,128 +181,4 @@ public class BrickBehaviours : MonoBehaviourPunCallbacks/*, IPunObservable*/
 
         NextWaypoint();
     }
-
-
-
-
-    [PunRPC]
-    public void HitBrick(int p_dmgPoints = 1)
-    {
-        //if (!hasBeenHit)
-        //{
-        //    hasBeenHit = true;
-
-        //    brickInfo.armorValue--;
-
-        //    if (brickInfo.armorValue <= 0)
-        //    {
-        //        hasBeenHit = false;
-                AudioManager.instance.PlaySound("BrickExplosion", Vector3.zero);
-                DestroyBrick();
-        //    }
-        //    //else
-        //    //{
-        //    //    StartCoroutine(HitRecoverDelay(1));
-        //    //}
-
-        //}
-        //other case scenario
-    }
-
-    //IEnumerator HitRecoverDelay(float recoverTime)
-    //{
-    //    yield return new WaitForSeconds(recoverTime);
-
-    //    hasBeenHit = false;
-    //}
-
-    /// <summary>
-    /// Détruit la brique, augmente le score, renvoie les feedbacks et spawn les bonus/malus
-    public void DestroyBrick()
-    {
-        ScorePoints();
-
-        DespawnBrick();
-
-        SendBreakFeedbacks();
-
-        DropBonusMalus();
-
-        //AudioManager.instance.PlayHitSound(soundName, touchedBrick.Transform.position, touchedBrick.Transform.rotation, hitIntensity);
-    }
-
-    private void DespawnBrick()
-    {
-        gameObject.SetActive(false);
-        transform.parent = null;
-        BrickManager.Instance.UpdateBrickLevel(brickInfo.wallID);
-    }
-
-    private void SendBreakFeedbacks()
-    {
-        /// FX
-        switch (brickInfo.colorID)
-        {
-            case 0:
-                PoolManager.instance.SpawnFromPool("Brick_Destroyed_White", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
-                break;
-
-            case 1:
-                PoolManager.instance.SpawnFromPool("Brick_Destroyed_Blue", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
-                break;
-
-            case 2:
-                PoolManager.instance.SpawnFromPool("Brick_Destroyed_Green", transform.position + new Vector3(0, 0, -0.5f), Quaternion.LookRotation(transform.forward, Vector3.up));
-                break;
-        }
-        //PoolManager.instance.SpawnFromPool("CubeDeathFX", transform.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-
-        ///Skake
-        LevelManager.instance.ShakeLayer(brickInfo.wallID);         //WTF?
-    }
-
-
-
-    private void ScorePoints()
-    {
-        /// Score
-
-        ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
-
-
-        ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-
-
-        ScoreManager.Instance.resetCombo = false;
-    }
-
-    private void DropBonusMalus()
-    {
-        //Bonus & malus case
-        if (brickInfo.isBonus) BonusManager.instance.SpawnRandomObject(transform);
-        if (brickInfo.isMalus) MalusManager.instance.SpawnRandomObject(transform);
-    }
-
-    public static void ResetBrickCount()
-    {
-        brickCount = 0;
-    }
-
-    #region IPunObservable implementation
-    //void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(transform.position);
-    //        stream.SendNext(transform.rotation);
-
-    //    }
-    //    else
-    //    {
-    //        transform.position = (Vector3)stream.ReceiveNext();
-    //        transform.rotation = (Quaternion)stream.ReceiveNext();
-    //    }
-    //}
-    #endregion
 }

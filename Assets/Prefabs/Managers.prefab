@@ -593,6 +593,8 @@ MonoBehaviour:
       - wallBricks: []
       - wallBricks: []
     levelProgression:
+      levelNumber: 0
+      LevelIndex: 0
       isDone: 0
       isUnlocked: 0
       starsRequired: 0
@@ -613,18 +615,23 @@ MonoBehaviour:
       - conditionType: 0
         conditionComparator: 0
         conditionReachedAt: 0
-      numberOfConditionCompleted: 0
+      numberOfAdditionalConditions: 0
     levelSpec:
       levelName: 
       timeForThisLevel: 0
       impactRadiusForThisLevel: 0
       balleSpeedForThisLevel: 1
+      ballSpawnColorID: 1
       switchColorBehaviourForThisLevel: 0
-      changingBrickColorEveryXseconds: 0
+      suddenDeath: 0
+      timeAttack: 0
+      timePerLayer: 0
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 0}
+      goToSpawn: {fileID: 0}
   levelsPath: Assets/ScriptableObjects/Levels
+  music: {fileID: 0}
   debugThisLevel: 0
   numberOfPlayers: 2
   layerShake: {fileID: 11400000, guid: 8a9dd23c5930d2643aefe6bb4e462518, type: 2}
@@ -836,10 +843,9 @@ MonoBehaviour:
   playerSpawn:
   - {fileID: 0}
   - {fileID: 0}
-  ballSpawnDelay: 0
-  isTimerStopped: 0
-  hasLost: 0
   offlineMode: 0
+  warningPrefab: {fileID: 0}
+  warningTransform: {fileID: 0}
   levelIndex: 0
 --- !u!1 &3387151942383946479
 GameObject:
@@ -890,10 +896,12 @@ MonoBehaviour:
     type: 3}
   localPlayerRacket: {fileID: 0}
   foreignPlayerRacket: {fileID: 0}
+  localRacketFX: {fileID: 0}
+  foreignRacketFX: {fileID: 0}
+  racketPostProcess: {fileID: 0}
   deltaHitTime: 1
   racketOffset: {x: 0, y: 0.02, z: 0.505}
   racketRotationOffset: {x: 0, y: 180, z: 90}
-  isEmpowered: 0
   MaterialPrefab: {fileID: 0}
   racketMats:
   - racketMaterial:
@@ -1037,6 +1045,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3387151942400940765}
   - component: {fileID: 3387151942400940764}
+  - component: {fileID: 4177232441669133331}
   - component: {fileID: 2634689587581286034}
   m_Layer: 0
   m_Name: BrickManager
@@ -1071,6 +1080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24abdb100342635488d3553581085881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerChangeDuration: 0.9
   levelWallsConfig:
     walls: []
   prefabBase: {fileID: 6638883875395251446, guid: 7ca0fe2ad1189764eb393824dbf6740b,
@@ -1090,6 +1100,18 @@ MonoBehaviour:
   roomShaker: {fileID: 0}
   soundName: 
   hitIntensity: 0
+--- !u!114 &4177232441669133331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3387151942400940763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ff3d2d3d8ce5b4db592b931b0df857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2634689587581286034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1156,15 +1178,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae22826cfe6131d47be37fb1abd02fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnColorID: 0
   isBallInstatiated: 1
   ballPrefab: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
     type: 3}
-  ball: {fileID: 0}
-  spawnOffset: {x: 0, y: 1.25, z: 1}
+  leftHandedSpawnOffset: {x: 0, y: 0, z: 0}
+  rightHandedSpawnOffset: {x: 0, y: 0, z: 0}
+  firstSpawnAnimationDuration: 1
   floatAmplitude: 0.2
   floatPeriod: 2
-  delayBeforeReset: 0
 --- !u!114 &2634689587581286033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1230,6 +1251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aff62f387f371447b8e65abb0ade142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isThereTimerCondition: 0
+  timerConditionValue: 0
   timerSpeedModifier: 1
 --- !u!1 &6572958010756774014
 GameObject:
@@ -1310,6 +1333,13 @@ MonoBehaviour:
   minTextSize: 0.25
   maxTextSize: 0.35
   maxScoreValue: 6000
+  completedScoreColor:
+    serializedVersion: 2
+    rgba: 0
+  isThereScoreCondition: 0
+  isThereComboCondition: 0
+  scoreConditionValue: 0
+  comboConditionValue: 0
   maxCounter: 10
   score:
   - 1
@@ -1320,7 +1350,7 @@ MonoBehaviour:
   displayedCombo: []
   resetCombo: 1
   pV: {fileID: 0}
-  finishingFirstScoreBoost: 1
+  bonusScoreOnTimeAttack: 0
 --- !u!1 &7024211451994467589
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,47 +1395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253ab7ff6027734408ab0901e7db0c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.1138847
-      outSlope: 3.1138847
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2
-      value: 0
-      inSlope: Infinity
-      outSlope: 3.3232641
-      tangentMode: 7
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.031936094
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.07089618
-      outSlope: 0.07089618
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.041583627
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  impactMaxTime: 1.2
-  playersRadius: []
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 9216
-  numberOfDivision: 20
-  raycastOffset: 0
-  intensityModifier: 0.05
 --- !u!114 &7691019898174703133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1469,6 +1458,7 @@ Transform:
   - {fileID: 2723403188578103699}
   - {fileID: 4923605409697620730}
   - {fileID: 4926972422251877974}
+  - {fileID: 6462845436412490400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1517,6 +1507,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputSetupDelay: 1
   inputMod: 1
+--- !u!1 &9176733888410270044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6462845436412490400}
+  - component: {fileID: 825002814277315070}
+  m_Layer: 0
+  m_Name: ExplosionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6462845436412490400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176733888410270044}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2113905627460504248}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &825002814277315070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176733888410270044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15e7b24115509f41b2662559d91ce3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  impactCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 2.869609
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.02794411
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.03393221
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  initialBurstRelativeSize: 0.2
+  mainExplosionDelay: 0.25
+  mainExplosionDuration: 0.45
+  impactDuration: 1.2
+  numberOfDivision: 20
+  raycastOffset: 0
 --- !u!1001 &1772361165553915443
 PrefabInstance:
   m_ObjectHideFlags: 0

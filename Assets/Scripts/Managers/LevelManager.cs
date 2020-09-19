@@ -109,6 +109,7 @@ public class LevelManager : MonoBehaviour
             }
 
             BrickManager.Instance.SetCurrentBrickOnLayer(i);
+            BrickManager.Instance.SetCurrentActiveLayerBricks(i);
         }
     }
 
@@ -185,7 +186,7 @@ public class LevelManager : MonoBehaviour
         ScoreManager.Instance.combo = new int[numberOfPlayers];
         ScoreManager.Instance.brickCounterGauge = new int[numberOfPlayers];
         ScoreManager.Instance.playersMaxCombo = new int[numberOfPlayers];
-        FXManager.Instance.playersRadius = new float[numberOfPlayers];
+        ExplosionManager.Instance.PlayersExplosionRadius = new float[numberOfPlayers];
 
 
         TimeManager.Instance.SetNewTimer(currentLevel.level.levelSpec.timePerLayer);
@@ -404,7 +405,7 @@ public class LevelManager : MonoBehaviour
                 playersUIlayers[i].layersUI[r] = layerUI.GetComponent<UI_LayerBehaviour>();
             }
 
-            FXManager.Instance.playersRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;
+            ExplosionManager.Instance.PlayersExplosionRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;
 
             playersShakers[i].layersShaker = new Shaker[playersParents[i].layersParent.Length];
 

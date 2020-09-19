@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 9156937976483570214}
   - component: {fileID: 2889035996011171931}
   m_Layer: 5
-  m_Name: UnlockText
+  m_Name: UnlockExoticFinishedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -990,7 +990,7 @@ GameObject:
   - component: {fileID: 3181706175608933770}
   - component: {fileID: 3803836270395689943}
   m_Layer: 5
-  m_Name: UnlockText
+  m_Name: UnlockExoticText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1768,6 +1768,8 @@ MonoBehaviour:
   - {fileID: 6503107392834054765}
   - {fileID: 5931142720648831648}
   - {fileID: 5540886053240136123}
+  - {fileID: 3803836270395689943}
+  - {fileID: 2889035996011171931}
   button: {fileID: 6503107393599488599}
   rectTransform: {fileID: 6503107393599488597}
   lockImages:
@@ -1783,8 +1785,13 @@ MonoBehaviour:
   - {fileID: 8916303382548271633}
   - {fileID: 5858999410450059907}
   - {fileID: 4073219728977777132}
-  exoticUnlockImages: []
-  exoticDoneImages: []
+  exoticUnlockImages:
+  - {fileID: 5187890185253008651}
+  - {fileID: 2386870257443634798}
+  exoticDoneImages:
+  - {fileID: 1542767838062109533}
+  - {fileID: 2105347138395661507}
+  - {fileID: 8777986374282402601}
 --- !u!1 &6738620642603844602
 GameObject:
   m_ObjectHideFlags: 0

@@ -378,7 +378,7 @@ public class JSON : MonoBehaviour
 
         string json = JsonUtility.ToJson(newDATA);
 
-        SaveHash(json);
+        //SaveHash(json);
 
         File.WriteAllText(GetFilePathWithSteamID(), json);
     }
@@ -466,7 +466,7 @@ public class JSON : MonoBehaviour
             json = JsonUtility.ToJson(presentedDATA);
         }
 
-        SaveHash(json);
+        //SaveHash(json);
 
         File.WriteAllText(GetFilePathWithSteamID(), json);
     }
@@ -483,16 +483,16 @@ public class JSON : MonoBehaviour
         }
 
         string savedString = File.ReadAllText(GetFilePathWithSteamID());
-        //PlayerPrefs.SetString("HASH", "No_Hash_Generated");
-        if (!VerifyHash(savedString))
-        {
-            Debug.LogError("Invalid Hash, Data has been modified. You're bad... very bad... very very bad");
-        }
-        else
-        {
-            Debug.LogWarning("Valid hash or no hash yet");
-            SaveHash(savedString);
-        }
+        ////PlayerPrefs.SetString("HASH", "No_Hash_Generated");
+        //if (!VerifyHash(savedString))
+        //{
+        //    Debug.LogError("Invalid Hash, Data has been modified. You're bad... very bad... very very bad");
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("Valid hash or no hash yet");
+        //    SaveHash(savedString);
+        //}
 
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 

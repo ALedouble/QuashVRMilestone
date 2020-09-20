@@ -21,6 +21,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public TextMeshProUGUI roomName;
     public GameObject lobbyGo;
     public GameObject roomGo;
+    public GameObject levelSelectionGo;
     public GameObject roomSelectionGo;
     public Transform playersPanel;
     public GameObject playerListingPrefab;
@@ -108,6 +109,11 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom++;
         Debug.Log("entered");
+
+        if(playersInRoom == 2)
+        {
+
+        }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

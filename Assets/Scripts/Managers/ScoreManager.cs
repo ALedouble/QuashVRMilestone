@@ -145,6 +145,7 @@ public class ScoreManager : MonoBehaviour
     {
         int bonus = (int)(TimeManager.Instance.CurrentTimer * bonusScoreOnTimeAttack);
         SetScore(bonus, 0);
+        //Debug.Log("Score bonus of " + bonus);
     }
 
 

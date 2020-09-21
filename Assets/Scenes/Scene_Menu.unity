@@ -3340,12 +3340,13 @@ MonoBehaviour:
   levelCondition: {fileID: 42657158}
   exoticCondition: {fileID: 1391670125}
   bounceModeTitle: Bouncy
-  mandatoryBounceDescription: ONLY after a rebounce against a wall, the ball can destroy
-    bricks.
+  mandatoryBounceDescription: Bricks can only be destroyed after bouncing against
+    a wall.
   suddenDeathTitle: Combo runner
-  suddenDeathDescription: Don't miss any shot! You FAIL your combo, you DIE.
+  suddenDeathDescription: Don't miss any shot! Any mistakes will make you lose.
   timeAttackTitle: Time me up
-  timeAttackDescription: for each layer. If you're LATE you LOSE!
+  timeAttackDescription: Destroy each layer in an limited time! If you're too slow,
+    you will lose.
   stars:
   - {fileID: 389936662}
   - {fileID: 677605461}
@@ -46870,7 +46871,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh42440
+  m_Name: pb_Mesh67622
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

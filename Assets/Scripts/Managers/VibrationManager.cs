@@ -8,8 +8,6 @@ public class VibrationManager : MonoBehaviour
     public VRTK_ControllerReference controllerRef;
     public Vibration[] vibrations;
 
-    private bool vibrationOnRepeat;
-
     public static VibrationManager instance;
 
     private void Awake()
@@ -56,6 +54,7 @@ public class VibrationManager : MonoBehaviour
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right);
         else
             controllerRef = VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left);
+
 
         VRTK_ControllerHaptics.TriggerHapticPulse(controllerRef, strength);
     }

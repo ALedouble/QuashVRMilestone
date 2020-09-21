@@ -29,12 +29,7 @@ public class BallRacketInteraction : MonoBehaviour
     [Range(0, 1)]
     public float mixRatio;
 
-
-    private float minVib = 0.0006f;
-    private float maxVib = 0.025f;
-
-    private float minHit = 3.3f;
-    private float maxHit = 50f;
+    float vibModifier = 0.003f;
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
@@ -55,36 +50,7 @@ public class BallRacketInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
-            Vector3 ballNewVelocity = RacketInteraction(other);
-
-            float ballVelocity = ballPhysicBehaviour.LastVelocity.magnitude;
-            float hitRange = maxHit - minHit;
-            float vibRange = maxVib - minVib;
-            float hitPercent;
-            float hitRate;
-            float vib;
-
-
-            if (ballVelocity <= minHit)
-            {
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", minVib); hitRate = 0.01f; //Debug.Log("VIB percent : " + vibPercent);
-            }
-            else if (ballVelocity >= maxHit)
-            {
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", maxVib); hitRate = 1f; //Debug.Log("VIB percent : " + vibPercent);
-            }
-            else
-            {
-                // hitPercent = (ballNewVelocity.magnitude - minHit) / hitMaxSpeed;
-                hitPercent = ((ballVelocity - minHit) * 0.01f) / hitRange;
-                vib = ((hitPercent * vibRange) * 0.01f) + minVib;
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
-
-                //Debug.Log("hit percent : " + hitPercent);
-                hitRate = hitPercent * 100f;
-                //Debug.Log("Hit RATE : " + hitRate);
-                //Debug.Log("VIB : " + vib);
-            }
+            float hitRate = HitMeBabyOneMoreTime(other);
 
             AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, hitRate);
 
@@ -92,6 +58,18 @@ public class BallRacketInteraction : MonoBehaviour
             BallEventManager.instance.OnBallCollision("Racket");
         }
 
+    }
+
+    private float HitMeBabyOneMoreTime(Collision other)
+    {
+        Vector3 ballNewVelocity = RacketInteraction(other);
+
+        float ballVelocityRate = (ballNewVelocity.magnitude / hitMaxSpeed);
+        float vib = ballVelocityRate * vibModifier;
+
+        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
+
+        return ballVelocityRate;
     }
 
     #region RacketInteraction

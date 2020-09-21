@@ -770,7 +770,7 @@ public class Campaign : MonoBehaviour
 
 
         //Set Up Condition if necessary
-        if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
+        if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0 && !selectedLevel.level.levelSpec.suddenDeath && !selectedLevel.level.levelSpec.mandatoryBounce && !selectedLevel.level.levelSpec.timeAttack)
         {
             //if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator == CompleteConditionComparator.Min)
             //    levelRecapValues.conditionComparator[0].text = ">";

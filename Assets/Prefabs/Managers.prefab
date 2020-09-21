@@ -593,7 +593,7 @@ MonoBehaviour:
       - wallBricks: []
       - wallBricks: []
     levelProgression:
-      buttonName: 00
+      levelNumber: 0
       LevelIndex: 0
       isDone: 0
       isUnlocked: 0
@@ -898,6 +898,7 @@ MonoBehaviour:
   foreignPlayerRacket: {fileID: 0}
   localRacketFX: {fileID: 0}
   foreignRacketFX: {fileID: 0}
+  racketPostProcess: {fileID: 0}
   deltaHitTime: 1
   racketOffset: {x: 0, y: 0.02, z: 0.505}
   racketRotationOffset: {x: 0, y: 180, z: 90}
@@ -1577,8 +1578,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   initialBurstRelativeSize: 0.2
-  mainExplosionDelay: 0.2
-  mainExplosionDuration: 0.5
+  mainExplosionDelay: 0.25
+  mainExplosionDuration: 0.45
   impactDuration: 1.2
   numberOfDivision: 20
   raycastOffset: 0

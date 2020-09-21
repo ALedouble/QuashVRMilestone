@@ -289,7 +289,7 @@ public class RacketManager : MonoBehaviour
         else
             VibrationManager.instance.VibrationOff(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left));
 
-        Debug.Log("Desempower Switch");
+
         SwitchRacketColor();
     }
     #endregion

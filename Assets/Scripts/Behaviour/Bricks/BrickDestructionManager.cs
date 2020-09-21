@@ -18,26 +18,32 @@ public class BrickDestructionManager : MonoBehaviour
         Instance = this;
     }
 
-    public List<int>[] currentLayerBricks;
-    //A Déplacer dans son propre scripte
-    public void HitBrickByID(int brickID, int playerID)
+    public bool HitBrickByID(int brickID, int playerID)
     {
-        //Systeme de Memoire
-        if ((brickID < BrickManager.Instance.AllBricks.Count && brickID >= 0) && BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID)) //+Check que la balle soit sur le layer actif appartenant au player
+        if ((brickID < BrickManager.Instance.AllBricks.Count && brickID >= 0) && BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID))
         {
-            Debug.Log("Brick To Be Destroyed!");
-            BrickManager.Instance.AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
-            BrickManager.Instance.CurrentLayersBricks[playerID].Remove(brickID);
+            if(BrickManager.Instance.AllBricks[brickID].GetComponent<BrickInfo>().colorID == 0 || BrickManager.Instance.AllBricks[brickID].GetComponent<BrickInfo>().colorID == BallManager.instance.GetBallColorID())
+            {
+                BrickManager.Instance.AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
+                BrickManager.Instance.CurrentLayersBricks[playerID].Remove(brickID);
+
+                return true;
+            }
         }
-        else
-            Debug.LogError("Is not on CurrentLayer");
+
+        return false;
     }
 
     public void HitBricksByID(int[] brickIDs, int playerID)
     {
+        bool hasBrickBeenDestroyed = false;
         foreach(int brickID in brickIDs)
         {
-            HitBrickByID(brickID, playerID);
+            if (HitBrickByID(brickID, playerID))
+                hasBrickBeenDestroyed = true;
         }
+
+        if(hasBrickBeenDestroyed)
+            LevelManager.instance.ShakeLayer(playerID);
     }
 }

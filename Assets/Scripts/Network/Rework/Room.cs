@@ -17,6 +17,12 @@ public class Room : MonoBehaviour
 
     public void JoinRoomClick()
     {
-        PhotonNetwork.JoinRoom(nameText.text);
+        PhotonNetwork.JoinRoom(roomName);
+
+        LobbyPublic.Instance.roomListings.Clear();
+        for(int i = 0; i < LobbyPublic.Instance.listRoomGo.Count; i++)
+        {
+            Destroy(LobbyPublic.Instance.listRoomGo[i]);
+        }
     }
 }

@@ -14,6 +14,10 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public GameObject roomListingPrefab;
     public Transform roomsPanel;
 
+    public List<RoomInfo> roomListings;
+
+    public List<GameObject> listRoomGo;
+
     private int numberRoom;
 
     private void Awake()
@@ -24,6 +28,8 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings(); // Connect to master photon server.
+        roomListings = new List<RoomInfo>();
+        listRoomGo = new List<GameObject>();
     }
 
     public override void OnConnectedToMaster()
@@ -36,20 +42,48 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
-        RemoveRoomListings();
+      //  RemoveRoomListings();
 
+        int tempIndex;
         foreach(RoomInfo room in roomList)
         {
-            ListRoom(room);
-            numberRoom = roomList.Count;
+            if(roomListings != null)
+            {
+                tempIndex = roomListings.FindIndex(ByName(room.Name));
+            }
+            else
+            {
+                tempIndex = -1;
+            }
+
+            if(tempIndex != -1)
+            {
+                roomListings.RemoveAt(tempIndex);
+                Destroy(roomsPanel.GetChild(tempIndex).gameObject);
+            }
+            else
+            {
+                roomListings.Add(room);
+                ListRoom(room);
+            }
         }
+    }
+
+    static System.Predicate<RoomInfo> ByName(string name)
+    {
+        return delegate (RoomInfo room)
+        {
+            return room.Name == name;
+        };
     }
 
     void RemoveRoomListings()
     {
+        int i = 0;
         while(roomsPanel.childCount != 0)
         {
-            Destroy(roomsPanel.GetChild(0).gameObject);
+            Destroy(roomsPanel.GetChild(i).gameObject);
+            i++;
         }
     }
 
@@ -61,6 +95,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
             Room tempButton = tempListing.GetComponent<Room>();
             tempButton.roomName = room.Name;
             tempButton.SetRoom();
+            listRoomGo.Add(tempListing);
         }
     }
 
@@ -77,12 +112,16 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         if (!PhotonNetwork.InLobby)
         {
             PhotonNetwork.JoinLobby();
+            Debug.Log("refresh"); 
         }
     }
 
     public string GetRoomName()
     {
-        roomName = "Room " + (PhotonNetwork.CountOfRooms + 1).ToString();
+        
+        roomName = "Room " + Random.Range(0, 1000).ToString();
+
+        
         return roomName;
     }
 }

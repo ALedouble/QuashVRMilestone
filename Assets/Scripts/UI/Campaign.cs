@@ -88,7 +88,7 @@ public class Campaign : MonoBehaviour
             panelPositions[i] = panelBottom - (positionQuotient * i);
         }
 
-        lastIndex = GetPanelIndex(levelsImplemented[0]);
+        lastIndex = GetPanelIndex(GetHighestLevelInCampaign());
     }
 
 
@@ -193,15 +193,15 @@ public class Campaign : MonoBehaviour
     /// <returns></returns>
     public int GetPanelIndex(LevelsScriptable levelIndex)
     {
-        float levelComparer = (((levelIndex.level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
+        float levelComparer = ((levelIndex.level.levelProgression.levelPos.y * 0.5f) * -0.01f) + positionQuotient;
 
         for (int y = 0; y < numberOfPanelPositions; y++)
         {
             float comparer = (positionQuotient * y) * -1;
 
-            if (levelComparer <= comparer)
+            if (levelComparer >= comparer)
             {
-                int finalIndex = numberOfPanelPositions - (y + 2);
+                int finalIndex = numberOfPanelPositions - y;
                 return finalIndex;
             }
         }
@@ -287,9 +287,9 @@ public class Campaign : MonoBehaviour
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
             level.transform.SetParent(CampaignPanel.transform);
 
-            //Transpose editor position into campaign position
+            //Transpose editor position into campaign position  ///// Oh GOD
             float xPos = (levelsImplemented[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-            float yPos = ((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f;
+            float yPos = (levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) * -0.01f;
 
             Vector2 startPos = new Vector2(xPos, yPos);
 
@@ -1144,5 +1144,22 @@ public class Campaign : MonoBehaviour
         nextPanelPosition = panelPositions[panelIndex];
 
         isMoving = true;
+    }
+
+    /// <summary>
+    /// Return the level with the highest position in the campaign
+    /// </summary>
+    /// <returns></returns>
+    private LevelsScriptable GetHighestLevelInCampaign()
+    {
+        LevelsScriptable highest = levelsImplemented[0];
+
+        for (int i = 1; i < levelsImplemented.Count; i++)
+        {
+            if (highest.level.levelProgression.levelPos.y > levelsImplemented[i].level.levelProgression.levelPos.y)
+                highest = levelsImplemented[i];
+        }
+
+        return highest;
     }
 }

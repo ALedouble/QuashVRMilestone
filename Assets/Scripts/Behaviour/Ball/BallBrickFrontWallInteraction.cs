@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BallBrickInteration : MonoBehaviour
+public class BallBrickFrontWallInteraction : MonoBehaviour
 {
     public float depthVelocity;
     public float xAcceleration;
@@ -14,12 +14,16 @@ public class BallBrickInteration : MonoBehaviour
     private NoBounceMagicReturn nBMagicReturn;
 
     private BallPhysicBehaviour ballPhysicBehaviour;
+    private BallInfo ballInfo;
+
+    private Coroutine IgnoreCollisionCoroutine;
 
     private PhotonView photonView;
 
     private void Awake()
     {
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
+        ballInfo = GetComponent<BallInfo>();
 
         nBMagicReturn = new NoBounceMagicReturn(depthVelocity, ballPhysicBehaviour.baseGravity, xAcceleration);
         targetSelector = GetComponent<ITargetSelector>();
@@ -27,25 +31,31 @@ public class BallBrickInteration : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
+    private void Start()
+    {
+        BallMultiplayerBehaviour.Instance.ReturnSwitchActions += StartReturn;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
-        if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Brick")
+        if ( !BallManager.instance.IsBallPaused && (other.gameObject.tag == "FrontWall" || other.gameObject.tag == "Brick") )
         {
             if(GameManager.Instance.offlineMode)
             {
-                AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, ballPhysicBehaviour.LastVelocity.magnitude);
+                BallEventManager.instance.OnBallCollision(other.gameObject.tag, other);
 
-                BallEventManager.instance.OnBallCollision("Brick", other);
+                PlayFeedback(other.gameObject.tag, other.GetContact(0).point);
 
                 ReturnInteration();
+                
             }
             else
             {
-                if (BallMultiplayerBehaviour.Instance.IsBallOwner)
+                if(BallMultiplayerBehaviour.Instance.IsBallOwner)
                 {
-                    BallEventManager.instance.OnBallCollision("Brick", other);
+                    BallEventManager.instance.OnBallCollision("FrontWall", other);
 
-                    AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, ballPhysicBehaviour.LastVelocity.magnitude);
+                    SendFeedbackRPC(other.gameObject.tag, other.GetContact(0).point);
 
                     BallMultiplayerBehaviour.Instance.HandOverBallOwnership(BallOwnershipSwitchType.Return);
                 }
@@ -54,14 +64,42 @@ public class BallBrickInteration : MonoBehaviour
                     ballPhysicBehaviour.FreezeBall();
                 }
             }
+            
+        }
+    }
+
+    private void SendFeedbackRPC(string tag, Vector3 contactPoint)
+    {
+        photonView.RPC("PlayFeedback", RpcTarget.All, tag, contactPoint);
+    }
+
+    [PunRPC]
+    private void PlayFeedback(string tag, Vector3 contactPoint)
+    {
+        switch(tag)
+        {
+            case "FrontWall":
+                AudioManager.instance.PlaySound("FrontWallHit", contactPoint, ballPhysicBehaviour.LastVelocity.magnitude);
+                break;
+            case "Brick":
+                AudioManager.instance.PlaySound("BrickExplosion", contactPoint, ballPhysicBehaviour.LastVelocity.magnitude);
+                break;
+
         }
     }
 
     #region ReturnInteraction
 
+    public void StartReturn()
+    {
+        ReturnInteration();
+    }
+
     private void ReturnInteration()
     {
         StartCoroutine(RandomReturnWithoutBounce());
+        IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
+
         SetMidWallStatus(false);
     }
 
@@ -74,7 +112,7 @@ public class BallBrickInteration : MonoBehaviour
         ballPhysicBehaviour.PhysicRelatedVelocityUpdate(Vector3.zero);
 
         float timer = 0f;
-        while (timer < bounceDelay)
+        while(timer < bounceDelay)
         {
             if (!GameManager.Instance.IsGamePaused)
                 timer += Time.fixedDeltaTime;
@@ -83,6 +121,25 @@ public class BallBrickInteration : MonoBehaviour
 
         ballPhysicBehaviour.SetGravityState(true);
         ballPhysicBehaviour.OverrideRawVelocity(newVelocity, (int)SpeedState.SLOW, true);
+    }
+
+    private IEnumerator IgnoreCollision()
+    {
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), true);
+
+        float timer = 0f;
+        while (timer < (bounceDelay + 0.1f))
+        {
+            yield return new WaitForFixedUpdate();
+            if (!BallManager.instance.IsBallPaused)
+            {
+                timer += Time.fixedDeltaTime;
+            }
+        }
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), false);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), false);
     }
 
     #endregion
@@ -130,5 +187,4 @@ public class BallBrickInteration : MonoBehaviour
     }
 
     #endregion
-
 }

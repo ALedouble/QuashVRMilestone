@@ -5,9 +5,9 @@ using UnityEngine;
 public interface ITargetSelector
 {
     void SwitchTarget();
+    QPlayer CurrentTargetPlayer { get; }
     Vector3 GetTargetPlayerPosition();
     Vector3 GetNewTargetPosition();
-    void SetCurrentTarget(QPlayer newTarget);
-    QPlayer GetCurrentTarget();
-    QPlayer GetPreviousTarget();
+    void SetCurrentTargetPlayer(QPlayer newTarget);
+    QPlayer GetPreviousTargetPlayer();
 }

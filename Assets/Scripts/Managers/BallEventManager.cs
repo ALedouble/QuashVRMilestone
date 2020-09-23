@@ -14,7 +14,7 @@ public class BallEventManager : MonoBehaviour
     }
     #endregion
 
-    public delegate void OnCollisionDelegate();
+    public delegate void OnCollisionDelegate(Collision collision);
     public delegate void OnCollisionExitDelegate();
     public delegate void OnBallEventDelegate();
 
@@ -34,25 +34,25 @@ public class BallEventManager : MonoBehaviour
 
     public event OnBallEventDelegate OnBallColorSwitch;
 
-    public void OnBallCollision(string tag)
+    public void OnBallCollision(string tag, Collision collision)
     {
         switch (tag)
         {
             case "Racket":
                 if(OnCollisionWithRacket != null)
-                    OnCollisionWithRacket();
+                    OnCollisionWithRacket(collision);
                 break;
             case "Wall":
                 if (OnCollisionWithWall != null)
-                    OnCollisionWithWall();
+                    OnCollisionWithWall(collision);
                 break;
             case "Floor":
                 if (OnCollisionWithFloor != null)
-                    OnCollisionWithFloor();
+                    OnCollisionWithFloor(collision);
                 break;
             case "FrontWall":
                 if (OnCollisionWithFrontWall != null)
-                    OnCollisionWithFrontWall();
+                    OnCollisionWithFrontWall(collision);
                 break;
             case "RebounceWall":
                 if (OnCollisionWithRebounceWall != null)
@@ -60,11 +60,11 @@ public class BallEventManager : MonoBehaviour
                 break;
             case "Brick":
                 if (OnCollisionWithBrick != null)
-                    OnCollisionWithBrick();
+                    OnCollisionWithBrick(collision);
                 break;
             case "BackWall":
                 if (OnCollisionWithBackWall != null)
-                    OnCollisionWithBackWall();
+                    OnCollisionWithBackWall(collision);
                 break;
             default:
                 break;

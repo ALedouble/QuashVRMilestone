@@ -164,13 +164,13 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     #endregion
 
     #region Ball Color Switch
-    private void RacketEmpoweredSwitchColor()
+    private void RacketEmpoweredSwitchColor(Collision collision)
     {
         if (RacketManager.instance.IsEmpowered)
             SwitchColor();
     }
 
-    private void MandatorySwitchColor()
+    private void MandatorySwitchColor(Collision collision)
     {
         SwitchColor();
     }

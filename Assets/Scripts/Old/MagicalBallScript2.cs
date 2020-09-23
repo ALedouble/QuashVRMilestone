@@ -143,7 +143,7 @@ public class MagicalBallScript2 : MonoBehaviour
     private void RacketArcadeHit()
     {
         Transform currentPosition = gameObject.transform;
-        GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);
+        //GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);
        
         Vector3 newVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
 
@@ -163,7 +163,7 @@ public class MagicalBallScript2 : MonoBehaviour
 
         rigidbody.velocity = hitSpeedMultiplier * (-normalVelocity + tangentVelocity);
 
-        GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);  // Ignore collision pour quelque frame.
+        //GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);  // Ignore collision pour quelque frame.
     }
 
     private float CalculateVerticalBounceVelocity(float hitHeigth)

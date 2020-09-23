@@ -98,6 +98,7 @@ public class BallFloorInteraction : MonoBehaviour
 
         StopCoroutine(resetCoroutine);
     }
+
     private void StopBallResetCountdown(Collision collision)
     {
         BallEventManager.instance.OnCollisionExitWithFloor -= StopBallResetCountdown;

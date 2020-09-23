@@ -175,7 +175,7 @@ public class LevelScript : MonoBehaviour
         //editorSpace[0] = new Vector3(0, 1, 0);
         //editorSpace[1] = new Vector3(5, 7, 0);
 
-        if (editorSpace.Count > 1)
+        if (editorSpace.Count > 1 && levelCategories != null)
         {
             Color oldColor = Gizmos.color;
             Matrix4x4 oldMatrix = Gizmos.matrix;

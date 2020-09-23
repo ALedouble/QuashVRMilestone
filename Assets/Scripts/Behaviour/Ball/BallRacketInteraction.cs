@@ -21,13 +21,10 @@ public class BallRacketInteraction : MonoBehaviour
     public float hitSpeedMultiplier;
 
     [Range(0, 1)]
-    public float ballSpeedFactorRatio;
+    public float ballSpeedWeight;
 
     [Range(0, 1)]
     public float racketFriction;
-
-    [Range(0, 1)]
-    public float mixRatio;
 
     
 
@@ -52,10 +49,9 @@ public class BallRacketInteraction : MonoBehaviour
         {
             Vector3 ballNewVelocity = RacketInteraction(other);
 
-            VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
-            AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, ballNewVelocity.magnitude / hitMaxSpeed);
+            PlayFeedback(other.GetContact(0).point, ballNewVelocity);
 
-            BallEventManager.instance.OnBallCollision("Racket");
+            BallEventManager.instance.OnBallCollision("Racket", other);
         }
 
     }
@@ -66,9 +62,9 @@ public class BallRacketInteraction : MonoBehaviour
     {
         Vector3 ballNewVelocity = ApplyRacketPhysic(other);
 
-        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+        RacketManager.instance.OnHit(gameObject);  // Ignore collision pour quelques frames.
 
-        SetLastPlayerWhoHitTheBall();
+        UpdateLastPlayerWhoHitTheBall();
         SwitchTarget();
         SetMidWallStatus(true);
 
@@ -92,23 +88,11 @@ public class BallRacketInteraction : MonoBehaviour
             case RacketInteractionType.MEDIUMPHYSIC:
                 newVelocity = RacketMediumPhysicHit(other);
                 break;
-
-            case RacketInteractionType.MIXED:
-                newVelocity = RacketMixedHit(other);
-                break;
         }
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
-        if (GameManager.Instance.offlineMode)
-        {
-            ballPhysicBehaviour.ApplyNewVelocity(newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);                                  // Modif globalSpeedMultiplier
-        }
-        else
-        {
-            //Marche pas!
-            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);     // Modif globalSpeedMultiplier
-        }
+        ballPhysicBehaviour.OverrideRawVelocity(newVelocity, (int)SpeedState.NORMAL, false);
 
         return newVelocity;
     }
@@ -138,7 +122,7 @@ public class BallRacketInteraction : MonoBehaviour
     {
         Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
         //Vector3 relativeVelocity = ballPhysicBehaviour.LastVelocity - racketVelocity;
-        Vector3 relativeVelocity = racketVelocity - ballPhysicBehaviour.LastVelocity * ballSpeedFactorRatio;
+        Vector3 relativeVelocity = racketVelocity - ballPhysicBehaviour.LastVelocity * ballSpeedWeight;
         Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
 
         Vector3 normalVelocity = Vector3.Dot(contactPointNormal, relativeVelocity) * contactPointNormal;
@@ -159,27 +143,16 @@ public class BallRacketInteraction : MonoBehaviour
         return normalVelocity + tangentVelocity;
     }
 
-    private Vector3 RacketMixedHit(Collision collision)
-    {
-        return RacketArcadeHit() * (1 - mixRatio) + RacketBasicPhysicHit(collision) * mixRatio;
-    }
-
     #endregion
 
     #endregion
 
+    //A bouger!
     #region Multi MidWallStatus
 
     private void SetMidWallStatus(bool isCollidable)
     {
-        if (GameManager.Instance.offlineMode)
-        {
-            if (isCollidable)
-                ActivateMidWall();
-            else
-                DisactivateMidWall();
-        }
-        else
+        if (!GameManager.Instance.offlineMode)
         {
             if (isCollidable)
                 photonView.RPC("ActivateMidWall", RpcTarget.All);
@@ -216,21 +189,34 @@ public class BallRacketInteraction : MonoBehaviour
 
     private void SwitchTarget()
     {
-        if (!GameManager.Instance.offlineMode)
-            photonView.RPC("SwitchTargetRPC", RpcTarget.All);
+        targetSelector.SwitchTarget();
+    }
+
+    #endregion
+
+    #region Feedback
+
+    private void PlayFeedback(Vector3 contactPoint, Vector3 ballNewVelocity)
+    {
+        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
+
+        if (GameManager.Instance.offlineMode)
+            AudioManager.instance.PlaySound("RacketHit", contactPoint, ballNewVelocity.magnitude / hitMaxSpeed);
+        else
+            photonView.RPC("PlaySound", RpcTarget.All, "RacketHit", contactPoint, ballNewVelocity.magnitude / hitMaxSpeed);
     }
 
     [PunRPC]
-    private void SwitchTargetRPC()
+    private void PlaySound(string soundTag, Vector3 contactPoint, float intensity)
     {
-        targetSelector.SwitchTarget();
+        AudioManager.instance.PlaySound("RacketHit", contactPoint, intensity);
     }
 
     #endregion
 
     #region LastPlayerWhoHitTheBall
 
-    private void SetLastPlayerWhoHitTheBall()
+    private void UpdateLastPlayerWhoHitTheBall()
     {
         if (GameManager.Instance.offlineMode)
         {
@@ -240,25 +226,13 @@ public class BallRacketInteraction : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("SetLastPlayerToHitTheBallToPlayer1", RpcTarget.All);
+                ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER1;
             }
             else
             {
-                photonView.RPC("SetLastPlayerToHitTheBallToPlayer2", RpcTarget.All);
+                ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER2;
             }
         }
-    }
-
-    [PunRPC]
-    private void SetLastPlayerToHitTheBallToPlayer1()
-    {
-        ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER1;
-    }
-
-    [PunRPC]
-    private void SetLastPlayerToHitTheBallToPlayer2()
-    {
-        ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER2;
     }
 
     #endregion

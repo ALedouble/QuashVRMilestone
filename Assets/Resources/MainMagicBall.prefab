@@ -323,12 +323,10 @@ GameObject:
   - component: {fileID: 1758958001795561117}
   - component: {fileID: 1190645798528744186}
   - component: {fileID: 1768327930624934501}
-  - component: {fileID: 8334153363789843664}
   - component: {fileID: 4513035634878747323}
   - component: {fileID: 4646906268572400308}
   - component: {fileID: 1898624170034445779}
   - component: {fileID: 649948989606448954}
-  - component: {fileID: 1348177422002083294}
   - component: {fileID: 6000792008277380485}
   - component: {fileID: 4866844152105119356}
   - component: {fileID: 4999519374816832823}
@@ -460,18 +458,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8972a9faa2b4234a8e702fd565ecc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8334153363789843664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758958001795561110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e37fec6bd37764a8d3c37688572111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4513035634878747323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,11 +486,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afd3367b097cee48994f50f67f1299a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalSpeedMultiplier: 1
+  startGlobalSpeedMultiplier: 1
   slowness: 1.6
   baseGravity: 9.81
   bounciness: 0.8
   dynamicFriction: 0
+  followerCollisionActivationDelay: 0.2
 --- !u!114 &1898624170034445779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,21 +517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayBeforeReset: 1
---- !u!114 &1348177422002083294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758958001795561110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee0ecc3139fb5949a092fa8a69306a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  depthVelocity: 10
-  xAcceleration: 0
-  bounceDelay: 0.1
 --- !u!114 &6000792008277380485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,9 +560,8 @@ MonoBehaviour:
   hitMaxSpeed: 80
   hitMinSpeed: 0.5
   hitSpeedMultiplier: 3
-  ballSpeedFactorRatio: 0.5
+  ballSpeedWeight: 0
   racketFriction: 1
-  mixRatio: 0
 --- !u!114 &4786920642494746230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,7 +578,6 @@ MonoBehaviour:
   maxRange: 1.4
   angleSpread: 240
   offset: {x: 0, y: 1, z: 0}
-  targetTestIndicator: {fileID: 0}
 --- !u!114 &7253305630632793683
 MonoBehaviour:
   m_ObjectHideFlags: 0

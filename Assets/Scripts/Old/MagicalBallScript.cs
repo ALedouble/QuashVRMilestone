@@ -110,7 +110,7 @@ public class MagicalBallScript : MonoBehaviour
     private IEnumerator RacketArcadeHit()
     {
         Transform currentPosition = gameObject.transform;
-        GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);
+        //GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);
         yield return new WaitForFixedUpdate();
 
         Vector3 newVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton

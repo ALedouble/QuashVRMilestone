@@ -151,7 +151,7 @@ public class BallBehaviour : MonoBehaviourPunCallbacks/*, IPunObservable*/
         }
 
         OnHitCollision(newVelocity);
-        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+        //RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
 
         if (numberOfPlayer > 1)                //Amelioration Check sur manager
         {

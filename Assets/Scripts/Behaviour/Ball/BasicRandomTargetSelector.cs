@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
 {
@@ -9,14 +10,27 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
     public float angleSpread;
     public Vector3 offset = Vector3.up;
 
-    private QPlayer currentTarget;
-
-    public GameObject targetTestIndicator;
-    public Vector3 CurrentTargetPlayerPosition {get {return GameManager.Instance.PlayerSpawn[(int)currentTarget % GameManager.Instance.PlayerSpawn.Length].position;}}           // Pour eviter les plantages... Le mieux Serait de verifier playerPosition.Length == PlayerID.Count - 1
+    private QPlayer currentTargetPlayer;
+    public QPlayer CurrentTargetPlayer
+    {
+        get => currentTargetPlayer;
+        private set
+        {
+            currentTargetPlayer = value;
+            
+            if (!GameManager.Instance.offlineMode && BallMultiplayerBehaviour.Instance.IsBallOwner)
+            {
+                photonView.RPC("SetCurrentTargetPlayer", RpcTarget.Others, value);
+            }
+        }
+    }
+    public Vector3 CurrentTargetPlayerPosition { get { return GameManager.Instance.PlayerSpawn[(int)currentTargetPlayer % GameManager.Instance.PlayerSpawn.Length].position; } }
 
     private Vector3 CenterOffset { get; set; }
     private float MinRadius { get; set; }
     private float MaxRadius { get; set; }
+
+    private PhotonView photonView;
 
     private void Awake()
     {
@@ -24,11 +38,19 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
         //CenterOffset = new Vector3(0, PlayerSettings.Instance.PlayerShoulderHeight, 0); //Add left/right handed offset
         MinRadius = minRange;
         MaxRadius = maxRange;
+
+        photonView = GetComponent<PhotonView>();
     }
 
     public void SwitchTarget()
     {
-        currentTarget = (QPlayer)( ((int)currentTarget + 1) % LevelManager.instance.numberOfPlayers);
+        CurrentTargetPlayer = (QPlayer)( ((int)currentTargetPlayer + 1) % LevelManager.instance.numberOfPlayers);
+    }
+
+    [PunRPC]
+    public void SetCurrentTargetPlayer(QPlayer newTarget)
+    {
+        CurrentTargetPlayer = newTarget;
     }
 
     public Vector3 GetTargetPlayerPosition()
@@ -43,19 +65,9 @@ public class BasicRandomTargetSelector : MonoBehaviour, ITargetSelector
         return newTarget;
     }
 
-    public void SetCurrentTarget(QPlayer newTarget)
+    public QPlayer GetPreviousTargetPlayer()
     {
-        currentTarget = newTarget;
-    }
-
-    public QPlayer GetCurrentTarget()
-    {
-        return currentTarget;
-    }
-
-    public QPlayer GetPreviousTarget()
-    {
-        return (QPlayer)(((int)currentTarget + LevelManager.instance.numberOfPlayers - 1) % LevelManager.instance.numberOfPlayers);
+        return (QPlayer)(((int)currentTargetPlayer + LevelManager.instance.numberOfPlayers - 1) % LevelManager.instance.numberOfPlayers);
     }
 
     private Vector3 GetRandomRelativeTargetPoint()

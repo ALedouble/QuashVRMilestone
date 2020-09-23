@@ -12,30 +12,9 @@ public class BallExplosion : MonoBehaviour
     private void Awake()
     {
         photonView = GetComponent<PhotonView>();
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!BallManager.instance.IsBallPaused)
-        {
-            impactPosition = collision.GetContact(0).point;
-
-            if (collision.gameObject.tag == "FrontWall")
-            {
-                CreateExplosion(collision);
-            }
-            else if (collision.gameObject.tag == "Brick")
-            {
-                CreateExplosion(collision);
-                BrickInfo brickInfo = collision.gameObject.GetComponent<BrickInfo>();
-
-                // !!! Rework Explosion !!!
-                if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
-                {
-                    BrickDestructionManager.Instance.HitBrickByID(collision.gameObject.GetComponent<BrickInfo>().BrickID, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
-                }
-            }
-        }
+        BallEventManager.instance.OnCollisionWithBrick += CreateExplosion;
+        BallEventManager.instance.OnCollisionWithFrontWall += CreateExplosion;
     }
 
     private void CreateExplosion(Collision collision)

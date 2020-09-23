@@ -21,6 +21,13 @@ public class PostProcessFlash_BallMissed : PostProcessFlash
         //maxBloomIntensity = minBloomIntensity;
     }
 
+    protected override void StartAnim(Collision collision)
+    {
+        base.StartAnim(collision);
+        //Debug.Log("Ball killed");
+        //maxBloomIntensity = minBloomIntensity;
+    }
+
     protected override void Animation()
     {
         if (!isAnimating) return;

@@ -363,7 +363,7 @@ public class GameManager : MonoBehaviour
         BallManager.instance.BallFirstSpawn();
     }
     
-    public void StartTheGame()
+    public void StartTheGame(Collision collision)
     {
         if(offlineMode)
         {

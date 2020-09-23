@@ -95,7 +95,7 @@ public class MagicalBallScriptV3 : MonoBehaviour
             }
             
             rigidbody.velocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
-            GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);  // Ignore collision pour quelque frame.
+            //GameObject.Find("RacketManager").GetComponent<RacketManager>().OnHitEvent(gameObject);  // Ignore collision pour quelque frame.
             ballState = BallState.NORMAL;
         }
         else if (other.gameObject.CompareTag("FrontWall") || other.gameObject.CompareTag("Brick"))

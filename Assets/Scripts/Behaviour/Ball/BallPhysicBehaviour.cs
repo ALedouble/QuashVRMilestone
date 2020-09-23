@@ -26,7 +26,19 @@ public enum SpeedState
 public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 {
     [Header("Speed Settings")]
-    public float globalSpeedMultiplier = 1;
+    public float startGlobalSpeedMultiplier = 1;
+    private float globalSpeedMultiplier;
+    public float GlobalSpeedMultiplier 
+    {
+        get => globalSpeedMultiplier;
+        set
+        {
+            globalSpeedMultiplier = value;
+            BallRigidbody.velocity *= value;
+
+            UpdateCurrentGravity();
+        } 
+    }
     public float slowness;
 
     [Header("Gravity Settings")]
@@ -38,12 +50,24 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     public float bounciness;
     public float dynamicFriction;
 
+    [Header("Multiplayer Settings")]
+    public float followerCollisionActivationDelay = 0.2f;
+
     private PhotonView photonView;
     public Rigidbody BallRigidbody { get; set; }
     public Collider BallCollider { get; private set; }
     public Vector3 LastVelocity { get; set; }
 
     private SpeedState speedState;
+    public SpeedState SpeedState 
+    {
+        get => speedState;
+        private set
+        {
+            speedState = value;
+            UpdateCurrentGravity();
+        }
+    }
 
     private Vector3 velocityBeforeFreeze = Vector3.zero;
     private float gravityBeforeFreeze = 0;
@@ -60,7 +84,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         forcesToApply = new List<Vector3>();
 
+        globalSpeedMultiplier = startGlobalSpeedMultiplier;
+
         ResetGravity();
+    }
+
+    private void Start()
+    {
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += DelayedCollisionActivation;
     }
 
     private void FixedUpdate()
@@ -72,6 +103,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             ApplyForces();
         }
     }
+    public void ResetBall()
+    {
+        SpeedState = SpeedState.NORMAL;
+        BallRigidbody.velocity = Vector3.zero;
+        CurrentGravity = 0;
+    }
+
+    #region Pause
 
     public void PauseBallPhysics()
     {
@@ -84,6 +123,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallRigidbody.velocity = pauseSavedVelocity;
         pauseSavedVelocity = Vector3.zero;
     }
+
+    #endregion
 
     #region Collision
 
@@ -123,11 +164,11 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void UpdateCurrentGravity()
     {
-        if (speedState == SpeedState.NORMAL)
+        if (SpeedState == SpeedState.NORMAL)
         {
             CurrentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier;
         }
-        else if (speedState == SpeedState.SLOW)
+        else if (SpeedState == SpeedState.SLOW)
         {
             CurrentGravity = baseGravity * globalSpeedMultiplier * globalSpeedMultiplier / (slowness * slowness);
         }
@@ -143,16 +184,17 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #region MovementHandling
 
-    [PunRPC]
-    public void ApplyNewVelocity(Vector3 newVelocity, Vector3 positionWhenHit, int newSpeedState, bool IsSpeedStateChangingSpeed)
+    public void OverrideRawVelocity(Vector3 newVelocity, int newSpeedState, bool shouldUpdateVelocity)
     {
-        transform.position = positionWhenHit;
-        BallRigidbody.velocity = newVelocity;
-        LastVelocity = newVelocity;
-        SetSpeedState((SpeedState)newSpeedState, IsSpeedStateChangingSpeed);
+        BallRigidbody.velocity = newVelocity * globalSpeedMultiplier;
+        LastVelocity = newVelocity * globalSpeedMultiplier;
+
+        SpeedState = (SpeedState)newSpeedState;
+        if(shouldUpdateVelocity)
+            AdaptVelocityAndGravityToSpeedState();
     }
 
-    public void ApplyNewVelocity(Vector3 newVelocity)
+    public void PhysicRelatedVelocityUpdate(Vector3 newVelocity)
     {
         BallRigidbody.velocity = newVelocity;
     }
@@ -170,7 +212,25 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         }
     }
 
-    private void FreezeBall()
+    private void AdaptVelocityAndGravityToSpeedState()
+    {
+        if(SpeedState == SpeedState.NORMAL)
+        {
+            BallRigidbody.velocity *= slowness;
+            LastVelocity = BallRigidbody.velocity;
+        }
+        else if(SpeedState == SpeedState.SLOW)
+        {
+            BallRigidbody.velocity /= slowness;
+            LastVelocity = BallRigidbody.velocity;
+        }
+    }
+
+    #endregion
+
+    #region Freeze
+
+    public void FreezeBall()
     {
         velocityBeforeFreeze = BallRigidbody.velocity;
         gravityBeforeFreeze = CurrentGravity;
@@ -181,7 +241,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallCollider.enabled = false;
     }
 
-    private void UnFreezeBall()
+    public void UnFreezeBall()
     {
         BallRigidbody.velocity = velocityBeforeFreeze;
         CurrentGravity = gravityBeforeFreeze;
@@ -189,43 +249,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallCollider.enabled = true;
     }
 
-    private void SetSpeedState(SpeedState newSpeedState, bool doesSpeedNeedToChange)
-    {
-        if(newSpeedState == SpeedState.NORMAL)
-        {
-            if(doesSpeedNeedToChange)
-            {
-                BallRigidbody.velocity *= slowness;
-                LastVelocity = BallRigidbody.velocity;
-            }
-
-            speedState = SpeedState.NORMAL;
-        }
-        else if(newSpeedState == SpeedState.SLOW)
-        {
-            if(doesSpeedNeedToChange)
-            {
-                BallRigidbody.velocity /= slowness;
-                LastVelocity = BallRigidbody.velocity;
-            }
-
-            speedState = SpeedState.SLOW;
-        }
-
-        UpdateCurrentGravity();
-    }
-
-    public void SetGlobalSpeedMultiplier(float newValue)
-    {
-        globalSpeedMultiplier = newValue;
-        BallRigidbody.velocity *= newValue;
-
-        UpdateCurrentGravity();
-    }
-
     #endregion
 
-    #region UilityMethods
+    #region Ball First Spawn
 
     public void StartBallFirstSpawnCoroutine(float duration)
     {
@@ -249,16 +275,21 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallCollider.enabled = true;
     }
 
-    public void ResetBall()
+    #endregion
+
+
+    #region Collider
+
+    public void DelayedCollisionActivation()
     {
-        speedState = SpeedState.NORMAL;
-        BallRigidbody.velocity = Vector3.zero;
-        CurrentGravity = 0;
+        StartCoroutine(DelayedCollisionActivationCoroutine());
     }
 
-    private float MakeLinearAssociation(float variable, float slope, float offset)
+    private IEnumerator DelayedCollisionActivationCoroutine()
     {
-        return slope * variable + offset;
+        yield return new WaitForSeconds(followerCollisionActivationDelay);
+
+        BallCollider.enabled = true;
     }
 
     #endregion
@@ -269,13 +300,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-
+            stream.SendNext(BallRigidbody.velocity);
+            stream.SendNext((short)SpeedState);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
+            BallRigidbody.velocity = (Vector3)stream.ReceiveNext();
+            SpeedState = (SpeedState)stream.ReceiveNext(); 
         }
     }
     #endregion

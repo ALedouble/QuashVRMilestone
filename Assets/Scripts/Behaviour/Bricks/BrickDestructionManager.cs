@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using Photon.Pun;
 
 public class BrickDestructionManager : MonoBehaviour
 {
     public static BrickDestructionManager Instance;
+
+    private PhotonView photonView;
 
     private void Awake()
     {
@@ -16,28 +19,46 @@ public class BrickDestructionManager : MonoBehaviour
         }
 
         Instance = this;
-    }
 
-    public List<int>[] currentLayerBricks;
-    //A Déplacer dans son propre scripte
-    public void HitBrickByID(int brickID, int playerID)
-    {
-        //Systeme de Memoire
-        if ((brickID < BrickManager.Instance.AllBricks.Count && brickID >= 0) && BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID)) //+Check que la balle soit sur le layer actif appartenant au player
-        {
-            Debug.Log("Brick To Be Destroyed!");
-            BrickManager.Instance.AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
-            BrickManager.Instance.CurrentLayersBricks[playerID].Remove(brickID);
-        }
-        else
-            Debug.LogError("Is not on CurrentLayer");
+        photonView = GetComponent<PhotonView>();
     }
 
     public void HitBricksByID(int[] brickIDs, int playerID)
     {
+        List<int> brickToDestroy = new List<int>();
+
+        foreach (int brickID in brickIDs)
+        {
+            if(ShouldBrickBeDestroyed(brickID, playerID))
+                brickToDestroy.Add(brickID);
+        }
+
+        if (brickToDestroy.Count != 0)
+        {
+            if (GameManager.Instance.offlineMode)
+                DestroyBricks(brickToDestroy.ToArray(), playerID);
+            else
+                photonView.RPC("DestroyBricks", RpcTarget.Others, brickToDestroy.ToArray(), playerID);
+        }
+            
+    }
+
+    private bool ShouldBrickBeDestroyed(int brickID, int playerID)
+    {
+        if (BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    [PunRPC]
+    private void DestroyBricks(int[] brickIDs, int playerID)
+    {
         foreach(int brickID in brickIDs)
         {
-            HitBrickByID(brickID, playerID);
+            BrickManager.Instance.AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
+            BrickManager.Instance.CurrentLayersBricks[playerID].Remove(brickID);
         }
     }
 }

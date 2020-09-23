@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,10 +14,31 @@ public enum BallStatus
 public class BallInfo : MonoBehaviour
 {
     private int wallHitCount;
-    private BallStatus currentBallStatus = BallStatus.Inactive;
     public int WallHitCount { get => wallHitCount; }
+    private BallStatus currentBallStatus = BallStatus.Inactive;
     public BallStatus CurrentBallStatus { get => currentBallStatus; }
-    public QPlayer LastPlayerWhoHitTheBall { get; set; }
+    private QPlayer lastPlayerWhoHitTheBall;
+    public QPlayer LastPlayerWhoHitTheBall
+    {
+        get => lastPlayerWhoHitTheBall;
+        set
+        {
+            lastPlayerWhoHitTheBall = value;
+
+            if(!GameManager.Instance.offlineMode && BallMultiplayerBehaviour.Instance.IsBallOwner)
+            {
+                photonView.RPC("SetLastPlayerWhoHitTheBall", RpcTarget.Others, value);
+            }
+        }
+    }
+    
+    private PhotonView photonView;
+
+
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
 
     public void SetupBallInfo()
     {
@@ -33,7 +55,7 @@ public class BallInfo : MonoBehaviour
         BallEventManager.instance.OnBallDespawn += EnterInactiveState;
     }
 
-    private void IncrementWallHitCount()
+    private void IncrementWallHitCount(Collision collision)
     {
         wallHitCount++;
 
@@ -43,7 +65,7 @@ public class BallInfo : MonoBehaviour
         }
     }
 
-    private void ResetHitWallCount()
+    private void ResetHitWallCount(Collision collision)
     {
         wallHitCount = 0;
     }
@@ -58,15 +80,24 @@ public class BallInfo : MonoBehaviour
         currentBallStatus = BallStatus.FloatingState;
     }
 
-    private void EnterHitState()
+    private void EnterHitState(Collision collision)
     {
         currentBallStatus = BallStatus.HitState;
     }
 
-    private void EnterReturnState()
+    private void EnterReturnState(Collision collision)
     {
         currentBallStatus = BallStatus.ReturnState;
 
         BallManager.instance.SendOnReturnStart();
     }
+
+    #region Multiplayer Setter
+
+    private void SetLastPlayerWhoHitTheBall(QPlayer playerID)
+    {
+        LastPlayerWhoHitTheBall = playerID;
+    }
+
+    #endregion
 }

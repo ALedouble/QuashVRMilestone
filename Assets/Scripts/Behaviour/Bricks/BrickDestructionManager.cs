@@ -45,7 +45,7 @@ public class BrickDestructionManager : MonoBehaviour
     private bool ShouldBrickBeDestroyed(int brickID, int playerID, int explosionColorID)
     {
         int brickColorID = BrickManager.Instance.AllBricks[brickID].GetComponent<BrickInfo>().colorID;
-        return BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID) && (brickColorID == 0 || brickColorID == explosionColorID));
+        return BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID) && (brickColorID == 0 || brickColorID == explosionColorID);
     }
 
     [PunRPC]

@@ -12,7 +12,6 @@ public class BallRebounceWallInteraction : MonoBehaviour
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
-    private BallPhysicInfo ballPhysicInfo;
 
     private Coroutine IgnoreCollisionCoroutine;
 
@@ -21,7 +20,6 @@ public class BallRebounceWallInteraction : MonoBehaviour
     {
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
         ballInfo = GetComponent<BallInfo>();
-        ballPhysicInfo = GetComponent<BallPhysicInfo>();
 
         nBMagicReturn = new NoBounceMagicReturn(depthVelocity, ballPhysicBehaviour.baseGravity, xAcceleration);
         targetSelector = GetComponent<ITargetSelector>();
@@ -36,9 +34,7 @@ public class BallRebounceWallInteraction : MonoBehaviour
             // Sound Magnitude TO BE FIX !!!
             AudioManager.instance.PlaySound("Bouncing_Back", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
 
-            BallEventManager.instance.OnBallCollision("RebounceWall");
-
-            ballPhysicInfo.IsOnFrontWallCollisionFrame = true;
+            BallEventManager.instance.OnBallCollision("RebounceWall", other);
         }
     }
 
@@ -54,7 +50,7 @@ public class BallRebounceWallInteraction : MonoBehaviour
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
-        ballPhysicBehaviour.ApplyNewVelocity(newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW, true);
+        ballPhysicBehaviour.OverrideRawVelocity(newVelocity, (int)SpeedState.SLOW, true);
     }
 
     private IEnumerator IgnoreCollision()

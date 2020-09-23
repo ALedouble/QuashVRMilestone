@@ -56,7 +56,7 @@ public class BallEventManager : MonoBehaviour
                 break;
             case "RebounceWall":
                 if (OnCollisionWithRebounceWall != null)
-                    OnCollisionWithRebounceWall();
+                    OnCollisionWithRebounceWall(collision);
                 break;
             case "Brick":
                 if (OnCollisionWithBrick != null)

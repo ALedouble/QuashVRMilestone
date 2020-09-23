@@ -47,13 +47,12 @@ public class BallRacketInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
-            RacketHitGameFeelVariation(other);
+            SendFeedback(other);
             
             Vector3 ballNewVelocity = RacketInteraction(other);
 
             BallEventManager.instance.OnBallCollision("Racket", other);
         }
-
     }
 
     private void RacketHitGameFeelVariation(Collision other)
@@ -215,20 +214,24 @@ public class BallRacketInteraction : MonoBehaviour
 
     #region Feedback
 
-    private void PlayFeedback(Vector3 contactPoint, Vector3 ballNewVelocity)
+    private void SendFeedback(Collision collision)
     {
-        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit");
+        float hitRate = GetCurrentHitRateAtCollision(collision);
+        float vib = hitRate * vibModifier;
+
+        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
 
         if (GameManager.Instance.offlineMode)
-            AudioManager.instance.PlaySound("RacketHit", contactPoint, ballNewVelocity.magnitude / hitMaxSpeed);
+            PlayFeedback(collision.GetContact(0).point, hitRate);
         else
-            photonView.RPC("PlaySound", RpcTarget.All, "RacketHit", contactPoint, ballNewVelocity.magnitude / hitMaxSpeed);
+            photonView.RPC("PlayFeedback", RpcTarget.All, "RacketHit", collision.contacts[0].point, hitRate);
     }
 
     [PunRPC]
-    private void PlaySound(string soundTag, Vector3 contactPoint, float intensity)
+    private void PlayFeedback(Vector3 contactPoint, float intensity)
     {
         AudioManager.instance.PlaySound("RacketHit", contactPoint, intensity);
+        RacketManager.instance.racketPostProcess.bloomPercent = intensity;
     }
 
     #endregion

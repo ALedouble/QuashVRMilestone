@@ -119,7 +119,64 @@ public class JSON : MonoBehaviour
             SaveDATA(null);
         }
 
+        string savedString = File.ReadAllText(GetFilePathWithSteamID());
+        SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+        if (levelsToSave.Count != loadObject.savedObjects.Count)
+        {
+            Debug.Log("Loading NEW CAMPAIGN CONFIG with " + (levelsToSave.Count - loadObject.savedObjects.Count));
+            RefreshDataCount(loadObject);
+        }
+
         LoadDATA();
+    }
+
+    private void RefreshDataCount(SavedObject oldSave)
+    {
+        SavedObject newDATA = new SavedObject() { };
+        newDATA.saveGameVersion = oldSave.saveGameVersion;
+
+        //Debug.Log("Evolve at " + newDATA.saveGameVersion);
+
+        string json = "";
+
+        if(levelsToSave.Count > oldSave.savedObjects.Count)
+        {
+            for (int i = 0; i < oldSave.savedObjects.Count; i++)
+            {
+                newDATA.savedObjects.Add(new SavedValues());
+
+                newDATA.savedObjects[i].unlock = oldSave.savedObjects[i].unlock;
+                newDATA.savedObjects[i].done = oldSave.savedObjects[i].done;
+
+                newDATA.savedObjects[i].bestScore = oldSave.savedObjects[i].bestScore;
+                newDATA.savedObjects[i].bestCombo = oldSave.savedObjects[i].bestCombo;
+                newDATA.savedObjects[i].bestTime = oldSave.savedObjects[i].bestTime;
+            }
+
+            for (int i = oldSave.savedObjects.Count; i < levelsToSave.Count; i++)
+            {
+                newDATA.savedObjects.Add(new SavedValues());
+            }
+        }
+        else
+        {
+            for (int i = 0; i < levelsToSave.Count; i++)
+            {
+                newDATA.savedObjects.Add(new SavedValues());
+
+                newDATA.savedObjects[i].unlock = oldSave.savedObjects[i].unlock;
+                newDATA.savedObjects[i].done = oldSave.savedObjects[i].done;
+
+                newDATA.savedObjects[i].bestScore = oldSave.savedObjects[i].bestScore;
+                newDATA.savedObjects[i].bestCombo = oldSave.savedObjects[i].bestCombo;
+                newDATA.savedObjects[i].bestTime = oldSave.savedObjects[i].bestTime;
+            }
+        }
+        
+
+        json = JsonUtility.ToJson(newDATA);
+        File.WriteAllText(GetFilePathWithSteamID(), json);
     }
 
     /// <summary>

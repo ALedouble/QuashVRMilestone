@@ -41,8 +41,9 @@ public class BallManager : MonoBehaviour
     public BallInfo BallInfo { get; private set; }
     public ITargetSelector TargetSelector { get; private set; }
 
-    private Coroutine floatCoroutine;
-    
+    public Coroutine floatCoroutine;
+
+    public BallApparitionBehaviour BallApparitionBehaviour;
 
     public event Action OnFirstBounce;
     public event Action OnReturnStart;
@@ -101,7 +102,8 @@ public class BallManager : MonoBehaviour
         BallColorBehaviour = Ball.GetComponent<BallColorBehaviour>();
         BallPhysicBehaviour = Ball.GetComponent<BallPhysicBehaviour>();
         BallPhysicInfo = Ball.GetComponent<BallPhysicInfo>();
-        
+        BallApparitionBehaviour = Ball.GetComponent<BallApparitionBehaviour>();
+
         TargetSelector = BallPhysicBehaviour.GetComponent<ITargetSelector>();
         BallInfo = Ball.GetComponent<BallInfo>();
         BallInfo.SetupBallInfo();                                                                               // A transformer en start
@@ -157,6 +159,9 @@ public class BallManager : MonoBehaviour
 
     private void StartBallFisrtSpawnCoroutine()
     {
+        if (BallApparitionBehaviour != null)
+            BallApparitionBehaviour.ResumeLoading();
+
         BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
 
         BallColorBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
@@ -180,7 +185,7 @@ public class BallManager : MonoBehaviour
         ResetBall();
 
         BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
-        floatCoroutine = StartCoroutine(FloatCoroutine());
+        //floatCoroutine = StartCoroutine(FloatCoroutine());
     }
 
     public IEnumerator FloatCoroutine()

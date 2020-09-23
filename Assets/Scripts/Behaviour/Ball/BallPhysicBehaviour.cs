@@ -246,6 +246,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             }
         }
 
+        BallManager.instance.floatCoroutine = StartCoroutine(BallManager.instance.FloatCoroutine());
         BallCollider.enabled = true;
     }
 

@@ -30,7 +30,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     private PhotonView photonView;
     private Renderer myRenderer;
 
-    
+
     private void Awake()
     {
         photonView = PhotonView.Get(this);
@@ -105,7 +105,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         materials[0].SetColor("Color_69EC7551", LevelManager.instance.colorPresets[0].colorPresets[0].coreEmissiveColors);
         //Line Color
         materials[0].SetColor("Color_DE7EE60A", LevelManager.instance.colorPresets[0].colorPresets[0].fresnelColors);
-        
+
         //Glow Color
         materials[1].SetColor("Color_89166C92", LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors * 6);
         //Ball Color
@@ -124,7 +124,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         myRenderer.sharedMaterial = materials[colorID];
     }
 
-    
+
 
     private void SetupTrails()
     {
@@ -132,7 +132,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         trails[1].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[1].coreEmissiveColors;
         trails[2].GetComponent<TrailRenderer>().startColor = LevelManager.instance.colorPresets[0].colorPresets[2].coreEmissiveColors;
 
-        foreach(GameObject trail in trails)
+        foreach (GameObject trail in trails)
         {
             trail.SetActive(false);
         }
@@ -190,7 +190,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     [PunRPC]
     private void SwitchColorLocally()
     {
-        colorID = ( colorID % 2 ) + 1;
+        colorID = (colorID % 2) + 1;
         myRenderer.sharedMaterial = materials[colorID];
 
         UpdateTrail();
@@ -202,7 +202,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
     #region Trail Methods
     public void UpdateTrail()
     {
-        for(int i = 0; i < trails.Length; i++)
+        for (int i = 0; i < trails.Length; i++)
         {
             trails[i].SetActive(i == colorID);
         }
@@ -210,7 +210,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
     public void DeactivateTrail()
     {
-        foreach(GameObject trail in trails)
+        foreach (GameObject trail in trails)
         {
             trail.SetActive(false);
         }
@@ -228,17 +228,30 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         yield return new WaitForEndOfFrame();
 
         float initialGlowPower = GetCurrentMaterial().GetFloat("Vector1_5584EFD3");
+        float initalAlpha = GetCurrentMaterial().GetFloat("Vector1_D0CFE999");
+
         float timeElapsed = 0f;
-        
-        while(timeElapsed < duration)
+        while (timeElapsed < duration)
         {
-            GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower * timeElapsed / duration);
+            float timeRate = timeElapsed / duration;
+
+            GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower * timeRate);
+            GetCurrentMaterial().SetFloat("Vector1_D0CFE999", 0);
+
+            if (BallManager.instance.BallApparitionBehaviour != null)
+                BallManager.instance.BallApparitionBehaviour.UpdateLoadingCountdown((duration - timeElapsed), timeRate);
+
+            //if(duration - timeElapsed <= BallManager.instance.BallApparitionBehaviour.succeedAnim.length)                 /// if the "succeed animation" is essential, we can make it appeared before time ends
+
             yield return new WaitForEndOfFrame();
-            if(!BallManager.instance.IsBallPaused)
+            if (!BallManager.instance.IsBallPaused)
                 timeElapsed += Time.deltaTime;
+
         }
-        
+
         GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower);
+        GetCurrentMaterial().SetFloat("Vector1_D0CFE999", initalAlpha);
+        BallManager.instance.BallApparitionBehaviour.EndLoading();
     }
     #endregion
 }

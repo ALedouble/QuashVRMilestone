@@ -5,20 +5,31 @@ using Photon.Pun;
 
 public class BallBackWallInteraction : MonoBehaviour
 {
+    private BallPhysicBehaviour ballPhysicBehaviour;
+
     private PhotonView photonView;
 
     private void Awake()
     {
         photonView = GetComponent<PhotonView>();
+
+        ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "BackWall")
         {
-            BallManager.instance.LoseBall();
-
-            BallEventManager.instance.OnBallCollision("BackWall");
+            if(GameManager.Instance.offlineMode || BallMultiplayerBehaviour.Instance.IsBallOwner)
+            {
+                BallManager.instance.LoseBall();
+            }
+            else
+            {
+                ballPhysicBehaviour.FreezeBall();
+            }
+                
+            BallEventManager.instance.OnBallCollision("BackWall", other);
         }
     }
 }

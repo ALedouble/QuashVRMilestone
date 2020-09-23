@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ExplosionManager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class ExplosionManager : MonoBehaviour
     public int numberOfDivision;
     public float raycastOffset = 0;
 
+    private PhotonView photonView;
+
     private void Awake()
     {
         if(Instance != null)
@@ -33,12 +36,13 @@ public class ExplosionManager : MonoBehaviour
         Instance = this;
 
         currentExplosions = new List<GameObject>();
+
+        photonView = GetComponent<PhotonView>();
     }
 
     public void CreateExplosion(Vector3 origin, int playerID)
     {
-        FXManager.Instance.PlayExplosionFX(origin, playerID);
-        AudioManager.instance.PlaySound("Explosion", Vector3.zero);
+        SendFeedback(origin, playerID);
 
         GameObject newExplosion = PoolManager.instance.SpawnFromPool("ExplosionLogic", Vector3.zero, Quaternion.identity);
         currentExplosions.Add(newExplosion);
@@ -55,5 +59,20 @@ public class ExplosionManager : MonoBehaviour
             currentExplosions.Remove(explosion);
             explosion.SetActive(false);
         }
+    }
+
+    private void SendFeedback(Vector3 origin, int playerID)
+    {
+        if (GameManager.Instance.offlineMode)
+            PlayFeedback(origin, playerID);
+        else
+            photonView.RPC("PlayFeedback", RpcTarget.All, origin, playerID);
+    }
+
+    [PunRPC]
+    private void PlayFeedback(Vector3 origin, int playerID)
+    {
+        FXManager.Instance.PlayExplosionFX(origin, playerID);
+        AudioManager.instance.PlaySound("Explosion", origin);
     }
 }

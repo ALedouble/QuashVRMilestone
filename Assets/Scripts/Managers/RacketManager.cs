@@ -31,6 +31,8 @@ public class RacketManager : MonoBehaviour
     //[HideInInspector]
     public GameObject foreignPlayerRacket;
 
+    private Collider localPlayerRacketCollider;
+
     public RacketFX localRacketFX;
     public RacketFX foreignRacketFX;
 
@@ -73,6 +75,12 @@ public class RacketManager : MonoBehaviour
         racketActionType = RacketActionType.NONE;
         IsEmpowered = false;
         //Initialize(RacketActionType.RACKETEMPOWERED);
+    }
+
+    private void Start()
+    {
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += SetBallOwnerCollisions;
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += SetBallFollowerCollisions;
     }
 
     public void RacketAction()
@@ -140,6 +148,7 @@ public class RacketManager : MonoBehaviour
     public void SetLocalRacket(GameObject localRacket)
     {
         localPlayerRacket = localRacket;
+        localPlayerRacketCollider = localRacket.GetComponent<Collider>();
 
         AssociateRacketWithController();
 
@@ -231,8 +240,22 @@ public class RacketManager : MonoBehaviour
     }
     #endregion
 
-    #region HitEvent
-    public void OnHitEvent(GameObject hitObject)                        // Faire Un vrai event?
+    #region Collider
+
+    private void SetBallOwnerCollisions()
+    {
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
+    }
+
+    private void SetBallFollowerCollisions()
+    {
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, false);
+    }
+
+    #endregion
+
+    #region OnHit
+    public void OnHit(GameObject hitObject)                        // Faire Un vrai event?
     {
         StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
     }

@@ -26,11 +26,6 @@ public class Explosion : MonoBehaviour
     private float mainExplosionDelay;
     private float mainExplosionDuration;
 
-    //public Explosion(Vector3 position, int playerID)
-    //{
-    //    Setup(position, playerID);
-    //}
-
     public void Setup(Vector3 position, int playerID)
     {
         this.position = position;
@@ -117,7 +112,7 @@ public class Explosion : MonoBehaviour
                 hitBrickIDs[i] = hitsInfo[i].collider.gameObject.GetComponent<BrickInfo>().BrickID;
             }
 
-            BrickDestructionManager.Instance.HitBricksByID(hitBrickIDs, playerID);
+            BrickDestructionManager.Instance.HitBricksByID(hitBrickIDs, playerID, BallManager.instance.GetBallColorID());
         }
     }
 
@@ -169,7 +164,7 @@ public class Explosion : MonoBehaviour
                 {
                     if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
                     {
-                        BrickDestructionManager.Instance.HitBrickByID(brickInfo.BrickID, playerID);
+                        BrickDestructionManager.Instance.HitBricksByID(new int[1] { brickInfo.BrickID }, playerID, BallManager.instance.GetBallColorID());
                     }
                     else
                     {

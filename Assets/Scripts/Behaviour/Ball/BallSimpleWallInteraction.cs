@@ -23,10 +23,9 @@ public class BallSimpleWallInteraction : MonoBehaviour
         {
             StandardBounce(other.GetContact(0));
             // Sound Magnitude TO BE FIX
-            AudioManager.instance.PlaySound("WallHit", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
-            FXManager.Instance.PlayWallBounceFX(other.GetContact(0).point, other.contacts[0].normal);
+            SendFeedback(other.GetContact(0).point, other.contacts[0].normal);
 
-            BallEventManager.instance.OnBallCollision("Wall");
+            BallEventManager.instance.OnBallCollision("Wall", other);
         }
     }
 
@@ -42,6 +41,25 @@ public class BallSimpleWallInteraction : MonoBehaviour
             Vector3 tangent = Vector3.Normalize(ballPhysicBehaviour.LastVelocity - normalVelocity * normal);
             float tangentVelocity = Vector3.Dot(tangent, ballPhysicBehaviour.LastVelocity);
 
-            ballPhysicBehaviour.ApplyNewVelocity(((1 - ballPhysicBehaviour.dynamicFriction) * tangentVelocity * tangent - ballPhysicBehaviour.bounciness * normalVelocity * normal));
+            ballPhysicBehaviour.PhysicRelatedVelocityUpdate(((1 - ballPhysicBehaviour.dynamicFriction) * tangentVelocity * tangent - ballPhysicBehaviour.bounciness * normalVelocity * normal));
+    }
+
+    private void SendFeedback(Vector3 contactPoint, Vector3 normal)
+    {
+        if(GameManager.Instance.offlineMode)
+        {
+            PlayFeedback(contactPoint, normal);
+        }
+        else if(BallMultiplayerBehaviour.Instance.IsBallOwner)
+        {
+            photonView.RPC("PlayFeedback", RpcTarget.All, contactPoint, normal);
+        }
+    }
+
+    [PunRPC]
+    private void PlayFeedback(Vector3 contactPoint, Vector3 normal)
+    {
+        AudioManager.instance.PlaySound("WallHit", contactPoint, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
+        FXManager.Instance.PlayWallBounceFX(contactPoint, normal);
     }
 }

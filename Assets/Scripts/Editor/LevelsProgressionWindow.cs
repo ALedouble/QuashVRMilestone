@@ -421,6 +421,7 @@ public class LevelsProgressionWindow : EditorWindow
         EditorUtility.SetDirty(level);
 
         InitLevelProgression();
+        RefreshInspector();
     }
 
     void EventHandler()
@@ -532,6 +533,11 @@ public class LevelsProgressionWindow : EditorWindow
 
             PositionChecker(conditionLevelPos, levelselectedPos);
         }
+    }
+
+    void DrawPanelPositionsPreview()
+    {
+
     }
 
     void GetAllLevels()

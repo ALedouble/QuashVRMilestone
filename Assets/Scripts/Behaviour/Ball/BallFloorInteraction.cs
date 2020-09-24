@@ -120,6 +120,10 @@ public class BallFloorInteraction : MonoBehaviour
 
         BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
         BallManager.instance.LoseBall();
+
+        if(!LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
+            ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
+
         Debug.Log("BallResetCoroutine: LoseBall");
     }
 

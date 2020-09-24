@@ -23,6 +23,7 @@ public class BallBackWallInteraction : MonoBehaviour
             if(GameManager.Instance.offlineMode || BallMultiplayerBehaviour.Instance.IsBallOwner)
             {
                 BallManager.instance.LoseBall();
+                ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
             }
             else
             {

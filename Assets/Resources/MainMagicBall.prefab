@@ -887,8 +887,9 @@ GameObject:
   - component: {fileID: 68396075229744682}
   - component: {fileID: 4786920642494746230}
   - component: {fileID: 7253305630632793683}
+  - component: {fileID: 4666939921468058419}
   - component: {fileID: 323053201}
-  - component: {fileID: 323053215}
+  - component: {fileID: 7449144409316582235}
   - component: {fileID: -6548133154734702371}
   - component: {fileID: 7492487284863152756}
   m_Layer: 9
@@ -1120,7 +1121,6 @@ MonoBehaviour:
   hitSpeedMultiplier: 3
   ballSpeedWeight: 0
   racketFriction: 1
-  mixRatio: 0
 --- !u!114 &68396075229744682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,6 +1163,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b589b70c0bde53e4ea55c04a33eb6150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4666939921468058419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d1c43ffc315d748afaf1b1f2d7a43f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &323053201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,20 +1193,20 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 323053215}
+  - {fileID: 0}
   - {fileID: 4646906268572400308}
   - {fileID: -6548133154734702371}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &323053215
+--- !u!114 &7449144409316582235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758958001795561110}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
@@ -1209,7 +1221,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758958001795561110}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
   m_Name: 

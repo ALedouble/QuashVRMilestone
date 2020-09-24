@@ -12,8 +12,11 @@ public class PlayerSettings : MonoBehaviour
         //public float shoulderHeight;
 
         public SwitchColorInputType switchColorInputType;
-        [Range(0f,1f)]
+
+        [Range(0f, 1f)]
         public float flashIntensity;
+
+        public bool hadDominantHandWarning;
 
         public PlayerPreferences(PlayerHand dominantHand, /* float shoulderHeight, */SwitchColorInputType switchColorInputType, float flashIntensity)
         {
@@ -21,6 +24,7 @@ public class PlayerSettings : MonoBehaviour
             //this.shoulderHeight = shoulderHeight;
             this.switchColorInputType = switchColorInputType;
             this.flashIntensity = flashIntensity;
+            hadDominantHandWarning = false;
         }
     }
 
@@ -41,23 +45,25 @@ public class PlayerSettings : MonoBehaviour
     public SwitchColorInputType switchColorInputTypeDefaultValue = SwitchColorInputType.Hold;
 
     [Header("FlashIntensity Settings")]
-    [Range(1f,2f)]
+    [Range(1f, 2f)]
     public float flashIntensityDefaultValue = 2;
 
     #endregion
 
-    public PlayerHand PlayerDominantHand 
+    public PlayerHand PlayerDominantHand
     {
         get => playerPreferences.dominantHand;
         set
         {
-            if(IsDominantHandValid(value))
+            if (IsDominantHandValid(value))
             {
                 playerPreferences.dominantHand = value;
                 SavePlayerSettings();
             }
         }
     }
+
+    #region ShoulderHeight
     //public float PlayerShoulderHeight 
     //{
     //    get => playerPreferences.dominantHand;
@@ -70,18 +76,21 @@ public class PlayerSettings : MonoBehaviour
     //        }
     //    }
     //}
+    #endregion
+
     public SwitchColorInputType SwitchColorInputType
     {
         get => playerPreferences.switchColorInputType;
-        set 
+        set
         {
-            if(IsSwitchColorInputTypeValid(value))
+            if (IsSwitchColorInputTypeValid(value))
             {
                 playerPreferences.switchColorInputType = value;
                 SavePlayerSettings();
             }
         }
     }
+
     public float FlashIntensity
     {
         get => playerPreferences.flashIntensity - 1f;
@@ -92,11 +101,21 @@ public class PlayerSettings : MonoBehaviour
                 playerPreferences.flashIntensity = value;
                 SavePlayerSettings();
             }
-                
+        }
+    }
+
+    public bool HadDominantHandWarning
+    {
+        get => playerPreferences.hadDominantHandWarning;
+        set
+        {
+            playerPreferences.hadDominantHandWarning = value;
+            SavePlayerSettings();
         }
     }
 
     private PlayerPreferences playerPreferences;
+
 
     private void Awake()
     {
@@ -108,11 +127,11 @@ public class PlayerSettings : MonoBehaviour
 
     public void LoadPlayerSettings()
     {
-        if(System.IO.File.Exists(Application.persistentDataPath + "/PlayerSettings.json"))
+        if (System.IO.File.Exists(Application.persistentDataPath + "/PlayerSettings.json"))
         {
             string preferencesToLoad = System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerSettings.json");
             playerPreferences = JsonUtility.FromJson<PlayerPreferences>(preferencesToLoad);
-            if(!CheckPreferencesIntegrity(playerPreferences))
+            if (!CheckPreferencesIntegrity(playerPreferences))
                 SavePlayerSettings();
         }
         else
@@ -139,7 +158,7 @@ public class PlayerSettings : MonoBehaviour
     {
         bool preferencesWasValid = true;
 
-        if(!IsDominantHandValid(preferrences.dominantHand))
+        if (!IsDominantHandValid(preferrences.dominantHand))
         {
             preferrences.dominantHand = dominantHandDefaultValue;
             preferencesWasValid = false;
@@ -157,7 +176,7 @@ public class PlayerSettings : MonoBehaviour
             preferencesWasValid = false;
         }
 
-        if(!IsFlashIntensityValid(preferrences.flashIntensity))
+        if (!IsFlashIntensityValid(preferrences.flashIntensity))
         {
             preferrences.flashIntensity = flashIntensityDefaultValue;
             preferencesWasValid = false;

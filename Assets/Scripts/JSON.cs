@@ -9,13 +9,11 @@ using Steamworks;
 public class SavedObject
 {
     public string saveGameVersion;
-    public bool hasBeenWarnedAboutHand;
     public List<SavedValues> savedObjects;
 
     public SavedObject()
     {
         saveGameVersion = "";
-        hasBeenWarnedAboutHand = false;
         savedObjects = new List<SavedValues>();
     }
 }
@@ -53,6 +51,7 @@ public class JSON : MonoBehaviour
 
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave.sav";
+
 
     public string GetFilePath()
     {
@@ -516,6 +515,8 @@ public class JSON : MonoBehaviour
                     newDATA.savedObjects[i].bestTime = loadDATA.savedObjects[i].bestTime;
             }
 
+            newDATA.saveGameVersion = loadDATA.saveGameVersion;
+
             json = JsonUtility.ToJson(newDATA);
         }
         else //NO DATA on file
@@ -556,13 +557,36 @@ public class JSON : MonoBehaviour
         CheckGameVersion(loadObject);
     }
 
+    public SavedObject GetData()
+    {
+        if (!File.Exists(GetFilePathWithSteamID()))
+        {
+            Debug.Log("NO DATA TO GET");
+            return null;
+        }
 
+        string savedString = File.ReadAllText(GetFilePathWithSteamID());
+        SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
+
+        return loadObject;
+    }
+
+
+    /// <summary>
+    /// Generate Hash from save
+    /// </summary>
+    /// <param name="json"></param>
     private void SaveHash(string json)
     {
         string hashValue = SecureData.Hash(json);
         PlayerPrefs.SetString("HASH", hashValue);
     }
 
+    /// <summary>
+    /// Check if the save version is unchanged from last load/save
+    /// </summary>
+    /// <param name="json"></param>
+    /// <returns></returns>
     private bool VerifyHash(string json)
     {
         string defaultValue = "No_Hash_Generated";

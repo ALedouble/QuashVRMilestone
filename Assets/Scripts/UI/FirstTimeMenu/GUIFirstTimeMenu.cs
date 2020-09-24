@@ -31,7 +31,7 @@ public class GUIFirstTimeMenu : MonoBehaviour
         currentSelectedHand = -1;
 
         rightHandedButtonScript = rightHandedButton.GetComponent<GUIFirstTimeDominantHandButton>();
-        leftHandedButtonScript = rightHandedButton.GetComponent<GUIFirstTimeDominantHandButton>();
+        leftHandedButtonScript = leftHandedButton.GetComponent<GUIFirstTimeDominantHandButton>();
 
         guiSounds = GetComponent<GUISounds>();
     }

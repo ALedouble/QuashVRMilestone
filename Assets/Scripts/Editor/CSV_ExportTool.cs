@@ -77,9 +77,12 @@ public static class CSV_ExportTool
             saveDatas = new SavedObject[filesPaths.Length];
             saveFiles = new DefaultAsset[filesPaths.Length];
 
+            int key = 324;
+
             for (int i = 0; i < filesPaths.Length; i++)
             {
                 string savedString = File.ReadAllText(AssetDatabase.GUIDToAssetPath(filesPaths[i]));
+                savedString = SecureData.EncryptDecrypt(savedString, key);
 
                 DefaultAsset loadObject = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(filesPaths[i]), typeof(DefaultAsset)) as DefaultAsset;
                 saveFiles[i] = loadObject;

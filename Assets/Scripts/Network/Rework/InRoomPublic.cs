@@ -112,7 +112,10 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         if(playersInRoom == 2)
         {
-
+            if (PhotonNetwork.IsMasterClient)
+            {
+                levelSelectionGo.SetActive(true);
+            }
         }
     }
 
@@ -125,6 +128,8 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         playersInRoom--;
         ClearPlayerListings();
         ListPlayers();
+
+        levelSelectionGo.SetActive(false);
     }
 
     public void LeaveRoomClick()

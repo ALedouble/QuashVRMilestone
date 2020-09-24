@@ -95,7 +95,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
             {
                 Debug.Log("instantiate");
                 GameObject tempList = Instantiate(playerListingPrefab, playersPanel);
-                TextMeshProUGUI tempText = tempList.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI tempText = tempList.transform.GetComponentInChildren<TextMeshProUGUI>();
                 tempText.text = player.NickName;
             }
         }

@@ -50,7 +50,7 @@ public class BallMultiplayerBehaviour : MonoBehaviour
             ReturnSwitchActions();
         }
 
-        OnBallOwnershipAcquisition();
+        OnBallOwnershipAcquisition?.Invoke();
         SendLoseBallOwnershipRPC();
     }
 
@@ -59,7 +59,7 @@ public class BallMultiplayerBehaviour : MonoBehaviour
         if (IsBallOwner)
             OnBallOwnershipAcquisition();
         else
-            OnBallOwnershipLoss();
+            OnBallOwnershipLoss?.Invoke();
     }
 
     private void SendLoseBallOwnershipRPC()
@@ -70,6 +70,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour
     [PunRPC]
     private void LoseBallOwnership()
     {
-        OnBallOwnershipLoss();  //Desactivé la collision avec la racket
+        OnBallOwnershipLoss?.Invoke();  //Desactivé la collision avec la racket
     }
 }

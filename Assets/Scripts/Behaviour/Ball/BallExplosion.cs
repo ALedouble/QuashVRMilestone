@@ -5,8 +5,6 @@ using Photon.Pun;
 
 public class BallExplosion : MonoBehaviour
 {
-    private Vector3 impactPosition;
-
     PhotonView photonView;
 
     private void Awake()
@@ -21,7 +19,9 @@ public class BallExplosion : MonoBehaviour
     {
         ScoreManager.Instance.CheckForComboBreak();
 
-        Vector3 pos = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
-        ExplosionManager.Instance.CreateExplosion(pos, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+        Vector3 impactPosition = collision.GetContact(0).point;
+
+        Vector3 position = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
+        ExplosionManager.Instance.CreateExplosion(position, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
     }
 }

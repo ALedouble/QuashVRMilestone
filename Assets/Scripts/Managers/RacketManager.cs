@@ -79,8 +79,7 @@ public class RacketManager : MonoBehaviour
 
     private void Start()
     {
-        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += SetBallOwnerCollisions;
-        BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += SetBallFollowerCollisions;
+        
     }
 
     public void RacketAction()
@@ -103,8 +102,6 @@ public class RacketManager : MonoBehaviour
     {
         TerminateRacketAction();
 
-        //Debug.Log("RacketManager.Initialize( TYPE : " + newRacketActionType + ")");
-
         switch (newRacketActionType)
         {
             case RacketActionType.NONE:
@@ -126,6 +123,9 @@ public class RacketManager : MonoBehaviour
         }
 
         racketActionType = newRacketActionType;
+
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += SetBallOwnerCollisions;
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += SetBallFollowerCollisions;
     }
 
     public void TerminateRacketAction()

@@ -63619,6 +63619,17 @@ MonoBehaviour:
           m_StringArgument: A_Window_Disappear
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1930187405}
+        m_MethodName: DisableSelectedLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2014119960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72075,6 +72086,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 3591302381172348688}
+    - target: {fileID: 587114879093894883, guid: cd08683452ede6e43a4df549e0e749a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: A_Window_Disappear_NoEvent
+      objectReference: {fileID: 0}
     - target: {fileID: 1254488526958390832, guid: cd08683452ede6e43a4df549e0e749a7,
         type: 3}
       propertyPath: m_AnchorMin.x

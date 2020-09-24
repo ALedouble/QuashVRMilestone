@@ -32,6 +32,7 @@ public class Campaign : MonoBehaviour
     [Range(0.01f, 3f)] public float scrollingSpeed;
 
     private LevelsScriptable levelToPlay;
+    private LevelButton buttonSelected;
 
     [Header("Stars")]
     public Sprite lockedStarSprite;
@@ -312,7 +313,7 @@ public class Campaign : MonoBehaviour
 
             //Set onClick Event to reload values on the Level Panel
             LevelsScriptable lvl = levelsImplemented[i];
-            level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
+            level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl, level));
 
             //"RIGHT NOW" For the first Level ONLY (because no unlockCondition required)
             if (levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
@@ -711,12 +712,13 @@ public class Campaign : MonoBehaviour
     /// Set up campaign details in the side panel
     /// </summary>
     /// <param name="selectedLevel"></param>
-    public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)
+    public void SetUpLevelRecapValues(LevelsScriptable selectedLevel, LevelButton button)
     {
         if (!sidePanel.activeSelf)
             sidePanel.SetActive(true);
 
         levelToPlay = selectedLevel;
+        buttonSelected = button;
 
         if (selectedLevel.level.levelSpec.levelName != null)
             levelRecapValues.levelTitle.text = selectedLevel.level.levelSpec.levelName;
@@ -1161,5 +1163,13 @@ public class Campaign : MonoBehaviour
         }
 
         return highest;
+    }
+
+    public void DisableSelectedLevel()
+    {
+        if (buttonSelected == null)
+            return;
+
+        buttonSelected.gameObject.GetComponent<Animator>().Play("Disabled");
     }
 }

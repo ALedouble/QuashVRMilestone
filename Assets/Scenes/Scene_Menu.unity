@@ -3417,13 +3417,15 @@ MonoBehaviour:
   - {fileID: 461926289}
   - {fileID: 867317011}
   levelCondition: {fileID: 42657158}
-  exoticCondition: {fileID: 0}
-  bounceModeTitle: 
-  mandatoryBounceDescription: 
-  suddenDeathTitle: 
-  suddenDeathDescription: 
-  timeAttackTitle: 
-  timeAttackDescription: 
+  exoticCondition: {fileID: 1391670125}
+  bounceModeTitle: Bouncy
+  mandatoryBounceDescription: "Bricks can only be destroyed after bouncing against\r
+    a wall."
+  suddenDeathTitle: Combo runner
+  suddenDeathDescription: Don't miss any shot! Any mistakes will make you lose.
+  timeAttackTitle: Time me up
+  timeAttackDescription: "Destroy each layer in an limited time! If you're too slow,\r
+    you will lose."
   stars:
   - {fileID: 389936662}
   - {fileID: 677605461}
@@ -36600,6 +36602,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 7743258009173056645}
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: A_Window_Appear
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!222 &519745967
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -69666,7 +69679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4507639602214164366
 RectTransform:
   m_ObjectHideFlags: 0
@@ -72180,7 +72193,7 @@ PrefabInstance:
     - target: {fileID: 3648152101866786558, guid: cd08683452ede6e43a4df549e0e749a7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3657102266239507484, guid: cd08683452ede6e43a4df549e0e749a7,
         type: 3}
@@ -72507,6 +72520,11 @@ PrefabInstance:
       propertyPath: buttonColorSwitchInputType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1842950923183214064, guid: cd08683452ede6e43a4df549e0e749a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8500017899036984615, guid: cd08683452ede6e43a4df549e0e749a7, type: 3}
     - {fileID: 2412927902497752198, guid: cd08683452ede6e43a4df549e0e749a7, type: 3}
@@ -72540,6 +72558,12 @@ MonoBehaviour:
   colorSwitchInputHoldButton: {fileID: 1396265219}
   colorSwitchInputClickButton: {fileID: 109304827}
   flashIntensitySlider: {fileID: 1952925070}
+--- !u!95 &7743258009173056645 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1939270144, guid: cd08683452ede6e43a4df549e0e749a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7743258009173056640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7754819247810521043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72887,7 +72911,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4193044685141538427}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 

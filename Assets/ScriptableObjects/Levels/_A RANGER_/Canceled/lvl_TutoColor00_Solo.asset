@@ -16795,7 +16795,7 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 00
+      levelNumber: 0
       LevelIndex: 0
       isDone: 0
       isUnlocked: 0
@@ -16823,6 +16823,7 @@ MonoBehaviour:
       timeForThisLevel: 120
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
+      ballSpawnColorID: 1
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0

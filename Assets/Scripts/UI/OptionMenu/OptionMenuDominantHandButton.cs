@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DominantHandButton : MonoBehaviour
+public class OptionMenuDominantHandButton : MonoBehaviour
 {
     public PlayerHand buttonHand;
 
@@ -11,11 +11,11 @@ public class DominantHandButton : MonoBehaviour
 
     public void OnDominantHandButtonClick()
     {
-        if(PlayerSettings.Instance.PlayerDominantHand != buttonHand)
+        if (PlayerSettings.Instance.PlayerDominantHand != buttonHand)
         {
             PlayerSettings.Instance.PlayerDominantHand = buttonHand;
-            DominantHandMainMenu.Instance.UpdateDominantHandButton();
-        } 
+            OptionMenu.Instance.UpdateDominantHandButtons();
+        }
     }
 
     public void UpdateBackground()

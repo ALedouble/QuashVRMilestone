@@ -12,8 +12,6 @@ public class BallManager : MonoBehaviour
     public static BallManager instance;
     #endregion
 
-    
-
     public bool isBallInstatiated;
     public GameObject ballPrefab;
     public GameObject Ball { get; private set; }
@@ -27,6 +25,7 @@ public class BallManager : MonoBehaviour
     [Header("Float Settings")]
     public float floatAmplitude;
     public float floatPeriod;
+    public bool canFloat;
 
     public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
 
@@ -37,12 +36,12 @@ public class BallManager : MonoBehaviour
     }
     public BallColorBehaviour BallColorBehaviour { get; private set; }
     public BallPhysicBehaviour BallPhysicBehaviour { get; private set; }
-    public BallPhysicInfo BallPhysicInfo { get; private set; }
     public BallInfo BallInfo { get; private set; }
     public ITargetSelector TargetSelector { get; private set; }
 
-    private Coroutine floatCoroutine;
-    
+    public Coroutine floatCoroutine;
+
+    public BallApparitionBehaviour BallApparitionBehaviour;
 
     public event Action OnFirstBounce;
     public event Action OnReturnStart;
@@ -58,6 +57,8 @@ public class BallManager : MonoBehaviour
         IsBallPaused = false;
     }
 
+    #region Instantiation Setup
+
     public GameObject InstantiateBall()
     {
         //Avoid Akward collision bug during stream Kappa
@@ -67,9 +68,9 @@ public class BallManager : MonoBehaviour
         if (GameManager.Instance.offlineMode)
         {
             //Debug.Log("Instanciate Ball OfflineMode");
-            GameObject returnBall = Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
-            returnBall.SetActive(false);
-            return returnBall;
+            GameObject instanciatedBall = Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
+            instanciatedBall.SetActive(false);
+            return instanciatedBall;
         }
         else if (PhotonNetwork.IsMasterClient)
         {
@@ -100,15 +101,17 @@ public class BallManager : MonoBehaviour
     {
         BallColorBehaviour = Ball.GetComponent<BallColorBehaviour>();
         BallPhysicBehaviour = Ball.GetComponent<BallPhysicBehaviour>();
-        BallPhysicInfo = Ball.GetComponent<BallPhysicInfo>();
-        
+        BallApparitionBehaviour = Ball.GetComponent<BallApparitionBehaviour>();
         TargetSelector = BallPhysicBehaviour.GetComponent<ITargetSelector>();
         BallInfo = Ball.GetComponent<BallInfo>();
         BallInfo.SetupBallInfo();                                                                               // A transformer en start
     }
 
+    #endregion
 
-    public void BallBecomeInPlay()                                                                              //Check util?
+    #region Ball Manipulation
+
+    public void BallBecomeInPlay(Collision collision)                                                                              //Check util?
     {
         if(GameManager.Instance.offlineMode)
             SetBallInPlay();
@@ -123,101 +126,18 @@ public class BallManager : MonoBehaviour
     {
         BallPhysicBehaviour.ResetGravity();
         BallColorBehaviour.UpdateTrail();
-        BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
+
+        if(BallMultiplayerBehaviour.Instance.IsBallOwner)
+            BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
+
         StopCoroutine(floatCoroutine);
     }
 
-    private void ResetBall()                                                                                        // ???
+    private void ResetBall()
     {
         BallPhysicBehaviour.ResetBall();
     }
 
-    public void PauseBall()
-    {
-        IsBallPaused = true;
-        BallPhysicBehaviour.PauseBallPhysics();
-    }
-
-    public void ResumeBall()
-    {
-        IsBallPaused = false;
-        BallPhysicBehaviour.ResumeBallPhysics();
-    }
-
-    #region Ball Manipulation
-    public void BallFirstSpawn()
-    {
-        //Debug.Log("BallFirstSpawn SpawnBallLocally!");
-        SpawnBallLocaly();
-
-        StartBallFisrtSpawnCoroutine();
-
-        // Ajouter le Timer
-    }
-
-    private void StartBallFisrtSpawnCoroutine()
-    {
-        BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
-
-        BallColorBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
-    }
-
-    public void SpawnTheBall()
-    {
-        if (GameManager.Instance.offlineMode)
-            SpawnBallLocaly();
-        else if (PhotonNetwork.IsMasterClient)
-            photonView.RPC("SpawnBallLocaly", RpcTarget.All);
-    }
-
-    [PunRPC]
-    private void SpawnBallLocaly()
-    {
-        Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + SpawnOffset;
-        Ball.SetActive(true);
-        BallColorBehaviour.DeactivateTrail();
-
-        ResetBall();
-
-        BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
-        floatCoroutine = StartCoroutine(FloatCoroutine());
-    }
-
-    public IEnumerator FloatCoroutine()
-    {
-        float t = 0;
-        Vector3 startPosition = Ball.transform.position;
-        Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
-
-        while (true)
-        {
-            yield return new WaitForFixedUpdate();
-
-            if(!IsBallPaused)
-            {
-                t += Time.fixedDeltaTime;
-                Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
-            }        
-        }
-    }
-
-    public void DespawnTheBall()
-    {
-        if (GameManager.Instance.offlineMode)
-            DespawnBallLocaly();
-        else if (PhotonNetwork.IsMasterClient)
-            photonView.RPC("DespawnBallLocaly", RpcTarget.All);
-    }
-
-    [PunRPC]
-    private void DespawnBallLocaly()
-    {
-        ResetBall();
-        Ball.SetActive(false);
-    }
-    #endregion
-
-    #region Gameplay
     public void LoseBall()
     {
         int nextPlayerTarget = (int)GetNextPlayerTarget();
@@ -231,7 +151,7 @@ public class BallManager : MonoBehaviour
                 LockWallManager.Instance.EnterProtectionState();
             }
         }
-        else if (PhotonNetwork.IsMasterClient)
+        else if (BallMultiplayerBehaviour.Instance.IsBallOwner)
         {
             photonView.RPC("LoseBallLocaly", RpcTarget.All, nextPlayerTarget);
         }
@@ -251,9 +171,114 @@ public class BallManager : MonoBehaviour
 
         DespawnBallLocaly();
 
-        TargetSelector.SetCurrentTarget((QPlayer)nextPlayerTargetID);
+        TargetSelector.SetCurrentTargetPlayer((QPlayer)nextPlayerTargetID);
+
         SpawnBallLocaly();
     }
+
+    #endregion
+
+    #region Ball Spawn/Despawn
+
+    public void BallFirstSpawn()
+    {
+        SpawnBallLocaly();
+
+        BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
+
+        StartBallFisrtSpawnCoroutine();
+    }
+
+    private void StartBallFisrtSpawnCoroutine()
+    {
+        if (BallApparitionBehaviour != null)
+            BallApparitionBehaviour.ResumeLoading();
+
+        BallPhysicBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
+
+        BallColorBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
+    }
+
+    public void SpawnTheBall()
+    {
+        if (GameManager.Instance.offlineMode)
+            SpawnBallLocaly();
+        else if (PhotonNetwork.IsMasterClient)
+            photonView.RPC("SpawnBallLocaly", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void SpawnBallLocaly()
+    {
+        if (TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
+        {
+            if (!GameManager.Instance.offlineMode && !BallMultiplayerBehaviour.Instance.IsBallOwner)
+                BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
+
+            BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+        }
+            
+        Ball.transform.position = TargetSelector.GetTargetPlayerPosition() + SpawnOffset;
+        Ball.SetActive(true);
+        BallColorBehaviour.DeactivateTrail();
+
+        ResetBall();
+
+        //floatCoroutine = StartCoroutine(FloatCoroutine());
+    }
+
+    public IEnumerator FloatCoroutine()
+    {
+        float t = 0;
+        Vector3 startPosition = Ball.transform.position;
+        Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
+
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+
+            if (!IsBallPaused && canFloat)
+            {
+                t += Time.fixedDeltaTime;
+                Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
+            }
+        }
+    }
+
+    public void DespawnTheBall()
+    {
+        if (GameManager.Instance.offlineMode)
+            DespawnBallLocaly();
+        else if (PhotonNetwork.IsMasterClient)
+            photonView.RPC("DespawnBallLocaly", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void DespawnBallLocaly()
+    {
+        ResetBall();
+        Ball.SetActive(false);
+    }
+
+    #endregion
+
+    #region Pause
+
+    public void PauseBall()
+    {
+        IsBallPaused = true;
+        BallPhysicBehaviour.PauseBallPhysics();
+    }
+
+    public void ResumeBall()
+    {
+        IsBallPaused = false;
+        BallPhysicBehaviour.ResumeBallPhysics();
+    }
+
+    #endregion
+
+    #region LastPlayerWhoHitTheBall
 
     public QPlayer GetLastPlayerWhoHitTheBall()
     {
@@ -266,13 +291,13 @@ public class BallManager : MonoBehaviour
         switch (BallInfo.CurrentBallStatus)                                              // A tester
         {
             case BallStatus.HitState:
-                nextPlayerTarget = TargetSelector.GetCurrentTarget();
+                nextPlayerTarget = TargetSelector.CurrentTargetPlayer;
                 break;
             case BallStatus.ReturnState:
-                nextPlayerTarget = TargetSelector.GetPreviousTarget();
+                nextPlayerTarget = TargetSelector.GetPreviousTargetPlayer();
                 break;
             default:
-                nextPlayerTarget = TargetSelector.GetCurrentTarget();
+                nextPlayerTarget = TargetSelector.CurrentTargetPlayer;
                 break;
         }
         return nextPlayerTarget;
@@ -284,10 +309,10 @@ public class BallManager : MonoBehaviour
         switch (BallInfo.CurrentBallStatus)                                              // A tester
         {
             case BallStatus.HitState:
-                playerWhoLostTheBall = TargetSelector.GetPreviousTarget();
+                playerWhoLostTheBall = TargetSelector.GetPreviousTargetPlayer();
                 break;
             case BallStatus.ReturnState:
-                playerWhoLostTheBall = TargetSelector.GetCurrentTarget();
+                playerWhoLostTheBall = TargetSelector.CurrentTargetPlayer;
                 break;
             default:
                 playerWhoLostTheBall = QPlayer.NONE;
@@ -296,12 +321,10 @@ public class BallManager : MonoBehaviour
         return playerWhoLostTheBall;
     }
 
-    
-
-    
     #endregion
 
     #region Color
+
     public int GetBallColorID()
     {
         return BallColorBehaviour.GetBallColor();
@@ -316,13 +339,16 @@ public class BallManager : MonoBehaviour
     {
         return BallColorBehaviour.GetBallMaterials();
     }
+
     #endregion
 
     #region Physics
+
     public void SetGlobalSpeedMultiplier(float newValue)
     {
-        BallPhysicBehaviour.SetGlobalSpeedMultiplier(newValue);
+        BallPhysicBehaviour.GlobalSpeedMultiplier = newValue;
     }
+
     #endregion
 
     public void SendOnFirstBounceEvent()

@@ -527,7 +527,7 @@ public class LevelManager : MonoBehaviour
         {
             EndOfLayerUpdates(playerID, currentLayer[playerID] - 1);
 
-            if (isThereAnotherLayer[playerID])
+            if (isThereAnotherLayer[playerID] && currentLevel.level.levelSpec.timeAttack)
                 TimeManager.Instance.OnTimeAttackBoost();
         }
 

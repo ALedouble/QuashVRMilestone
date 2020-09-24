@@ -42,6 +42,12 @@ public class PostProcessFlash : MonoBehaviour
         isAnimating = true;
     }
 
+    protected virtual void StartAnim(Collision collision)
+    {
+        animCount = 0.0f;
+        isAnimating = true;
+    }
+
     protected virtual void Animation()
     {
         if (!isAnimating) return;

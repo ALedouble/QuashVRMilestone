@@ -1124,21 +1124,33 @@ public class LevelInspectorScript : Editor
             tempAfterWalls.Add(currentLevel.level.levelWallBuilds.walls[i]);
         }
 
+        //New Duplicate layer
+        Wall newLayer = new Wall(tempBeforeWalls[tempBeforeWalls.Count - 1].wallBricks.Count);
+
+        for (int i = 0; i < tempBeforeWalls[tempBeforeWalls.Count - 1].wallBricks.Count; i++)
+        {
+            newLayer.wallBricks[i] = tempBeforeWalls[tempBeforeWalls.Count - 1].wallBricks[i];
+        }
 
         currentLevel.level.levelWallBuilds.walls = new Wall[numberOfLayers];
 
-
+        //Set new build
         for (int i = 0; i < numberOfLayers; i++)
         {
             currentLevel.level.levelWallBuilds.walls[i] = new Wall(newTotalColumns * newTotalRows);
         }
 
+        //Re-assign old walls build from the "selectedLayer" and before
         for (int i = 0; i < tempBeforeWalls.Count; i++)
         {
             currentLevel.level.levelWallBuilds.walls[i] = tempBeforeWalls[i];
         }
 
-        for (int i = 0; i < tempAfterWalls.Count; i++)
+        //Assign new duplicate layer
+        currentLevel.level.levelWallBuilds.walls[0 + tempBeforeWalls.Count] = newLayer;
+
+        //Re-assign old walls build from the layer after the new DUPLICATED one until the last one
+        for (int i = 1; i < tempAfterWalls.Count; i++)
         {
             currentLevel.level.levelWallBuilds.walls[i + tempBeforeWalls.Count] = tempAfterWalls[i];
         }
@@ -1685,36 +1697,40 @@ public class LevelInspectorScript : Editor
         {
             currentMode = selectedMode;
         }
+
         //Lock in 2D
-
-        switch (selectedViewMode)
+        if (currentLevel != null)
         {
-            case WaypointViewMode.All:
-                modeIndex = 0;
-                myTarget.canDrawConnection = true;
-                DrawWaypointIcon();
-                RefreshInspector();
-                break;
+            switch (selectedViewMode)
+            {
+                case WaypointViewMode.All:
+                    modeIndex = 0;
+                    myTarget.canDrawConnection = true;
 
-            case WaypointViewMode.Selected:
-                modeIndex = 1;
-                myTarget.canDrawConnection = true;
-                DrawWaypointIcon();
-                RefreshInspector();
-                break;
+                    DrawWaypointIcon();
+                    RefreshInspector();
+                    break;
 
-            case WaypointViewMode.None:
-                modeIndex = 2;
-                myTarget.canDrawConnection = false;
-                DrawWaypointIcon();
-                RefreshInspector();
-                break;
-        }
+                case WaypointViewMode.Selected:
+                    modeIndex = 1;
+                    myTarget.canDrawConnection = true;
+                    DrawWaypointIcon();
+                    RefreshInspector();
+                    break;
 
-        //Mode Change
-        if (selectedViewMode != currentViewMode)
-        {
-            currentViewMode = selectedViewMode;
+                case WaypointViewMode.None:
+                    modeIndex = 2;
+                    myTarget.canDrawConnection = false;
+                    DrawWaypointIcon();
+                    RefreshInspector();
+                    break;
+            }
+
+            //Mode Change
+            if (selectedViewMode != currentViewMode)
+            {
+                currentViewMode = selectedViewMode;
+            }
         }
     }
 

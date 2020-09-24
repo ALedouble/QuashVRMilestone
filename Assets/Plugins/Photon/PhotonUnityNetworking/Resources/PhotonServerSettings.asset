@@ -113,5 +113,10 @@ MonoBehaviour:
   - LeaveRoomOnClick
   - Disconnect
   - Kick
+  - BecomeBallOwner
+  - DestroyBricks
+  - LoseBallOwnership
+  - PlayFeedback
+  - SetCurrentTargetPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1

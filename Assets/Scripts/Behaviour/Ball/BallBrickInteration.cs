@@ -14,14 +14,12 @@ public class BallBrickInteration : MonoBehaviour
     private NoBounceMagicReturn nBMagicReturn;
 
     private BallPhysicBehaviour ballPhysicBehaviour;
-    private BallPhysicInfo ballPhysicInfo;
 
     private PhotonView photonView;
 
     private void Awake()
     {
         ballPhysicBehaviour = GetComponent<BallPhysicBehaviour>();
-        ballPhysicInfo = GetComponent<BallPhysicInfo>();
 
         nBMagicReturn = new NoBounceMagicReturn(depthVelocity, ballPhysicBehaviour.baseGravity, xAcceleration);
         targetSelector = GetComponent<ITargetSelector>();
@@ -33,13 +31,29 @@ public class BallBrickInteration : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Brick")
         {
-            ReturnInteration();
-            // Sound Magnitude TO BE FIX !!!
-            AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
+            if(GameManager.Instance.offlineMode)
+            {
+                AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, ballPhysicBehaviour.LastVelocity.magnitude);
 
-            BallEventManager.instance.OnBallCollision("Brick");
+                BallEventManager.instance.OnBallCollision("Brick", other);
 
-            ballPhysicInfo.IsOnFrontWallCollisionFrame = true;
+                ReturnInteration();
+            }
+            else
+            {
+                if (BallMultiplayerBehaviour.Instance.IsBallOwner)
+                {
+                    BallEventManager.instance.OnBallCollision("Brick", other);
+
+                    AudioManager.instance.PlaySound("BrickExplosion", other.GetContact(0).point, ballPhysicBehaviour.LastVelocity.magnitude);
+
+                    BallMultiplayerBehaviour.Instance.HandOverBallOwnership(BallOwnershipSwitchType.Return);
+                }
+                else
+                {
+                    ballPhysicBehaviour.FreezeBall();
+                }
+            }
         }
     }
 
@@ -57,7 +71,7 @@ public class BallBrickInteration : MonoBehaviour
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
         ballPhysicBehaviour.SetGravityState(false);
-        ballPhysicBehaviour.ApplyNewVelocity(Vector3.zero);
+        ballPhysicBehaviour.PhysicRelatedVelocityUpdate(Vector3.zero);
 
         float timer = 0f;
         while (timer < bounceDelay)
@@ -68,8 +82,12 @@ public class BallBrickInteration : MonoBehaviour
         }
 
         ballPhysicBehaviour.SetGravityState(true);
-        ballPhysicBehaviour.ApplyNewVelocity(newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.SLOW, true);
+        ballPhysicBehaviour.OverrideRawVelocity(newVelocity, (int)SpeedState.SLOW, true);
     }
+
+    #endregion
+
+    #region MidWallStatus
 
     private void SetMidWallStatus(bool isCollidable)
     {

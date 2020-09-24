@@ -9,15 +9,16 @@ public class DominantHandMainMenu : MonoBehaviour
     public GameObject rightHandedButton;
     public GameObject leftHandedButton;
 
-    private DominantHandButton rightHandedButtonScript;
-    private DominantHandButton leftHandedButtonScript;
+    public OptionMenuDominantHandButton rightHandedButtonScript;
+    public OptionMenuDominantHandButton leftHandedButtonScript;
 
     private void Awake()
     {
         Instance = this;
 
-        rightHandedButtonScript = rightHandedButton.GetComponent<DominantHandButton>();
-        leftHandedButtonScript = leftHandedButton.GetComponent<DominantHandButton>();
+
+        rightHandedButtonScript = rightHandedButton.GetComponent<OptionMenuDominantHandButton>();
+        leftHandedButtonScript = leftHandedButton.GetComponent<OptionMenuDominantHandButton>();
     }
 
     private void Start()

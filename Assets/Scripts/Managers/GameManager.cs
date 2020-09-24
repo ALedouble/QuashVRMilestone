@@ -371,8 +371,8 @@ public class GameManager : MonoBehaviour
         //Debug.Log("BallFirstSpawn");
         BallManager.instance.BallFirstSpawn();
     }
-
-    public void StartTheGame()
+    
+    public void StartTheGame(Collision collision)
     {
         if (offlineMode)
         {

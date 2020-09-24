@@ -8,10 +8,16 @@ public class OptionMenu : MonoBehaviour
 {
     public static OptionMenu Instance;
 
+    public GameObject leftHandButton;
+    public GameObject rightHandButton;
+
     public GameObject colorSwitchInputHoldButton;
     public GameObject colorSwitchInputClickButton;
 
     public Slider flashIntensitySlider;
+
+    private OptionMenuDominantHandButton leftHandButtonScript;
+    private OptionMenuDominantHandButton rightHandButtonScript;
 
     private ColorSwitchInputButton holdButtonScript;
     private ColorSwitchInputButton clickButtonScript;
@@ -19,6 +25,9 @@ public class OptionMenu : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        leftHandButtonScript = leftHandButton.GetComponent<OptionMenuDominantHandButton>();
+        rightHandButtonScript = rightHandButton.GetComponent<OptionMenuDominantHandButton>();
 
         holdButtonScript = colorSwitchInputHoldButton.GetComponent<ColorSwitchInputButton>();
         clickButtonScript = colorSwitchInputClickButton.GetComponent<ColorSwitchInputButton>();
@@ -37,8 +46,15 @@ public class OptionMenu : MonoBehaviour
 
     private void UpdateOptionMenuDisplay()
     {
+        UpdateDominantHandButtons();
         UpdateColorSwitchInputButtons();
         UpdateFlashIntensitySlider();
+    }
+
+    public void UpdateDominantHandButtons()
+    {
+        leftHandButtonScript.UpdateBackground();
+        rightHandButtonScript.UpdateBackground();
     }
 
     public void UpdateColorSwitchInputButtons()

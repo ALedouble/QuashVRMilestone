@@ -32,6 +32,7 @@ public class Campaign : MonoBehaviour
     [Range(0.01f, 3f)] public float scrollingSpeed;
 
     private LevelsScriptable levelToPlay;
+    private LevelButton buttonSelected;
 
     [Header("Stars")]
     public Sprite lockedStarSprite;
@@ -88,7 +89,7 @@ public class Campaign : MonoBehaviour
             panelPositions[i] = panelBottom - (positionQuotient * i);
         }
 
-        lastIndex = GetPanelIndex(levelsImplemented[0]);
+        lastIndex = GetPanelIndex(GetHighestLevelInCampaign());
     }
 
 
@@ -193,15 +194,15 @@ public class Campaign : MonoBehaviour
     /// <returns></returns>
     public int GetPanelIndex(LevelsScriptable levelIndex)
     {
-        float levelComparer = (((levelIndex.level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
+        float levelComparer = ((levelIndex.level.levelProgression.levelPos.y * 0.5f) * -0.01f) + positionQuotient;
 
         for (int y = 0; y < numberOfPanelPositions; y++)
         {
             float comparer = (positionQuotient * y) * -1;
 
-            if (levelComparer <= comparer)
+            if (levelComparer >= comparer)
             {
-                int finalIndex = numberOfPanelPositions - (y + 2);
+                int finalIndex = numberOfPanelPositions - y;
                 return finalIndex;
             }
         }
@@ -287,9 +288,9 @@ public class Campaign : MonoBehaviour
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
             level.transform.SetParent(CampaignPanel.transform);
 
-            //Transpose editor position into campaign position
+            //Transpose editor position into campaign position  ///// Oh GOD
             float xPos = (levelsImplemented[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-            float yPos = ((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f;
+            float yPos = (levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) * -0.01f;
 
             Vector2 startPos = new Vector2(xPos, yPos);
 
@@ -312,7 +313,7 @@ public class Campaign : MonoBehaviour
 
             //Set onClick Event to reload values on the Level Panel
             LevelsScriptable lvl = levelsImplemented[i];
-            level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl));
+            level.button.onClick.AddListener(() => SetUpLevelRecapValues(lvl, level));
 
             //"RIGHT NOW" For the first Level ONLY (because no unlockCondition required)
             if (levelsImplemented[i].level.levelProgression.unlockConditions.Count == 0)
@@ -711,12 +712,13 @@ public class Campaign : MonoBehaviour
     /// Set up campaign details in the side panel
     /// </summary>
     /// <param name="selectedLevel"></param>
-    public void SetUpLevelRecapValues(LevelsScriptable selectedLevel)
+    public void SetUpLevelRecapValues(LevelsScriptable selectedLevel, LevelButton button)
     {
         if (!sidePanel.activeSelf)
             sidePanel.SetActive(true);
 
         levelToPlay = selectedLevel;
+        buttonSelected = button;
 
         if (selectedLevel.level.levelSpec.levelName != null)
             levelRecapValues.levelTitle.text = selectedLevel.level.levelSpec.levelName;
@@ -770,7 +772,7 @@ public class Campaign : MonoBehaviour
 
 
         //Set Up Condition if necessary
-        if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0)
+        if (selectedLevel.level.levelProgression.numberOfAdditionalConditions > 0 && !selectedLevel.level.levelSpec.suddenDeath && !selectedLevel.level.levelSpec.mandatoryBounce && !selectedLevel.level.levelSpec.timeAttack)
         {
             //if (selectedLevel.level.levelProgression.conditionsToComplete[0].conditionComparator == CompleteConditionComparator.Min)
             //    levelRecapValues.conditionComparator[0].text = ">";
@@ -1144,5 +1146,30 @@ public class Campaign : MonoBehaviour
         nextPanelPosition = panelPositions[panelIndex];
 
         isMoving = true;
+    }
+
+    /// <summary>
+    /// Return the level with the highest position in the campaign
+    /// </summary>
+    /// <returns></returns>
+    private LevelsScriptable GetHighestLevelInCampaign()
+    {
+        LevelsScriptable highest = levelsImplemented[0];
+
+        for (int i = 1; i < levelsImplemented.Count; i++)
+        {
+            if (highest.level.levelProgression.levelPos.y > levelsImplemented[i].level.levelProgression.levelPos.y)
+                highest = levelsImplemented[i];
+        }
+
+        return highest;
+    }
+
+    public void DisableSelectedLevel()
+    {
+        if (buttonSelected == null)
+            return;
+
+        buttonSelected.gameObject.GetComponent<Animator>().Play("Disabled");
     }
 }

@@ -21,20 +21,12 @@ public class BallRacketInteraction : MonoBehaviour
     public float hitSpeedMultiplier;
 
     [Range(0, 1)]
-    public float ballSpeedFactorRatio;
+    public float ballSpeedWeight;
 
     [Range(0, 1)]
     public float racketFriction;
 
-    [Range(0, 1)]
-    public float mixRatio;
-
-
-    private float minVib = 0.0006f;
-    private float maxVib = 0.025f;
-
-    private float minHit = 3.3f;
-    private float maxHit = 50f;
+    float vibModifier = 0.003f;
 
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
@@ -55,43 +47,31 @@ public class BallRacketInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
+            SendFeedback(other);
+            
             Vector3 ballNewVelocity = RacketInteraction(other);
 
-            float ballVelocity = ballPhysicBehaviour.LastVelocity.magnitude;
-            float hitRange = maxHit - minHit;
-            float vibRange = maxVib - minVib;
-            float hitPercent;
-            float hitRate;
-            float vib;
-
-
-            if (ballVelocity <= minHit)
-            {
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", minVib); hitRate = 0.01f; //Debug.Log("VIB percent : " + vibPercent);
-            }
-            else if (ballVelocity >= maxHit)
-            {
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", maxVib); hitRate = 1f; //Debug.Log("VIB percent : " + vibPercent);
-            }
-            else
-            {
-                // hitPercent = (ballNewVelocity.magnitude - minHit) / hitMaxSpeed;
-                hitPercent = ((ballVelocity - minHit) * 0.01f) / hitRange;
-                vib = ((hitPercent * vibRange) * 0.01f) + minVib;
-                VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
-
-                //Debug.Log("hit percent : " + hitPercent);
-                hitRate = hitPercent * 100f;
-                //Debug.Log("Hit RATE : " + hitRate);
-                //Debug.Log("VIB : " + vib);
-            }
-
-            AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, hitRate);
-
-            RacketManager.instance.racketPostProcess.bloomPercent = hitRate;
-            BallEventManager.instance.OnBallCollision("Racket");
+            BallEventManager.instance.OnBallCollision("Racket", other);
         }
+    }
 
+    private void RacketHitGameFeelVariation(Collision other)
+    {
+        float hitRate = GetCurrentHitRateAtCollision(other);
+        float vib = hitRate * vibModifier;
+
+        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
+        AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, hitRate);
+        RacketManager.instance.racketPostProcess.bloomPercent = hitRate;
+    }
+
+    private float GetCurrentHitRateAtCollision(Collision other)
+    {
+        Vector3 ballNewVelocity = RacketInteraction(other);
+
+        float ballVelocityRate = (ballNewVelocity.magnitude / hitMaxSpeed);
+
+        return ballVelocityRate;
     }
 
     #region RacketInteraction
@@ -100,9 +80,9 @@ public class BallRacketInteraction : MonoBehaviour
     {
         Vector3 ballNewVelocity = ApplyRacketPhysic(other);
 
-        RacketManager.instance.OnHitEvent(gameObject);  // Ignore collision pour quelques frames.
+        RacketManager.instance.OnHit(gameObject);  // Ignore collision pour quelques frames.
 
-        SetLastPlayerWhoHitTheBall();
+        UpdateLastPlayerWhoHitTheBall();
         SwitchTarget();
         SetMidWallStatus(true);
 
@@ -126,23 +106,11 @@ public class BallRacketInteraction : MonoBehaviour
             case RacketInteractionType.MEDIUMPHYSIC:
                 newVelocity = RacketMediumPhysicHit(other);
                 break;
-
-            case RacketInteractionType.MIXED:
-                newVelocity = RacketMixedHit(other);
-                break;
         }
 
         newVelocity = ClampVelocity(hitSpeedMultiplier * newVelocity);
 
-        if (GameManager.Instance.offlineMode)
-        {
-            ballPhysicBehaviour.ApplyNewVelocity(newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);                                  // Modif globalSpeedMultiplier
-        }
-        else
-        {
-            //Marche pas!
-            photonView.RPC("ApplyNewVelocity", RpcTarget.All, newVelocity * ballPhysicBehaviour.globalSpeedMultiplier, transform.position, (int)SpeedState.NORMAL, false);     // Modif globalSpeedMultiplier
-        }
+        ballPhysicBehaviour.OverrideRawVelocity(newVelocity, (int)SpeedState.NORMAL, false);
 
         return newVelocity;
     }
@@ -172,7 +140,7 @@ public class BallRacketInteraction : MonoBehaviour
     {
         Vector3 racketVelocity = RacketManager.instance.localPlayerRacket.GetComponent<PhysicInfo>().GetVelocity(); // Trés sale! A modifier avec les managers Singleton
         //Vector3 relativeVelocity = ballPhysicBehaviour.LastVelocity - racketVelocity;
-        Vector3 relativeVelocity = racketVelocity - ballPhysicBehaviour.LastVelocity * ballSpeedFactorRatio;
+        Vector3 relativeVelocity = racketVelocity - ballPhysicBehaviour.LastVelocity * ballSpeedWeight;
         Vector3 contactPointNormal = Vector3.Normalize(collision.GetContact(0).normal);
 
         Vector3 normalVelocity = Vector3.Dot(contactPointNormal, relativeVelocity) * contactPointNormal;
@@ -193,27 +161,16 @@ public class BallRacketInteraction : MonoBehaviour
         return normalVelocity + tangentVelocity;
     }
 
-    private Vector3 RacketMixedHit(Collision collision)
-    {
-        return RacketArcadeHit() * (1 - mixRatio) + RacketBasicPhysicHit(collision) * mixRatio;
-    }
-
     #endregion
 
     #endregion
 
+    //A bouger!
     #region Multi MidWallStatus
 
     private void SetMidWallStatus(bool isCollidable)
     {
-        if (GameManager.Instance.offlineMode)
-        {
-            if (isCollidable)
-                ActivateMidWall();
-            else
-                DisactivateMidWall();
-        }
-        else
+        if (!GameManager.Instance.offlineMode)
         {
             if (isCollidable)
                 photonView.RPC("ActivateMidWall", RpcTarget.All);
@@ -250,21 +207,38 @@ public class BallRacketInteraction : MonoBehaviour
 
     private void SwitchTarget()
     {
-        if (!GameManager.Instance.offlineMode)
-            photonView.RPC("SwitchTargetRPC", RpcTarget.All);
+        targetSelector.SwitchTarget();
+    }
+
+    #endregion
+
+    #region Feedback
+
+    private void SendFeedback(Collision collision)
+    {
+        float hitRate = GetCurrentHitRateAtCollision(collision);
+        float vib = hitRate * vibModifier;
+
+        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
+
+        if (GameManager.Instance.offlineMode)
+            PlayFeedback(collision.GetContact(0).point, hitRate);
+        else
+            photonView.RPC("PlayFeedback", RpcTarget.All, "RacketHit", collision.contacts[0].point, hitRate);
     }
 
     [PunRPC]
-    private void SwitchTargetRPC()
+    private void PlayFeedback(Vector3 contactPoint, float intensity)
     {
-        targetSelector.SwitchTarget();
+        AudioManager.instance.PlaySound("RacketHit", contactPoint, intensity);
+        RacketManager.instance.racketPostProcess.bloomPercent = intensity;
     }
 
     #endregion
 
     #region LastPlayerWhoHitTheBall
 
-    private void SetLastPlayerWhoHitTheBall()
+    private void UpdateLastPlayerWhoHitTheBall()
     {
         if (GameManager.Instance.offlineMode)
         {
@@ -274,25 +248,13 @@ public class BallRacketInteraction : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("SetLastPlayerToHitTheBallToPlayer1", RpcTarget.All);
+                ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER1;
             }
             else
             {
-                photonView.RPC("SetLastPlayerToHitTheBallToPlayer2", RpcTarget.All);
+                ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER2;
             }
         }
-    }
-
-    [PunRPC]
-    private void SetLastPlayerToHitTheBallToPlayer1()
-    {
-        ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER1;
-    }
-
-    [PunRPC]
-    private void SetLastPlayerToHitTheBallToPlayer2()
-    {
-        ballInfo.LastPlayerWhoHitTheBall = QPlayer.PLAYER2;
     }
 
     #endregion

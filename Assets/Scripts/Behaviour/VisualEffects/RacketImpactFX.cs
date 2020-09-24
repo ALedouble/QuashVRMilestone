@@ -14,7 +14,7 @@ public class RacketImpactFX : MonoBehaviour
         
     }
 
-    void PlayEffect()
+    void PlayEffect(Collision collision)
     {
         playerRacket = RacketManager.instance?.localPlayerRacket;
         transform.position = playerRacket.transform.position;

@@ -25,6 +25,7 @@ public class BallManager : MonoBehaviour
     [Header("Float Settings")]
     public float floatAmplitude;
     public float floatPeriod;
+    public bool canFloat;
 
     public bool IsTheLastPlayerWhoHitTheBall { get { return ((int)GetLastPlayerWhoHitTheBall() == 0 && PhotonNetwork.IsMasterClient) || ((int)GetLastPlayerWhoHitTheBall() == 1 && !PhotonNetwork.IsMasterClient); } }
 
@@ -211,7 +212,7 @@ public class BallManager : MonoBehaviour
     {
         if (TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
         {
-            if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
+            if (!GameManager.Instance.offlineMode && !BallMultiplayerBehaviour.Instance.IsBallOwner)
                 BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
 
             BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
@@ -236,7 +237,7 @@ public class BallManager : MonoBehaviour
         {
             yield return new WaitForFixedUpdate();
 
-            if (!IsBallPaused)
+            if (!IsBallPaused && canFloat)
             {
                 t += Time.fixedDeltaTime;
                 Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);

@@ -262,6 +262,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     {
         BallCollider.enabled = false;
 
+        BallManager.instance.floatCoroutine = StartCoroutine(BallManager.instance.FloatCoroutine());
+        BallManager.instance.canFloat = false;
+
         float timer = 0f;
         while(timer < duration)
         {
@@ -272,7 +275,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             }
         }
 
-        BallManager.instance.floatCoroutine = StartCoroutine(BallManager.instance.FloatCoroutine());
+        BallManager.instance.canFloat = true;
+
         BallCollider.enabled = true;
     }
 

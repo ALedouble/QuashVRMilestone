@@ -182,13 +182,23 @@ public class BallManager : MonoBehaviour
 
     public void BallFirstSpawn()
     {
+        Debug.Log("Ball First Spawn");
         if(TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
         {
-            if(!BallMultiplayerBehaviour.Instance.IsBallOwner)
+            if(GameManager.Instance.offlineMode)
             {
-                BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
+                BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+                BallFisrtSpawnLocally(TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
             }
-            photonView.RPC("BallFisrtSpawnLocally", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
+            else
+            {
+                if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
+                {
+                    BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
+                }
+                BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+                photonView.RPC("BallFisrtSpawnLocally", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
+            }        
         }
     }
 

@@ -47,28 +47,16 @@ public class BallRacketInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
-            SendFeedback(other);
-            
             Vector3 ballNewVelocity = RacketInteraction(other);
 
+            SendFeedback(other.GetContact(0).point, ballNewVelocity);
+            
             BallEventManager.instance.OnBallCollision("Racket", other);
         }
     }
 
-    private void RacketHitGameFeelVariation(Collision other)
+    private float GetCurrentHitRateAtCollision(Vector3 ballNewVelocity)
     {
-        float hitRate = GetCurrentHitRateAtCollision(other);
-        float vib = hitRate * vibModifier;
-
-        VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
-        AudioManager.instance.PlaySound("RacketHit", other.GetContact(0).point, hitRate);
-        RacketManager.instance.racketPostProcess.bloomPercent = hitRate;
-    }
-
-    private float GetCurrentHitRateAtCollision(Collision other)
-    {
-        Vector3 ballNewVelocity = RacketInteraction(other);
-
         float ballVelocityRate = (ballNewVelocity.magnitude / hitMaxSpeed);
 
         return ballVelocityRate;
@@ -214,17 +202,17 @@ public class BallRacketInteraction : MonoBehaviour
 
     #region Feedback
 
-    private void SendFeedback(Collision collision)
+    private void SendFeedback(Vector3 contactPoint, Vector3 ballNewVelocity)
     {
-        float hitRate = GetCurrentHitRateAtCollision(collision);
+        float hitRate = GetCurrentHitRateAtCollision(ballNewVelocity);
         float vib = hitRate * vibModifier;
 
         VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
 
         if (GameManager.Instance.offlineMode)
-            PlayFeedback(collision.GetContact(0).point, hitRate);
+            PlayFeedback(contactPoint, hitRate);
         else
-            photonView.RPC("PlayFeedback", RpcTarget.All, "RacketHit", collision.contacts[0].point, hitRate);
+            photonView.RPC("PlayFeedback", RpcTarget.All, "RacketHit", contactPoint, hitRate);
     }
 
     [PunRPC]

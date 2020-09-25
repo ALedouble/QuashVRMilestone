@@ -1181,11 +1181,13 @@ MonoBehaviour:
   isBallInstatiated: 1
   ballPrefab: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
     type: 3}
-  leftHandedSpawnOffset: {x: 0, y: 0, z: 0}
-  rightHandedSpawnOffset: {x: 0, y: 0, z: 0}
-  firstSpawnAnimationDuration: 1
+  leftHandedSpawnOffset: {x: -0.5, y: 1.25, z: 1}
+  rightHandedSpawnOffset: {x: 0.5, y: 1.25, z: 1}
+  firstSpawnAnimationDuration: 3
   floatAmplitude: 0.2
   floatPeriod: 2
+  canFloat: 0
+  BallApparitionBehaviour: {fileID: 0}
 --- !u!114 &2634689587581286033
 MonoBehaviour:
   m_ObjectHideFlags: 0

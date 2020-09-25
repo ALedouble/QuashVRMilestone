@@ -246,8 +246,6 @@ public class BallManager : MonoBehaviour
         BallColorBehaviour.DeactivateTrail();
 
         ResetBall();
-
-        //floatCoroutine = StartCoroutine(FloatCoroutine());
     }
 
     private void SwitchOwnerAndSpawnBall()

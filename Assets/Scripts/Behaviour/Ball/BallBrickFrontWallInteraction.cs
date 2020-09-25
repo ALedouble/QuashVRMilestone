@@ -129,7 +129,8 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), true);
 
         float timer = 0f;
-        while (timer < (bounceDelay + 0.1f))
+        float duration = bounceDelay + (Mathf.Abs(transform.position.z - targetSelector.GetTargetPlayerPosition().z / depthVelocity) / 2f);
+        while (timer < duration)
         {
             yield return new WaitForFixedUpdate();
             if (!BallManager.instance.IsBallPaused)

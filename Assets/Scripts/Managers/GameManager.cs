@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
     public GameObject warningPrefab;
     public Transform warningTransform;
 
+    [Header("Multiplayer")]
+    public QPlayer startingPlayer;
+
 
     public bool IsBrickFreeToMove { get; private set; }
     public bool IsGameStarted { get; private set; }
@@ -369,7 +372,7 @@ public class GameManager : MonoBehaviour
     public void BallFirstSpawn()
     {
         //Debug.Log("BallFirstSpawn");
-        BallManager.instance.BallFirstSpawn();
+        BallManager.instance.BallFirstSpawn(startingPlayer);
     }
     
     public void StartTheGame(Collision collision)

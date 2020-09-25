@@ -180,8 +180,10 @@ public class BallManager : MonoBehaviour
 
     #region Ball Spawn/Despawn
 
-    public void BallFirstSpawn()
+    public void BallFirstSpawn(QPlayer startingPlayer)
     {
+        TargetSelector.SetCurrentTargetPlayer(startingPlayer);
+
         Debug.Log("Ball First Spawn");
         if(TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
         {
@@ -192,6 +194,8 @@ public class BallManager : MonoBehaviour
             }
             else
             {
+                BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
+
                 if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
                 {
                     BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);

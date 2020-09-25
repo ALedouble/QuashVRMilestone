@@ -244,12 +244,12 @@ public class RacketManager : MonoBehaviour
 
     private void SetBallOwnerCollisions()
     {
-        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, false);
     }
 
     private void SetBallFollowerCollisions()
     {
-        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, false);
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
     }
 
     #endregion

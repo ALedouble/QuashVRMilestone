@@ -20,19 +20,20 @@ public class BallRacketInteraction : MonoBehaviour
     public float hitMinSpeed;
     public float hitSpeedMultiplier;
 
+    public AnimationCurve racketVibrationCurve;
+
     [Range(0, 1)]
     public float ballSpeedWeight;
 
     [Range(0, 1)]
     public float racketFriction;
 
-    float vibModifier = 0.003f;
-
     private BallPhysicBehaviour ballPhysicBehaviour;
     private BallInfo ballInfo;
     private ITargetSelector targetSelector;
 
     private PhotonView photonView;
+
 
     private void Awake()
     {
@@ -205,8 +206,10 @@ public class BallRacketInteraction : MonoBehaviour
     private void SendFeedback(Vector3 contactPoint, Vector3 ballNewVelocity)
     {
         float hitRate = GetCurrentHitRateAtCollision(ballNewVelocity);
-        float vib = hitRate * vibModifier;
 
+        //Debug.Log("hit rate : " + hitRate);
+        float vib = racketVibrationCurve.Evaluate(hitRate);
+        
         VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
 
         if (GameManager.Instance.offlineMode)

@@ -1119,6 +1119,48 @@ MonoBehaviour:
   hitMaxSpeed: 80
   hitMinSpeed: 0.5
   hitSpeedMultiplier: 4
+  racketVibrationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.0023300753
+      outSlope: 0.0023300753
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.4211678
+    - serializedVersion: 3
+      time: 0.42293054
+      value: 0.0631471
+      inSlope: 0.36899576
+      outSlope: 0.36899576
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.25305533
+      outWeight: 0.79572135
+    - serializedVersion: 3
+      time: 0.75308454
+      value: 0.9838534
+      inSlope: 0.13311611
+      outSlope: 0.13311611
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.33023894
+      outWeight: 0.3149552
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.0029472206
+      outSlope: -0.0029472206
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.35207585
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   ballSpeedWeight: 0
   racketFriction: 1
 --- !u!114 &68396075229744682

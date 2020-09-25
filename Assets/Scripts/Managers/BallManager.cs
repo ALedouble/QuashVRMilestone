@@ -224,7 +224,7 @@ public class BallManager : MonoBehaviour
                 photonView.RPC("SpawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
             }
             else
-                photonView.RPC("SwitchOwnerAndSpawnBall", RpcTarget.All);
+                photonView.RPC("SwitchOwnerAndSpawnBall", RpcTarget.Others);
         }
     }
 
@@ -245,6 +245,8 @@ public class BallManager : MonoBehaviour
         BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
 
         BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+
+        photonView.RPC("SpawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
     }
 
     public IEnumerator FloatCoroutine()

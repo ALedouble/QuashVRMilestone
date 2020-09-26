@@ -37,6 +37,7 @@ public class BallMultiplayerBehaviour : MonoBehaviour
 
     public void HandOverBallOwnership(BallOwnershipSwitchType switchMotive)
     {
+        Debug.Log("Hand over ball ownership");
         photonView.RPC("BecomeBallOwner", RpcTarget.Others, switchMotive);
     }
 
@@ -71,5 +72,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour
     private void LoseBallOwnership()
     {
         OnBallOwnershipLoss?.Invoke();  //Desactivé la collision avec la racket
+        Debug.Log("LoseBallOwnerShip");
     }
 }

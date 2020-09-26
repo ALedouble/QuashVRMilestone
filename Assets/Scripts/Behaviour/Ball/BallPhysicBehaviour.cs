@@ -314,6 +314,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             BallRigidbody.velocity = (Vector3)stream.ReceiveNext();
             SpeedState = (SpeedState)( (int)stream.ReceiveNext() ); 
         }
+
+        Debug.Log("BallOwnership : " + BallMultiplayerBehaviour.Instance.IsBallOwner + ", Stream is writting : " + stream.IsWriting);
     }
     #endregion
 }

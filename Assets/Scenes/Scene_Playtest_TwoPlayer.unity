@@ -94202,6 +94202,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75af9b3ad523c2544ab27090ab8480e7, type: 3}
+--- !u!114 &2029768750 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1747792788039053106, guid: 75af9b3ad523c2544ab27090ab8480e7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2029768749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f57d442cc61e0114da68a874f9f9eb73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2032984480 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6638883875395251447, guid: 7ca0fe2ad1189764eb393824dbf6740b,
@@ -105248,6 +105260,11 @@ PrefabInstance:
       propertyPath: empoweredSound
       value: 
       objectReference: {fileID: 2634689587581286031}
+    - target: {fileID: 3387151942383946480, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: racketPostProcess
+      value: 
+      objectReference: {fileID: 2029768750}
     - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: impactMaxTime
@@ -105257,7 +105274,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ballPrefab
       value: 
-      objectReference: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
+      objectReference: {fileID: 1758958001795561110, guid: 9138b8837b2e24e43b9a7d9f2391acae,
         type: 3}
     - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}

@@ -101,6 +101,8 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
         IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
 
         MidWallManager.Instance.SetMidWallStatus(false);
+
+        Debug.Log("Ball retrun speed : " + GetComponent<Rigidbody>().velocity);
     }
 
     private IEnumerator RandomReturnWithoutBounce()

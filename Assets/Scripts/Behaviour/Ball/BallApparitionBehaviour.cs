@@ -55,6 +55,10 @@ public class BallApparitionBehaviour : MonoBehaviour
 
         readyParent.SetActive(true);
         loadingParent.SetActive(false);
+
+        if (blockingParent.activeSelf)
+            blockingParent.SetActive(false);
+
         loadingCountdownImage.gameObject.SetActive(false);
 
         animator.Play("A_ApparitionSucceed");

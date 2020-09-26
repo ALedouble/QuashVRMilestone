@@ -44,7 +44,7 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
             {
                 BallEventManager.instance.OnBallCollision(other.gameObject.tag, other);
 
-                PlayFeedback(other.gameObject.tag, other.GetContact(0).point);
+                PlayBrickFrontWallCollisionFeedback(other.gameObject.tag, other.GetContact(0).point);
 
                 ReturnInteration();
                 
@@ -53,7 +53,7 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
             {
                 if(BallMultiplayerBehaviour.Instance.IsBallOwner)
                 {
-                    BallEventManager.instance.OnBallCollision("FrontWall", other);
+                    BallEventManager.instance.OnBallCollision(other.gameObject.tag, other);
 
                     SendFeedbackRPC(other.gameObject.tag, other.GetContact(0).point);
 
@@ -70,11 +70,11 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
 
     private void SendFeedbackRPC(string tag, Vector3 contactPoint)
     {
-        photonView.RPC("PlayFeedback", RpcTarget.All, tag, contactPoint);
+        photonView.RPC("PlayBrickFrontWallCollisionFeedback", RpcTarget.All, tag, contactPoint);
     }
 
     [PunRPC]
-    private void PlayFeedback(string tag, Vector3 contactPoint)
+    private void PlayBrickFrontWallCollisionFeedback(string tag, Vector3 contactPoint)
     {
         switch(tag)
         {
@@ -100,7 +100,7 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
         StartCoroutine(RandomReturnWithoutBounce());
         IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
 
-        SetMidWallStatus(false);
+        MidWallManager.Instance.SetMidWallStatus(false);
     }
 
     private IEnumerator RandomReturnWithoutBounce()
@@ -145,47 +145,4 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
 
     #endregion
 
-    #region MidWallStatus
-
-    private void SetMidWallStatus(bool isCollidable)
-    {
-        if (GameManager.Instance.offlineMode)
-        {
-            if (isCollidable)
-                ActivateMidWall();
-            else
-                DisactivateMidWall();
-        }
-        else
-        {
-            if (isCollidable)
-                photonView.RPC("ActivateMidWall", RpcTarget.All);
-            else
-                photonView.RPC("DisactivateMidWall", RpcTarget.All);
-        }
-    }
-
-    [PunRPC]
-    private void ActivateMidWall()
-    {
-        if (LevelManager.instance.numberOfPlayers > 1)
-        {
-            //LevelManager.instance.midCollider.enabled = true;
-            LevelManager.instance.midCollider.gameObject.SetActive(true);
-
-        }
-
-    }
-
-    [PunRPC]
-    private void DisactivateMidWall()
-    {
-        if (LevelManager.instance.numberOfPlayers > 1)
-        {
-            //LevelManager.instance.midCollider.enabled = false;
-            LevelManager.instance.midCollider.gameObject.SetActive(false);
-        }
-    }
-
-    #endregion
 }

@@ -211,7 +211,8 @@ public class BallManager : MonoBehaviour
     {
         SpawnBallLocaly(spawnLocation);
 
-        BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
+        if (!GameManager.Instance.offlineMode)
+            BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
 
         StartBallFisrtSpawnCoroutine();
     }
@@ -252,6 +253,7 @@ public class BallManager : MonoBehaviour
         ResetBall();
     }
 
+    [PunRPC]
     private void SwitchOwnerAndSpawnBall()
     {
         BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);

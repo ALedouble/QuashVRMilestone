@@ -211,7 +211,8 @@ public class BallManager : MonoBehaviour
     {
         SpawnBallLocaly(spawnLocation);
 
-        BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
+        if (!GameManager.Instance.offlineMode)
+            BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
 
         StartBallFisrtSpawnCoroutine();
     }

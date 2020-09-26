@@ -133,7 +133,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public string GetPrivateCode()
     {
-        int newNumber = Random.Range(10000, 99999);
+        int newNumber = Random.Range(1000, 9999);
 
         return newNumber.ToString();
     }

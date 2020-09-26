@@ -231,6 +231,7 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
         float initalAlpha = GetCurrentMaterial().GetFloat("Vector1_D0CFE999");
 
         float timeElapsed = 0f;
+        bool isBlockPenalityApplied = false;
         while (timeElapsed < duration)
         {
             float timeRate = timeElapsed / duration;
@@ -243,10 +244,17 @@ public class BallColorBehaviour : MonoBehaviour//, IPunObservable
 
             //if(duration - timeElapsed <= BallManager.instance.BallApparitionBehaviour.succeedAnim.length)                 /// if the "succeed animation" is essential, we can make it appeared before time ends
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             if (!BallManager.instance.IsBallPaused)
-                timeElapsed += Time.deltaTime;
-
+            {
+                timeElapsed += Time.fixedDeltaTime;
+                isBlockPenalityApplied = false;
+            }
+            else if (!isBlockPenalityApplied)
+            {
+                timeElapsed -= Time.fixedDeltaTime;
+                isBlockPenalityApplied = true;
+            }
         }
 
         GetCurrentMaterial().SetFloat("Vector1_5584EFD3", initialGlowPower);

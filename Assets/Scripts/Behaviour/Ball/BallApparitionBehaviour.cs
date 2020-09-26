@@ -72,7 +72,7 @@ public class BallApparitionBehaviour : MonoBehaviour
         float myDeci = timer % 1;
 
         string deci = myDeci.ToString();
-        if (deci.Length > 2)
+        if (deci.Length > 3)
             deci = deci.Remove(0, 2).Remove(2);
 
         if (secTextMesh.isActiveAndEnabled && deciTextMesh.isActiveAndEnabled)

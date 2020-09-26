@@ -107,6 +107,12 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.CreateRoom(GetRoomName(), roomOps);
     }
 
+    public void CreatePrivateRoom()
+    {
+        RoomOptions roomOps = new RoomOptions() { IsVisible = false, MaxPlayers = (byte)2 };
+        PhotonNetwork.CreateRoom(GetPrivateCode(), roomOps);
+    }
+
     public void JoinLobbyOnClick()
     {
         if (!PhotonNetwork.InLobby)
@@ -123,5 +129,12 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
         
         return roomName;
+    }
+
+    public string GetPrivateCode()
+    {
+        int newNumber = Random.Range(10000, 99999);
+
+        return newNumber.ToString();
     }
 }

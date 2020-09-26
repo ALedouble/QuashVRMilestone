@@ -1697,6 +1697,7 @@ namespace Photon.Realtime
         /// invisble to avoid anyone else joining it.
         /// </remarks>
         public bool IsVisible { get { return this.isVisible; } set { this.isVisible = value; } }
+        public bool isPrivate = false;
         private bool isVisible = true;
 
         /// <summary>Defines if this room can be joined at all.</summary>

@@ -39,9 +39,7 @@ public class MidWallManager : MonoBehaviour
         {
             //LevelManager.instance.midCollider.enabled = true;
             LevelManager.instance.midCollider.gameObject.SetActive(true);
-
         }
-
     }
 
     [PunRPC]

@@ -177,7 +177,7 @@ public class BallRacketInteraction : MonoBehaviour
         if (GameManager.Instance.offlineMode)
             PlayRacketCollisionFeedback(contactPoint, hitRate);
         else
-            photonView.RPC("PlayRacketCollisionFeedback", RpcTarget.All, "RacketHit", contactPoint, hitRate);
+            photonView.RPC("PlayRacketCollisionFeedback", RpcTarget.All, contactPoint, hitRate);
     }
 
     [PunRPC]

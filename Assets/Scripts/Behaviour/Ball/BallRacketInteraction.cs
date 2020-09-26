@@ -73,7 +73,7 @@ public class BallRacketInteraction : MonoBehaviour
 
         UpdateLastPlayerWhoHitTheBall();
         SwitchTarget();
-        SetMidWallStatus(true);
+        MidWallManager.Instance.SetMidWallStatus(true);
 
         return ballNewVelocity;
     }
@@ -154,44 +154,6 @@ public class BallRacketInteraction : MonoBehaviour
 
     #endregion
 
-    //A bouger!
-    #region Multi MidWallStatus
-
-    private void SetMidWallStatus(bool isCollidable)
-    {
-        if (!GameManager.Instance.offlineMode)
-        {
-            if (isCollidable)
-                photonView.RPC("ActivateMidWall", RpcTarget.All);
-            else
-                photonView.RPC("DisactivateMidWall", RpcTarget.All);
-        }
-    }
-
-    [PunRPC]
-    private void ActivateMidWall()
-    {
-        if (LevelManager.instance.numberOfPlayers > 1)
-        {
-            //LevelManager.instance.midCollider.enabled = true;
-            LevelManager.instance.midCollider.gameObject.SetActive(true);
-
-        }
-
-    }
-
-    [PunRPC]
-    private void DisactivateMidWall()
-    {
-        if (LevelManager.instance.numberOfPlayers > 1)
-        {
-            //LevelManager.instance.midCollider.enabled = false;
-            LevelManager.instance.midCollider.gameObject.SetActive(false);
-        }
-    }
-
-    #endregion
-
     #region ReturnTarget
 
     private void SwitchTarget()
@@ -213,13 +175,13 @@ public class BallRacketInteraction : MonoBehaviour
         VibrationManager.instance.VibrateOn("Vibration_Racket_Hit", vib);
 
         if (GameManager.Instance.offlineMode)
-            PlayFeedback(contactPoint, hitRate);
+            PlayRacketCollisionFeedback(contactPoint, hitRate);
         else
-            photonView.RPC("PlayFeedback", RpcTarget.All, "RacketHit", contactPoint, hitRate);
+            photonView.RPC("PlayRacketCollisionFeedback", RpcTarget.All, "RacketHit", contactPoint, hitRate);
     }
 
     [PunRPC]
-    private void PlayFeedback(Vector3 contactPoint, float intensity)
+    private void PlayRacketCollisionFeedback(Vector3 contactPoint, float intensity)
     {
         AudioManager.instance.PlaySound("RacketHit", contactPoint, intensity);
         RacketManager.instance.racketPostProcess.bloomPercent = intensity;

@@ -48,16 +48,16 @@ public class BallSimpleWallInteraction : MonoBehaviour
     {
         if(GameManager.Instance.offlineMode)
         {
-            PlayFeedback(contactPoint, normal);
+            PlaySimpleWallCollisionFeedback(contactPoint, normal);
         }
         else if(BallMultiplayerBehaviour.Instance.IsBallOwner)
         {
-            photonView.RPC("PlayFeedback", RpcTarget.All, contactPoint, normal);
+            photonView.RPC("PlaySimpleWallCollisionFeedback", RpcTarget.All, contactPoint, normal);
         }
     }
 
     [PunRPC]
-    private void PlayFeedback(Vector3 contactPoint, Vector3 normal)
+    private void PlaySimpleWallCollisionFeedback(Vector3 contactPoint, Vector3 normal)
     {
         AudioManager.instance.PlaySound("WallHit", contactPoint, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
         FXManager.Instance.PlayWallBounceFX(contactPoint, normal);

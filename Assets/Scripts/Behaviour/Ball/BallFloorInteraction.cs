@@ -63,16 +63,16 @@ public class BallFloorInteraction : MonoBehaviour
     {
         if (GameManager.Instance.offlineMode)
         {
-            PlayFeedback(contactPoint, normal);
+            PlayFloorCollisionFeedback(contactPoint, normal);
         }
         else if (BallMultiplayerBehaviour.Instance.IsBallOwner)
         {
-            photonView.RPC("PlayFeedback", RpcTarget.All, contactPoint, normal);
+            photonView.RPC("PlayFloorCollisionFeedback", RpcTarget.All, contactPoint, normal);
         }
     }
 
     [PunRPC]
-    private void PlayFeedback(Vector3 contactPoint, Vector3 normal)
+    private void PlayFloorCollisionFeedback(Vector3 contactPoint, Vector3 normal)
     {
         AudioManager.instance.PlaySound("FloorHit", contactPoint, RacketManager.instance.LocalRacketPhysicInfo.GetVelocity().magnitude);
         FXManager.Instance.PlayWallBounceFX(contactPoint, normal);

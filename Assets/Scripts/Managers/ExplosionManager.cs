@@ -64,13 +64,13 @@ public class ExplosionManager : MonoBehaviour
     private void SendFeedback(Vector3 origin, int playerID)
     {
         if (GameManager.Instance.offlineMode)
-            PlayFeedback(origin, playerID);
+            PlayExplosionFeedback(origin, playerID);
         else
-            photonView.RPC("PlayFeedback", RpcTarget.All, origin, playerID);
+            photonView.RPC("PlayExplosionFeedback", RpcTarget.All, origin, playerID);
     }
 
     [PunRPC]
-    private void PlayFeedback(Vector3 origin, int playerID)
+    private void PlayExplosionFeedback(Vector3 origin, int playerID)
     {
         FXManager.Instance.PlayExplosionFX(origin, playerID);
         AudioManager.instance.PlaySound("Explosion", origin);

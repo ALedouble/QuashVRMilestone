@@ -322,7 +322,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             transform.position = (Vector3)stream.ReceiveNext();
             BallRigidbody.velocity = (Vector3)stream.ReceiveNext();
-            SpeedState = (SpeedState)stream.ReceiveNext(); 
+            SpeedState = (SpeedState)( (int)stream.ReceiveNext() ); 
         }
     }
     #endregion

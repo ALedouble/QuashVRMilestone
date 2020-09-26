@@ -95,6 +95,7 @@ public class BallInfo : MonoBehaviour
 
     #region Multiplayer Setter
 
+    [PunRPC]
     private void SetLastPlayerWhoHitTheBall(QPlayer playerID)
     {
         LastPlayerWhoHitTheBall = playerID;

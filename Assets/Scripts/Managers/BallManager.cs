@@ -253,6 +253,7 @@ public class BallManager : MonoBehaviour
         ResetBall();
     }
 
+    [PunRPC]
     private void SwitchOwnerAndSpawnBall()
     {
         BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);

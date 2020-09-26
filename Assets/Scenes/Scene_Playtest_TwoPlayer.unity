@@ -33002,7 +33002,7 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      buttonName: 00
+      levelNumber: 0
       LevelIndex: 0
       isDone: 0
       isUnlocked: 0
@@ -33030,6 +33030,7 @@ MonoBehaviour:
       timeForThisLevel: 480
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1
+      ballSpawnColorID: 1
       switchColorBehaviourForThisLevel: 0
       suddenDeath: 0
       timeAttack: 0
@@ -105172,58 +105173,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
-    - target: {fileID: 2634689587581286034, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: viewIdField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2634689587581286033, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: viewIdField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3387151940837507978, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: soundPreset
-      value: 
-      objectReference: {fileID: 11400000, guid: 459f07bccca7b504e8bc48187d5d27a3,
-        type: 2}
-    - target: {fileID: 3387151941726231198, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: playerSpawn.Array.data[0]
-      value: 
-      objectReference: {fileID: 6438505}
-    - target: {fileID: 3387151941726231198, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: playerSpawn.Array.data[1]
-      value: 
-      objectReference: {fileID: 206158899}
-    - target: {fileID: 3387151941726231198, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: ballSpawnDelay
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3387151942383946480, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: empoweredSound
-      value: 
-      objectReference: {fileID: 2634689587581286031}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: ballPrefab
-      value: 
-      objectReference: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
-        type: 3}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: delayBeforeReset
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: firstSpawnAnimationDuration
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2113905627460504248, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -105279,15 +105228,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 671593344121173186, guid: 58f791378df5ec443a772977301f5bc8,
+    - target: {fileID: 3387151941726231198, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
-      propertyPath: viewIdField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7691019898174703133, guid: 58f791378df5ec443a772977301f5bc8,
+      propertyPath: playerSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 6438505}
+    - target: {fileID: 3387151941726231198, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
-      propertyPath: viewIdField
+      propertyPath: playerSpawn.Array.data[1]
+      value: 
+      objectReference: {fileID: 206158899}
+    - target: {fileID: 3387151941726231198, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: ballSpawnDelay
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387151942383946480, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: empoweredSound
+      value: 
+      objectReference: {fileID: 2634689587581286031}
+    - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: impactMaxTime
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: ballPrefab
+      value: 
+      objectReference: {fileID: 179277147282008424, guid: 94da849b8190dd74bb42113a588a181f,
+        type: 3}
+    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: delayBeforeReset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288591201531972125, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: firstSpawnAnimationDuration
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
@@ -105327,10 +105307,41 @@ PrefabInstance:
       propertyPath: numberOfLayerToDisplay
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
+    - target: {fileID: 3387151940837507978, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
-      propertyPath: impactMaxTime
-      value: 0.9
+      propertyPath: soundPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: 459f07bccca7b504e8bc48187d5d27a3,
+        type: 2}
+    - target: {fileID: 671593344121173186, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634689587581286034, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2634689587581286033, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7691019898174703133, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: viewIdField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079378257964484476, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: viewIdField
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241637952454054284, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: viewIdField
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58f791378df5ec443a772977301f5bc8, type: 3}

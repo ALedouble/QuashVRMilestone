@@ -1,51 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5981310439823842781
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6160166273195202251}
-  - component: {fileID: 8553949573131579455}
-  m_Layer: 0
-  m_Name: LockWallManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6160166273195202251
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5981310439823842781}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3168190616028796383}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8553949573131579455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5981310439823842781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b9ef8e9347734944b784a56ae08a535, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallLinesPrefab: {fileID: 7127162231629331852, guid: daf72be345b791448a35b053e5e3b880,
-    type: 3}
-  closingDelay: 0.5
 --- !u!1001 &3936626988326117223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -312,12 +266,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58f791378df5ec443a772977301f5bc8, type: 3}
---- !u!4 &3168190616028796383 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2113905627460504248, guid: 58f791378df5ec443a772977301f5bc8,
-    type: 3}
-  m_PrefabInstance: {fileID: 3936626988326117223}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &2079777892681169820 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3061726032867124475, guid: 58f791378df5ec443a772977301f5bc8,

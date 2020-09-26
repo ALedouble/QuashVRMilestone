@@ -545,8 +545,6 @@ public class JSON : MonoBehaviour
             return;
         }
 
-        Debug.Log("Loading DATAS");
-
         #region HASH
         ////PlayerPrefs.SetString("HASH", "No_Hash_Generated");
         //if (!VerifyHash(savedString))

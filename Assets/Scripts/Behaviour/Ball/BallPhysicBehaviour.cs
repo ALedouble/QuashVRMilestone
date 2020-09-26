@@ -260,21 +260,31 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private IEnumerator BallFirstSpawnCoroutine(float duration)
     {
+        yield return new WaitForEndOfFrame();
+
         BallCollider.enabled = false;
 
         BallManager.instance.floatCoroutine = StartCoroutine(BallManager.instance.FloatCoroutine());
         BallManager.instance.canFloat = false;
 
         float timer = 0f;
-        while(timer < duration)
+        bool isBlockPenalityApplied = false;
+        while (timer < duration)
         {
             yield return new WaitForFixedUpdate();
             if(!BallManager.instance.IsBallPaused)
             {
                 timer += Time.fixedDeltaTime;
+                isBlockPenalityApplied = false;
+            }
+            else if (!isBlockPenalityApplied)
+            {
+                timer -= Time.fixedDeltaTime;
+                isBlockPenalityApplied = true;
             }
         }
 
+        
         BallManager.instance.canFloat = true;
 
         BallCollider.enabled = true;

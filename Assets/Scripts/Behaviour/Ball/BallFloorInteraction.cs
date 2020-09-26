@@ -124,7 +124,7 @@ public class BallFloorInteraction : MonoBehaviour
         if(!LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
             ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
 
-        Debug.Log("BallResetCoroutine: LoseBall");
+        //Debug.Log("BallResetCoroutine: LoseBall");
     }
 
     #endregion

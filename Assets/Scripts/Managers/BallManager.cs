@@ -184,7 +184,7 @@ public class BallManager : MonoBehaviour
     {
         TargetSelector.SetCurrentTargetPlayer(startingPlayer);
 
-        Debug.Log("Ball First Spawn");
+        //Debug.Log("Ball First Spawn");
         if(TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
         {
             if(GameManager.Instance.offlineMode)

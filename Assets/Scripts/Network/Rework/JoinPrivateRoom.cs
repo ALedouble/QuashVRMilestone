@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Realtime;
+using System.Linq;
 
 public class JoinPrivateRoom : MonoBehaviour
 {
@@ -10,12 +12,8 @@ public class JoinPrivateRoom : MonoBehaviour
 
     public void JoinRoomClick()
     {
-        for (int i = 0; i < LobbyPublic.Instance.roomListings.Count; i++)
-        {
-            if(LobbyPublic.Instance.roomListings[i].Name == secretCodeText.text)
-            {
-                PhotonNetwork.JoinRoom(secretCodeText.text);
-            }
-        }
+
+        PhotonNetwork.JoinRoom(secretCodeText.text);
+
     }
 }

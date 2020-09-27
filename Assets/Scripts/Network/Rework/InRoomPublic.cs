@@ -23,6 +23,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public GameObject roomGo;
     public GameObject levelSelectionGo;
     public GameObject roomSelectionGo;
+    public GameObject keyboardCanvas;
     public Transform playersPanel;
     public GameObject playerListingPrefab;
     public GameObject startButton;
@@ -53,6 +54,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         base.OnJoinedRoom();
 
         lobbyGo.SetActive(false);
+        keyboardCanvas.SetActive(false);
         roomGo.SetActive(true);
         roomName.text = PhotonNetwork.CurrentRoom.Name;
 

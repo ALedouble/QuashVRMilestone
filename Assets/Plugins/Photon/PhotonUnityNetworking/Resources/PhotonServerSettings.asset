@@ -119,5 +119,12 @@ MonoBehaviour:
   - PlayFeedback
   - SetCurrentTargetPlayer
   - BallFisrtSpawnLocally
+  - PlayBrickFrontWallCollisionFeedback
+  - PlayExplosionFeedback
+  - PlayFloorCollisionFeedback
+  - PlayRacketCollisionFeedback
+  - PlaySimpleWallCollisionFeedback
+  - SetLastPlayerWhoHitTheBall
+  - SwitchOwnerAndSpawnBall
   DisableAutoOpenWizard: 1
   ShowSettings: 1

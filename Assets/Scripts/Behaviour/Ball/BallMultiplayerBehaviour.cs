@@ -46,8 +46,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
-    
-
     public void HandOverBallOwnership(BallOwnershipSwitchType switchMotive)
     {
         Debug.Log("Hand over ball ownership");
@@ -65,12 +63,13 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
     {
-        if (photonView == targetView)
-            photonView.TransferOwnership(requestingPlayer);
+        //if (photonView == targetView)
+        //    photonView.TransferOwnership(requestingPlayer);
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
+        Debug.Log("Ball Ownership Callback");
         if(photonView == targetView)
             UpdateBallOwnershipBasedStates();
     }
@@ -81,19 +80,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
             OnBallOwnershipAcquisition?.Invoke();
         else
             OnBallOwnershipLoss?.Invoke();
-    }
-
-    [PunRPC]
-    private void AquireBallOwnership()
-    {
-        OnBallOwnershipAcquisition?.Invoke();
-    }
-
-    [PunRPC]
-    private void LoseBallOwnership()
-    {
-        OnBallOwnershipLoss?.Invoke();  //Desactivé la collision avec la racket
-        Debug.Log("LoseBallOwnerShip");
     }
 
     private void ExitReturnCase()

@@ -1953,6 +1953,8 @@ GameObject:
   - component: {fileID: 3428223600477892131}
   - component: {fileID: 111703124067299949}
   - component: {fileID: 8253892447916832375}
+  - component: {fileID: 2080766438410888113}
+  - component: {fileID: 1300504407799423300}
   m_Layer: 5
   m_Name: _scoreData
   m_TagString: Untagged
@@ -2001,7 +2003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8253892447916832375}
   image: {fileID: 0}
-  anim: {fileID: 0}
+  anim: {fileID: 1300504407799423300}
   cannotPlayAnim: 0
 --- !u!114 &8253892447916832375
 MonoBehaviour:
@@ -2116,6 +2118,38 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!95 &2080766438410888113
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052710409669489967}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 46eb421f0993ce145b78fc919cd40b4e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1300504407799423300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052710409669489967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f73ef5e2f118745a4abdc89ab60c68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animScore: {fileID: 2080766438410888113}
 --- !u!1 &8873545023520658831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,6 +2463,8 @@ GameObject:
   - component: {fileID: 8880644715775185723}
   - component: {fileID: 5626308260872081635}
   - component: {fileID: 8880644715775185722}
+  - component: {fileID: 4866217358652545446}
+  - component: {fileID: 8351293080611143937}
   m_Layer: 5
   m_Name: _scoreData
   m_TagString: Untagged
@@ -2477,7 +2513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8880644715775185722}
   image: {fileID: 0}
-  anim: {fileID: 0}
+  anim: {fileID: 8351293080611143937}
   cannotPlayAnim: 0
 --- !u!114 &8880644715775185722
 MonoBehaviour:
@@ -2590,6 +2626,38 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!95 &4866217358652545446
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8880644715775185724}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 46eb421f0993ce145b78fc919cd40b4e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8351293080611143937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8880644715775185724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f73ef5e2f118745a4abdc89ab60c68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animScore: {fileID: 4866217358652545446}
 --- !u!1 &8880644715982255573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,11 +3087,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8880644716676361641}
     m_Modifications:
-    - target: {fileID: 6644493119482544112, guid: cbfacf5508a12684c805e2466f876802,
-        type: 3}
-      propertyPath: m_Name
-      value: Canvas ScoreScreen Multi J2
-      objectReference: {fileID: 0}
     - target: {fileID: 7724273819874720744, guid: cbfacf5508a12684c805e2466f876802,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3189,6 +3252,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Loss
       objectReference: {fileID: 0}
+    - target: {fileID: 6644493119482544112, guid: cbfacf5508a12684c805e2466f876802,
+        type: 3}
+      propertyPath: m_Name
+      value: Canvas ScoreScreen Multi J2
+      objectReference: {fileID: 0}
     - target: {fileID: 3553438090694273195, guid: cbfacf5508a12684c805e2466f876802,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -3281,15 +3349,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbfacf5508a12684c805e2466f876802, type: 3}
---- !u!95 &9028147958461554342 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6382718750155728117, guid: cbfacf5508a12684c805e2466f876802,
-    type: 3}
-  m_PrefabInstance: {fileID: 2727374184950086227}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2562815118508308215 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 453006055248825508, guid: cbfacf5508a12684c805e2466f876802,
+    type: 3}
+  m_PrefabInstance: {fileID: 2727374184950086227}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &5686839356770107835 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7724273819874720744, guid: cbfacf5508a12684c805e2466f876802,
+    type: 3}
+  m_PrefabInstance: {fileID: 2727374184950086227}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9028147958461554342 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6382718750155728117, guid: cbfacf5508a12684c805e2466f876802,
     type: 3}
   m_PrefabInstance: {fileID: 2727374184950086227}
   m_PrefabAsset: {fileID: 0}
@@ -3323,12 +3397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3cde45eac87ae48a71f4531e1b2c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &5686839356770107835 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7724273819874720744, guid: cbfacf5508a12684c805e2466f876802,
-    type: 3}
-  m_PrefabInstance: {fileID: 2727374184950086227}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7305028574386192499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3336,11 +3404,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8880644716676361641}
     m_Modifications:
-    - target: {fileID: 6644493119482544112, guid: cbfacf5508a12684c805e2466f876802,
-        type: 3}
-      propertyPath: m_Name
-      value: Canvas ScoreScreen Multi J1
-      objectReference: {fileID: 0}
     - target: {fileID: 7724273819874720744, guid: cbfacf5508a12684c805e2466f876802,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3466,6 +3529,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Loss
       objectReference: {fileID: 0}
+    - target: {fileID: 6644493119482544112, guid: cbfacf5508a12684c805e2466f876802,
+        type: 3}
+      propertyPath: m_Name
+      value: Canvas ScoreScreen Multi J1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbfacf5508a12684c805e2466f876802, type: 3}
 --- !u!224 &1032044313844218779 stripped
@@ -3486,12 +3554,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7305028574386192499}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5091385114933624601 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2578476819435650922, guid: cbfacf5508a12684c805e2466f876802,
-    type: 3}
-  m_PrefabInstance: {fileID: 7305028574386192499}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7299069874437316673 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 12153623891501106, guid: cbfacf5508a12684c805e2466f876802,
@@ -3504,6 +3566,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a961516d76f1284478251cc6546e51b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5091385114933624601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2578476819435650922, guid: cbfacf5508a12684c805e2466f876802,
+    type: 3}
+  m_PrefabInstance: {fileID: 7305028574386192499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4501095641121144437 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6563915555400302086, guid: cbfacf5508a12684c805e2466f876802,

@@ -91,6 +91,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void Start()
     {
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += ActivateCollider;
         BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += DelayedCollisionActivation;
     }
 
@@ -307,6 +308,16 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         BallCollider.enabled = true;
     }
 
+    public void ActivateCollider()
+    {
+        BallCollider.enabled = true;
+    }
+
+    public void DesableCollider()
+    {
+        BallCollider.enabled = true;
+    }
+
     #endregion
 
     #region IPunObservable implementation
@@ -316,16 +327,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(BallRigidbody.velocity);
-            stream.SendNext((short)SpeedState);
+            stream.SendNext(SpeedState);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             BallRigidbody.velocity = (Vector3)stream.ReceiveNext();
-            SpeedState = (SpeedState)( (int)stream.ReceiveNext() ); 
+            SpeedState = (SpeedState)stream.ReceiveNext(); 
         }
-
-        Debug.Log("BallOwnership : " + BallMultiplayerBehaviour.Instance.IsBallOwner + ", Stream is writting : " + stream.IsWriting);
     }
     #endregion
 }

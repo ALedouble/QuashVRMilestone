@@ -8,7 +8,7 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
     public float depthVelocity;
     public float xAcceleration;
 
-    public float bounceDelay = 0.45f;
+    public float bounceDelay;
 
     private ITargetSelector targetSelector;
     private NoBounceMagicReturn nBMagicReturn;
@@ -58,6 +58,8 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
                     SendFeedbackRPC(other.gameObject.tag, other.GetContact(0).point);
 
                     BallMultiplayerBehaviour.Instance.HandOverBallOwnership(BallOwnershipSwitchType.Return);
+
+                    BallManager.instance.BallPhysicBehaviour.FreezeBall();
                 }
                 else
                 {
@@ -67,6 +69,12 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
             
         }
     }
+
+    //[PunRPC]
+    //private void BrickWallCollision(string tag, Vector3 contactPoint)
+    //{
+
+    //}
 
     private void SendFeedbackRPC(string tag, Vector3 contactPoint)
     {
@@ -98,11 +106,9 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
     private void ReturnInteration()
     {
         StartCoroutine(RandomReturnWithoutBounce());
-        IgnoreCollisionCoroutine = StartCoroutine(IgnoreCollision());
-
+        IgnoreCollisionCoroutine = StartCoroutine(OwnerCollisionProtection());
+        
         MidWallManager.Instance.SetMidWallStatus(false);
-
-        Debug.Log("Ball retrun speed : " + GetComponent<Rigidbody>().velocity);
     }
 
     private IEnumerator RandomReturnWithoutBounce()
@@ -125,13 +131,18 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
         ballPhysicBehaviour.OverrideRawVelocity(newVelocity, (int)SpeedState.SLOW, true);
     }
 
-    private IEnumerator IgnoreCollision()
+    #region Collision
+
+    private IEnumerator OwnerCollisionProtection()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), true);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), true);
 
         float timer = 0f;
         float duration = bounceDelay + (Mathf.Abs(transform.position.z - targetSelector.GetTargetPlayerPosition().z / depthVelocity) / 2f);
+        photonView.RPC("FolowerCollisionProtection", RpcTarget.Others, duration / 1.5f);
+
+        Debug.Log("Ignore collsion duration : " + duration);
         while (timer < duration)
         {
             yield return new WaitForFixedUpdate();
@@ -140,10 +151,25 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
                 timer += Time.fixedDeltaTime;
             }
         }
-
+        Debug.Log("Ignore collsion timelaps : " + timer);
+        Debug.Log("Reactivate floor collision");
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Floor"), false);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Wall"), false);
     }
+
+    [PunRPC]
+    private void FolowerCollisionProtection(float delay)
+    {
+        StartCoroutine(DelayedColliderActivationCoroutine(delay));
+    }
+
+    private IEnumerator DelayedColliderActivationCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        BallManager.instance.BallPhysicBehaviour.ActivateCollider();
+    }
+
+    #endregion
 
     #endregion
 

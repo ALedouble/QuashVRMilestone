@@ -194,7 +194,7 @@ public class BallManager : MonoBehaviour
             }
             else
             {
-                BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
+                BallMultiplayerBehaviour.Instance.UpdateBallOwnershipBasedStates();
 
                 if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
                 {
@@ -212,7 +212,7 @@ public class BallManager : MonoBehaviour
         SpawnBallLocaly(spawnLocation);
 
         if (!GameManager.Instance.offlineMode)
-            BallMultiplayerBehaviour.Instance.UpdateBallOwnershipAssociatedActions();
+            BallMultiplayerBehaviour.Instance.UpdateBallOwnershipBasedStates();
 
         StartBallFisrtSpawnCoroutine();
     }

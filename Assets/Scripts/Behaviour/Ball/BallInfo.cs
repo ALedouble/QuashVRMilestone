@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,10 @@ public class BallInfo : MonoBehaviour
             }
         }
     }
-    
+
+    public event Action OnFirstBounce;
+    public event Action OnReturnStart;
+
     private PhotonView photonView;
 
 
@@ -62,7 +66,7 @@ public class BallInfo : MonoBehaviour
 
         if(currentBallStatus == BallStatus.HitState && wallHitCount == 1)
         {
-            BallManager.instance.SendOnFirstBounceEvent();
+            OnFirstBounce?.Invoke();
         }
     }
 
@@ -90,7 +94,7 @@ public class BallInfo : MonoBehaviour
     {
         currentBallStatus = BallStatus.ReturnState;
 
-        BallManager.instance.SendOnReturnStart();
+        OnReturnStart?.Invoke();
     }
 
     #region Multiplayer Setter

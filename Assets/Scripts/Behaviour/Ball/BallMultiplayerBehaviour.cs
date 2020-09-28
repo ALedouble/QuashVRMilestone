@@ -37,8 +37,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
         photonView = GetComponent<PhotonView>();
 
         PhotonNetwork.AddCallbackTarget(this);
-
-        OnBallOwnershipAcquisition += ExitReturnCase;
     }
 
     private void OnDestroy()
@@ -82,7 +80,7 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
             OnBallOwnershipLoss?.Invoke();
     }
 
-    private void ExitReturnCase()
+    public void ExitReturnCase()
     {
         OnBallOwnershipAcquisition -= ReturnSwitchActions;
     }

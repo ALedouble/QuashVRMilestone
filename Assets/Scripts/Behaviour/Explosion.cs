@@ -57,7 +57,7 @@ public class Explosion : MonoBehaviour
     public void StartExplosionLogic()
     {
         Debug.Log("Start Explosion Logic");
-        ballColorID = BallManager.instance.GetBallColorID();
+        ballColorID = BallManager.instance.BallColorBehaviour.GetBallColor();
         if (isOld)
         {
             isExploding = true;
@@ -165,9 +165,9 @@ public class Explosion : MonoBehaviour
             {
                 if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
+                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.BallColorBehaviour.GetBallColor())
                     {
-                        BrickDestructionManager.Instance.HitBricksByID(new int[1] { brickInfo.BrickID }, playerID, BallManager.instance.GetBallColorID());
+                        BrickDestructionManager.Instance.HitBricksByID(new int[1] { brickInfo.BrickID }, playerID, BallManager.instance.BallColorBehaviour.GetBallColor());
                     }
                     else
                     {

@@ -91,8 +91,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     private void Start()
     {
-        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += ActivateCollider;
         BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += DelayedCollisionActivation;
+        BallManager.instance.OnBallReset += ResetBall;
     }
 
     private void FixedUpdate()
@@ -104,11 +104,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             ApplyForces();
         }
     }
+
     public void ResetBall()
     {
         SpeedState = SpeedState.NORMAL;
         BallRigidbody.velocity = Vector3.zero;
         CurrentGravity = 0;
+        ActivateCollider();
     }
 
     #region Pause

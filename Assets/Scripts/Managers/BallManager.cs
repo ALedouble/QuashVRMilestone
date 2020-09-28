@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon;
 using Photon.Pun;
-
+using System.Runtime.CompilerServices;
 
 public class BallManager : MonoBehaviour
 {
@@ -43,10 +43,9 @@ public class BallManager : MonoBehaviour
 
     public BallApparitionBehaviour BallApparitionBehaviour;
 
-    public event Action OnFirstBounce;
-    public event Action OnReturnStart;
-
     public bool IsBallPaused { get; set; }
+
+    public event Action OnBallReset;
 
     private PhotonView photonView;
 
@@ -67,14 +66,12 @@ public class BallManager : MonoBehaviour
 
         if (GameManager.Instance.offlineMode)
         {
-            //Debug.Log("Instanciate Ball OfflineMode");
             GameObject instanciatedBall = Instantiate(ballPrefab, -Vector3.one, Quaternion.identity);
             instanciatedBall.SetActive(false);
             return instanciatedBall;
         }
         else if (PhotonNetwork.IsMasterClient)
         {
-            //Debug.Log("Instanciate Ball MasterClient");
             return PhotonNetwork.Instantiate(ballPrefab.name, -Vector3.one, Quaternion.identity);
         }
         else
@@ -93,8 +90,6 @@ public class BallManager : MonoBehaviour
         SetupBallManager();
 
         Sh_GlobalDissolvePosition.Setup();
-
-        //BallEventManager.instance.OnCollisionWithRacket += GameManager.Instance.StartTheGame;     // Question GD sur le début du timer
     }
 
     private void SetupBallManager()
@@ -109,7 +104,7 @@ public class BallManager : MonoBehaviour
 
     #endregion
 
-    #region Ball Manipulation
+    #region Start methods
 
     public void BallBecomeInPlay(Collision collision)                                                                              //Check util?
     {
@@ -135,8 +130,12 @@ public class BallManager : MonoBehaviour
 
     private void ResetBall()
     {
-        BallPhysicBehaviour.ResetBall();
+        OnBallReset?.Invoke();
     }
+
+    #endregion
+
+    #region Lose Ball
 
     public void LoseBall()
     {
@@ -178,6 +177,7 @@ public class BallManager : MonoBehaviour
 
     #region Ball Spawn/Despawn
 
+    #region Ball First Spawn
     public void BallFirstSpawn(QPlayer startingPlayer)
     {
         TargetSelector.SetCurrentTargetPlayer(startingPlayer);
@@ -225,6 +225,8 @@ public class BallManager : MonoBehaviour
         BallColorBehaviour.StartBallFirstSpawnCoroutine(firstSpawnAnimationDuration);
     }
 
+    #endregion
+
     public void SpawnTheBall()
     {
         if (GameManager.Instance.offlineMode)
@@ -240,7 +242,10 @@ public class BallManager : MonoBehaviour
                 photonView.RPC("SpawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
             }
             else
-                SwitchOwnerAndSpawnBall(); 
+            {
+                BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += AfterOwnershipRequestSpawnBall;
+                BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
+            }
         }
     }
 
@@ -255,36 +260,16 @@ public class BallManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void SwitchOwnerAndSpawnBall()
+    private void AfterOwnershipRequestSpawnBall()
     {
-        BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition -= AfterOwnershipRequestSpawnBall;
 
         BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
 
         photonView.RPC("SpawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
     }
 
-    public IEnumerator FloatCoroutine()
-    {
-        BallPhysicBehaviour.SetGravityState(false);
-
-        float t = 0;
-        Vector3 startPosition = Ball.transform.position;
-        Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
-
-        while (true)
-        {
-            yield return new WaitForFixedUpdate();
-
-            if(!canFloat)
-                Ball.transform.position = startPosition;
-            else if (!IsBallPaused)
-            {
-                t += Time.fixedDeltaTime;
-                Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
-            }
-        }
-    }
+    #region Despawn Ball
 
     public void DespawnTheBall()
     {
@@ -300,6 +285,8 @@ public class BallManager : MonoBehaviour
         ResetBall();
         Ball.SetActive(false);
     }
+
+    #endregion
 
     #endregion
 
@@ -364,41 +351,29 @@ public class BallManager : MonoBehaviour
 
     #endregion
 
-    #region Color
+    #region  Float Coroutine
 
-    public int GetBallColorID()
+    public IEnumerator FloatCoroutine()
     {
-        return BallColorBehaviour.GetBallColor();
-    }
+        BallPhysicBehaviour.SetGravityState(false);
 
-    public Material GetCurrentMaterial()
-    {
-        return BallColorBehaviour.GetCurrentMaterial();
-    }
+        float t = 0;
+        Vector3 startPosition = Ball.transform.position;
+        Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
 
-    public Material[] GetBallMaterials()
-    {
-        return BallColorBehaviour.GetBallMaterials();
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+
+            if (!canFloat)
+                Ball.transform.position = startPosition;
+            else if (!IsBallPaused)
+            {
+                t += Time.fixedDeltaTime;
+                Ball.transform.position = startPosition + new Vector3(0, floatAmplitude * Mathf.Sin(t / floatPeriod * 2 * Mathf.PI), 0);
+            }
+        }
     }
 
     #endregion
-
-    #region Physics
-
-    public void SetGlobalSpeedMultiplier(float newValue)
-    {
-        BallPhysicBehaviour.GlobalSpeedMultiplier = newValue;
-    }
-
-    #endregion
-
-    public void SendOnFirstBounceEvent()
-    {
-        OnFirstBounce?.Invoke();
-    }
-
-    public void SendOnReturnStart()
-    {
-        OnReturnStart?.Invoke();
-    }
 }

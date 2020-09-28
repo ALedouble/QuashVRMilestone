@@ -111,14 +111,14 @@ public class RacketManager : MonoBehaviour
                 racketAction = EnterEmpoweredState;
                 racketStopAction = ExitEmpoweredState;
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
-                SetRacketsColor(BallManager.instance.GetBallColorID());
+                SetRacketsColor(BallManager.instance.BallColorBehaviour.GetBallColor());
                 break;
             case RacketActionType.BALLOPPOSITE:
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
-                SetRacketsColor((BallManager.instance.GetBallColorID() + 1) % 2);
+                SetRacketsColor((BallManager.instance.BallColorBehaviour.GetBallColor() + 1) % 2);
                 break;
             default:
-                SetRacketsColor(BallManager.instance.GetBallColorID());
+                SetRacketsColor(BallManager.instance.BallColorBehaviour.GetBallColor());
                 break;
         }
 

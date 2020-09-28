@@ -38,7 +38,7 @@ public class BrickDestructionManager : MonoBehaviour
             if (GameManager.Instance.offlineMode)
                 DestroyBricks(brickToDestroy.ToArray(), playerID);
             else
-                photonView.RPC("DestroyBricks", RpcTarget.Others, brickToDestroy.ToArray(), playerID);
+                photonView.RPC("DestroyBricks", RpcTarget.All, brickToDestroy.ToArray(), playerID);
         }
     }
 

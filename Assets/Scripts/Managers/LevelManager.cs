@@ -173,7 +173,7 @@ public class LevelManager : MonoBehaviour
 
         changePositionReady = new bool[numberOfPlayers];
         isEverythingDisplayed = new bool[numberOfPlayers];
-        BrickManager.Instance.currentBricksOnLayer = new int[numberOfPlayers];
+        BrickManager.Instance.currentLayersBrickCount = new int[numberOfPlayers];
         playersParents = new Parenting[numberOfPlayers];
         playersShakers = new Shakers[numberOfPlayers];
         playersUIlayers = new UIlayers[numberOfPlayers];

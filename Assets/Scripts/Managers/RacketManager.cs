@@ -111,14 +111,14 @@ public class RacketManager : MonoBehaviour
                 racketAction = EnterEmpoweredState;
                 racketStopAction = ExitEmpoweredState;
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
-                SetRacketsColor(BallManager.instance.GetBallColorID());
+                SetRacketsColor(BallManager.instance.BallColorBehaviour.GetBallColor());
                 break;
             case RacketActionType.BALLOPPOSITE:
                 BallEventManager.instance.OnBallColorSwitch += SwitchRacketColor;
-                SetRacketsColor((BallManager.instance.GetBallColorID() + 1) % 2);
+                SetRacketsColor((BallManager.instance.BallColorBehaviour.GetBallColor() + 1) % 2);
                 break;
             default:
-                SetRacketsColor(BallManager.instance.GetBallColorID());
+                SetRacketsColor(BallManager.instance.BallColorBehaviour.GetBallColor());
                 break;
         }
 
@@ -186,6 +186,7 @@ public class RacketManager : MonoBehaviour
         if (!GameManager.Instance.offlineMode)
             foreignPlayerRacket?.SetActive(enabled);
     }
+
     #endregion
 
     #region RacketColor
@@ -244,11 +245,13 @@ public class RacketManager : MonoBehaviour
 
     private void SetBallOwnerCollisions()
     {
+        Debug.Log("SetBallOwnerCollisions");
         Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, false);
     }
 
     private void SetBallFollowerCollisions()
     {
+        Debug.Log("SetBallFollowerCollisions");
         Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
     }
 
@@ -257,17 +260,19 @@ public class RacketManager : MonoBehaviour
     #region OnHit
     public void OnHit(GameObject hitObject)                        // Faire Un vrai event?
     {
-        StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
+        StartCoroutine(AfterHitIgnoreCoroutine());
     }
 
-    private IEnumerator AfterHitIgnoreCoroutine(GameObject hitObject, float lastHitTime)
+    private IEnumerator AfterHitIgnoreCoroutine()
     {
-        Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), true);
+        float lastHitTime = Time.time;
+
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
         while (Time.time < lastHitTime + deltaHitTime)
         {
             yield return new WaitForFixedUpdate(); // Remplacer par WaitForSeconds
         }
-        Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, false);
     }
     #endregion
 

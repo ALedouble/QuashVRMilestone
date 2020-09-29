@@ -15,8 +15,6 @@ public class GUIScoreData : GUIComponent
             anim.PlayAnimScoreIncrease();
     }
 
-
-
     public override void UpdateTextColor(Color32 newColor)
     {
         base.UpdateTextColor(newColor);

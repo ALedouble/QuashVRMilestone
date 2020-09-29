@@ -92,6 +92,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
     private void Start()
     {
         BallMultiplayerBehaviour.Instance.OnBallOwnershipLoss += DelayedCollisionActivation;
+        BallManager.instance.OnBallReset += ResetBall;
     }
 
     private void FixedUpdate()
@@ -103,11 +104,13 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
             ApplyForces();
         }
     }
+
     public void ResetBall()
     {
         SpeedState = SpeedState.NORMAL;
         BallRigidbody.velocity = Vector3.zero;
         CurrentGravity = 0;
+        ActivateCollider();
     }
 
     #region Pause
@@ -264,7 +267,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         BallCollider.enabled = false;
 
-        BallManager.instance.floatCoroutine = StartCoroutine(BallManager.instance.FloatCoroutine());
+        BallManager.instance.StartFloatCoroutine();
         BallManager.instance.canFloat = false;
 
         float timer = 0f;
@@ -297,13 +300,24 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     public void DelayedCollisionActivation()
     {
-        StartCoroutine(DelayedCollisionActivationCoroutine());
+        if(gameObject.activeSelf)
+            StartCoroutine(DelayedCollisionActivationCoroutine());
     }
 
     private IEnumerator DelayedCollisionActivationCoroutine()
     {
         yield return new WaitForSeconds(followerCollisionActivationDelay);
 
+        BallCollider.enabled = true;
+    }
+
+    public void ActivateCollider()
+    {
+        BallCollider.enabled = true;
+    }
+
+    public void DesableCollider()
+    {
         BallCollider.enabled = true;
     }
 
@@ -316,16 +330,14 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(BallRigidbody.velocity);
-            stream.SendNext((short)SpeedState);
+            stream.SendNext(SpeedState);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
             BallRigidbody.velocity = (Vector3)stream.ReceiveNext();
-            SpeedState = (SpeedState)( (int)stream.ReceiveNext() ); 
+            SpeedState = (SpeedState)stream.ReceiveNext(); 
         }
-
-        Debug.Log("BallOwnership : " + BallMultiplayerBehaviour.Instance.IsBallOwner + ", Stream is writting : " + stream.IsWriting);
     }
     #endregion
 }

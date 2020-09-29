@@ -48,11 +48,13 @@ public class BallRacketInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "Racket")
         {
+            BallEventManager.instance.OnBallCollision("Racket", other);
+
             Vector3 ballNewVelocity = RacketInteraction(other);
 
+            Debug.Log("RacketInteraction ballNewVelocity : " + ballNewVelocity);
+
             SendFeedback(other.GetContact(0).point, ballNewVelocity);
-            
-            BallEventManager.instance.OnBallCollision("Racket", other);
         }
     }
 

@@ -49,7 +49,6 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
                 PlayBrickFrontWallCollisionFeedback(other.gameObject.tag, other.GetContact(0).point);
 
                 ReturnInteration();
-                
             }
             else
             {
@@ -140,7 +139,9 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
 
         float timer = 0f;
         float duration = bounceDelay + (Mathf.Abs(transform.position.z - targetSelector.GetTargetPlayerPosition().z / depthVelocity) / 2f);
-        photonView.RPC("FollowerCollisionProtection", RpcTarget.Others, duration / 1.5f);
+        
+        if(!GameManager.Instance.offlineMode)
+            photonView.RPC("FollowerCollisionProtection", RpcTarget.Others, duration / 1.5f);
 
         Debug.Log("Ignore collsion duration : " + duration);
         while (timer < duration)

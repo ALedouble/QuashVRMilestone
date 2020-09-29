@@ -126,7 +126,7 @@ public class BallManager : MonoBehaviour
             BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
 
         StopCoroutine(floatCoroutine);
-        //canFloat = false;
+        canFloat = false;
     }
 
     private void ResetBall()
@@ -183,26 +183,36 @@ public class BallManager : MonoBehaviour
     {
         TargetSelector.SetCurrentTargetPlayer(startingPlayer);
 
-        //Debug.Log("Ball First Spawn");
-        if(TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
+        if(GameManager.Instance.offlineMode)
         {
-            if(GameManager.Instance.offlineMode)
+            BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+            BallFisrtSpawnLocally(TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
+        }
+        else if (TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
+        {
+            if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
             {
-                BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
-                BallFisrtSpawnLocally(TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
+                BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += AfterOwnershipRequestBallFirstSpawn;
+                BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
             }
             else
             {
-                BallMultiplayerBehaviour.Instance.UpdateBallOwnershipBasedStates();
+                GoodOwnerBallFirstSpawn();
+            }
+                
+        }  
+    }
 
-                if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
-                {
-                    BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
-                }
-                BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
-                photonView.RPC("BallFisrtSpawnLocally", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
-            }        
-        }
+    private void AfterOwnershipRequestBallFirstSpawn()
+    {
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition -= AfterOwnershipRequestBallFirstSpawn;
+        GoodOwnerBallFirstSpawn();
+    }
+
+    private void GoodOwnerBallFirstSpawn()
+    {
+        BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+        photonView.RPC("BallFisrtSpawnLocally", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
     }
 
     [PunRPC]
@@ -228,6 +238,8 @@ public class BallManager : MonoBehaviour
 
     #endregion
 
+    #region Ball Respawn
+
     public void RespawnBall()
     {
         if (GameManager.Instance.offlineMode)
@@ -237,17 +249,28 @@ public class BallManager : MonoBehaviour
         }
         else if(TargetSelector.CurrentTargetPlayer == QPlayerManager.instance.LocalPlayerID)
         {
-            if (BallMultiplayerBehaviour.Instance.IsBallOwner)
+            if (!BallMultiplayerBehaviour.Instance.IsBallOwner)
             {
-                BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
-                photonView.RPC("RespawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
+                BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += AfterOwnershipRequestRespawnBall;
+                BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
             }
             else
             {
-                BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition += AfterOwnershipRequestSpawnBall;
-                BallMultiplayerBehaviour.Instance.BecomeBallOwner(BallOwnershipSwitchType.Default);
+                GoodOwnerRespawnBall();
             }
         }
+    }
+
+    private void AfterOwnershipRequestRespawnBall()
+    {
+        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition -= AfterOwnershipRequestRespawnBall;
+        GoodOwnerRespawnBall();
+    }
+
+    private void GoodOwnerRespawnBall()
+    {
+        BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
+        photonView.RPC("RespawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
     }
 
     [PunRPC]
@@ -259,15 +282,7 @@ public class BallManager : MonoBehaviour
         canFloat = true;
     }
 
-    [PunRPC]
-    private void AfterOwnershipRequestSpawnBall()
-    {
-        BallMultiplayerBehaviour.Instance.OnBallOwnershipAcquisition -= AfterOwnershipRequestSpawnBall;
-
-        BallEventManager.instance.OnCollisionWithRacket += BallBecomeInPlay;
-
-        photonView.RPC("RespawnBallLocaly", RpcTarget.All, TargetSelector.GetTargetPlayerPosition() + SpawnOffset);
-    }
+    #endregion
 
     [PunRPC]
     private void SpawnBallLocaly(Vector3 spawnLocation)
@@ -282,15 +297,13 @@ public class BallManager : MonoBehaviour
             BallMultiplayerBehaviour.Instance.UpdateBallOwnershipBasedStates();
     }
 
-    
-
     #region Despawn Ball
 
     public void DespawnTheBall()
     {
         if (GameManager.Instance.offlineMode)
             DespawnBallLocaly();
-        else if (PhotonNetwork.IsMasterClient)
+        else
             photonView.RPC("DespawnBallLocaly", RpcTarget.All);
     }
 
@@ -330,38 +343,53 @@ public class BallManager : MonoBehaviour
 
     private QPlayer GetNextPlayerTarget()
     {
-        QPlayer nextPlayerTarget;
-        switch (BallInfo.CurrentBallStatus)                                              // A tester
+        if(GameManager.Instance.offlineMode)
         {
-            case BallStatus.HitState:
-                nextPlayerTarget = TargetSelector.CurrentTargetPlayer;
-                break;
-            case BallStatus.ReturnState:
-                nextPlayerTarget = TargetSelector.GetPreviousTargetPlayer();
-                break;
-            default:
-                nextPlayerTarget = TargetSelector.CurrentTargetPlayer;
-                break;
+            QPlayer nextPlayerTarget;
+            switch (BallInfo.CurrentBallStatus)                                              // A tester
+            {
+                case BallStatus.HitState:
+                    nextPlayerTarget = TargetSelector.CurrentTargetPlayer;
+                    break;
+                case BallStatus.ReturnState:
+                    nextPlayerTarget = TargetSelector.GetPreviousTargetPlayer();
+                    break;
+                default:
+                    nextPlayerTarget = TargetSelector.CurrentTargetPlayer;
+                    break;
+            }
+            return nextPlayerTarget;
         }
-        return nextPlayerTarget;
+        else
+        {
+            if (BallMultiplayerBehaviour.Instance.IsBallOwner)
+                return QPlayerManager.instance.OtherPlayerID;
+            else
+                return QPlayerManager.instance.LocalPlayerID;
+        }
     }
 
     public QPlayer GetPlayerWhoLostTheBall()
     {
-        QPlayer playerWhoLostTheBall;
-        switch (BallInfo.CurrentBallStatus)                                              // A tester
-        {
-            case BallStatus.HitState:
-                playerWhoLostTheBall = TargetSelector.GetPreviousTargetPlayer();
-                break;
-            case BallStatus.ReturnState:
-                playerWhoLostTheBall = TargetSelector.CurrentTargetPlayer;
-                break;
-            default:
-                playerWhoLostTheBall = QPlayer.NONE;
-                break;
-        }
-        return playerWhoLostTheBall;
+        //QPlayer playerWhoLostTheBall;
+        //switch (BallInfo.CurrentBallStatus)                                              // A tester
+        //{
+        //    case BallStatus.HitState:
+        //        playerWhoLostTheBall = TargetSelector.GetPreviousTargetPlayer();
+        //        break;
+        //    case BallStatus.ReturnState:
+        //        playerWhoLostTheBall = TargetSelector.CurrentTargetPlayer;
+        //        break;
+        //    default:
+        //        playerWhoLostTheBall = QPlayer.NONE;
+        //        break;
+        //}
+        //return playerWhoLostTheBall;
+
+        if (GameManager.Instance.offlineMode || BallMultiplayerBehaviour.Instance.IsBallOwner)
+            return QPlayerManager.instance.LocalPlayerID;
+        else
+            return QPlayerManager.instance.OtherPlayerID;
     }
 
     #endregion

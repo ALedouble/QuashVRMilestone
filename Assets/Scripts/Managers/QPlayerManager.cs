@@ -53,6 +53,19 @@ public class QPlayerManager : MonoBehaviourPun
         }
     }
 
+    public QPlayer OtherPlayerID
+    {
+        get
+        {
+            if (GameManager.Instance.offlineMode)
+                return QPlayer.PLAYER1;
+            else if (PhotonNetwork.IsMasterClient)
+                return QPlayer.PLAYER2;
+            else
+                return QPlayer.PLAYER1;
+        }
+    }
+
     public void SetLocalPlayer(GameObject localPlayer)
     {
         this.localPlayer = localPlayer;

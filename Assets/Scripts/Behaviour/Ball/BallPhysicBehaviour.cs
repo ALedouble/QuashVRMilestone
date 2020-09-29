@@ -267,9 +267,9 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         BallCollider.enabled = false;
 
-        BallManager.instance.StartFloatCoroutine();
         BallManager.instance.canFloat = false;
-
+        BallManager.instance.StartFloatCoroutine();
+        
         float timer = 0f;
         bool isBlockPenalityApplied = false;
         while (timer < duration)
@@ -336,7 +336,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
         {
             transform.position = (Vector3)stream.ReceiveNext();
             BallRigidbody.velocity = (Vector3)stream.ReceiveNext();
-            SpeedState = (SpeedState)stream.ReceiveNext(); 
+            SpeedState = (SpeedState)stream.ReceiveNext();
         }
     }
     #endregion

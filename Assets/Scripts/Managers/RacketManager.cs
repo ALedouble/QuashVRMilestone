@@ -186,6 +186,7 @@ public class RacketManager : MonoBehaviour
         if (!GameManager.Instance.offlineMode)
             foreignPlayerRacket?.SetActive(enabled);
     }
+
     #endregion
 
     #region RacketColor
@@ -250,7 +251,7 @@ public class RacketManager : MonoBehaviour
 
     private void SetBallFollowerCollisions()
     {
-        Debug.Log("SetBallOwnerCollisions");
+        Debug.Log("SetBallFollowerCollisions");
         Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
     }
 
@@ -259,17 +260,19 @@ public class RacketManager : MonoBehaviour
     #region OnHit
     public void OnHit(GameObject hitObject)                        // Faire Un vrai event?
     {
-        StartCoroutine(AfterHitIgnoreCoroutine(hitObject, Time.time));
+        StartCoroutine(AfterHitIgnoreCoroutine());
     }
 
-    private IEnumerator AfterHitIgnoreCoroutine(GameObject hitObject, float lastHitTime)
+    private IEnumerator AfterHitIgnoreCoroutine()
     {
-        Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), true);
+        float lastHitTime = Time.time;
+
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, true);
         while (Time.time < lastHitTime + deltaHitTime)
         {
             yield return new WaitForFixedUpdate(); // Remplacer par WaitForSeconds
         }
-        Physics.IgnoreCollision(localPlayerRacket.GetComponent<Collider>(), hitObject.GetComponent<Collider>(), false);
+        Physics.IgnoreCollision(BallManager.instance.BallPhysicBehaviour.BallCollider, localPlayerRacketCollider, false);
     }
     #endregion
 

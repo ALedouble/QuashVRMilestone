@@ -75,9 +75,15 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
     public void UpdateBallOwnershipBasedStates()
     {
         if (IsBallOwner)
+        {
             OnBallOwnershipAcquisition?.Invoke();
+            Debug.Log("OnBallOwnershipAcquisition");
+        }
         else
+        {
             OnBallOwnershipLoss?.Invoke();
+            Debug.Log("OnBallOwnershipLoss");
+        } 
     }
 
     public void ExitReturnCase()

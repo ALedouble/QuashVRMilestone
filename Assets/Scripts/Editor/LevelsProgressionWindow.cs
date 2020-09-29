@@ -18,12 +18,12 @@ public class LevelsProgressionWindow : EditorWindow
     Vector2 levelsScrollPos;
     Vector2 windowSpacePos;
 
-    Vector2 windowSize = new Vector2(300, 4000);
+    Vector2 windowSize = new Vector2(600, 10000);
 
     Vector2 boxPos;
     Vector2 boxSize;
 
-    Vector2 treeDelimitation = new Vector2(300, 4000);
+    Vector2 treeDelimitation = new Vector2(600, 10000);
 
     Vector2 buttonSize = new Vector2(50, 50);
     bool isHoldingLevel;
@@ -44,6 +44,7 @@ public class LevelsProgressionWindow : EditorWindow
 
 
 
+
     [MenuItem("Window/Campaign Editor")]
     public static void OpenProgressionWindow()
     {
@@ -57,9 +58,6 @@ public class LevelsProgressionWindow : EditorWindow
         GetAllLevels();
         InitLevelProgression();
         InitStyles();
-
-        treeDelimitation = new Vector2(600, 10000);
-        windowSize = new Vector2(600, 10000);
     }
 
 
@@ -161,7 +159,7 @@ public class LevelsProgressionWindow : EditorWindow
                 currentLevel.level.levelProgression.levelNumber = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 18), new Vector2(40, 15)),
                 currentLevel.level.levelProgression.levelNumber);
             }
-            
+
 
             //Is the level unlocked ?
             //currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(90, 15)),
@@ -306,12 +304,12 @@ public class LevelsProgressionWindow : EditorWindow
     void GraphicGUI()
     {
         GUI.color = Color.black;
-        GUI.Box(new Rect(new Vector2(5, 5), new Vector2((treeDelimitation.x + (buttonSize.x) - 5), treeDelimitation.y - 5)), " ");
+        GUI.Box(new Rect(new Vector2(5, 5), new Vector2((treeDelimitation.x + (buttonSize.x) - 5), treeDelimitation.y)), " ");
         GUI.color = Color.white;
 
         //Level layout space view
         windowSpacePos = GUI.BeginScrollView(new Rect(new Vector2(0, 0), new Vector2(position.width - boxSize.x - 10, position.height)), windowSpacePos,
-            new Rect(new Vector2(0, 0), new Vector2(windowSize.x + 40, windowSize.y)), true, false);
+            new Rect(new Vector2(0, +40), new Vector2(windowSize.x /*+ 40*/, windowSize.y)), false, true);
 
         if (currentLevel != null)
         {
@@ -328,6 +326,8 @@ public class LevelsProgressionWindow : EditorWindow
                 DrawConnections(levelsToDisplay[i]);
             }
         }
+
+        DrawPanelPositionsPreview();
 
         GUI.EndScrollView();
     }
@@ -486,7 +486,7 @@ public class LevelsProgressionWindow : EditorWindow
     {
         Handles.BeginGUI();
 
-        Vector2 levelPos = levelConcerned.level.levelProgression.levelPos;
+        Vector2 levelPos = new Vector2(levelConcerned.level.levelProgression.levelPos.x, levelConcerned.level.levelProgression.levelPos.y);
         Rect levelRect = new Rect(levelPos, buttonSize);
 
         if (isRightClick && !mouseOutOfWindow)
@@ -528,8 +528,8 @@ public class LevelsProgressionWindow : EditorWindow
     {
         for (int i = 0; i < level.level.levelProgression.unlockConditions.Count; i++)
         {
-            Vector2 levelselectedPos = level.level.levelProgression.levelPos;
-            Vector2 conditionLevelPos = level.level.levelProgression.unlockConditions[i].level.levelProgression.levelPos;
+            Vector2 levelselectedPos = new Vector2(level.level.levelProgression.levelPos.x, level.level.levelProgression.levelPos.y);
+            Vector2 conditionLevelPos = new Vector2(level.level.levelProgression.unlockConditions[i].level.levelProgression.levelPos.x, level.level.levelProgression.unlockConditions[i].level.levelProgression.levelPos.y);
 
             PositionChecker(conditionLevelPos, levelselectedPos);
         }
@@ -537,7 +537,28 @@ public class LevelsProgressionWindow : EditorWindow
 
     void DrawPanelPositionsPreview()
     {
+        Handles.BeginGUI();
 
+        // 1.6f is the UI percent space for the campaign
+        float campaignScreenSize = (1.6f * treeDelimitation.y) * 0.01f;
+        float levelButtonMidSize = (0.25f * treeDelimitation.y) * 0.01f;
+        float newPanelIndexYPos = 0;
+
+        //Debug.Log("editor button size : " + buttonSize.y + " VS ui size : " + levelButtonMidSize);
+
+        for (int i = 0; i < 32; i++)
+        {
+            newPanelIndexYPos = (treeDelimitation.y + levelButtonMidSize) - (campaignScreenSize * i);
+
+            Vector2 startLine = new Vector2(5, newPanelIndexYPos);
+            Vector2 endLine = new Vector2(treeDelimitation.x + buttonSize.x, newPanelIndexYPos);
+            Handles.DrawBezier(startLine, endLine, startLine, endLine, Color.yellow, null, 4f);
+            //Handles.DrawLine(new Vector3(startLine.x, startLine.y, 0), new Vector3(endLine.x, endLine.y, 0));
+
+            //Debug.Log("Index 1 : " + i + " at Y pos = " + newPanelIndexYPos);
+        }
+
+        Handles.EndGUI();
     }
 
     void GetAllLevels()
@@ -820,7 +841,7 @@ public class LevelsProgressionWindow : EditorWindow
     {
         for (int i = 0; i < levelsToDisplay.Count; i++)
         {
-            if(numberProposed == levelsToDisplay[i].level.levelProgression.levelNumber && levelsToDisplay[i] != currentLevel)
+            if (numberProposed == levelsToDisplay[i].level.levelProgression.levelNumber && levelsToDisplay[i] != currentLevel)
             {
                 Debug.LogWarning("This number appears in level " + levelsToDisplay[i].level.levelSpec.levelName);
                 return true;

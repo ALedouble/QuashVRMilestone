@@ -18,13 +18,13 @@ public class Campaign : MonoBehaviour
     public GameObject upButton;
     public GameObject downButton;
 
-    private int numberOfPanelPositions = 34;
-    private float positionQuotient = 0;
+    private int numberOfPanelPositions = 31;
+    private float panelSize = 1.6f;
     [SerializeField] private float[] panelPositions = new float[0];
     private int panelIndex = -1;
     private float nextPanelPosition = 0;
-    private float panelTop = 0.5f;
-    private float panelBottom = 49.3f;
+    private float panelTop = 0f;
+    private float panelBottom = 100f;
     private float panelLeft = -0.3f;
     private float panelRight = 3.3f;
     private int lastIndex = 0;
@@ -74,22 +74,38 @@ public class Campaign : MonoBehaviour
     }
 
 
+    float GetYScreenPositionPercent(float Ypos)
+    {
+        return (Ypos * 0.01f);
+    }
+
+    float GetXScreenPositionPercent(float Xpos)
+    {
+        return (Xpos / 6f);
+    }
+
+    Vector2 GetConvertedPositionFromPercents(Vector2 percents)
+    {
+        return new Vector2(((percents.x * (panelRight - panelLeft)) / 100f) + panelLeft, (percents.y * panelBottom) / 100f);
+    }
+
     /// <summary>
     /// Set up Panel positions
     /// </summary>
     private void SetUpPanelPositions()
     {
         panelPositions = new float[numberOfPanelPositions + 1];
+        //panelBottom = numberOfPanelPositions * panelSize;
 
-        positionQuotient = (panelBottom - panelTop) / numberOfPanelPositions;
-
+        //Debug.Log("panelSize percent : " + ((panelSize * 100f) / panelBottom));
 
         for (int i = 0; i < numberOfPanelPositions + 1; i++)
         {
-            panelPositions[i] = panelBottom - (positionQuotient * i);
+            panelPositions[i] = (panelBottom - (panelSize * 0.5f)) - (panelSize * i);
         }
 
         lastIndex = GetPanelIndex(GetHighestLevelInCampaign());
+        //Debug.Log("lastIndex : " + lastIndex);
     }
 
 
@@ -194,15 +210,19 @@ public class Campaign : MonoBehaviour
     /// <returns></returns>
     public int GetPanelIndex(LevelsScriptable levelIndex)
     {
-        float levelComparer = ((levelIndex.level.levelProgression.levelPos.y * 0.5f) * -0.01f) + positionQuotient;
+        Vector2 temp = GetConvertedPositionFromPercents(new Vector2(GetXScreenPositionPercent(levelIndex.level.levelProgression.levelPos.x) , GetYScreenPositionPercent(levelIndex.level.levelProgression.levelPos.y)));
+        float levelComparer =  temp.y;
 
-        for (int y = 0; y < numberOfPanelPositions; y++)
+        //Debug.Log("level Ypos : " + temp.y);
+
+        for (int y = numberOfPanelPositions; y >= 0; y--)
         {
-            float comparer = (positionQuotient * y) * -1;
+            float comparer = panelPositions[y] - (panelSize * 0.5f);
+            //Debug.Log("At i = " + y + "compared : " + comparer);
 
-            if (levelComparer >= comparer)
+            if (levelComparer <= comparer)
             {
-                int finalIndex = numberOfPanelPositions - y;
+                int finalIndex = y + 1;
                 return finalIndex;
             }
         }
@@ -222,7 +242,7 @@ public class Campaign : MonoBehaviour
     /// <summary>
     /// Setup panel position to the first level unlocked from the top position
     /// </summary>
-    private void SetUpPanelPositionAtStart()
+    private void SetUpPanelPositionAtStart()             //////// CHANGE
     {
         SetPanelPosition(CampaignLevel.instance.lastRecordedPanelIndex);
 
@@ -230,32 +250,30 @@ public class Campaign : MonoBehaviour
         {
             if (levelsImplemented[i].level.levelProgression.isUnlocked)
             {
-                float levelComparer = (((levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f)) * -0.01f) + positionQuotient;
-                //Debug.Log("Level : " + levelsImplemented[i]);
-                //Debug.Log("levelComparer : " + levelComparer);
-                //Debug.Log("positionQuotient : " + positionQuotient);
+                Vector2 temp = GetConvertedPositionFromPercents(new Vector2(GetXScreenPositionPercent(levelsImplemented[i].level.levelProgression.levelPos.x), -GetYScreenPositionPercent(levelsImplemented[i].level.levelProgression.levelPos.y)));
+                float levelComparer = temp.y + panelSize;
 
+                MoveCampaignPanelTo(GetPanelIndex(levelsImplemented[i]));
 
-                for (int y = numberOfPanelPositions; y > -1; y--)
-                {
-                    float comparer = (positionQuotient * y) * -1;
-                    //Debug.Log("before y : " + y);
+                SetLastRecordedPanelIndex(GetPanelIndex(levelsImplemented[i]));
 
-                    if (levelComparer <= comparer)
-                    {
-                        //Debug.Log("panel position : " + comparer);
-                        //Debug.Log("level position : " + levelComparer);
+                #region OLD
+                //for (int y = numberOfPanelPositions; y >= 0; y--)
+                //{
+                //    float comparer = (panelSize * y) * -1;
 
-                        int finalIndex = numberOfPanelPositions - (y + 1);
-                        //Debug.Log("panel index : " + finalIndex);
-                        //Debug.Log("y : " + y);
+                //    if (levelComparer <= comparer)
+                //    {
 
-                        MoveCampaignPanelTo(finalIndex);
+                //        int finalIndex = numberOfPanelPositions - (y + 1);
 
-                        SetLastRecordedPanelIndex(finalIndex);
-                        return;
-                    }
-                }
+                //        MoveCampaignPanelTo(finalIndex);
+
+                //        SetLastRecordedPanelIndex(finalIndex);
+                //        return;
+                //    }
+                //}
+                #endregion
             }
         }
     }
@@ -288,14 +306,17 @@ public class Campaign : MonoBehaviour
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
             level.transform.SetParent(CampaignPanel.transform);
 
-            //Transpose editor position into campaign position  ///// Oh GOD
-            float xPos = (levelsImplemented[i].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-            float yPos = (levelsImplemented[i].level.levelProgression.levelPos.y * 0.5f) * -0.01f;
+            //Transpose editor position into campaign position
+            float xPos = GetXScreenPositionPercent(levelsImplemented[i].level.levelProgression.levelPos.x);
+            float yPos = -GetYScreenPositionPercent(levelsImplemented[i].level.levelProgression.levelPos.y);
 
             Vector2 startPos = new Vector2(xPos, yPos);
+            startPos = GetConvertedPositionFromPercents(startPos);
+
+            //Debug.Log("startPos : " + startPos);
 
             //Set LEVEL icon position
-            level.rectTransform.anchoredPosition3D = new Vector3(xPos, yPos, 0);
+            level.rectTransform.anchoredPosition3D = new Vector3(startPos.x, startPos.y, 0);
 
             //Set Level Number
             for (int u = 0; u < level.buttonTexts.Count; u++)
@@ -326,7 +347,7 @@ public class Campaign : MonoBehaviour
                         levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
 
-                        if(!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
+                        if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                         {
                             for (int x = 0; x < level.unlockImages.Count; x++)
                             {
@@ -440,7 +461,7 @@ public class Campaign : MonoBehaviour
                                     level.exoticDoneImages[x].SetActive(true);
                                 }
                             }
-                                
+
                         }
 
                     }
@@ -460,7 +481,7 @@ public class Campaign : MonoBehaviour
                                 level.exoticUnlockImages[x].SetActive(true);
                             }
                         }
-                            
+
                     }
                 }
             }
@@ -477,10 +498,11 @@ public class Campaign : MonoBehaviour
 
 
                     //Get concerned level pos
-                    float xUPos = (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.x * 0.5f) * 0.01f;
-                    float yUPos = ((levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.y * 0.5f)) * -0.01f;
+                    float xUPos = GetXScreenPositionPercent(levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.x);
+                    float yUPos = -GetYScreenPositionPercent(levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.levelPos.y);
 
                     Vector2 lastPos = new Vector2(xUPos, yUPos);
+                    lastPos = GetConvertedPositionFromPercents(lastPos);
 
                     //Retargeting vectors on the edge of the level
                     Vector2 direction1 = lastPos - startPos;
@@ -1162,6 +1184,7 @@ public class Campaign : MonoBehaviour
                 highest = levelsImplemented[i];
         }
 
+        //Debug.Log("highest level : " + highest);
         return highest;
     }
 

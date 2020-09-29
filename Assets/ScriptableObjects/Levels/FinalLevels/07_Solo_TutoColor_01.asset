@@ -20231,17 +20231,17 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       levelNumber: 7
-      LevelIndex: 23
+      LevelIndex: 6
       isDone: 1
       isUnlocked: 1
       starsRequired: 9
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 7
-      minTiming: 0
+      maxScore: 2250
+      maxCombo: 4
+      minTiming: 56
       unlockConditions:
       - {fileID: 11400000, guid: 7af4b538575dde6439f2d011d4980ad9, type: 2}
-      levelPos: {x: 398, y: 9228}
+      levelPos: {x: 365, y: 9559}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0

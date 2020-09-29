@@ -21493,17 +21493,17 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       levelNumber: 15
-      LevelIndex: 15
+      LevelIndex: 14
       isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 15
-      minTiming: 0
+      maxScore: 324500
+      maxCombo: 60
+      minTiming: 88
       unlockConditions:
       - {fileID: 11400000, guid: 624c602734c8afd48958713c5cbb69f2, type: 2}
-      levelPos: {x: 150, y: 8217}
+      levelPos: {x: 159, y: 9123}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0

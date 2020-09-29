@@ -17168,17 +17168,17 @@ MonoBehaviour:
           isBonus: 0
     levelProgression:
       levelNumber: 9
-      LevelIndex: 21
+      LevelIndex: 8
       isDone: 1
       isUnlocked: 1
       starsRequired: 0
       isImplemented: 1
-      maxScore: 0
-      maxCombo: 9
-      minTiming: 0
+      maxScore: 9070
+      maxCombo: 7
+      minTiming: 50
       unlockConditions:
       - {fileID: 11400000, guid: 50a8ca5c624449847bce543b5fbc3c77, type: 2}
-      levelPos: {x: 437, y: 8946}
+      levelPos: {x: 425, y: 9461}
       levelID: 0
       conditionsToComplete:
       - conditionType: 0

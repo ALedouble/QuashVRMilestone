@@ -21,10 +21,15 @@ public class BallBackWallInteraction : MonoBehaviour
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "BackWall")
         {
             Debug.Log("BackWall Collision");
-            if(GameManager.Instance.offlineMode || BallMultiplayerBehaviour.Instance.IsBallOwner)
+            if(GameManager.Instance.offlineMode)
             {
                 BallManager.instance.LoseBall();
                 ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
+            }
+            else if (BallMultiplayerBehaviour.Instance.IsBallOwner)
+            {
+                BallManager.instance.LoseBall();
+                //ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
             }
             else
             {

@@ -267,7 +267,7 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
         BallCollider.enabled = false;
 
-        BallManager.instance.floatCoroutine = StartCoroutine(BallManager.instance.FloatCoroutine());
+        BallManager.instance.StartFloatCoroutine();
         BallManager.instance.canFloat = false;
 
         float timer = 0f;
@@ -300,7 +300,8 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     public void DelayedCollisionActivation()
     {
-        StartCoroutine(DelayedCollisionActivationCoroutine());
+        if(gameObject.activeSelf)
+            StartCoroutine(DelayedCollisionActivationCoroutine());
     }
 
     private IEnumerator DelayedCollisionActivationCoroutine()

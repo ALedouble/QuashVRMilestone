@@ -126,6 +126,7 @@ public class BallManager : MonoBehaviour
             BallEventManager.instance.OnCollisionWithRacket -= BallBecomeInPlay;
 
         StopCoroutine(floatCoroutine);
+        canFloat = false;
     }
 
     private void ResetBall()
@@ -148,7 +149,7 @@ public class BallManager : MonoBehaviour
                 LockWallManager.Instance.EnterProtectionState();
             }
         }
-        else if (BallMultiplayerBehaviour.Instance.IsBallOwner)
+        else
         {
             photonView.RPC("LoseBallLocaly", RpcTarget.All);
         }
@@ -257,6 +258,12 @@ public class BallManager : MonoBehaviour
         BallColorBehaviour.DeactivateTrail();
 
         ResetBall();
+
+        if (!GameManager.Instance.offlineMode)
+            BallMultiplayerBehaviour.Instance.UpdateBallOwnershipBasedStates();
+
+        StartFloatCoroutine();
+        canFloat = true;
     }
 
     [PunRPC]
@@ -352,6 +359,11 @@ public class BallManager : MonoBehaviour
     #endregion
 
     #region  Float Coroutine
+
+    public void StartFloatCoroutine()
+    {
+        floatCoroutine = StartCoroutine(FloatCoroutine());
+    }
 
     public IEnumerator FloatCoroutine()
     {

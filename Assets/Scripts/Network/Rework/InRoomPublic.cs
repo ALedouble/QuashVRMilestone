@@ -18,6 +18,8 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public bool isGameLoaded;
     public int currentScene;
 
+    public GameObject warningPrefab;
+    public Transform warningTransform;
     public TextMeshProUGUI roomName;
     public GameObject lobbyGo;
     public GameObject roomGo;
@@ -56,7 +58,17 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         lobbyGo.SetActive(false);
         keyboardCanvas.SetActive(false);
         roomGo.SetActive(true);
-        roomName.text = PhotonNetwork.CurrentRoom.Name;
+
+        if (PhotonNetwork.CurrentRoom.IsVisible)
+        {
+            roomName.text = PhotonNetwork.CurrentRoom.Name + " Level " + MultiLevel.Instance.levelIndex; ;
+        }
+        else
+        {
+            roomName.text = "Room Code : " + PhotonNetwork.CurrentRoom.Name;
+        }
+
+        
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -138,7 +150,9 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            pV.RPC("DisplayMasterLeftRoom", RpcTarget.Others);
             pV.RPC("Kick", RpcTarget.Others);
+
             PhotonNetwork.CurrentRoom.RemovedFromList = true;
             roomGo.SetActive(false);
             roomSelectionGo.SetActive(true);
@@ -164,9 +178,25 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
+    [PunRPC]
+    public void DisplayMasterLeftRoom()
+    {
+        GameObject warning = Instantiate(warningPrefab, warningTransform);
+        warning.GetComponent<GUIWarningWindows>().textMeshText.text = "Master has left the room.";
+    }
+
+    [PunRPC]
+    public void DisplayKick()
+    {
+        GameObject warning = Instantiate(warningPrefab, warningTransform);
+        warning.GetComponent<GUIWarningWindows>().textMeshText.text = "Master kicked you out of the room";
+    }
+
     public void KickPlayer()
     {
+        pV.RPC("DisplayKick", RpcTarget.Others);
         pV.RPC("Kick", RpcTarget.Others);
+
     }
 
     public void StartGame()

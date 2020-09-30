@@ -7,7 +7,6 @@ public class MultiLevel : MonoBehaviour
 {
     public static MultiLevel Instance;
 
-    [HideInInspector]
     public int levelIndex;
 
 

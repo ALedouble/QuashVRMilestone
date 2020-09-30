@@ -2,21 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
 
-public class LevelSelectionPublic : MonoBehaviour
+public class LevelSelectionPublic : MonoBehaviourPunCallbacks
 {
-    int currentLevel;
-    public PhotonView photonView;
+    [SerializeField] int currentLevel;
+    public PhotonView pV;
 
     public void SetLevel(int level)
     {
         currentLevel = level;
-        photonView.RPC("SelectLevel", RpcTarget.All, currentLevel);
+        pV.RPC("SelectLevel", RpcTarget.AllBuffered, currentLevel);
     }
 
     [PunRPC]
     public void SelectLevel(int number)
     {
         MultiLevel.Instance.levelIndex = number;
+        InRoomPublic.Instance.roomName.text = PhotonNetwork.CurrentRoom.Name + " Level " +  MultiLevel.Instance.levelIndex;
     }
 }

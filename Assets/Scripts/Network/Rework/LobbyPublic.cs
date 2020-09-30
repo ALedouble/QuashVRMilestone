@@ -125,7 +125,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public string GetRoomName()
     {
         
-        roomName = "Room " + Random.Range(0, 1000).ToString();
+        roomName = " Public Room " + Random.Range(0, 1000).ToString();
 
         
         return roomName;

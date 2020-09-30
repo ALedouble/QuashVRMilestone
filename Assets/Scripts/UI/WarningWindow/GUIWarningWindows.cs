@@ -7,14 +7,14 @@ using TMPro;
 public class GUIWarningWindows : MonoBehaviour
 {
     [Header("Text values settings")]
-    [SerializeField] string windowTitle = "!!! Warning !!!";
-    [SerializeField] string windowText = "Warning Text";
-    [SerializeField] string buttonText = "Ok";
+    public string windowTitle = "!!! Warning !!!";
+    public string windowText = "Warning Text";
+    public string buttonText = "Ok";
 
     [Header("References")]
-    [SerializeField] TextMeshProUGUI textMeshTitle;
-    [SerializeField] TextMeshProUGUI textMeshText;
-    [SerializeField] TextMeshProUGUI textMeshButton;
+    public TextMeshProUGUI textMeshTitle;
+    public TextMeshProUGUI textMeshText;
+    public TextMeshProUGUI textMeshButton;
 
     //delegate
     public delegate void WarningWindowDelegate();
@@ -22,7 +22,7 @@ public class GUIWarningWindows : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        SetWarningText();
+        // SetWarningText();
     }
 
     public virtual void SetWarningText()

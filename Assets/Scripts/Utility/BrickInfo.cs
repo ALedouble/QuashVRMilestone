@@ -7,7 +7,7 @@ public class BrickInfo : MonoBehaviour
     private int brickID;
     public int BrickID { get => brickID; }
     private int playerID;
-    private int PlayerID { get => playerID; }
+    public int PlayerID { get => playerID; }
 
     public int scoreValue;
     public int armorValue;

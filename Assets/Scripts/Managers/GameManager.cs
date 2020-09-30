@@ -275,6 +275,7 @@ public class GameManager : MonoBehaviour
     #region NetworkSequencer
 
     #region Sequencer
+
     private struct SequenceTask
     {
         public Action action;

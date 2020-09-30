@@ -227,34 +227,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
         currentLayersBrickCount[playerID] = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount;
     }
 
-
-    public void ScorePoints(BrickInfo brickInfo)
-    {
-        /// Score
-        Debug.Log("ScorePoints");
-        ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
-
-        if (!GameManager.Instance.offlineMode)
-        {
-            photonView.RPC("SetScoreAndComboRPC", RpcTarget.All, brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); 
-        }
-        else
-        {
-            ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        }
-
-        ScoreManager.Instance.resetCombo = false;
-    }
-
-    [PunRPC]
-    private void SetScoreAndComboRPC(int scoreValue, int playerID)
-    {
-        Debug.Log("ScorePointsRPC");
-        ScoreManager.Instance.SetScore(scoreValue, playerID);
-        ScoreManager.Instance.SetCombo(playerID);
-    }
-
     private void UpdateCurrentLayerWithDelay(int playerID)
     {
         StartCoroutine(UpdateCurrentLayerCoroutine(playerID));

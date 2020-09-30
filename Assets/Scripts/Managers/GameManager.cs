@@ -409,14 +409,21 @@ public class GameManager : MonoBehaviour
     public void EndOfTheGame()
     {
         if (offlineMode)
-            EndTheGamelocaly();
+            DelayedEndGame();
         else
-            photonView.RPC("EndTheGamelocaly", RpcTarget.All);
+            photonView.RPC("DelayedEndGame", RpcTarget.All);
     }
 
     [PunRPC]
-    private void EndTheGamelocaly()
+    private void DelayedEndGame()
     {
+        StartCoroutine(EndTheGamelocaly());
+    }
+
+    private IEnumerator EndTheGamelocaly()
+    {
+        yield return new WaitForSeconds(1f);
+
         TimeManager.Instance.StopTimer();
 
         PlayerInputManager.instance.SetInputMod(InputMod.MENU);

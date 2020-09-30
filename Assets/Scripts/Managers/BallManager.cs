@@ -169,7 +169,7 @@ public class BallManager : MonoBehaviour
 
         DespawnBallLocaly();
 
-        TargetSelector.SetCurrentTargetPlayer((QPlayer)(int)GetNextPlayerTarget());
+        TargetSelector.SetCurrentTargetPlayer(GetNextPlayerTarget());
 
         RespawnBall();
     }

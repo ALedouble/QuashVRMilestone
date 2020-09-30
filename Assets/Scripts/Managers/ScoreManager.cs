@@ -239,6 +239,11 @@ public class ScoreManager : MonoBehaviour
                 SetCombo(playerID);
         }
     }
+
+    public void SendResetComboRPC(int playerID)
+    {
+        photonView.RPC("ResetCombo", RpcTarget.All, playerID);
+    }
     
     #endregion
 

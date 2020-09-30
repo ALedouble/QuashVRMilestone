@@ -99,8 +99,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     #region SetupMethod
 
     #region MainSetup

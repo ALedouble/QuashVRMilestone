@@ -86,6 +86,8 @@ public class BallFloorInteraction : MonoBehaviour
         {
             BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
             BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
+            BallEventManager.instance.OnCollisionWithBrick += StopBallResetCountdown;
+            BallEventManager.instance.OnCollisionWithFrontWall += StopBallResetCountdown;
 
             resetCoroutine = StartCoroutine(BallResetCoroutine());
         }
@@ -95,6 +97,8 @@ public class BallFloorInteraction : MonoBehaviour
     {
         BallEventManager.instance.OnCollisionExitWithFloor -= StopBallResetCountdown;
         BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithBrick -= StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithFrontWall -= StopBallResetCountdown;
 
         StopCoroutine(resetCoroutine);
     }
@@ -103,6 +107,8 @@ public class BallFloorInteraction : MonoBehaviour
     {
         BallEventManager.instance.OnCollisionExitWithFloor -= StopBallResetCountdown;
         BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithBrick -= StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithFrontWall -= StopBallResetCountdown;
 
         StopCoroutine(resetCoroutine);
     }
@@ -118,13 +124,18 @@ public class BallFloorInteraction : MonoBehaviour
                 resetTimer += Time.fixedDeltaTime;
         }
 
+        BallEventManager.instance.OnCollisionExitWithFloor -= StopBallResetCountdown;
         BallEventManager.instance.OnCollisionWithBackWall -= StopBallResetCountdown;
-        BallManager.instance.LoseBall();
+        BallEventManager.instance.OnCollisionWithBrick -= StopBallResetCountdown;
+        BallEventManager.instance.OnCollisionWithFrontWall -= StopBallResetCountdown;
 
-        if(!LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
-            ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
+        if(GameManager.Instance.offlineMode || BallMultiplayerBehaviour.Instance.IsBallOwner)
+        {
+            BallManager.instance.LoseBall();
 
-        //Debug.Log("BallResetCoroutine: LoseBall");
+            if (!LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
+                ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
+        }
     }
 
     #endregion

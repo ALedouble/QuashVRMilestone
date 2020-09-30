@@ -9,6 +9,7 @@ public class Explosion : MonoBehaviour
     private Vector3 position;
 
     private int playerID;
+    private int ballColorID;
 
     private float impactDuration;
     private float impactCurentTime;
@@ -55,6 +56,8 @@ public class Explosion : MonoBehaviour
 
     public void StartExplosionLogic()
     {
+        Debug.Log("Start Explosion Logic");
+        ballColorID = BallManager.instance.BallColorBehaviour.GetBallColor();
         if (isOld)
         {
             isExploding = true;
@@ -112,7 +115,7 @@ public class Explosion : MonoBehaviour
                 hitBrickIDs[i] = hitsInfo[i].collider.gameObject.GetComponent<BrickInfo>().BrickID;
             }
 
-            BrickDestructionManager.Instance.HitBricksByID(hitBrickIDs, playerID, BallManager.instance.GetBallColorID());
+            BrickDestructionManager.Instance.HitBricksByID(hitBrickIDs, playerID, ballColorID);
         }
     }
 
@@ -162,9 +165,9 @@ public class Explosion : MonoBehaviour
             {
                 if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
                 {
-                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.GetBallColorID())
+                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.BallColorBehaviour.GetBallColor())
                     {
-                        BrickDestructionManager.Instance.HitBricksByID(new int[1] { brickInfo.BrickID }, playerID, BallManager.instance.GetBallColorID());
+                        BrickDestructionManager.Instance.HitBricksByID(new int[1] { brickInfo.BrickID }, playerID, BallManager.instance.BallColorBehaviour.GetBallColor());
                     }
                     else
                     {

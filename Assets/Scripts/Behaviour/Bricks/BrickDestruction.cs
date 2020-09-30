@@ -65,12 +65,13 @@ public class BrickDestruction : MonoBehaviour
 
         ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
 
+        if(brickInfo.PlayerID == (int)QPlayerManager.instance.LocalPlayerID)
+        {
+            ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
+            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
 
-        ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-
-
-        ScoreManager.Instance.resetCombo = false;
+            ScoreManager.Instance.resetCombo = false;
+        }
     }
 
     private void DropBonusMalus()

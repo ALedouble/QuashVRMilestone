@@ -26,8 +26,8 @@ public class LockWallManager : MonoBehaviour
         IsClosing = false;
         wallLinesManager = wallLines.GetComponent<WallLinesManager>();
 
-        BallManager.instance.OnFirstBounce += ExitProtectionState;
-        BallManager.instance.OnReturnStart += EnterProtectionState;
+        BallManager.instance.BallInfo.OnFirstBounce += ExitProtectionState;
+        BallManager.instance.BallInfo.OnReturnStart += EnterProtectionState;
     }
 
     public void EnterProtectionState()

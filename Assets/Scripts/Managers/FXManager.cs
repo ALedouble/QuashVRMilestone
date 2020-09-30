@@ -30,7 +30,7 @@ public class FXManager : MonoBehaviour
         float maxRadius = ExplosionManager.Instance.PlayersExplosionRadius[playerID];
 
 
-        switch (BallManager.instance.GetBallColorID())
+        switch (BallManager.instance.BallColorBehaviour.GetBallColor())
         {
             case 0:
                 impactGo = PoolManager.instance.SpawnFromPool("ImpactColor00", fxPos, Quaternion.identity);

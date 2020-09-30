@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   depthVelocity: 10
   xAcceleration: 0
-  bounceDelay: 0.1
+  bounceDelay: 0
 --- !u!114 &4866844152105119356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 4646906268572400308}
   viewIdField: 0

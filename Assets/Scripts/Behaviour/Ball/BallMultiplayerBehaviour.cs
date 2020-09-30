@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public enum BallOwnershipSwitchType
 {
@@ -11,7 +13,7 @@ public enum BallOwnershipSwitchType
     BallLoss = 2
 }
 
-public class BallMultiplayerBehaviour : MonoBehaviour
+public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
 {
     public static BallMultiplayerBehaviour Instance { get; private set; }
     public bool IsBallOwner { get => photonView.IsMine; }
@@ -25,7 +27,7 @@ public class BallMultiplayerBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(this);
             return;
@@ -33,6 +35,13 @@ public class BallMultiplayerBehaviour : MonoBehaviour
         Instance = this;
 
         photonView = GetComponent<PhotonView>();
+
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDestroy()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
     }
 
     public void HandOverBallOwnership(BallOwnershipSwitchType switchMotive)
@@ -44,34 +53,41 @@ public class BallMultiplayerBehaviour : MonoBehaviour
     [PunRPC]
     public void BecomeBallOwner(BallOwnershipSwitchType switchMotive)
     {
+        if (switchMotive == BallOwnershipSwitchType.Return)
+            OnBallOwnershipAcquisition += ReturnSwitchActions;
+
         photonView.RequestOwnership();
-
-        if(switchMotive == BallOwnershipSwitchType.Return)
-        {
-            ReturnSwitchActions();
-        }
-
-        OnBallOwnershipAcquisition?.Invoke();
-        SendLoseBallOwnershipRPC();
     }
 
-    public void UpdateBallOwnershipAssociatedActions()
+    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
+    {
+        //if (photonView == targetView)
+        //    photonView.TransferOwnership(requestingPlayer);
+    }
+
+    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
+    {
+        Debug.Log("Ball Ownership Callback");
+        if(photonView == targetView)
+            UpdateBallOwnershipBasedStates();
+    }
+
+    public void UpdateBallOwnershipBasedStates()
     {
         if (IsBallOwner)
-            OnBallOwnershipAcquisition();
+        {
+            OnBallOwnershipAcquisition?.Invoke();
+            Debug.Log("OnBallOwnershipAcquisition");
+        }
         else
+        {
             OnBallOwnershipLoss?.Invoke();
+            Debug.Log("OnBallOwnershipLoss");
+        } 
     }
 
-    private void SendLoseBallOwnershipRPC()
+    public void ExitReturnCase()
     {
-        photonView.RPC("LoseBallOwnership", RpcTarget.Others);
-    }
-
-    [PunRPC]
-    private void LoseBallOwnership()
-    {
-        OnBallOwnershipLoss?.Invoke();  //Desactivé la collision avec la racket
-        Debug.Log("LoseBallOwnerShip");
+        OnBallOwnershipAcquisition -= ReturnSwitchActions;
     }
 }

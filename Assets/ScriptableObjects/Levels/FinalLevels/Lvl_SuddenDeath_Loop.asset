@@ -53588,17 +53588,17 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      levelNumber: 0
-      LevelIndex: 0
+      levelNumber: 36
+      LevelIndex: 35
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
-      isImplemented: 0
+      isImplemented: 1
       maxScore: 0
       maxCombo: 0
       minTiming: 0
       unlockConditions: []
-      levelPos: {x: 0, y: 0}
+      levelPos: {x: 79, y: 9868}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0
@@ -53609,7 +53609,7 @@ MonoBehaviour:
       balleSpeedForThisLevel: 1
       ballSpawnColorID: 1
       switchColorBehaviourForThisLevel: 2
-      suddenDeath: 0
+      suddenDeath: 1
       timeAttack: 0
       timePerLayer: 0
       noWallsMode: 0

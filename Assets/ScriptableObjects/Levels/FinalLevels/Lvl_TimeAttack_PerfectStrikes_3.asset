@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 527f518b627f3ed469e47ed1fd924f24, type: 3}
-  m_Name: Lvl_TimeAttack_PerfectStrikes_2
+  m_Name: Lvl_TimeAttack_PerfectStrikes_3
   m_EditorClassIdentifier: 
   level:
     levelWallBuilds:
@@ -103849,17 +103849,17 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      levelNumber: 0
-      LevelIndex: 0
+      levelNumber: 41
+      LevelIndex: 40
       isDone: 0
-      isUnlocked: 0
+      isUnlocked: 1
       starsRequired: 0
-      isImplemented: 0
+      isImplemented: 1
       maxScore: 0
       maxCombo: 0
       minTiming: 0
       unlockConditions: []
-      levelPos: {x: 0, y: 0}
+      levelPos: {x: 533, y: 9886}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0
@@ -103871,8 +103871,8 @@ MonoBehaviour:
       ballSpawnColorID: 1
       switchColorBehaviourForThisLevel: 2
       suddenDeath: 0
-      timeAttack: 0
-      timePerLayer: 0
+      timeAttack: 1
+      timePerLayer: 3
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 2e562423418c3a446b04dbda991b8067,

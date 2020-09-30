@@ -126,5 +126,11 @@ MonoBehaviour:
   - PlaySimpleWallCollisionFeedback
   - SetLastPlayerWhoHitTheBall
   - SwitchOwnerAndSpawnBall
+  - FollowerCollisionProtection
+  - RemoteUpdate
+  - ResetCombo
+  - RespawnBallLocaly
+  - DisplayKick
+  - DisplayMasterLeftRoom
   DisableAutoOpenWizard: 1
   ShowSettings: 1

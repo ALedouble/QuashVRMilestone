@@ -10,7 +10,7 @@ public class CampaignLevel : MonoBehaviour
     [HideInInspector] public int levelSelected;
     [HideInInspector] public LevelsScriptable levelScriptSelected;
     public LevelsScriptable levelToTest;
-    [HideInInspector] public int lastRecordedPanelIndex;
+    [HideInInspector] public static int lastRecordedPanelIndex;
 
 
     public static CampaignLevel instance;

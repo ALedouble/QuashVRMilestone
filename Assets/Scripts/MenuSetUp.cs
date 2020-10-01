@@ -6,14 +6,29 @@ public class MenuSetUp : MonoBehaviour
 {
     public GameObject campaignNewScreenGO;
     public GameObject titleCampaignGO;
+    public GameObject mainScreenGo;
+    public GameObject firstTimeGo;
     public Animator animToPlay;
 
     void Start()
     {
-        if(JSON.instance.currentLevelFocused != null & JSON.instance.isGoingStraightToCampaign)
+        if (JSON.instance.isGoingStraightToCampaign)
         {
             JSON.instance.isGoingStraightToCampaign = false;
             GoToCampaign();
+        }
+        else
+        {
+            if (!PlayerSettings.Instance.HadDominantHandWarning)
+            {
+                firstTimeGo.SetActive(true);
+
+                PlayerSettings.Instance.HadDominantHandWarning = true;
+            }
+            else
+            {
+                mainScreenGo.SetActive(true);
+            }
         }
     }
 

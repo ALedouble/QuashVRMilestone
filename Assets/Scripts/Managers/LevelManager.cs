@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     [Header("Shaking")]
     public Shake layerShake;
 
+    [Header("Room Parameters")]
     public float layerDiffPosition = 0.6f;
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
@@ -57,8 +58,11 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public bool[] isEverythingDisplayed;
     bool[] firstSetUpDone;
 
+    [Header("Layers Parameters")]
     [Range(0.01f, 1f)] public float smoothTime;
     [Range(2f, 10f)] public float sMaxSpeed;
+    public int layersPerRow = 16;
+    public float layersRowsOffset = -0.15f;
 
     public PresetScriptable[] colorPresets { get => BrickManager.Instance.colorPresets; set => BrickManager.Instance.colorPresets = value; }            // Desole...
 
@@ -395,14 +399,34 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.combo[i] = 1;
             ScoreManager.Instance.playersMaxCombo[i] = 1;
 
-
-            playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * numberOfLayers), 0.5f, 0);
+            if (numberOfLayers < layersPerRow)
+                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * (numberOfLayers + 1)), 0.5f, 0);
+            else
+                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * (layersPerRow + 1)), 0.5f, 0);
+            int layersOnThisRow = 0;
+            int currentLayersRow = 0;
+            float rowOffset = 0f;
             for (int r = 0; r < numberOfLayers; r++)
             {
+                if (layersOnThisRow >= layersPerRow)
+                {
+                    currentLayersRow++;
+                    layersOnThisRow = 0;
+
+                    if (((numberOfLayers - (layersPerRow * currentLayersRow)) % 2) == 1)
+                        rowOffset = 0;
+                    else
+                        rowOffset = 0.4f;
+
+                    Debug.Log("rowOffset : " + rowOffset);
+                }
+
                 GameObject layerUI = PoolManager.instance.SpawnFromPool("LayerUI", new Vector3(0, 0), Quaternion.identity);
                 layerUI.transform.parent = playersHUD.layerCountParent[i];
-                layerUI.transform.localPosition = new Vector3(0 + (0.2f * (r)), 0, 0);
+                layerUI.transform.localPosition = new Vector3(0 + (0.2f * layersOnThisRow) + rowOffset, 0 + (layersRowsOffset * currentLayersRow), 0);
                 playersUIlayers[i].layersUI[r] = layerUI.GetComponent<UI_LayerBehaviour>();
+
+                layersOnThisRow++;
             }
 
             ExplosionManager.Instance.PlayersExplosionRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;

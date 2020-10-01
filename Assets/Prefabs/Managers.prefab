@@ -726,6 +726,8 @@ MonoBehaviour:
   isEverythingDisplayed: 
   smoothTime: 0.015
   sMaxSpeed: 3
+  layersPerRow: 17
+  layersRowsOffset: -0.2
 --- !u!1 &1504735476317143586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,7 +1207,7 @@ MonoBehaviour:
   brickPresets:
   - {fileID: 11400000, guid: 891b65698e0e7f64db874611f353ef9c, type: 2}
   brickPresetPath: Assets/ScriptableObjects/BrickPresets
-  currentBricksOnLayer: 
+  currentLayersBrickCount: 
   offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
@@ -1464,7 +1466,6 @@ MonoBehaviour:
   displayedScore: []
   displayedCombo: []
   resetCombo: 1
-  pV: {fileID: 0}
   bonusScoreOnTimeAttack: 0
 --- !u!1 &7024211451994467589
 GameObject:

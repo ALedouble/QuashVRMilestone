@@ -11,11 +11,11 @@ public class LevelButton : MonoBehaviour
     public Button button;
     public RectTransform rectTransform;
 
-    public List<GameObject> lockImages;
-    public List<GameObject> unlockImages;
-    public List<GameObject> doneImages;
-    public List<GameObject> fullStarsImages;
+    public GameObject lockImages;
+    public GameObject unlockImages;
+    public GameObject doneImages;
+    public GameObject fullStarsImages;
 
-    public List<GameObject> exoticUnlockImages;
-    public List<GameObject> exoticDoneImages;
+    public GameObject exoticUnlockImages;
+    public GameObject exoticDoneImages;
 }

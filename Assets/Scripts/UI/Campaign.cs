@@ -210,8 +210,8 @@ public class Campaign : MonoBehaviour
     /// <returns></returns>
     public int GetPanelIndex(LevelsScriptable levelIndex)
     {
-        Vector2 temp = GetConvertedPositionFromPercents(new Vector2(GetXScreenPositionPercent(levelIndex.level.levelProgression.levelPos.x) , GetYScreenPositionPercent(levelIndex.level.levelProgression.levelPos.y)));
-        float levelComparer =  temp.y;
+        Vector2 temp = GetConvertedPositionFromPercents(new Vector2(GetXScreenPositionPercent(levelIndex.level.levelProgression.levelPos.x), GetYScreenPositionPercent(levelIndex.level.levelProgression.levelPos.y)));
+        float levelComparer = temp.y;
 
         //Debug.Log("level Ypos : " + temp.y);
 
@@ -349,17 +349,11 @@ public class Campaign : MonoBehaviour
 
                         if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                         {
-                            for (int x = 0; x < level.unlockImages.Count; x++)
-                            {
-                                level.unlockImages[x].SetActive(true);
-                            }
+                            level.unlockImages.SetActive(true);
                         }
                         else
                         {
-                            for (int x = 0; x < level.unlockImages.Count; x++)
-                            {
-                                level.exoticUnlockImages[x].SetActive(true);
-                            }
+                            level.exoticUnlockImages.SetActive(true);
                         }
                     }
                     else
@@ -367,10 +361,7 @@ public class Campaign : MonoBehaviour
                         level.button.interactable = false;
 
 
-                        for (int x = 0; x < level.lockImages.Count; x++)
-                        {
-                            level.lockImages[x].SetActive(true);
-                        }
+                        level.lockImages.SetActive(true);
                     }
                 }
                 else
@@ -432,34 +423,22 @@ public class Campaign : MonoBehaviour
                             if (conditionCompleted == levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions)
                             {
 
-                                for (int x = 0; x < level.fullStarsImages.Count; x++)
-                                {
-                                    level.fullStarsImages[x].SetActive(true);
-                                }
+                                level.fullStarsImages.SetActive(true);
                             }
                             else
                             {
-                                for (int x = 0; x < level.doneImages.Count; x++)
-                                {
-                                    level.doneImages[x].SetActive(true);
-                                }
+                                level.doneImages.SetActive(true);
                             }
                         }
                         else
                         {
                             if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                             {
-                                for (int x = 0; x < level.fullStarsImages.Count; x++)
-                                {
-                                    level.fullStarsImages[x].SetActive(true);
-                                }
+                                level.fullStarsImages.SetActive(true);
                             }
                             else
                             {
-                                for (int x = 0; x < level.fullStarsImages.Count; x++)
-                                {
-                                    level.exoticDoneImages[x].SetActive(true);
-                                }
+                                level.exoticDoneImages.SetActive(true);
                             }
 
                         }
@@ -469,17 +448,11 @@ public class Campaign : MonoBehaviour
                     {
                         if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                         {
-                            for (int x = 0; x < level.unlockImages.Count; x++)
-                            {
-                                level.unlockImages[x].SetActive(true);
-                            }
+                            level.unlockImages.SetActive(true);
                         }
                         else
                         {
-                            for (int x = 0; x < level.fullStarsImages.Count; x++)
-                            {
-                                level.exoticUnlockImages[x].SetActive(true);
-                            }
+                            level.exoticUnlockImages.SetActive(true);
                         }
 
                     }
@@ -533,10 +506,7 @@ public class Campaign : MonoBehaviour
                             line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
 
 
-                            for (int x = 0; x < level.unlockImages.Count; x++)
-                            {
-                                level.unlockImages[x].SetActive(true);
-                            }
+                            level.unlockImages.SetActive(true);
                         }
                         else
                         {
@@ -544,10 +514,7 @@ public class Campaign : MonoBehaviour
                             level.button.interactable = false;
 
 
-                            for (int x = 0; x < level.lockImages.Count; x++)
-                            {
-                                level.lockImages[x].SetActive(true);
-                            }
+                            level.lockImages.SetActive(true);
                         }
                     }
                     else
@@ -610,34 +577,24 @@ public class Campaign : MonoBehaviour
 
                                 if (conditionCompleted == levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions)
                                 {
-                                    for (int x = 0; x < level.fullStarsImages.Count; x++)
-                                    {
-                                        level.fullStarsImages[x].SetActive(true);
-                                    }
+                                    level.fullStarsImages.SetActive(true);
                                 }
                                 else
                                 {
-                                    for (int x = 0; x < level.doneImages.Count; x++)
-                                    {
-                                        level.doneImages[x].SetActive(true);
-                                    }
+                                    level.doneImages.SetActive(true);
                                 }
                             }
                             else
                             {
                                 if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                                 {
-                                    for (int x = 0; x < level.fullStarsImages.Count; x++)
-                                    {
-                                        level.fullStarsImages[x].SetActive(true);
-                                    }
+
+                                    level.fullStarsImages.SetActive(true);
+
                                 }
                                 else
                                 {
-                                    for (int x = 0; x < level.fullStarsImages.Count; x++)
-                                    {
-                                        level.exoticDoneImages[x].SetActive(true);
-                                    }
+                                    level.exoticDoneImages.SetActive(true);
                                 }
                             }
                         }
@@ -645,17 +602,11 @@ public class Campaign : MonoBehaviour
                         {
                             if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                             {
-                                for (int x = 0; x < level.unlockImages.Count; x++)
-                                {
-                                    level.unlockImages[x].SetActive(true);
-                                }
+                                level.unlockImages.SetActive(true);
                             }
                             else
                             {
-                                for (int x = 0; x < level.unlockImages.Count; x++)
-                                {
-                                    level.exoticUnlockImages[x].SetActive(true);
-                                }
+                                level.exoticUnlockImages.SetActive(true);
                             }
 
                         }
@@ -788,7 +739,7 @@ public class Campaign : MonoBehaviour
             }
             else
             {
-                levelRecapValues.exoticCondition.text = levelRecapValues.timeAttackTitle + "\n" + selectedLevel.level.levelSpec.timePerLayer + " seconds " + levelRecapValues.timeAttackDescription;
+                levelRecapValues.exoticCondition.text = levelRecapValues.timeAttackTitle + "\n" + levelRecapValues.timeAttackDescriptionBeforeValue + " " + selectedLevel.level.levelSpec.timePerLayer + " " + levelRecapValues.timeAttackDescriptionAfterValue;
             }
         }
 
@@ -1086,6 +1037,7 @@ public class Campaign : MonoBehaviour
     /// </summary>
     private void CheckPanelIndex()
     {
+        Debug.Log("Last Index : " + lastIndex);
         if (panelIndex >= lastIndex)
         {
             panelIndex = lastIndex;
@@ -1157,6 +1109,7 @@ public class Campaign : MonoBehaviour
         if (newPanelIndex != panelIndex && newPanelIndex <= lastIndex && newPanelIndex >= 0)
         {
             panelIndex = newPanelIndex;
+            Debug.Log("newPanelIndex : " + newPanelIndex);
         }
         else
         {
@@ -1184,7 +1137,7 @@ public class Campaign : MonoBehaviour
                 highest = levelsImplemented[i];
         }
 
-        //Debug.Log("highest level : " + highest);
+        Debug.Log("highest level : " + highest);
         return highest;
     }
 

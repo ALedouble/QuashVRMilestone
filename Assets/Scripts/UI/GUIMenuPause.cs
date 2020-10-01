@@ -8,16 +8,9 @@ public class GUIMenuPause : MonoBehaviour
     public static GUIMenuPause guiMenuPause;
     #endregion
 
-    public bool isSolo;
-
     [Header("Multiplayer Only")]
     public GameObject PauseMenuP1;
     public GameObject PauseMenuP2;
-
-    private void Awake()
-    {
-        gameObject.SetActive(false);
-    }
 
     public void GamePaused()
     {

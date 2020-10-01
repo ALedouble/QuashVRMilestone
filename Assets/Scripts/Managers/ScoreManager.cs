@@ -34,17 +34,18 @@ public class ScoreManager : MonoBehaviour
     [HideInInspector] public GUIScoreData[] displayedScore;
     [HideInInspector] public GUIComboData[] displayedCombo;
     [HideInInspector] public bool resetCombo = true;
-    [HideInInspector] public PhotonView pV;
 
     [Header("Exotic variables")]
     public float bonusScoreOnTimeAttack = 0;
 
+    private Coroutine remoteUpdateCoroutine;
 
 
     //Delegate
     public delegate void ScoreManagerDelegate();
     public event ScoreManagerDelegate OnComboReset;
 
+    private PhotonView photonView;
 
     public static ScoreManager Instance;
 
@@ -52,7 +53,7 @@ public class ScoreManager : MonoBehaviour
     {
         Instance = this;
 
-        pV = GetComponent<PhotonView>();
+        photonView = GetComponent<PhotonView>();
     }
 
     /// <summary>
@@ -62,11 +63,11 @@ public class ScoreManager : MonoBehaviour
     [PunRPC]
     public void SetScore(int brickValue, int playerID)
     {
-        score[playerID] += brickValue * combo[playerID];
-
-        if (GameManager.Instance.offlineMode && !hasScoreConditionSucceeded)
+        if (playerID == (int)QPlayerManager.instance.LocalPlayerID)
         {
-            if (isThereScoreCondition)
+            score[playerID] += brickValue * combo[playerID];
+
+            if (!hasScoreConditionSucceeded && isThereScoreCondition)
             {
                 //Debug.Log("Condition Check");
                 if (score[playerID] >= scoreConditionValue)
@@ -77,10 +78,15 @@ public class ScoreManager : MonoBehaviour
                     StartCoroutine(ConditionCompleteTime());
                 }
             }
-        }
 
-        string textScore = score[playerID].ToString();
-        displayedScore[playerID].UpdateText(textScore);
+            string textScore = score[playerID].ToString();
+            displayedScore[playerID].UpdateText(textScore);
+
+            if(!GameManager.Instance.offlineMode && remoteUpdateCoroutine == null)
+            {
+                remoteUpdateCoroutine = StartCoroutine(RemoteUpdateCoroutine(playerID));
+            }
+        }
     }
 
     /// <summary>
@@ -91,7 +97,6 @@ public class ScoreManager : MonoBehaviour
     public void SetCombo(int playerID)
     {
         brickCounterGauge[playerID]++;
-
 
         if (brickCounterGauge[playerID] >= maxCounter)
         {
@@ -109,14 +114,19 @@ public class ScoreManager : MonoBehaviour
             }
         }
 
-
         displayedCombo[playerID].FillImage((float)brickCounterGauge[playerID] / (float)maxCounter);
+
+        if (!GameManager.Instance.offlineMode && playerID == (int)QPlayerManager.instance.LocalPlayerID && remoteUpdateCoroutine == null)
+        {
+            remoteUpdateCoroutine = StartCoroutine(RemoteUpdateCoroutine(playerID));
+        }
     }
 
     /// <summary>
     /// Reset la valeur du combo
     /// </summary>
     /// <param name="playerID"></param>
+    [PunRPC]
     public void ResetCombo(int playerID)
     {
         combo[playerID] = 1;
@@ -148,14 +158,10 @@ public class ScoreManager : MonoBehaviour
         //Debug.Log("Score bonus of " + bonus);
     }
 
-
     public void CheckForComboBreak()
     {
-        if (GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)                                                                                                       // A verifer...
-        {
-            resetCombo = true;
-            StartCoroutine(CheckComboCondition(ExplosionManager.Instance.impactDuration, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()));          //BallID
-        }
+        resetCombo = true;
+        StartCoroutine(CheckComboCondition(ExplosionManager.Instance.impactDuration, (int)QPlayerManager.instance.LocalPlayerID));
     }
 
     private IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)
@@ -164,7 +170,14 @@ public class ScoreManager : MonoBehaviour
 
         if (resetCombo)
         {
-            ResetCombo(playerID);
+            if(GameManager.Instance.offlineMode)
+            {
+                ResetCombo(playerID);
+            }
+            else
+            {
+                photonView.RPC("ResetCombo", RpcTarget.All, playerID);
+            }
         }
     }
 
@@ -189,4 +202,49 @@ public class ScoreManager : MonoBehaviour
 
         displayedScore[0].cannotPlayAnim = false;
     }
+
+
+    #region Multiplayer
+
+    private IEnumerator RemoteUpdateCoroutine(int playerID)
+    {
+        yield return new WaitForEndOfFrame();
+
+        photonView.RPC("RemoteUpdate", RpcTarget.Others, playerID, score[playerID], combo[playerID]);
+    }
+
+    [PunRPC]
+    private void RemoteUpdate(int playerID, int newScore, int newCombo)
+    {
+        score[playerID] = newScore;
+
+        if (!hasScoreConditionSucceeded && isThereScoreCondition)
+        {
+            //Debug.Log("Condition Check");
+            if (score[playerID] >= scoreConditionValue)
+            {
+                //Debug.Log("Score Anim PLEASE");
+                LevelManager.instance.playersHUD.ScoreConditionCompleted();
+                hasScoreConditionSucceeded = true;
+                StartCoroutine(ConditionCompleteTime());
+            }
+        }
+
+        string textScore = score[playerID].ToString();
+        displayedScore[playerID].UpdateText(textScore);
+
+        if( newCombo > combo[playerID])
+        {
+            while (combo[playerID] < newCombo)
+                SetCombo(playerID);
+        }
+    }
+
+    public void SendResetComboRPC(int playerID)
+    {
+        photonView.RPC("ResetCombo", RpcTarget.All, playerID);
+    }
+    
+    #endregion
+
 }

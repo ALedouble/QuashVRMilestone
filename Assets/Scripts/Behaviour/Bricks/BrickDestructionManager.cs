@@ -44,8 +44,13 @@ public class BrickDestructionManager : MonoBehaviour
 
     private bool ShouldBrickBeDestroyed(int brickID, int playerID, int explosionColorID)
     {
-        int brickColorID = BrickManager.Instance.AllBricks[brickID].GetComponent<BrickInfo>().colorID;
-        return BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID) && (brickColorID == 0 || brickColorID == explosionColorID);
+        if(BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID))
+        {
+            int brickColorID = BrickManager.Instance.AllBricks[playerID][brickID].GetComponent<BrickInfo>().colorID;
+            return ( brickColorID == 0 || brickColorID == explosionColorID );
+        }
+
+        return false;
     }
 
     [PunRPC]
@@ -54,8 +59,8 @@ public class BrickDestructionManager : MonoBehaviour
         bool hasBrickBeenDestroyed = false;
         foreach(int brickID in brickIDs)
         {
-            BrickManager.Instance.AllBricks[brickID].GetComponent<BrickDestruction>().DestroyBrick();
-            BrickManager.Instance.CurrentLayersBricks[playerID].Remove(brickID);
+            BrickManager.Instance.AllBricks[playerID][brickID].GetComponent<BrickDestruction>().DestroyBrick();
+            BrickManager.Instance.RemoveDestroyedBrick(brickID, playerID);
         }
 
         if(hasBrickBeenDestroyed)

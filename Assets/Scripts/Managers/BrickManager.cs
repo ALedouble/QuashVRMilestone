@@ -22,9 +22,14 @@ public class BrickManager : MonoBehaviourPunCallbacks
     public BrickTypesScriptable[] brickPresets;
     [HideInInspector] public string brickPresetPath = "Assets/ScriptableObjects/BrickPresets";
 
-    public int[] currentBricksOnLayer; //Bad naming...
+    public int[] currentLayersBrickCount; //Bad naming...
+
     private List<List<int>>[] layersBricks;
     public List<int>[] CurrentLayersBricks { get; private set; }
+    public Dictionary<int, GameObject>[] AllBricks { get; private set; }
+
+    private int[] playerBrickLastID;
+
     public float offsetPerPlayer;
 
     [Header("Bonus & Malus settings")]
@@ -44,14 +49,23 @@ public class BrickManager : MonoBehaviourPunCallbacks
     //BrickInfo currentBrickInfo;
 
     private PhotonView photonView;
-    public Dictionary<int, GameObject> AllBricks { get; private set; }
-
-
-
+    
     private void Awake()
     {
         Instance = this;
-        AllBricks = new Dictionary<int, GameObject>();
+
+        Reset();
+
+        photonView = GetComponent<PhotonView>();
+    }
+
+    public void Reset()
+    {
+        DeactivateAllBricks();
+
+        AllBricks = new Dictionary<int, GameObject>[2];
+        AllBricks[0] = new Dictionary<int, GameObject>();
+        AllBricks[1] = new Dictionary<int, GameObject>();
 
         layersBricks = new List<List<int>>[2];
         layersBricks[0] = new List<List<int>>();
@@ -61,14 +75,9 @@ public class BrickManager : MonoBehaviourPunCallbacks
         CurrentLayersBricks[0] = new List<int>();
         CurrentLayersBricks[1] = new List<int>();
 
-        BrickInfo.ResetBrickCount();
-
-        photonView = GetComponent<PhotonView>();
-    }
-
-    public void AddBrick(GameObject newBrick)
-    {
-        AllBricks.Add(newBrick.GetComponent<BrickInfo>().BrickID, newBrick);
+        playerBrickLastID = new int[2];
+        playerBrickLastID[0] = 0;
+        playerBrickLastID[1] = 0;
     }
 
     /// <summary>
@@ -79,7 +88,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     {
         SetCurrentBrickOnLayer(playerID);
 
-        if (currentBricksOnLayer[playerID] <= 0)
+        if (currentLayersBrickCount[playerID] <= 0)
         {
             LevelManager.instance.SetNextLayer(playerID);
 
@@ -133,14 +142,11 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
                 obj.transform.localPosition = brickNewPos;
 
-
-                if (brickInfo.BrickID == 0)
-                {
-                    brickInfo.SetBrickID();
-                    AddBrick(obj);
-                }
+                // BrickID setup + Ref
+                int brickID = playerBrickLastID[playerID]++;
+                brickInfo.SetBrickID(brickID, playerID);
+                AddBrick(obj, playerID);
                     
-
                 //brickInfo.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
                 brickInfo.armorValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
                 brickInfo.scoreValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].scoreValue;
@@ -218,35 +224,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
     /// <param name="playerID"></param>
     public void SetCurrentBrickOnLayer(int playerID)
     {
-        currentBricksOnLayer[playerID] = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount;
-    }
-
-
-    public void ScorePoints(BrickInfo brickInfo)
-    {
-        /// Score
-        Debug.Log("ScorePoints");
-        ScoreManager.Instance.BuildScoreText(brickInfo.scoreValue, brickInfo.colorID, transform.position, transform.rotation);
-
-        if (!GameManager.Instance.offlineMode)
-        {
-            photonView.RPC("SetScoreAndComboRPC", RpcTarget.All, brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); 
-        }
-        else
-        {
-            ScoreManager.Instance.SetScore(brickInfo.scoreValue, (int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-            ScoreManager.Instance.SetCombo((int)BallManager.instance.GetLastPlayerWhoHitTheBall()); //BallID
-        }
-
-        ScoreManager.Instance.resetCombo = false;
-    }
-
-    [PunRPC]
-    private void SetScoreAndComboRPC(int scoreValue, int playerID)
-    {
-        Debug.Log("ScorePointsRPC");
-        ScoreManager.Instance.SetScore(scoreValue, playerID);
-        ScoreManager.Instance.SetCombo(playerID);
+        currentLayersBrickCount[playerID] = LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount;
     }
 
     private void UpdateCurrentLayerWithDelay(int playerID)
@@ -268,5 +246,38 @@ public class BrickManager : MonoBehaviourPunCallbacks
     {
         CurrentLayersBricks[playerID] = layersBricks[playerID][0];
         //Debug.Log("Player " + playerID + " active layer brick count : " + CurrentLayersBricks[playerID].Count);
+    }
+
+    private void AddBrick(GameObject newBrick, int playerID)
+    {
+        Debug.Log("player ID : " + playerID);
+        AllBricks[playerID].Add(newBrick.GetComponent<BrickInfo>().BrickID, newBrick);
+    }
+
+    public void RemoveDestroyedBrick(int brickID, int playerID)
+    {
+        if(CurrentLayersBricks[playerID].Contains(brickID))
+            CurrentLayersBricks[playerID].Remove(brickID);
+
+        AllBricks[playerID].Remove(brickID);
+    }
+
+    private void DeactivateAllBricks()
+    {
+        if(AllBricks != null)
+        {
+            foreach (Dictionary<int, GameObject> brickList in AllBricks)
+            {
+                if (brickList != null)
+                {
+                    foreach (KeyValuePair<int, GameObject> brick in brickList)
+                    {
+                        brick.Value.SetActive(false);
+                    }
+
+                    brickList.Clear();
+                }
+            }
+        }
     }
 }

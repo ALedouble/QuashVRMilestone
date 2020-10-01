@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 527f518b627f3ed469e47ed1fd924f24, type: 3}
-  m_Name: Lvl_Rebound_WIP_Frames
+  m_Name: Lvl_Rebound_Frames
   m_EditorClassIdentifier: 
   level:
     levelWallBuilds:
@@ -23923,17 +23923,17 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      levelNumber: 0
-      LevelIndex: 0
-      isDone: 0
-      isUnlocked: 0
+      levelNumber: 33
+      LevelIndex: 32
+      isDone: 1
+      isUnlocked: 1
       starsRequired: 0
-      isImplemented: 0
-      maxScore: 0
-      maxCombo: 0
-      minTiming: 0
+      isImplemented: 1
+      maxScore: 1360
+      maxCombo: 4
+      minTiming: 12
       unlockConditions: []
-      levelPos: {x: 0, y: 0}
+      levelPos: {x: 799.5, y: 527}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0

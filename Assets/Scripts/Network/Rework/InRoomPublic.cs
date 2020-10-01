@@ -61,7 +61,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         if (PhotonNetwork.CurrentRoom.IsVisible)
         {
-            roomName.text = PhotonNetwork.CurrentRoom.Name + " Level "; 
+            roomName.text = PhotonNetwork.CurrentRoom.Name; 
         }
         else
         {

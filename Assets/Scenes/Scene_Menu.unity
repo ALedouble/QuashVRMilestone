@@ -5774,6 +5774,7 @@ GameObject:
   - component: {fileID: 244348459}
   - component: {fileID: 244348458}
   - component: {fileID: 244348457}
+  - component: {fileID: 244348461}
   m_Layer: 5
   m_Name: Button Back
   m_TagString: Untagged
@@ -5876,9 +5877,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1918277307}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1918277314}
+        m_MethodName: Play
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5887,7 +5888,7 @@ MonoBehaviour:
           m_StringArgument: A_Window_Disappear
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 244348461}
         m_MethodName: PlayBackButtonClick
         m_Mode: 1
         m_Arguments:
@@ -5934,6 +5935,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244348455}
   m_CullTransparentMesh: 0
+--- !u!114 &244348461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244348455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab8c10d42aa9624ca6070d22c6e01cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &244963965 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4604327204379211790, guid: f19d40be655edc545b6adebb7c039b8e,
@@ -36412,6 +36425,7 @@ GameObject:
   - component: {fileID: 563793019}
   - component: {fileID: 563793018}
   - component: {fileID: 563793017}
+  - component: {fileID: 563793021}
   m_Layer: 5
   m_Name: Button Back
   m_TagString: Untagged
@@ -36525,7 +36539,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3591302381172348688}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: A_Window_Disappear
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2820985663557350352}
         m_MethodName: Play
         m_Mode: 5
         m_Arguments:
@@ -36536,7 +36561,7 @@ MonoBehaviour:
           m_StringArgument: A_Window_Disappear
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 563793021}
         m_MethodName: PlayBackButtonClick
         m_Mode: 1
         m_Arguments:
@@ -36583,6 +36608,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 563793015}
   m_CullTransparentMesh: 0
+--- !u!114 &563793021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563793015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab8c10d42aa9624ca6070d22c6e01cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &567045034 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4921702198367347929, guid: 23972dd36fd499d4d985f1de26a72e04,
@@ -43123,7 +43160,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1499934112}
+      - m_Target: {fileID: 2140804133}
         m_MethodName: SetLevel
         m_Mode: 3
         m_Arguments:
@@ -44011,7 +44048,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1499934112}
+      - m_Target: {fileID: 2140804133}
         m_MethodName: SetLevel
         m_Mode: 3
         m_Arguments:
@@ -46926,7 +46963,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1499934112}
+      - m_Target: {fileID: 2140804133}
         m_MethodName: SetLevel
         m_Mode: 3
         m_Arguments:
@@ -52572,7 +52609,6 @@ GameObject:
   - component: {fileID: 1499934106}
   - component: {fileID: 1499934105}
   - component: {fileID: 1499934111}
-  - component: {fileID: 1499934112}
   - component: {fileID: 1499934113}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Multiplayer Level Section \u25A0\u25A0\u25A0\u25A0"
@@ -52746,19 +52782,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &1499934112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499934103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6130f96899646a14a86ec57c0bc7b9a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  photonView: {fileID: 1499934113}
 --- !u!114 &1499934113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55479,6 +55502,7 @@ GameObject:
   - component: {fileID: 1622174555}
   - component: {fileID: 1622174554}
   - component: {fileID: 1622174553}
+  - component: {fileID: 1622174557}
   m_Layer: 5
   m_Name: Button Back
   m_TagString: Untagged
@@ -55603,6 +55627,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1622174557}
+        m_MethodName: PlayBackButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1622174555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55639,6 +55674,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622174551}
   m_CullTransparentMesh: 0
+--- !u!114 &1622174557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622174551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab8c10d42aa9624ca6070d22c6e01cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1625437516
 GameObject:
   m_ObjectHideFlags: 0
@@ -65296,7 +65343,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1499934112}
+      - m_Target: {fileID: 2140804133}
         m_MethodName: SetLevel
         m_Mode: 3
         m_Arguments:
@@ -65372,6 +65419,7 @@ GameObject:
   - component: {fileID: 2140804131}
   - component: {fileID: 2140804130}
   - component: {fileID: 2140804132}
+  - component: {fileID: 2140804133}
   m_Layer: 0
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Multiplayer Screens \u25A0\u25A0\u25A0\u25A0"
   m_TagString: Untagged
@@ -65474,6 +65522,19 @@ MonoBehaviour:
   viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &2140804133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140804128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6130f96899646a14a86ec57c0bc7b9a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonView: {fileID: 2140804132}
 --- !u!1 &2142622744
 GameObject:
   m_ObjectHideFlags: 0
@@ -67636,7 +67697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3591302381172348689
 MonoBehaviour:
   m_ObjectHideFlags: 0

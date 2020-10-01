@@ -103,10 +103,10 @@ public class GUIHUD : MonoBehaviour
             // ------------------------- VICTORY ------------------------- //
             if (scoreScreenFailed.Length > 1)
             {
-                scoreScreenFailed[1].SetActive(true);
+                scoreScreenFailed[(int)QPlayerManager.instance.OtherPlayerID].SetActive(true);
             }
 
-            scoreScreenCompleted[0].SetActive(true);
+            scoreScreenCompleted[(int)QPlayerManager.instance.LocalPlayerID].SetActive(true);
 
 
 
@@ -312,10 +312,10 @@ public class GUIHUD : MonoBehaviour
             // ------------------------- DEFEAT ------------------------- //
             if (scoreScreenCompleted.Length > 1)
             {
-                scoreScreenCompleted[1].SetActive(true);
+                scoreScreenCompleted[(int)QPlayerManager.instance.OtherPlayerID].SetActive(true);
             }
 
-            scoreScreenFailed[0].SetActive(true);
+            scoreScreenFailed[(int)QPlayerManager.instance.LocalPlayerID].SetActive(true);
         }
 
 

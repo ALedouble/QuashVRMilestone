@@ -27,7 +27,8 @@ public class LevelRecap : MonoBehaviour
     public string suddenDeathTitle;
     [TextArea] public string suddenDeathDescription;
     public string timeAttackTitle;
-    [TextArea] public string timeAttackDescription;
+    public string timeAttackDescriptionBeforeValue;
+    [TextArea] public string timeAttackDescriptionAfterValue;
 
     public Image[] stars;
 

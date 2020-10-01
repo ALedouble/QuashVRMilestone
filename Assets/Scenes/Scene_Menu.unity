@@ -3650,13 +3650,15 @@ MonoBehaviour:
   levelCondition: {fileID: 42657158}
   exoticCondition: {fileID: 1391670125}
   bounceModeTitle: Make it Bounce!
-  mandatoryBounceDescription: "Bricks can only be destroyed after bouncing against\r
-    a wall."
+  mandatoryBounceDescription: "<alpha=#66>Bricks can only be destroyed after bouncing
+    against\r a wall."
   suddenDeathTitle: Sudden Death!
-  suddenDeathDescription: Don't miss any shot! Any mistakes will make you lose.
+  suddenDeathDescription: <alpha=#66>Don't miss any shot! Any mistakes will make you
+    lose.
   timeAttackTitle: Time Attack!
-  timeAttackDescription: You have <time> seconds to complete each layer! Remaining
-    seconds are added to the next layer.
+  timeAttackDescriptionBeforeValue: <alpha=#66>You have
+  timeAttackDescriptionAfterValue: seconds to complete each layer! Remaining seconds
+    are added to the next layer.
   stars:
   - {fileID: 389936662}
   - {fileID: 677605461}
@@ -45735,7 +45737,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh116438
+  m_Name: pb_Mesh35266
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -47121,7 +47123,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 1167478023}
   m_TextComponent: {fileID: 314524824}
   m_materialReferenceIndex: 1
@@ -48890,7 +48892,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 1271532632}
   m_TextComponent: {fileID: 1569457149}
   m_materialReferenceIndex: 1

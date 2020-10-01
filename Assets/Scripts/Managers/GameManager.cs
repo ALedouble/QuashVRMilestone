@@ -422,23 +422,21 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndTheGamelocaly()
     {
-        yield return new WaitForSeconds(1f);
-
         TimeManager.Instance.StopTimer();
-
-        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
-
-        LevelManager.instance.playersHUD.EnableScoreScreen();
-
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();
+
+        yield return new WaitForSeconds(1f);
+
+        if (!HasLost && offlineMode && LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
+            ScoreManager.Instance.OnTimeAttackBonus();
+
+        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+        LevelManager.instance.playersHUD.EnableScoreScreen();
 
         //If the player who WINS is ALONE
         if (!HasLost && offlineMode)
         {
-            if (LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
-                ScoreManager.Instance.OnTimeAttackBonus();
-
             //Debug.Log("Submit DATAS at endOfTheGame SOOOO .... NOW");
             JSON.instance.currentLevelFocused = LevelManager.instance.currentLevel;
             JSON.instance.SubmitDATA(LevelManager.instance.currentLevel, (int)ScoreManager.Instance.score[0], ScoreManager.Instance.playersMaxCombo[0], (int)TimeManager.Instance.CurrentTimer);
@@ -447,34 +445,42 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        //Pause Timer
-        TimeManager.Instance.StopTimer();
-        //Pause Ball
-        BallManager.instance.PauseBall();
-        //Pause Level Bricks
-        IsBrickFreeToMove = false;
+        if(offlineMode)
+        {
+            //Pause Timer
+            TimeManager.Instance.StopTimer();
+            //Pause Ball
+            BallManager.instance.PauseBall();
+            //Pause Level Bricks
+            IsBrickFreeToMove = false;
+            
+            IsGamePaused = true;
+        }
+
         //Switch Input Mode & Desable Racket
         PlayerInputManager.instance.SetInputMod(InputMod.MENU);
         //Display Pause UI
         GUIMenuPause.guiMenuPause.GamePaused();
-
-        IsGamePaused = true;
     }
 
     public void ResumeGame()
     {
-        //Unpause Timer
-        TimeManager.Instance.StartTimer();
-        //UnPause la balle
-        BallManager.instance.ResumeBall();
-        //Unpause Level Bricks
-        IsBrickFreeToMove = true;
+        if(offlineMode)
+        {
+            //Unpause Timer
+            TimeManager.Instance.StartTimer();
+            //UnPause la balle
+            BallManager.instance.ResumeBall();
+            //Unpause Level Bricks
+            IsBrickFreeToMove = true;
+
+            IsGamePaused = false;
+        }
+        
         //Switch Input Mode & Enable Racket
         PlayerInputManager.instance.SetInputMod(InputMod.GAMEPLAY);
         //Undisplay Pause UI
         GUIMenuPause.guiMenuPause.GameResumed();
-
-        IsGamePaused = false;
     }
 
     #endregion

@@ -295,7 +295,6 @@ public class BallPhysicBehaviour : MonoBehaviour, IPunObservable
 
     #endregion
 
-
     #region Collider
 
     public void DelayedCollisionActivation()

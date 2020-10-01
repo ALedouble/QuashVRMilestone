@@ -1205,7 +1205,7 @@ MonoBehaviour:
   brickPresets:
   - {fileID: 11400000, guid: 891b65698e0e7f64db874611f353ef9c, type: 2}
   brickPresetPath: Assets/ScriptableObjects/BrickPresets
-  currentBricksOnLayer: 
+  currentLayersBrickCount: 
   offsetPerPlayer: 0
   bonusPoolID: 0
   malusPoolID: 0
@@ -1379,6 +1379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6072903425059365076}
   - component: {fileID: 2885429826814780052}
+  - component: {fileID: 227713842092429350}
   m_Layer: 0
   m_Name: ScoreManager
   m_TagString: Untagged
@@ -1464,8 +1465,28 @@ MonoBehaviour:
   displayedScore: []
   displayedCombo: []
   resetCombo: 1
-  pV: {fileID: 0}
   bonusScoreOnTimeAttack: 0
+--- !u!114 &227713842092429350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572958010756774014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7024211451994467589
 GameObject:
   m_ObjectHideFlags: 0

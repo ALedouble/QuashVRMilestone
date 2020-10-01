@@ -82,7 +82,7 @@ public class BallFloorInteraction : MonoBehaviour
 
     public void StartBallResetCountdown()
     {
-        if (GameManager.Instance.offlineMode || PhotonNetwork.IsMasterClient)
+        if (GameManager.Instance.offlineMode || BallMultiplayerBehaviour.Instance.IsBallOwner)
         {
             BallEventManager.instance.OnCollisionExitWithFloor += StopBallResetCountdown;
             BallEventManager.instance.OnCollisionWithBackWall += StopBallResetCountdown;
@@ -134,7 +134,13 @@ public class BallFloorInteraction : MonoBehaviour
             BallManager.instance.LoseBall();
 
             if (!LevelManager.instance.currentLevel.level.levelSpec.suddenDeath)
-                ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
+            {
+                if (GameManager.Instance.offlineMode)
+                    ScoreManager.Instance.ResetCombo((int)BallManager.instance.GetPlayerWhoLostTheBall());
+                else
+                    ScoreManager.Instance.SendResetComboRPC((int)BallManager.instance.GetPlayerWhoLostTheBall());
+            }
+                
         }
     }
 

@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject tempBall;
     private bool isGameplayScene;
+    private GUIMenuPause guiMenuPause;
 
     PhotonView photonView;
 
@@ -481,7 +482,7 @@ public class GameManager : MonoBehaviour
             //Switch Input Mode & Desable Racket
             PlayerInputManager.instance.SetInputMod(InputMod.MENU);
             //Display Pause UI
-            GUIMenuPause.guiMenuPause.GamePaused();
+            LevelManager.instance.guiMenuPause.GamePaused();
         }
     }
 
@@ -504,7 +505,7 @@ public class GameManager : MonoBehaviour
             //Switch Input Mode & Enable Racket
             PlayerInputManager.instance.SetInputMod(InputMod.GAMEPLAY);
             //Undisplay Pause UI
-            GUIMenuPause.guiMenuPause.GameResumed();
+            LevelManager.instance.guiMenuPause.GameResumed();
         }
     }
 

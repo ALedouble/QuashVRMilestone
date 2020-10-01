@@ -211,10 +211,12 @@ public class ScoreManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         photonView.RPC("RemoteUpdate", RpcTarget.Others, playerID, score[playerID], combo[playerID]);
+
+        remoteUpdateCoroutine = null;
     }
 
     [PunRPC]
-    private void RemoteUpdate(int playerID, int newScore, int newCombo)
+    private void RemoteUpdate(int playerID, float newScore, int newCombo)
     {
         score[playerID] = newScore;
 

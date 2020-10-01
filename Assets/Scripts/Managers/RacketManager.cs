@@ -185,6 +185,9 @@ public class RacketManager : MonoBehaviour
         localPlayerRacket?.SetActive(enabled);
         if (!GameManager.Instance.offlineMode)
             foreignPlayerRacket?.SetActive(enabled);
+
+        if (!enabled && IsEmpowered)
+            ExitEmpoweredState();
     }
 
     #endregion

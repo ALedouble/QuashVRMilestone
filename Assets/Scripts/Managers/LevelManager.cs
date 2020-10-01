@@ -41,6 +41,7 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public UIlayers[] playersUIlayers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
+    [HideInInspector] public GUIMenuPause guiMenuPause;
     [HideInInspector] public PlayroomElements playroomElements;
 
     public Vector3 startPos4Player1;
@@ -142,12 +143,14 @@ public class LevelManager : MonoBehaviour
                 startPos4Player1.z);
 
         GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+        Debug.Log("Pool HUD " + (numberOfPlayers - 1) + " Player");
         GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
 
         if (currentLevel.level.levelSpec.goToSpawn != null)
             Instantiate(currentLevel.level.levelSpec.goToSpawn);
 
         playersHUD = goHUD.GetComponent<GUIHUD>();                                                                                                              //Problem Here! (Ok en fait)
+        guiMenuPause = goHUD.GetComponentInChildren<GUIMenuPause>(true);
         roomShaker = goRoom.GetComponent<Shaker>();                                                                                                             //Problem Here! (Ok en fait)
         playroomElements = goRoom.GetComponent<PlayroomElements>();
 
@@ -477,7 +480,7 @@ public class LevelManager : MonoBehaviour
         {
             AndTheWinnerIs = playerID;
             playersWinFX[playerID].PlayVFX();
-            GameManager.Instance.EndOfTheGame();
+            GameManager.Instance.EndOfTheGame(playerID);
         }
     }
 

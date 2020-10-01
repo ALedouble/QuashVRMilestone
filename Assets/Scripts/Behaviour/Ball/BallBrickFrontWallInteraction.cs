@@ -101,14 +101,21 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
 
     private void ReturnInteration()
     {
-        StartCoroutine(RandomReturnWithoutBounce());
         ownerCollisionProtectionCoroutine = StartCoroutine(OwnerCollisionProtection());
         
+        StartCoroutine(RandomReturnWithoutBounce());
+
         MidWallManager.Instance.SetMidWallStatus(false);
     }
 
     private IEnumerator RandomReturnWithoutBounce()
     {
+        BallManager.instance.BallPhysicBehaviour.FreezeBall();
+
+        yield return new WaitForFixedUpdate();
+
+        BallManager.instance.BallPhysicBehaviour.UnFreezeBall();
+
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 

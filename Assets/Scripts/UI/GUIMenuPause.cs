@@ -12,17 +12,13 @@ public class GUIMenuPause : MonoBehaviour
     public GameObject PauseMenuP1;
     public GameObject PauseMenuP2;
 
-    private void Awake()
-    {
-        guiMenuPause = this;
-        gameObject.SetActive(false);
-    }
-
     public void GamePaused()
     {
+        
         if(GameManager.Instance.offlineMode)
         {
             gameObject.SetActive(true);
+            Debug.Log("Pause UI : " + gameObject.activeSelf);
         }
         else
         {
@@ -41,9 +37,11 @@ public class GUIMenuPause : MonoBehaviour
 
     public void GameResumed()
     {
+        
         if (GameManager.Instance.offlineMode)
         {
             gameObject.SetActive(false);
+            Debug.Log("Unpause UI " + gameObject.activeSelf); 
         }
         else
         {

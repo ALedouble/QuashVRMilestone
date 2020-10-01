@@ -31,13 +31,13 @@ public class Campaign : MonoBehaviour
     private bool isMoving;
     [Range(0.01f, 3f)] public float scrollingSpeed;
 
-    private LevelsScriptable levelToPlay;
-    private LevelButton buttonSelected;
+    private LevelsScriptable levelToPlay = null;
+    private LevelButton buttonSelected = null;
 
     [Header("Stars")]
     public Sprite lockedStarSprite;
     public Sprite unlockedStarSprite;
-    [HideInInspector] public int totalOfStars;
+    [HideInInspector] public int PlayerStars;
     public TextMeshProUGUI starCounter;
 
     [Header("Conditions Specifics")]
@@ -115,7 +115,7 @@ public class Campaign : MonoBehaviour
     private void Check4ImplementedLevels()
     {
         levelsImplemented = new List<LevelsScriptable>();
-        totalOfStars = 0;
+        PlayerStars = 0;
 
         for (int i = 0; i < levelsToCheck.Count; i++)
         {
@@ -140,7 +140,7 @@ public class Campaign : MonoBehaviour
     {
         if (level.level.levelProgression.isDone)
         {
-            totalOfStars += 1;
+            PlayerStars += 1;
 
             for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
             {
@@ -150,17 +150,17 @@ public class Campaign : MonoBehaviour
                     {
                         case CompleteConditionType.Score:
                             if (level.level.levelProgression.maxScore > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
-                                totalOfStars += 1;
+                                PlayerStars += 1;
                             break;
 
                         case CompleteConditionType.Combo:
                             if (level.level.levelProgression.maxCombo > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
-                                totalOfStars += 1;
+                                PlayerStars += 1;
                             break;
 
                         case CompleteConditionType.Timing:
                             if (level.level.levelProgression.minTiming > level.level.levelProgression.conditionsToComplete[i].conditionReachedAt)
-                                totalOfStars += 1;
+                                PlayerStars += 1;
                             break;
                     }
                 }
@@ -170,17 +170,17 @@ public class Campaign : MonoBehaviour
                     {
                         case CompleteConditionType.Score:
                             if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt > level.level.levelProgression.maxScore)
-                                totalOfStars += 1;
+                                PlayerStars += 1;
                             break;
 
                         case CompleteConditionType.Combo:
                             if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt > level.level.levelProgression.maxCombo)
-                                totalOfStars += 1;
+                                PlayerStars += 1;
                             break;
 
                         case CompleteConditionType.Timing:
                             if (level.level.levelProgression.conditionsToComplete[i].conditionReachedAt > level.level.levelProgression.minTiming)
-                                totalOfStars += 1;
+                                PlayerStars += 1;
                             break;
                     }
                 }
@@ -188,7 +188,7 @@ public class Campaign : MonoBehaviour
 
         }
 
-        starCounter.text = totalOfStars.ToString();
+        starCounter.text = PlayerStars.ToString();
     }
 
     /// <summary>
@@ -215,6 +215,9 @@ public class Campaign : MonoBehaviour
 
         //Debug.Log("level Ypos : " + temp.y);
 
+        if (panelPositions.Length == 0)
+            SetUpCampaign();
+
         for (int y = numberOfPanelPositions; y >= 0; y--)
         {
             float comparer = panelPositions[y] - (panelSize * 0.5f);
@@ -236,17 +239,22 @@ public class Campaign : MonoBehaviour
     /// <param name="newIndex"></param>
     private void SetLastRecordedPanelIndex(int newIndex)
     {
-        CampaignLevel.instance.lastRecordedPanelIndex = newIndex;
+        CampaignLevel.lastRecordedPanelIndex = newIndex;
     }
 
     /// <summary>
     /// Setup panel position to the first level unlocked from the top position
     /// </summary>
-    private void SetUpPanelPositionAtStart()             //////// CHANGE
+    private void SetUpPanelPositionAtStart()
     {
-        SetPanelPosition(CampaignLevel.instance.lastRecordedPanelIndex);
+        SetPanelPosition(CampaignLevel.lastRecordedPanelIndex);
 
-        for (int i = 0; i < levelsImplemented.Count; i++)
+        //Debug.Log("lastRecordedPanelIndex" + CampaignLevel.lastRecordedPanelIndex);
+
+        if(CampaignLevel.lastRecordedPanelIndex != 0)
+            return;
+
+        for (int i = levelsImplemented.Count - 1; i >= 0; i--)
         {
             if (levelsImplemented[i].level.levelProgression.isUnlocked)
             {
@@ -342,7 +350,7 @@ public class Campaign : MonoBehaviour
                 //For the first time because the level isn't unlocked ALREADY
                 if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                 {
-                    if (totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                    if (PlayerStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                     {
                         levelsImplemented[i].level.levelProgression.isUnlocked = true;
                         level.button.interactable = true;
@@ -499,7 +507,7 @@ public class Campaign : MonoBehaviour
                     ////////////    CHECK UN/LOCK CONDITIONS    ////////////
                     if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                     {
-                        if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                        if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && PlayerStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                         {
                             levelsImplemented[i].level.levelProgression.isUnlocked = true;
                             level.button.interactable = true;
@@ -657,7 +665,7 @@ public class Campaign : MonoBehaviour
                 {
                     leftGate.leftToRightGo[0].SetActive(true);
 
-                    if (totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                    if (PlayerStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                         leftGate.leftToRightImage[0].sprite = unlockedStarSprite;
                     else
                         leftGate.leftToRightImage[0].sprite = lockedStarSprite;
@@ -668,7 +676,7 @@ public class Campaign : MonoBehaviour
                 {
                     rightGate.leftToRightGo[1].SetActive(true);
 
-                    if (totalOfStars >= levelsImplemented[i].level.levelProgression.starsRequired)
+                    if (PlayerStars >= levelsImplemented[i].level.levelProgression.starsRequired)
                         rightGate.leftToRightImage[1].sprite = unlockedStarSprite;
                     else
                         rightGate.leftToRightImage[1].sprite = lockedStarSprite;
@@ -678,7 +686,8 @@ public class Campaign : MonoBehaviour
             }
         }
 
-        SetUpPanelPositionAtStart();
+        if (levelToPlay == null)
+            SetUpPanelPositionAtStart();
     }
 
     /// <summary>
@@ -1037,7 +1046,7 @@ public class Campaign : MonoBehaviour
     /// </summary>
     private void CheckPanelIndex()
     {
-        Debug.Log("Last Index : " + lastIndex);
+        //Debug.Log("Last Index : " + lastIndex);
         if (panelIndex >= lastIndex)
         {
             panelIndex = lastIndex;
@@ -1067,6 +1076,7 @@ public class Campaign : MonoBehaviour
     private void SetPanelPosition(int panelPosIndex)
     {
         panelIndex = panelPosIndex;
+        //Debug.Log("Set at POS");
 
         CheckPanelIndex();
 
@@ -1109,7 +1119,7 @@ public class Campaign : MonoBehaviour
         if (newPanelIndex != panelIndex && newPanelIndex <= lastIndex && newPanelIndex >= 0)
         {
             panelIndex = newPanelIndex;
-            Debug.Log("newPanelIndex : " + newPanelIndex);
+            //Debug.Log("newPanelIndex : " + newPanelIndex);
         }
         else
         {
@@ -1137,7 +1147,7 @@ public class Campaign : MonoBehaviour
                 highest = levelsImplemented[i];
         }
 
-        Debug.Log("highest level : " + highest);
+        //Debug.Log("highest level : " + highest);
         return highest;
     }
 

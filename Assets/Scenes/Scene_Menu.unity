@@ -54225,6 +54225,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   campaignNewScreenGO: {fileID: 1930187396}
   titleCampaignGO: {fileID: 1583857600}
+  mainScreenGo: {fileID: 3591302381172348688}
+  firstTimeGo: {fileID: 4507639602214164365}
   animToPlay: {fileID: 3591302381172348693}
 --- !u!4 &1551231598
 Transform:
@@ -61515,7 +61517,7 @@ MonoBehaviour:
   scrollingSpeed: 0.12
   lockedStarSprite: {fileID: 21300000, guid: 66eb3651999a2464eb5b4ff9280dad89, type: 3}
   unlockedStarSprite: {fileID: 21300000, guid: 0997ec5c1ba24fa47a6adb4af054f6ce, type: 3}
-  totalOfStars: 0
+  PlayerStars: 0
   starCounter: {fileID: 2097007287}
   timingConditionEntry: 'Time Limit :'
   scoreConditionEntry: 'Score Minimum :'
@@ -72687,7 +72689,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8013209652902522252}
-  - component: {fileID: 8013209652902522248}
   m_Layer: 5
   m_Name: "\u25A1 \u25A1 \u25A1 MainMenuFrontCanvas \u25A1 \u25A1 \u25A1"
   m_TagString: maincanvas
@@ -72695,20 +72696,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8013209652902522248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8013209652902522247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4988a09ee3f8527469bd92e2f907c864, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainScreenGo: {fileID: 3591302381172348688}
-  firstTimeGo: {fileID: 4507639602214164365}
 --- !u!224 &8013209652902522252
 RectTransform:
   m_ObjectHideFlags: 0

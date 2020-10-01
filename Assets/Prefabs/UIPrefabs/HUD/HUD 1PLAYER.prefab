@@ -4414,8 +4414,10 @@ MonoBehaviour:
   timerHUD: {fileID: 5189408402629420389}
   layerCountHUD:
   - {fileID: 8962468657811087157}
-  scoreScreenHUD: {fileID: 2849006568472999199}
-  scoreScreenUICanvas: {fileID: 7564924319280522980}
+  scoreScreenHUD:
+  - {fileID: 2849006568472999199}
+  scoreScreenUICanvas:
+  - {fileID: 7564924319280522980}
   layerCountParent:
   - {fileID: 4732601824730521816}
 --- !u!1 &6885061630677972959

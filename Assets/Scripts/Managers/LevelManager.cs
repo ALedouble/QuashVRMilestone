@@ -453,7 +453,7 @@ public class LevelManager : MonoBehaviour
         {
             AndTheWinnerIs = playerID;
             playersWinFX[playerID].PlayVFX();
-            GameManager.Instance.EndOfTheGame();
+            GameManager.Instance.EndOfTheGame(playerID);
         }
     }
 

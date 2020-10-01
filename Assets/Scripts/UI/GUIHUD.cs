@@ -36,9 +36,9 @@ public class GUIHUD : MonoBehaviour
     [SerializeField] GameObject[] scoreComboHUD;
     [SerializeField] GameObject timerHUD;
     [SerializeField] GameObject[] layerCountHUD;
-    [SerializeField] GameObject scoreScreenHUD;
+    [SerializeField] GameObject[] scoreScreenHUD;
 
-    [SerializeField] VRTK.VRTK_UICanvas scoreScreenUICanvas;
+    [SerializeField] VRTK.VRTK_UICanvas[] scoreScreenUICanvas;
 
     public Transform[] layerCountParent;
 
@@ -73,9 +73,9 @@ public class GUIHUD : MonoBehaviour
     {
         for (int i = 0; i < animScoreScreen.Length; i++)
         {
-            scoreScreenHUD.SetActive(true);
+            scoreScreenHUD[i].SetActive(true);
 
-            StartCoroutine(TimerUI());
+            StartCoroutine(TimerUI(i));
 
             animScoreScreen[i].Play("A_ScoreScreen_Appearing");
 
@@ -323,11 +323,11 @@ public class GUIHUD : MonoBehaviour
 
 
     // ---- C'EST DEGEULASSE ----- // (mais ça marche)
-    IEnumerator TimerUI()
+    IEnumerator TimerUI(int index)
     {
         yield return new WaitForSeconds(0.1f);
 
-        scoreScreenUICanvas.enabled = true;
+        scoreScreenUICanvas[index].enabled = true;
     }
 
     #region Anim Trigger Condition

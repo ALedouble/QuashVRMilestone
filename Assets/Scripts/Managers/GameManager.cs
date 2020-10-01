@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     private Queue<SequenceTask> sequenceTaskQueue;
 
     private GameObject tempBall;
+    private bool isGameplayScene;
 
     PhotonView photonView;
 
@@ -67,6 +68,10 @@ public class GameManager : MonoBehaviour
         allPlayersAreReady = false;
         IsGameStarted = false;
         IsGamePaused = false;
+
+        isGameplayScene = false;
+
+        HasLost = true;
     }
 
     void Start()
@@ -95,8 +100,13 @@ public class GameManager : MonoBehaviour
             {
                 photonView.RPC("BecomeReady", RpcTarget.MasterClient);
             }
-        }
 
+            isGameplayScene = true; 
+        }
+        else
+        {
+            isGameplayScene = false;
+        }
     }
 
     #region SetupMethod
@@ -356,6 +366,8 @@ public class GameManager : MonoBehaviour
 
     #region GameplayControlMethods
 
+    #region Gameplay Loop
+
     public void StartGameplayLoop()
     {
         StartBrickMovement();
@@ -403,15 +415,18 @@ public class GameManager : MonoBehaviour
     {
         HasLost = true;
 
-        EndOfTheGame();
+        EndOfTheGame((int)QPlayerManager.instance.LocalPlayerID);
     }
 
-    public void EndOfTheGame()
+    public void EndOfTheGame(int playerID)
     {
         if (offlineMode)
             DelayedEndGame();
-        else
+        else if(playerID == (int)QPlayerManager.instance.LocalPlayerID)
+        {
+            HasLost = false;
             photonView.RPC("DelayedEndGame", RpcTarget.All);
+        }
     }
 
     [PunRPC]
@@ -443,45 +458,57 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Pause
+
     public void PauseGame()
     {
-        if(offlineMode)
+        if (isGameplayScene)
         {
-            //Pause Timer
-            TimeManager.Instance.StopTimer();
-            //Pause Ball
-            BallManager.instance.PauseBall();
-            //Pause Level Bricks
-            IsBrickFreeToMove = false;
-            
-            IsGamePaused = true;
-        }
+            if (offlineMode)
+            {
+                //Pause Timer
+                TimeManager.Instance.StopTimer();
+                //Pause Ball
+                BallManager.instance.PauseBall();
+                //Pause Level Bricks
+                IsBrickFreeToMove = false;
 
-        //Switch Input Mode & Desable Racket
-        PlayerInputManager.instance.SetInputMod(InputMod.MENU);
-        //Display Pause UI
-        GUIMenuPause.guiMenuPause.GamePaused();
+                IsGamePaused = true;
+            }
+
+            //Switch Input Mode & Desable Racket
+            PlayerInputManager.instance.SetInputMod(InputMod.MENU);
+            //Display Pause UI
+            GUIMenuPause.guiMenuPause.GamePaused();
+        }
     }
 
     public void ResumeGame()
     {
-        if(offlineMode)
+        if(isGameplayScene)
         {
-            //Unpause Timer
-            TimeManager.Instance.StartTimer();
-            //UnPause la balle
-            BallManager.instance.ResumeBall();
-            //Unpause Level Bricks
-            IsBrickFreeToMove = true;
+            if (offlineMode)
+            {
+                //Unpause Timer
+                TimeManager.Instance.StartTimer();
+                //UnPause la balle
+                BallManager.instance.ResumeBall();
+                //Unpause Level Bricks
+                IsBrickFreeToMove = true;
 
-            IsGamePaused = false;
+                IsGamePaused = false;
+            }
+
+            //Switch Input Mode & Enable Racket
+            PlayerInputManager.instance.SetInputMod(InputMod.GAMEPLAY);
+            //Undisplay Pause UI
+            GUIMenuPause.guiMenuPause.GameResumed();
         }
-        
-        //Switch Input Mode & Enable Racket
-        PlayerInputManager.instance.SetInputMod(InputMod.GAMEPLAY);
-        //Undisplay Pause UI
-        GUIMenuPause.guiMenuPause.GameResumed();
     }
+
+    #endregion
 
     #endregion
 

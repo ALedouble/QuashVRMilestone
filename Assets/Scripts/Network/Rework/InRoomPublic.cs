@@ -61,7 +61,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         if (PhotonNetwork.CurrentRoom.IsVisible)
         {
-            roomName.text = PhotonNetwork.CurrentRoom.Name; 
+            roomName.text = PhotonNetwork.CurrentRoom.Name;
         }
         else
         {
@@ -201,6 +201,9 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void StartGame()
     {
+        if (SteamManager.Initialized)
+            SteamAchievementsManager.instance.SetMultiplayerAchievement();
+
         if (PhotonNetwork.IsMasterClient && playersInRoom == 2 && !launchingGame)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;

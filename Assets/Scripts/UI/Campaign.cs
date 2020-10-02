@@ -688,6 +688,12 @@ public class Campaign : MonoBehaviour
 
         if (levelToPlay == null)
             SetUpPanelPositionAtStart();
+
+        //Steam Achievements                                                                                                        ////////////////// Add STEAM Enum
+        if (SteamManager.Initialized)
+        {
+            SteamAchievementsManager.instance.CheckAchievements();
+        }
     }
 
     /// <summary>

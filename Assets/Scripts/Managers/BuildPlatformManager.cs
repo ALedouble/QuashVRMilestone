@@ -17,5 +17,10 @@ public class BuildPlatformManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        if(targetBuildPlatform == TargetBuildPlatform.Viveport)
+        {
+            Viveport.Api.Init(null, "34602bc2-0314-4ddd-8cb2-987150ef458d");
+        }
     }
 }

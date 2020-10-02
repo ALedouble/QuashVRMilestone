@@ -689,10 +689,16 @@ public class Campaign : MonoBehaviour
         if (levelToPlay == null)
             SetUpPanelPositionAtStart();
 
-        //Steam Achievements                                                                                                        ////////////////// Add STEAM Enum
-        if (SteamManager.Initialized && BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
+        //Steam Achievements 
+        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
         {
-            SteamAchievementsManager.instance.CheckAchievements();
+            if(SteamManager.Initialized)
+                SteamAchievementsManager.instance.CheckAchievements();
+        }
+        else if(BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport)
+        {
+            if (Viveport.UserStats.IsReady(null) == 1)
+                ViveportAchievementManager.instance.CheckAchievements();
         }
     }
 

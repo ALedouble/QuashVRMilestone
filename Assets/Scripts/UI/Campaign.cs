@@ -141,7 +141,6 @@ public class Campaign : MonoBehaviour
         if (level.level.levelProgression.isDone)
         {
             PlayerStars += 1;
-
             for (int i = 0; i < level.level.levelProgression.numberOfAdditionalConditions; i++)
             {
                 if (level.level.levelProgression.conditionsToComplete[i].conditionComparator == 0)
@@ -303,6 +302,7 @@ public class Campaign : MonoBehaviour
             //Counting STARS
             CountingStars(levelsImplemented[i]);
         }
+
 
         //Set Up Graphic Elements
         for (int i = 0; i < levelsImplemented.Count; i++)
@@ -688,6 +688,12 @@ public class Campaign : MonoBehaviour
 
         if (levelToPlay == null)
             SetUpPanelPositionAtStart();
+
+        //Steam Achievements                                                                                                        ////////////////// Add STEAM Enum
+        if (SteamManager.Initialized && BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
+        {
+            SteamAchievementsManager.instance.CheckAchievements();
+        }
     }
 
     /// <summary>

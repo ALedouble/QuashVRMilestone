@@ -114,6 +114,7 @@ public class PlayerSettings : MonoBehaviour
         }
     }
 
+    private string fileName = "/PlayerSettings.json";
     private PlayerPreferences playerPreferences;
 
 
@@ -127,9 +128,9 @@ public class PlayerSettings : MonoBehaviour
 
     public void LoadPlayerSettings()
     {
-        if (System.IO.File.Exists(Application.persistentDataPath + "/PlayerSettings.json"))
+        if (System.IO.File.Exists(Application.persistentDataPath + fileName))
         {
-            string preferencesToLoad = System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerSettings.json");
+            string preferencesToLoad = System.IO.File.ReadAllText(Application.persistentDataPath + fileName);
             playerPreferences = JsonUtility.FromJson<PlayerPreferences>(preferencesToLoad);
             if (!CheckPreferencesIntegrity(playerPreferences))
                 SavePlayerSettings();
@@ -144,7 +145,7 @@ public class PlayerSettings : MonoBehaviour
     public void SavePlayerSettings()
     {
         string preferencesToSave = JsonUtility.ToJson(playerPreferences);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerSettings.json", preferencesToSave);
+        System.IO.File.WriteAllText(Application.persistentDataPath + fileName, preferencesToSave);
     }
 
     private PlayerPreferences CreateNewPlayerPreferences()

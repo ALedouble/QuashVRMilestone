@@ -23,4 +23,9 @@ public class BuildPlatformManager : MonoBehaviour
             Viveport.Api.Init(null, "34602bc2-0314-4ddd-8cb2-987150ef458d");
         }
     }
+
+    private void OnApplicationQuit()
+    {
+        Viveport.Api.Shutdown(null);
+    }
 }

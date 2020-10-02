@@ -17,17 +17,11 @@ public class SteamAchievementsManager : MonoBehaviour
             return;
 
         instance = this;
-
-
-        SteamUserStats.ResetAllStats(true);
-        SteamUserStats.StoreStats();
     }
 
 
     public void CheckAchievements()
     {
-        return;
-
         SteamUserStats.GetAchievement("QS_COLLECT_All_STARS", out Check_AchievementState);
 
         if (!Check_AchievementState)
@@ -39,7 +33,7 @@ public class SteamAchievementsManager : MonoBehaviour
 
 
             float percent = (float)Campaign.instance.PlayerStars / (float)totalStars;
-            Debug.Log("PlayerStars = " + Campaign.instance.PlayerStars + " <> " + totalStars + " percent => " + percent);
+            //Debug.Log("PlayerStars = " + Campaign.instance.PlayerStars + " <> " + totalStars + " percent => " + percent);
 
 
             if (percent == 1)
@@ -52,7 +46,7 @@ public class SteamAchievementsManager : MonoBehaviour
 
             if (!Check_AchievementState)
             {
-                Debug.Log("Verify _ QS_COLLECT_90PERCENT_STARS");
+                //Debug.Log("Verify _ QS_COLLECT_90PERCENT_STARS");
                 if (percent >= 0.9f)
                 {
                     SteamUserStats.SetAchievement("QS_COLLECT_90PERCENT_STARS");
@@ -64,7 +58,7 @@ public class SteamAchievementsManager : MonoBehaviour
 
             if (!Check_AchievementState)
             {
-                Debug.Log("Verify _ QS_COLLECT_60PERCENT_STARS");
+                //Debug.Log("Verify _ QS_COLLECT_60PERCENT_STARS");
                 if (percent >= 0.6f)
                 {
                     SteamUserStats.SetAchievement("QS_COLLECT_60PERCENT_STARS");
@@ -76,7 +70,7 @@ public class SteamAchievementsManager : MonoBehaviour
 
             if (!Check_AchievementState)
             {
-                Debug.Log("Verify _ QS_COLLECT_30PERCENT_STARS");
+                //Debug.Log("Verify _ QS_COLLECT_30PERCENT_STARS");
                 if (percent >= 0.3f)
                 {
                     SteamUserStats.SetAchievement("QS_COLLECT_30PERCENT_STARS");
@@ -90,7 +84,7 @@ public class SteamAchievementsManager : MonoBehaviour
 
         if (!Check_AchievementState)
         {
-            Debug.Log("Verify _ QS_WIN_FIRSTLEVEL");
+            //Debug.Log("Verify _ QS_WIN_FIRSTLEVEL");
             if (Campaign.instance.levelsImplemented[0].level.levelProgression.isDone)
             {
                 SteamUserStats.SetAchievement("QS_WIN_FIRSTLEVEL");
@@ -102,7 +96,7 @@ public class SteamAchievementsManager : MonoBehaviour
 
         if (!Check_AchievementState)
         {
-            Debug.Log("Verify _ QS_WIN_EVERYLEVEL");
+            //Debug.Log("Verify _ QS_WIN_EVERYLEVEL");
 
             bool areAllLevelsDone = true;
             for (int i = 0; i < Campaign.instance.levelsImplemented.Count; i++)

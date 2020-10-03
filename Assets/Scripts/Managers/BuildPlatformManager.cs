@@ -13,7 +13,7 @@ public class BuildPlatformManager : MonoBehaviour
 
     private void Awake()
     {
-        ViveportCallback += DoNothingWithInt;
+        
         if (Instance != null)
         {
             Destroy(this.gameObject);
@@ -24,6 +24,7 @@ public class BuildPlatformManager : MonoBehaviour
 
         if (targetBuildPlatform == TargetBuildPlatform.Viveport)
         {
+            ViveportCallback += (viveportInt => { });
             Viveport.Api.Init(ViveportCallback, "34602bc2-0314-4ddd-8cb2-987150ef458d");
         }
     }
@@ -33,6 +34,4 @@ public class BuildPlatformManager : MonoBehaviour
         if (targetBuildPlatform == TargetBuildPlatform.Viveport)
             Viveport.Api.Shutdown(ViveportCallback);
     }
-
-    private void DoNothingWithInt(int lol) { }
 }

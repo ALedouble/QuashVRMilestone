@@ -16,15 +16,15 @@ MonoBehaviour:
   - tag: LevelButton
     prefab: {fileID: 6503107393599488596, guid: 902466de0e85ad14492479bc2156fd95,
       type: 3}
-    size: 100
+    size: 60
   - tag: Connection
     prefab: {fileID: 7370960194041038909, guid: 15f070f0f8ced464bb1e1e5ea529e7b1,
       type: 3}
-    size: 100
+    size: 80
   - tag: Stargate
     prefab: {fileID: 7370960194041038909, guid: 59e307186b7273b4b9ace83876475e2e,
       type: 3}
-    size: 50
+    size: 30
   - tag: AudioSource
     prefab: {fileID: 414941099223655605, guid: d5a31ec5219a2dc448cd66587b3eb2d7, type: 3}
     size: 50

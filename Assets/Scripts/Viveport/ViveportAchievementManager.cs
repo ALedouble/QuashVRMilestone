@@ -7,6 +7,7 @@ public class ViveportAchievementManager : MonoBehaviour
     int totalStars = 0;
     int playerStars = 0;
     [HideInInspector] public bool Check_AchievementState;
+    private Viveport.StatusCallback ViveportCallback;
 
     public static ViveportAchievementManager instance;
 
@@ -16,12 +17,14 @@ public class ViveportAchievementManager : MonoBehaviour
             return;
 
         instance = this;
+
+        ViveportCallback += (viveportInt => { });
     }
 
 
     public void CheckAchievements()
     {
-        Viveport.UserStats.DownloadStats(null);
+        Viveport.UserStats.DownloadStats(ViveportCallback);
 
         if (!Viveport.UserStats.GetAchievement("QS_COLLECT_All_STARS"))
         {
@@ -102,7 +105,7 @@ public class ViveportAchievementManager : MonoBehaviour
         }
 
 
-        Viveport.UserStats.UploadStats(null);
+        Viveport.UserStats.UploadStats(ViveportCallback);
     }
 
     public void SetMultiplayerAchievement()
@@ -110,7 +113,7 @@ public class ViveportAchievementManager : MonoBehaviour
         if (!Viveport.UserStats.GetAchievement("QS_Play_One_Multi_Game"))
         {
             Viveport.UserStats.SetAchievement("QS_Play_One_Multi_Game");
-            Viveport.UserStats.UploadStats(null);
+            Viveport.UserStats.UploadStats(ViveportCallback);
         }
     }
 }

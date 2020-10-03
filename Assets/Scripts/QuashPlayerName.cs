@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class QuashPlayerName
 {
+    private static Viveport.StatusCallback ViveportCallback;
+
     public static string UserName 
     {
         get
@@ -19,7 +21,9 @@ public class QuashPlayerName
                         return SteamFriends.GetPersonaName();
                     break;
                 case TargetBuildPlatform.Viveport:
-                    if (Viveport.User.IsReady(null) == 0)
+                    if (ViveportCallback == null)
+                        ViveportCallback += (viveportInt => { });
+                    if (Viveport.User.IsReady(ViveportCallback) == 0)
                         return Viveport.User.GetUserName();
                     break;
             }

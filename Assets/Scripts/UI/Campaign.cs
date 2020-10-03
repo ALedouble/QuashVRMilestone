@@ -49,6 +49,7 @@ public class Campaign : MonoBehaviour
     public GameObject sidePanel;
 
     bool isLevelLaunch;
+    private Viveport.StatusCallback ViveportCallback;
 
 
     public static Campaign instance;
@@ -58,6 +59,7 @@ public class Campaign : MonoBehaviour
 
     private void Awake()
     {
+        ViveportCallback += (viveportInt => { });
         instance = this;
     }
 
@@ -697,7 +699,7 @@ public class Campaign : MonoBehaviour
         }
         else if(BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport)
         {
-            if (Viveport.UserStats.IsReady(null) == 1)
+            if (Viveport.UserStats.IsReady(ViveportCallback) == 1)
                 ViveportAchievementManager.instance.CheckAchievements();
         }
     }

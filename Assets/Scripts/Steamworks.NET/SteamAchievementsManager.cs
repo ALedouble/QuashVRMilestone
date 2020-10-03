@@ -11,9 +11,9 @@ public class SteamAchievementsManager : MonoBehaviour
 
     public static SteamAchievementsManager instance;
 
-    void Awake()
+    private void Start()
     {
-        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam && !SteamManager.Initialized)
+        if (BuildPlatformManager.Instance.targetBuildPlatform != TargetBuildPlatform.Steam && !SteamManager.Initialized)
             return;
 
         instance = this;

@@ -11,9 +11,9 @@ public class ViveportAchievementManager : MonoBehaviour
 
     public static ViveportAchievementManager instance;
 
-    void Awake()
+    private void Start()
     {
-        if (!(BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport))
+        if (BuildPlatformManager.Instance.targetBuildPlatform != TargetBuildPlatform.Viveport)
             return;
 
         instance = this;

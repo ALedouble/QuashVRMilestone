@@ -56,7 +56,7 @@ public class Explosion : MonoBehaviour
 
     public void StartExplosionLogic()
     {
-        Debug.Log("Start Explosion Logic");
+        //Debug.Log("Start Explosion Logic");
         ballColorID = BallManager.instance.BallColorBehaviour.GetBallColor();
         if (isOld)
         {

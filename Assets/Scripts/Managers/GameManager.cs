@@ -72,7 +72,10 @@ public class GameManager : MonoBehaviour
 
         isGameplayScene = false;
 
-        HasLost = true;
+        if (offlineMode)
+            HasLost = false;
+        else
+            HasLost = true;
     }
 
     void Start()
@@ -102,7 +105,7 @@ public class GameManager : MonoBehaviour
                 photonView.RPC("BecomeReady", RpcTarget.MasterClient);
             }
 
-            isGameplayScene = true; 
+            isGameplayScene = true;
         }
         else
         {
@@ -253,9 +256,6 @@ public class GameManager : MonoBehaviour
 
             if (LevelManager.instance.currentLevel.level.levelSpec.timeAttack)
             {
-                //????????????? DON'T KNOW If the game stops or continues ??????????????//
-                // is this mode meant to be easy to win/complete like regular level ? //
-
                 //TimeManager.Instance.OnTimerEnd += LevelManager.instance.OnTimerNextLayer;
                 TimeManager.Instance.OnTimerEnd += LoseTheGame;
 
@@ -386,7 +386,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("BallFirstSpawn");
         BallManager.instance.BallFirstSpawn(startingPlayer);
     }
-    
+
     public void StartTheGame(Collision collision)
     {
         if (offlineMode)
@@ -423,7 +423,7 @@ public class GameManager : MonoBehaviour
     {
         if (offlineMode)
             DelayedEndGame();
-        else if(playerID == (int)QPlayerManager.instance.LocalPlayerID)
+        else if (playerID == (int)QPlayerManager.instance.LocalPlayerID)
         {
             HasLost = false;
             photonView.RPC("DelayedEndGame", RpcTarget.All);
@@ -488,7 +488,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        if(isGameplayScene)
+        if (isGameplayScene)
         {
             if (offlineMode)
             {

@@ -143,7 +143,7 @@ public class LevelManager : MonoBehaviour
                 startPos4Player1.z);
 
         GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
-        Debug.Log("Pool HUD " + (numberOfPlayers - 1) + " Player");
+        //Debug.Log("Pool HUD " + (numberOfPlayers - 1) + " Player");
         GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
 
         if (currentLevel.level.levelSpec.goToSpawn != null)
@@ -402,35 +402,54 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.combo[i] = 1;
             ScoreManager.Instance.playersMaxCombo[i] = 1;
 
-            if (numberOfLayers < layersPerRow)
-                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * (numberOfLayers + 1)), 0.5f, 0);
-            else
-                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * (layersPerRow + 1)), 0.5f, 0);
+
+            ///Layers UI logic
             int layersOnThisRow = 0;
             int currentLayersRow = 0;
             float rowOffset = 0f;
+
+            if (numberOfLayers < layersPerRow)
+            {
+                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * numberOfLayers), 0.5f, 0);
+
+                if (numberOfLayers % 2 == 0)
+                    rowOffset = 0.3f;
+
+            }
+            else
+            {
+                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * layersPerRow), 0.5f, 0);
+            }
+
+
             for (int r = 0; r < numberOfLayers; r++)
             {
                 if (layersOnThisRow >= layersPerRow)
                 {
                     currentLayersRow++;
                     layersOnThisRow = 0;
+                    int numberOfLayersForNextRow = numberOfLayers - (layersPerRow * currentLayersRow);
 
-                    if (((numberOfLayers - (layersPerRow * currentLayersRow)) % 2) == 1)
+
+                    if (numberOfLayersForNextRow > layersPerRow)
+                        numberOfLayersForNextRow = layersPerRow;
+
+
+                    if ((numberOfLayersForNextRow % 2) == 1)
                         rowOffset = 0;
                     else
-                        rowOffset = 0.4f;
-
-                    Debug.Log("rowOffset : " + rowOffset);
+                        rowOffset = 0.3f;
                 }
 
                 GameObject layerUI = PoolManager.instance.SpawnFromPool("LayerUI", new Vector3(0, 0), Quaternion.identity);
                 layerUI.transform.parent = playersHUD.layerCountParent[i];
-                layerUI.transform.localPosition = new Vector3(0 + (0.2f * layersOnThisRow) + rowOffset, 0 + (layersRowsOffset * currentLayersRow), 0);
+                layerUI.transform.localPosition = new Vector3(0 + (0.2f * layersOnThisRow) + rowOffset, 0 - (layersRowsOffset * currentLayersRow), 0);
                 playersUIlayers[i].layersUI[r] = layerUI.GetComponent<UI_LayerBehaviour>();
 
                 layersOnThisRow++;
             }
+
+
 
             ExplosionManager.Instance.PlayersExplosionRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;
 
@@ -467,6 +486,7 @@ public class LevelManager : MonoBehaviour
 
     void EndOfLayerUpdates(int playerID, int layerCompleted)
     {
+        //Debug.Log("The completed layer is : " + layerCompleted);
         playersUIlayers[playerID].layersUI[layerCompleted].CompleteLayer();
 
         // Rajout d'animation FIN d'un layer

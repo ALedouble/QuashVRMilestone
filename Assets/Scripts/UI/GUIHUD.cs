@@ -100,6 +100,7 @@ public class GUIHUD : MonoBehaviour
 
         if (!GameManager.Instance.HasLost)
         {
+            //Debug.Log("Victory");
             // ------------------------- VICTORY ------------------------- //
             if (scoreScreenFailed.Length > 1)
             {
@@ -309,6 +310,7 @@ public class GUIHUD : MonoBehaviour
         }
         else
         {
+            //Debug.Log("Defeat");
             // ------------------------- DEFEAT ------------------------- //
             if (scoreScreenCompleted.Length > 1)
             {

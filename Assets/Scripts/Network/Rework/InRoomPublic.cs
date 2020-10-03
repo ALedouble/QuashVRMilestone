@@ -201,7 +201,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void StartGame()
     {
-        if (SteamManager.Initialized && BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
+        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam && SteamManager.Initialized)
             SteamAchievementsManager.instance.SetMultiplayerAchievement();
 
         if (PhotonNetwork.IsMasterClient && playersInRoom == 2 && !launchingGame)

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,24 +9,30 @@ public class BuildPlatformManager : MonoBehaviour
 
     public TargetBuildPlatform targetBuildPlatform;
 
+    private Viveport.StatusCallback ViveportCallback;
+
     private void Awake()
     {
-        if(Instance != null)
+        ViveportCallback += DoNothingWithInt;
+        if (Instance != null)
         {
             Destroy(this.gameObject);
             return;
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        
-        if(targetBuildPlatform == TargetBuildPlatform.Viveport)
+
+        if (targetBuildPlatform == TargetBuildPlatform.Viveport)
         {
-            Viveport.Api.Init(null, "34602bc2-0314-4ddd-8cb2-987150ef458d");
+            Viveport.Api.Init(ViveportCallback, "34602bc2-0314-4ddd-8cb2-987150ef458d");
         }
     }
 
     private void OnApplicationQuit()
     {
-        Viveport.Api.Shutdown(null);
+        if (targetBuildPlatform == TargetBuildPlatform.Viveport)
+            Viveport.Api.Shutdown(ViveportCallback);
     }
+
+    private void DoNothingWithInt(int lol) { }
 }

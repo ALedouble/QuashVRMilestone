@@ -12,7 +12,7 @@ public class ViveportAchievementManager : MonoBehaviour
 
     void Awake()
     {
-        if (!SteamManager.Initialized)
+        if (!(BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport))
             return;
 
         instance = this;

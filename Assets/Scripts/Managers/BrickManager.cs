@@ -250,7 +250,7 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
     private void AddBrick(GameObject newBrick, int playerID)
     {
-        Debug.Log("player ID : " + playerID);
+        //Debug.Log("player ID : " + playerID);
         AllBricks[playerID].Add(newBrick.GetComponent<BrickInfo>().BrickID, newBrick);
     }
 

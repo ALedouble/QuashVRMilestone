@@ -52,7 +52,7 @@ public class BallRacketInteraction : MonoBehaviour
 
             Vector3 ballNewVelocity = RacketInteraction(other);
 
-            Debug.Log("RacketInteraction ballNewVelocity : " + ballNewVelocity);
+            //Debug.Log("RacketInteraction ballNewVelocity : " + ballNewVelocity);
 
             SendFeedback(other.GetContact(0).point, ballNewVelocity);
         }

@@ -716,6 +716,7 @@ MonoBehaviour:
   playersUIlayers: []
   roomShaker: {fileID: 0}
   playersHUD: {fileID: 0}
+  guiMenuPause: {fileID: 0}
   playroomElements: {fileID: 0}
   startPos4Player1: {x: 0, y: 0, z: 0}
   posDiffPerPlayer: {x: 5, y: 0, z: 0}
@@ -727,7 +728,7 @@ MonoBehaviour:
   smoothTime: 0.015
   sMaxSpeed: 3
   layersPerRow: 17
-  layersRowsOffset: -0.2
+  layersRowsOffset: 0.2
 --- !u!1 &1504735476317143586
 GameObject:
   m_ObjectHideFlags: 0

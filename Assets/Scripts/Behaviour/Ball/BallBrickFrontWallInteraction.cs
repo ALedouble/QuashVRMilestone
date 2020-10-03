@@ -150,7 +150,7 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
         if(!GameManager.Instance.offlineMode)
             photonView.RPC("FollowerCollisionProtection", RpcTarget.Others, duration / 1.5f);
 
-        Debug.Log("Ignore collsion duration : " + duration);
+        //Debug.Log("Ignore collsion duration : " + duration);
         while (timer < duration)
         {
             yield return new WaitForFixedUpdate();
@@ -159,9 +159,9 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
                 timer += Time.fixedDeltaTime;
             }
         }
-        Debug.Log("Ignore collsion timelaps : " + timer);
+        //Debug.Log("Ignore collsion timelaps : " + timer);
 
-        Debug.Log("Reactivate floor collision");
+        //Debug.Log("Reactivate floor collision");
         SetCollisionState(true);
     }
 

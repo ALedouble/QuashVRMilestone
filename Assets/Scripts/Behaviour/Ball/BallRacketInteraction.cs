@@ -160,7 +160,7 @@ public class BallRacketInteraction : MonoBehaviour
 
     private void SwitchTarget()
     {
-        targetSelector.SwitchTarget();
+        targetSelector.SetCurrentTargetPlayer(QPlayerManager.instance.OtherPlayerID);
     }
 
     #endregion

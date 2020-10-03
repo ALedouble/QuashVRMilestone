@@ -22,6 +22,6 @@ public class BallExplosion : MonoBehaviour
         Vector3 impactPosition = collision.GetContact(0).point;
 
         Vector3 position = new Vector3(impactPosition.x, impactPosition.y, collision.gameObject.transform.position.z);
-        ExplosionManager.Instance.CreateExplosion(position, (int)BallManager.instance.GetLastPlayerWhoHitTheBall());
+        ExplosionManager.Instance.CreateExplosion(position, (int)QPlayerManager.instance.LocalPlayerID);
     }
 }

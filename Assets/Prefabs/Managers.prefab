@@ -1817,7 +1817,7 @@ PrefabInstance:
     - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
         type: 3}
       propertyPath: vibrations.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
         type: 3}
@@ -1828,6 +1828,16 @@ PrefabInstance:
         type: 3}
       propertyPath: vibrations.Array.data[2].vibrationName
       value: Vibration_Racket_Empowered
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
+        type: 3}
+      propertyPath: vibrations.Array.data[3].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f0c0467ba5148af4da6737f557699065, type: 3}
+    - target: {fileID: 8026735581734165914, guid: a1e23665ef36bd24cb7b06349dfe3316,
+        type: 3}
+      propertyPath: vibrations.Array.data[3].vibrationName
+      value: Vibration_Mistake
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1e23665ef36bd24cb7b06349dfe3316, type: 3}

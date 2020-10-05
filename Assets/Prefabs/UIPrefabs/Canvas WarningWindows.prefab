@@ -880,8 +880,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.813, y: 1.614}
+  m_AnchoredPosition: {x: -0.002, y: 0}
+  m_SizeDelta: {x: 2.2582, y: 1.4545}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4575736986005854697
 CanvasRenderer:
@@ -903,7 +903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: c144dd94fe59856488d75f6b72fdc689, type: 2}
+  m_Material: {fileID: 2100000, guid: d2e3de2cfe37e324fbf1e4c5154e14a4, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
@@ -1049,7 +1049,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.009337902, y: 0.003458023, z: 0.009170055, w: 0.0015044212}
+  m_margin: {x: 0.37133837, y: 0.003458023, z: 0.37531996, w: 0.0015044212}
   m_textInfo:
     textComponent: {fileID: 4954193185257048383}
     characterCount: 15
@@ -1248,7 +1248,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 258
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -1279,7 +1279,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.009337902, y: 0.003458023, z: 0.0021510124, w: 0.0015044212}
+  m_margin: {x: -0.11810255, y: 0.003458023, z: -0.13560534, w: 0.052255154}
   m_textInfo:
     textComponent: {fileID: 6290061722196506064}
     characterCount: 38

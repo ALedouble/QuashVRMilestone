@@ -262,6 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b2de0f48255a64580e97baf63e1acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseMenuP1: {fileID: 0}
+  PauseMenuP2: {fileID: 0}
 --- !u!1 &270723340873363021
 GameObject:
   m_ObjectHideFlags: 0
@@ -2379,7 +2381,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: c144dd94fe59856488d75f6b72fdc689, type: 2}
+      objectReference: {fileID: 2100000, guid: 6be54f097ecbcad449cb9275153ef61f, type: 2}
     - target: {fileID: 8751958282587927267, guid: 059735664b3cb9243ad90f2756765e78,
         type: 3}
       propertyPath: m_Color.a

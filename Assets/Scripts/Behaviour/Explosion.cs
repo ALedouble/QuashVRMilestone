@@ -11,17 +11,8 @@ public class Explosion : MonoBehaviour
     private int playerID;
     private int ballColorID;
 
-    private float impactDuration;
-    private float impactCurentTime;
-    private float impactPercent;
     private float maxRadius;
     private float minRadius;
-    
-    private int numberOfDivision;
-    private float raycastOffset;
-    private bool isExploding;
-
-    private bool isOld;
 
     private float initialBurstRelativeSize;
     private float mainExplosionDelay;
@@ -36,43 +27,20 @@ public class Explosion : MonoBehaviour
         impactCurve = ExplosionManager.Instance.impactCurve;
         layerMask = ExplosionManager.Instance.layerMask;
 
-        impactDuration = ExplosionManager.Instance.impactDuration;
-
-        impactCurentTime = 0f;
-        impactPercent = 0f;
         maxRadius = ExplosionManager.Instance.PlayersExplosionRadius[playerID];
         minRadius = 0.01f;
-
-        numberOfDivision = ExplosionManager.Instance.numberOfDivision;
-        raycastOffset = ExplosionManager.Instance.raycastOffset;
-        isExploding = false;
 
         initialBurstRelativeSize = ExplosionManager.Instance.initialBurstRelativeSize;
         mainExplosionDelay = ExplosionManager.Instance.mainExplosionDelay;
         mainExplosionDuration = ExplosionManager.Instance.mainExplosionDuration;
-
-        isOld = false;
     }
 
     public void StartExplosionLogic()
     {
-        Debug.Log("Start Explosion Logic");
+        //Debug.Log("Start Explosion Logic");
         ballColorID = BallManager.instance.BallColorBehaviour.GetBallColor();
-        if (isOld)
-        {
-            isExploding = true;
-            StartOldExplosionCoroutine();
-        }
-        else
-        {
-            StartExplosionCoroutine();
-        }
-    }
-
-    public void StopExplosion()
-    {
-        if (isOld)
-            isExploding = false;
+        
+        StartExplosionCoroutine();
     }
 
     private void StartExplosionCoroutine()
@@ -108,84 +76,16 @@ public class Explosion : MonoBehaviour
 
         if(hitsInfo.Length != 0)
         {
-            int[] hitBrickIDs = new int[hitsInfo.Length];
+            BrickInfo[] hitBrickInfo = new BrickInfo[hitsInfo.Length];
 
             for(int i = 0; i < hitsInfo.Length; i++)
             {
-                hitBrickIDs[i] = hitsInfo[i].collider.gameObject.GetComponent<BrickInfo>().BrickID;
+                hitBrickInfo[i] = hitsInfo[i].collider.gameObject.GetComponent<BrickInfo>();
             }
 
-            BrickDestructionManager.Instance.HitBricksByID(hitBrickIDs, playerID, ballColorID);
+            BrickDestructionManager.Instance.HitBricksByID(hitBrickInfo, playerID, ballColorID);
         }
     }
-
-    #region Old Explosion
-
-    private void StartOldExplosionCoroutine()
-    {
-        StartCoroutine(OldExplosionCoroutine());
-    }
-
-    private IEnumerator OldExplosionCoroutine()
-    {
-        impactCurentTime = 0;
-        impactPercent = 0;
-        
-        while ((impactCurentTime < impactDuration) && isExploding)
-        {
-            if(!GameManager.Instance.IsGamePaused)
-            {
-                RadialRaycast(position, new Vector2(0, 1), new Vector2(1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
-                RadialRaycast(position, new Vector2(1, 0), new Vector2(-1f / (float)numberOfDivision, -1f / (float)numberOfDivision), raycastOffset);
-                RadialRaycast(position, new Vector2(0, -1), new Vector2(-1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
-                RadialRaycast(position, new Vector2(-1, 0), new Vector2(1f / (float)numberOfDivision, 1f / (float)numberOfDivision), raycastOffset);
-
-                impactPercent = minRadius + ((maxRadius - minRadius) * impactCurve.Evaluate(impactCurentTime / impactDuration));
-
-                impactCurentTime += Time.fixedDeltaTime;
-            }
-
-            yield return new WaitForFixedUpdate();
-        }
-
-        EndExplosion();
-    }
-
-    void RadialRaycast(Vector3 originPosition, Vector2 destination, Vector2 evolution, float zOffset = 0.0f)
-    {
-        for (int j = 0; j < numberOfDivision; j++)
-        {
-            Debug.DrawRay(originPosition, new Vector3((destination.x + evolution.x * j) - originPosition.x, (destination.y + evolution.y * j) - originPosition.y, zOffset).normalized * impactPercent, Color.blue);
-
-            RaycastHit hit;
-            BrickInfo brickInfo;
-
-            if (Physics.Raycast(originPosition, new Vector3((destination.x + evolution.x * j) - originPosition.x, (destination.y + evolution.y * j) - originPosition.y, zOffset).normalized,
-                out hit, impactPercent, layerMask))
-            {
-                if (brickInfo = hit.collider.gameObject.GetComponent<BrickInfo>())
-                {
-                    if (brickInfo.colorID == 0 || brickInfo.colorID == BallManager.instance.BallColorBehaviour.GetBallColor())
-                    {
-                        BrickDestructionManager.Instance.HitBricksByID(new int[1] { brickInfo.BrickID }, playerID, BallManager.instance.BallColorBehaviour.GetBallColor());
-                    }
-                    else
-                    {
-                        StartCoroutine(DeactivateBrickCollider(hit.collider, impactDuration));
-                    }
-                }
-            }
-        }
-    }
-
-    private IEnumerator DeactivateBrickCollider(Collider brickCollider, float duration)
-    {
-        brickCollider.enabled = false;
-        yield return new WaitForSeconds(duration);
-        brickCollider.enabled = true;
-    }
-
-    #endregion
 
     private void EndExplosion()
     {

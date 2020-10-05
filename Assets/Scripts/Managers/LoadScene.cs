@@ -15,6 +15,8 @@ public class LoadScene : MonoBehaviour
 
     public void LoadingSceneToCampaign()
     {
+        JSON.instance.currentLevelFocused = LevelManager.instance.currentLevel;
+
         JSON.instance.isGoingStraightToCampaign = true;
         LoadingScene();
     }

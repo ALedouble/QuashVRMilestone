@@ -23707,7 +23707,7 @@ MonoBehaviour:
           isMalus: 0
           isBonus: 0
     levelProgression:
-      levelNumber: 42
+      levelNumber: 47
       LevelIndex: 41
       isDone: 0
       isUnlocked: 1
@@ -23716,8 +23716,10 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      unlockConditions: []
-      levelPos: {x: 34, y: 9645}
+      unlockConditions:
+      - {fileID: 11400000, guid: d979120e3e6e17b4988fd22de2b883a8, type: 2}
+      - {fileID: 11400000, guid: e03be359345aeb2489ddc830e3bcdfa1, type: 2}
+      levelPos: {x: 537, y: 7837}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0
@@ -23729,8 +23731,8 @@ MonoBehaviour:
       ballSpawnColorID: 1
       switchColorBehaviourForThisLevel: 2
       suddenDeath: 0
-      timeAttack: 0
-      timePerLayer: 0
+      timeAttack: 1
+      timePerLayer: 5
       noWallsMode: 0
       mandatoryBounce: 0
       musicForThisLevel: {fileID: 8300000, guid: 2e562423418c3a446b04dbda991b8067,

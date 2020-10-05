@@ -66,8 +66,9 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
         else
         {
             roomName.text = "Room Code : " + PhotonNetwork.CurrentRoom.Name;
-            
         }
+
+
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -101,6 +102,7 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void ListPlayers()
     {
+        Debug.Log("list");
         if (PhotonNetwork.InRoom)
         {
             foreach (Player player in PhotonNetwork.PlayerList)
@@ -198,7 +200,9 @@ public class InRoomPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     }
 
     public void StartGame()
-    { 
+    {
+        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam && SteamManager.Initialized)
+            SteamAchievementsManager.instance.SetMultiplayerAchievement();
 
         if (PhotonNetwork.IsMasterClient && playersInRoom == 2 && !launchingGame)
         {

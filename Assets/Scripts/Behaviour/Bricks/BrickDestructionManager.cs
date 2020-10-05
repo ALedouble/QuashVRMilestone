@@ -23,14 +23,14 @@ public class BrickDestructionManager : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
-    public void HitBricksByID(int[] brickIDs, int playerID, int explosionColorID)
+    public void HitBricksByID(BrickInfo[] brickInfos, int playerID, int explosionColorID)
     {
         List<int> brickToDestroy = new List<int>();
 
-        foreach (int brickID in brickIDs)
+        foreach (BrickInfo brickInfo in brickInfos)
         {
-            if(ShouldBrickBeDestroyed(brickID, playerID, explosionColorID))
-                brickToDestroy.Add(brickID);
+            if(ShouldBrickBeDestroyed(brickInfo, explosionColorID))
+                brickToDestroy.Add(brickInfo.BrickID);
         }
 
         if (brickToDestroy.Count != 0)
@@ -42,12 +42,11 @@ public class BrickDestructionManager : MonoBehaviour
         }
     }
 
-    private bool ShouldBrickBeDestroyed(int brickID, int playerID, int explosionColorID)
+    private bool ShouldBrickBeDestroyed(BrickInfo brickInfo, int explosionColorID)
     {
-        if(BrickManager.Instance.CurrentLayersBricks[playerID].Contains(brickID))
+        if(brickInfo.PlayerID == (int)QPlayerManager.instance.LocalPlayerID && BrickManager.Instance.CurrentLayersBricks[brickInfo.PlayerID].Contains(brickInfo.BrickID))
         {
-            int brickColorID = BrickManager.Instance.AllBricks[playerID][brickID].GetComponent<BrickInfo>().colorID;
-            return ( brickColorID == 0 || brickColorID == explosionColorID );
+            return (brickInfo.colorID == 0 || brickInfo.colorID == explosionColorID);
         }
 
         return false;

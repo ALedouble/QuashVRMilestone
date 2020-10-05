@@ -128,6 +128,7 @@ public class TimeManager : MonoBehaviour
                 CurrentTimer = 0;
                 IsTimeFlying = false;
 
+                //Debug.Log("No TIME left");
                 OnTimerEnd?.Invoke();
             }
         }

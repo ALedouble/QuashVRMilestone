@@ -43,10 +43,7 @@ public class MenuInputManager : IInputable
 
     public void OnStartButtonPress()
     {
-        if(GameManager.Instance.IsGamePaused)
-        {
-            GameManager.Instance.ResumeGame();
-        }
+        GameManager.Instance.ResumeGame();
     }
 
     #region UtilityMethods

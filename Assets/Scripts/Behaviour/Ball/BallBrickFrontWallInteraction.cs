@@ -101,14 +101,21 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
 
     private void ReturnInteration()
     {
-        StartCoroutine(RandomReturnWithoutBounce());
         ownerCollisionProtectionCoroutine = StartCoroutine(OwnerCollisionProtection());
         
+        StartCoroutine(RandomReturnWithoutBounce());
+
         MidWallManager.Instance.SetMidWallStatus(false);
     }
 
     private IEnumerator RandomReturnWithoutBounce()
     {
+        BallManager.instance.BallPhysicBehaviour.FreezeBall();
+
+        yield return new WaitForFixedUpdate();
+
+        BallManager.instance.BallPhysicBehaviour.UnFreezeBall();
+
         Vector3 targetPosition = targetSelector.GetNewTargetPosition();
         Vector3 newVelocity = nBMagicReturn.CalculateNewVelocity(transform.position, targetPosition);
 
@@ -143,7 +150,7 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
         if(!GameManager.Instance.offlineMode)
             photonView.RPC("FollowerCollisionProtection", RpcTarget.Others, duration / 1.5f);
 
-        Debug.Log("Ignore collsion duration : " + duration);
+        //Debug.Log("Ignore collsion duration : " + duration);
         while (timer < duration)
         {
             yield return new WaitForFixedUpdate();
@@ -152,9 +159,9 @@ public class BallBrickFrontWallInteraction : MonoBehaviour
                 timer += Time.fixedDeltaTime;
             }
         }
-        Debug.Log("Ignore collsion timelaps : " + timer);
+        //Debug.Log("Ignore collsion timelaps : " + timer);
 
-        Debug.Log("Reactivate floor collision");
+        //Debug.Log("Reactivate floor collision");
         SetCollisionState(true);
     }
 

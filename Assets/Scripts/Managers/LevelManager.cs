@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     [Header("Shaking")]
     public Shake layerShake;
 
+    [Header("Room Parameters")]
     public float layerDiffPosition = 0.6f;
     public int numberOfLayerToDisplay = 1;
     [HideInInspector] public Transform[] levelTrans;
@@ -40,6 +41,7 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public UIlayers[] playersUIlayers;
     [HideInInspector] public Shaker roomShaker;
     [HideInInspector] public GUIHUD playersHUD;
+    [HideInInspector] public GUIMenuPause guiMenuPause;
     [HideInInspector] public PlayroomElements playroomElements;
 
     public Vector3 startPos4Player1;
@@ -57,8 +59,11 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public bool[] isEverythingDisplayed;
     bool[] firstSetUpDone;
 
+    [Header("Layers Parameters")]
     [Range(0.01f, 1f)] public float smoothTime;
     [Range(2f, 10f)] public float sMaxSpeed;
+    public int layersPerRow = 16;
+    public float layersRowsOffset = -0.15f;
 
     public PresetScriptable[] colorPresets { get => BrickManager.Instance.colorPresets; set => BrickManager.Instance.colorPresets = value; }            // Desole...
 
@@ -138,12 +143,14 @@ public class LevelManager : MonoBehaviour
                 startPos4Player1.z);
 
         GameObject goHUD = PoolManager.instance.SpawnFromPool("HUD_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
+        //Debug.Log("Pool HUD " + (numberOfPlayers - 1) + " Player");
         GameObject goRoom = PoolManager.instance.SpawnFromPool("Playroom_0" + (numberOfPlayers - 1), roomPos, Quaternion.identity);
 
         if (currentLevel.level.levelSpec.goToSpawn != null)
             Instantiate(currentLevel.level.levelSpec.goToSpawn);
 
         playersHUD = goHUD.GetComponent<GUIHUD>();                                                                                                              //Problem Here! (Ok en fait)
+        guiMenuPause = goHUD.GetComponentInChildren<GUIMenuPause>(true);
         roomShaker = goRoom.GetComponent<Shaker>();                                                                                                             //Problem Here! (Ok en fait)
         playroomElements = goRoom.GetComponent<PlayroomElements>();
 
@@ -396,14 +403,53 @@ public class LevelManager : MonoBehaviour
             ScoreManager.Instance.playersMaxCombo[i] = 1;
 
 
-            playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * numberOfLayers), 0.5f, 0);
+            ///Layers UI logic
+            int layersOnThisRow = 0;
+            int currentLayersRow = 0;
+            float rowOffset = 0f;
+
+            if (numberOfLayers < layersPerRow)
+            {
+                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * numberOfLayers), 0.5f, 0);
+
+                if (numberOfLayers % 2 == 0)
+                    rowOffset = 0.3f;
+
+            }
+            else
+            {
+                playersHUD.layerCountParent[i].localPosition = new Vector3(0 - (0.1f * layersPerRow), 0.5f, 0);
+            }
+
+
             for (int r = 0; r < numberOfLayers; r++)
             {
+                if (layersOnThisRow >= layersPerRow)
+                {
+                    currentLayersRow++;
+                    layersOnThisRow = 0;
+                    int numberOfLayersForNextRow = numberOfLayers - (layersPerRow * currentLayersRow);
+
+
+                    if (numberOfLayersForNextRow > layersPerRow)
+                        numberOfLayersForNextRow = layersPerRow;
+
+
+                    if ((numberOfLayersForNextRow % 2) == 1)
+                        rowOffset = 0;
+                    else
+                        rowOffset = 0.3f;
+                }
+
                 GameObject layerUI = PoolManager.instance.SpawnFromPool("LayerUI", new Vector3(0, 0), Quaternion.identity);
                 layerUI.transform.parent = playersHUD.layerCountParent[i];
-                layerUI.transform.localPosition = new Vector3(0 + (0.2f * (r)), 0, 0);
+                layerUI.transform.localPosition = new Vector3(0 + (0.2f * layersOnThisRow) + rowOffset, 0 - (layersRowsOffset * currentLayersRow), 0);
                 playersUIlayers[i].layersUI[r] = layerUI.GetComponent<UI_LayerBehaviour>();
+
+                layersOnThisRow++;
             }
+
+
 
             ExplosionManager.Instance.PlayersExplosionRadius[i] = currentLevel.level.levelSpec.impactRadiusForThisLevel;
 
@@ -440,6 +486,7 @@ public class LevelManager : MonoBehaviour
 
     void EndOfLayerUpdates(int playerID, int layerCompleted)
     {
+        //Debug.Log("The completed layer is : " + layerCompleted);
         playersUIlayers[playerID].layersUI[layerCompleted].CompleteLayer();
 
         // Rajout d'animation FIN d'un layer
@@ -453,7 +500,7 @@ public class LevelManager : MonoBehaviour
         {
             AndTheWinnerIs = playerID;
             playersWinFX[playerID].PlayVFX();
-            GameManager.Instance.EndOfTheGame();
+            GameManager.Instance.EndOfTheGame(playerID);
         }
     }
 

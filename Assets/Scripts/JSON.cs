@@ -44,7 +44,7 @@ public class JSON : MonoBehaviour
     public static JSON instance;
     public LevelsScriptable currentLevelFocused;
     public bool isGoingStraightToCampaign = false;
-    public bool devMode;
+    //public bool devMode;
 
     private string currentGameVersion = "0.9.5";
     private int key = 324; //DON'T CHANGE THAT
@@ -53,37 +53,40 @@ public class JSON : MonoBehaviour
     [SerializeField] List<LevelsScriptable> levelsToSave = new List<LevelsScriptable>();
     string saveFileName = "/QuashSave.sav";
 
-
-    public string GetFilePath()
+    public string GetSaveFilePath()
     {
-        return Application.persistentDataPath + saveFileName;
-    }
-
-    public string GetFilePathWithSteamID()
-    {
-        if (devMode)
-        {
-            return GetFilePath();
-        }
-        else
+        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
         {
             if (SteamManager.Initialized)
                 return Application.persistentDataPath + "/" + SteamUser.GetSteamID() + saveFileName;
             else
-                return GetFilePath();
+                return Application.persistentDataPath + saveFileName;
+        }
+        else if(BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport)
+        {
+            return Application.persistentDataPath + "/Viveport/" + saveFileName;
+        }
+        else
+        {
+            return Application.persistentDataPath + "/Dev/" + saveFileName;
         }
 
     }
 
     private string GetDirectory()
     {
-        if (devMode)
+        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
         {
-            return Application.persistentDataPath;
+            return Application.persistentDataPath + "/" + SteamUser.GetSteamID();
+            
+        }
+        else if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport)
+        {
+            return Application.persistentDataPath + "/Viveport";
         }
         else
         {
-            return Application.persistentDataPath + "/" + SteamUser.GetSteamID();
+            return Application.persistentDataPath + "/Dev";
         }
     }
 
@@ -110,7 +113,7 @@ public class JSON : MonoBehaviour
     {
         levelsToSave = Campaign.instance.levelsImplemented;
 
-        if (!File.Exists(GetFilePathWithSteamID()))
+        if (!File.Exists(GetSaveFilePath()))
         {
             //Debug.Log("N 'EXISTE PAS");
             if (!Directory.Exists(GetDirectory()))
@@ -127,8 +130,8 @@ public class JSON : MonoBehaviour
         }
         catch(Exception e)
         {
-            string savedString = File.ReadAllText(GetFilePathWithSteamID());
-            File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(savedString, key));
+            string savedString = File.ReadAllText(GetSaveFilePath());
+            File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(savedString, key));
             loadObject = GetData();
         }
 
@@ -186,7 +189,7 @@ public class JSON : MonoBehaviour
         
 
         json = JsonUtility.ToJson(newDATA);
-        File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+        File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
     }
 
     /// <summary>
@@ -443,7 +446,7 @@ public class JSON : MonoBehaviour
 
 
         string json = JsonUtility.ToJson(newDATA);
-        File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+        File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
     }
 
     /// <summary>
@@ -488,7 +491,7 @@ public class JSON : MonoBehaviour
         string json = "";
 
         //If there's already DATA on file
-        if (File.Exists(GetFilePathWithSteamID()))
+        if (File.Exists(GetSaveFilePath()))
         {
             SavedObject loadDATA = GetData();
 
@@ -531,7 +534,7 @@ public class JSON : MonoBehaviour
 
         //SaveHash(json);
 
-        File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+        File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
     }
 
     /// <summary>
@@ -539,7 +542,7 @@ public class JSON : MonoBehaviour
     /// </summary>
     public void LoadDATA()
     {
-        if (!File.Exists(GetFilePathWithSteamID()))
+        if (!File.Exists(GetSaveFilePath()))
         {
             Debug.Log("NO FILE TO LOAD");
             return;
@@ -566,13 +569,13 @@ public class JSON : MonoBehaviour
 
     public SavedObject GetData()
     {
-        if (!File.Exists(GetFilePathWithSteamID()))
+        if (!File.Exists(GetSaveFilePath()))
         {
             Debug.Log("NO DATA TO GET");
             return null;
         }
 
-        string savedString = File.ReadAllText(GetFilePathWithSteamID());
+        string savedString = File.ReadAllText(GetSaveFilePath());
         savedString = SecureData.EncryptDecrypt(savedString, key);
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
 
@@ -634,7 +637,7 @@ public class JSON : MonoBehaviour
                     }
 
                     json = JsonUtility.ToJson(newDATA);
-                    File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+                    File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
 
                     CheckGameVersion(newDATA);
 
@@ -677,7 +680,7 @@ public class JSON : MonoBehaviour
                     }
 
                     json = JsonUtility.ToJson(newDATA);
-                    File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+                    File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
 
                     CheckGameVersion(newDATA);
 
@@ -795,7 +798,7 @@ public class JSON : MonoBehaviour
                     }
 
                     json = JsonUtility.ToJson(newDATA);
-                    File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+                    File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
 
                     CheckGameVersion(newDATA);
 
@@ -827,7 +830,7 @@ public class JSON : MonoBehaviour
                     }
 
                     json = JsonUtility.ToJson(newDATA);
-                    File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+                    File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
 
                     CheckGameVersion(newDATA);
 
@@ -858,7 +861,7 @@ public class JSON : MonoBehaviour
                     }
 
                     json = JsonUtility.ToJson(newDATA);
-                    File.WriteAllText(GetFilePathWithSteamID(), SecureData.EncryptDecrypt(json, key));
+                    File.WriteAllText(GetSaveFilePath(), SecureData.EncryptDecrypt(json, key));
 
                     CheckGameVersion(newDATA);
 

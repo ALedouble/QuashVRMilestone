@@ -143,9 +143,9 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 obj.transform.localPosition = brickNewPos;
 
                 // BrickID setup + Ref
-                int brickID = playerBrickLastID[playerID]++;
+                int brickID = ++playerBrickLastID[playerID];
                 brickInfo.SetBrickID(brickID, playerID);
-                AddBrick(obj, playerID);
+                AddBrick(obj, brickID, playerID);
                     
                 //brickInfo.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
                 brickInfo.armorValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
@@ -248,10 +248,9 @@ public class BrickManager : MonoBehaviourPunCallbacks
         //Debug.Log("Player " + playerID + " active layer brick count : " + CurrentLayersBricks[playerID].Count);
     }
 
-    private void AddBrick(GameObject newBrick, int playerID)
+    private void AddBrick(GameObject newBrick, int brickID, int playerID)
     {
-        Debug.Log("player ID : " + playerID);
-        AllBricks[playerID].Add(newBrick.GetComponent<BrickInfo>().BrickID, newBrick);
+        AllBricks[playerID].Add(brickID, newBrick);
     }
 
     public void RemoveDestroyedBrick(int brickID, int playerID)

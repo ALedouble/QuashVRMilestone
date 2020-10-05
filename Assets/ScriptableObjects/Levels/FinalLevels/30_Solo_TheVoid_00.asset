@@ -28208,13 +28208,15 @@ MonoBehaviour:
       LevelIndex: 29
       isDone: 1
       isUnlocked: 1
-      starsRequired: 60
+      starsRequired: 65
       isImplemented: 1
       maxScore: 74410
       maxCombo: 21
       minTiming: 175
       unlockConditions:
       - {fileID: 11400000, guid: b059a84deaf48ec469490d054291fb48, type: 2}
+      - {fileID: 11400000, guid: 64ac4981e497e324982aa6f113bfd007, type: 2}
+      - {fileID: 11400000, guid: f94a4b8249f0e5d448df9cc0c696148e, type: 2}
       levelPos: {x: 141, y: 8156}
       levelID: 0
       conditionsToComplete:

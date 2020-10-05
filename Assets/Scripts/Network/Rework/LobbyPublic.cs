@@ -42,8 +42,9 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
-      //  RemoveRoomListings();
+        //  RemoveRoomListings();
 
+        Debug.Log(roomList.Count);
         int tempIndex;
         foreach(RoomInfo room in roomList)
         {
@@ -111,6 +112,7 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         RoomOptions roomOps = new RoomOptions() { IsVisible = false, MaxPlayers = (byte)2 };
         PhotonNetwork.CreateRoom(GetPrivateCode(), roomOps);
+
     }
 
     public void JoinLobbyOnClick()
@@ -118,16 +120,12 @@ public class LobbyPublic : MonoBehaviourPunCallbacks, ILobbyCallbacks
         if (!PhotonNetwork.InLobby)
         {
             PhotonNetwork.JoinLobby();
-            Debug.Log("refresh"); 
         }
     }
 
     public string GetRoomName()
     {
-        
         roomName = "Public Room " + Random.Range(0, 1000).ToString();
-
-        
         return roomName;
     }
 

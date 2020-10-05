@@ -100,7 +100,7 @@ namespace TalesFromTheRift
 					text = text.Remove(text.Length - 1); 
 				}
 			}
-			else
+			else if(text.Length < 4)
 			{
 
                 if(text.Length < 8)

@@ -142,24 +142,28 @@ public class LevelsProgressionWindow : EditorWindow
 
             GUI.Label(new Rect(new Vector2(position.width - 66, position.height - boxSize.y), new Vector2(50, 20)), "Delete", selectedStyle);
 
-            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 50, position.height - boxSize.y + 18), new Vector2(120, 15)), " Level Number -");
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x + 100, position.height - boxSize.y + 18), new Vector2(120, 15)), "Display -");
+
+            GUI.Label(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 18), new Vector2(120, 15)), "Number");
 
             //Text 4 the button
             if (IsThisLevelNumberUsed(currentLevel.level.levelProgression.levelNumber))
             {
                 GUI.color = Color.Lerp(Color.white, Color.red, 0.5f);
 
-                currentLevel.level.levelProgression.levelNumber = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 18), new Vector2(40, 15)),
+                currentLevel.level.levelProgression.levelNumber = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 20, position.height - boxSize.y + 18), new Vector2(20, 15)),
                 currentLevel.level.levelProgression.levelNumber);
 
                 GUI.color = Color.white;
             }
             else
             {
-                currentLevel.level.levelProgression.levelNumber = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 5, position.height - boxSize.y + 18), new Vector2(40, 15)),
+                currentLevel.level.levelProgression.levelNumber = EditorGUI.IntField(new Rect(new Vector2(position.width - boxSize.x + 55, position.height - boxSize.y + 18), new Vector2(20, 15)),
                 currentLevel.level.levelProgression.levelNumber);
             }
 
+            currentLevel.level.levelSpec.buttonName = EditorGUI.TextField(new Rect(new Vector2(position.width - boxSize.x + 165, position.height - boxSize.y + 18), new Vector2(40, 15)),
+                currentLevel.level.levelSpec.buttonName);
 
             //Is the level unlocked ?
             //currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(90, 15)),
@@ -500,26 +504,47 @@ public class LevelsProgressionWindow : EditorWindow
         }
 
 
-        if (GUI.Button(levelRect, levelConcerned.level.levelProgression.levelNumber.ToString()))
+        if (levelConcerned.level.levelSpec.buttonName != null && levelConcerned.level.levelSpec.buttonName != "" && levelConcerned.level.levelSpec.buttonName != " ")
         {
-            if (Event.current.button == 0 && !isControlDown)
+            if (GUI.Button(levelRect, levelConcerned.level.levelSpec.buttonName))
             {
-                if (currentLevel != levelConcerned)
+                if (Event.current.button == 0 && !isControlDown)
                 {
-                    currentLevel = levelConcerned;
-                    //Debug.Log("Level Selected : " + levelConcerned);
+                    if (currentLevel != levelConcerned)
+                    {
+                        currentLevel = levelConcerned;
+                    }
                 }
-            }
 
-            if (Event.current.button == 0 && isControlDown)
-            {
-                if (currentLevel != levelConcerned)
-                    AddLevelAsConditionToCurrent(levelConcerned);
-                //else
-                //    isCheckForPosition = !isCheckForPosition;
-            }
+                if (Event.current.button == 0 && isControlDown)
+                {
+                    if (currentLevel != levelConcerned)
+                        AddLevelAsConditionToCurrent(levelConcerned);
+                }
 
+            }
         }
+        else
+        {
+            if (GUI.Button(levelRect, levelConcerned.level.levelProgression.levelNumber.ToString()))
+            {
+                if (Event.current.button == 0 && !isControlDown)
+                {
+                    if (currentLevel != levelConcerned)
+                    {
+                        currentLevel = levelConcerned;
+                    }
+                }
+
+                if (Event.current.button == 0 && isControlDown)
+                {
+                    if (currentLevel != levelConcerned)
+                        AddLevelAsConditionToCurrent(levelConcerned);
+                }
+
+            }
+        }
+
 
         Handles.EndGUI();
     }

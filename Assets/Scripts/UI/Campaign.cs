@@ -328,16 +328,23 @@ public class Campaign : MonoBehaviour
             //Set LEVEL icon position
             level.rectTransform.anchoredPosition3D = new Vector3(startPos.x, startPos.y, 0);
 
-            //Set Level Number
+            //Set/Display Level Number or name
             for (int u = 0; u < level.buttonTexts.Count; u++)
             {
-                if (levelsImplemented[i].level.levelProgression.levelNumber < 10)
+                if (levelsImplemented[i].level.levelSpec.buttonName != null && levelsImplemented[i].level.levelSpec.buttonName != "" && levelsImplemented[i].level.levelSpec.buttonName != " ")
                 {
-                    level.buttonTexts[u].text = "0" + levelsImplemented[i].level.levelProgression.levelNumber.ToString();
+                    level.buttonTexts[u].text = levelsImplemented[i].level.levelSpec.buttonName;
                 }
                 else
                 {
-                    level.buttonTexts[u].text = levelsImplemented[i].level.levelProgression.levelNumber.ToString();
+                    if (levelsImplemented[i].level.levelProgression.levelNumber < 10)
+                    {
+                        level.buttonTexts[u].text = "0" + levelsImplemented[i].level.levelProgression.levelNumber.ToString();
+                    }
+                    else
+                    {
+                        level.buttonTexts[u].text = levelsImplemented[i].level.levelProgression.levelNumber.ToString();
+                    }
                 }
             }
 

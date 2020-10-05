@@ -57,6 +57,7 @@ public class LevelSettings
 public class LevelSpecifics
 {
     public string levelName;
+    public string buttonName;
     public float timeForThisLevel;
     public float impactRadiusForThisLevel;
     public float balleSpeedForThisLevel;

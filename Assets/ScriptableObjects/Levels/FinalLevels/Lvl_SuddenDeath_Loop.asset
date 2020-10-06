@@ -53597,13 +53597,15 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      unlockConditions: []
-      levelPos: {x: 95, y: 7984}
+      unlockConditions:
+      - {fileID: 11400000, guid: 899c8019cab25f948b0224b217784ef1, type: 2}
+      levelPos: {x: 137, y: 7958}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0
     levelSpec:
       levelName: Loop
+      buttonName: 
       timeForThisLevel: 0
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1

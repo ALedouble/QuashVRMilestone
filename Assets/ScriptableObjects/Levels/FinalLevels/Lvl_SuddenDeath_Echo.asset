@@ -20297,13 +20297,15 @@ MonoBehaviour:
       maxScore: 1660
       maxCombo: 3
       minTiming: 26
-      unlockConditions: []
-      levelPos: {x: 24, y: 8022}
+      unlockConditions:
+      - {fileID: 11400000, guid: f94a4b8249f0e5d448df9cc0c696148e, type: 2}
+      levelPos: {x: 176, y: 7811}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0
     levelSpec:
       levelName: Echo
+      buttonName: 
       timeForThisLevel: 0
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1

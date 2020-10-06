@@ -23716,15 +23716,14 @@ MonoBehaviour:
       maxScore: 0
       maxCombo: 0
       minTiming: 0
-      unlockConditions:
-      - {fileID: 11400000, guid: d979120e3e6e17b4988fd22de2b883a8, type: 2}
-      - {fileID: 11400000, guid: e03be359345aeb2489ddc830e3bcdfa1, type: 2}
-      levelPos: {x: 537, y: 7837}
+      unlockConditions: []
+      levelPos: {x: 578, y: 7464}
       levelID: 0
       conditionsToComplete: []
       numberOfAdditionalConditions: 0
     levelSpec:
       levelName: Pretty Bones
+      buttonName: 
       timeForThisLevel: 0
       impactRadiusForThisLevel: 1.7
       balleSpeedForThisLevel: 1

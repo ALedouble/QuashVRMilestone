@@ -7,45 +7,53 @@ using Photon.Pun;
 
 public class OptionVoice : MonoBehaviour
 {
-    public GameObject dissonance;
-    DissonanceComms comms;
-    VoiceBroadcastTrigger vbt;
+    public DissonanceComms comms;
+    public VoiceBroadcastTrigger broadcast;
     public Toggle muteToggle;
-    PhotonView photonView;
+    public Toggle muteOther;
+    public Slider sliderVolume;
 
-    bool isMuted;
+    public PhotonView pV;
 
-    private void Awake()
+    public void SelfMute()
     {
-        comms = dissonance.GetComponent<DissonanceComms>();
-        vbt = dissonance.GetComponent<VoiceBroadcastTrigger>();
-        photonView = GetComponent<PhotonView>();
-
-        if (isMuted == true)
+        if (muteToggle.isOn)
         {
-            comms.IsMuted = true;
+            comms.enabled = false;
+            SaveOptionMicro.Instance.enabledComms = false;
+        }
+        else
+        {
+            comms.enabled = true;
+            SaveOptionMicro.Instance.enabledComms = true;
         }
     }
 
-    
-
-    private void Update()
+    public void MuteOther()
     {
-        
+        if (muteOther.isOn)
+        {
+            pV.RPC("MuteOtherPlayer", RpcTarget.Others, true);
+        }
+        else
+        {
+            pV.RPC("MuteOtherPlayer", RpcTarget.Others, false);
+        }
     }
 
-    public void IsMuted()
+    [PunRPC] 
+    public void MuteOtherPlayer(bool value)
     {
-        comms.IsMuted = muteToggle.isOn;
-        isMuted = muteToggle;
+        if (comms.enabled)
+        {
+            comms.IsMuted = value;
+            SaveOptionMicro.Instance.isMuted = comms.IsMuted;
+        }
     }
 
-    public void Toggle_MuteOtherPlayer(){
-        photonView.RPC("MuteOtherPlayer", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void MuteOtherPlayer(){
-        comms.IsMuted = true;
+    public void ChangeVolume()
+    {
+        broadcast.ActivationFader.Volume = sliderVolume.value;
+        SaveOptionMicro.Instance.volumeValue = broadcast.ActivationFader.Volume;
     }
 }

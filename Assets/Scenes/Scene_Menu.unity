@@ -31584,7 +31584,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1950264659}
-        m_MethodName: Toggle_MuteOtherPlayer
+        m_MethodName: MuteOther
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -45155,6 +45155,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f19d40be655edc545b6adebb7c039b8e, type: 3}
+--- !u!1 &1043341656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1043341658}
+  - component: {fileID: 1043341657}
+  m_Layer: 0
+  m_Name: SaveOptionMicro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1043341657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043341656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403686781ba69eb448e3a25214dd1ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabledComms: 0
+  isMuted: 0
+  volumeValue: 0
+--- !u!4 &1043341658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043341656}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.691865, y: -3.2216575, z: -6.0514436}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 28
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1054707259
 GameObject:
   m_ObjectHideFlags: 0
@@ -45922,7 +45968,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh35890
+  m_Name: pb_Mesh46042
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -61713,8 +61759,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413be237a27360c4287ebd4ee44e4330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissonance: {fileID: 1926413077418417652}
+  comms: {fileID: 1926413077425681896}
+  broadcast: {fileID: 742370006952022755}
   muteToggle: {fileID: 5796498388422477824}
+  muteOther: {fileID: 355666039}
+  sliderVolume: {fileID: 1954266213276053983}
+  pV: {fileID: 1950264661}
 --- !u!4 &1950264660
 Transform:
   m_ObjectHideFlags: 0
@@ -67262,10 +67312,21 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1950264659}
+        m_MethodName: ChangeVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1954307361327147122
 GameObject:
   m_ObjectHideFlags: 0
@@ -73063,7 +73124,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1950264659}
-        m_MethodName: IsMuted
+        m_MethodName: SelfMute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -73545,11 +73606,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 4808810769201389206, guid: 059735664b3cb9243ad90f2756765e78,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8751958282587927267, guid: 059735664b3cb9243ad90f2756765e78,
         type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
@@ -73564,6 +73620,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.015686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808810769201389206, guid: 059735664b3cb9243ad90f2756765e78,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 059735664b3cb9243ad90f2756765e78, type: 3}

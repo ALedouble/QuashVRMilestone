@@ -1,9 +1,10 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelSelectionPublic : MonoBehaviour
+public class LevelSelectionPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     int currentLevel;
     public PhotonView photonView;
@@ -12,6 +13,12 @@ public class LevelSelectionPublic : MonoBehaviour
     {
         currentLevel = level;
         photonView.RPC("SelectLevel", RpcTarget.All, currentLevel);
+    }
+
+    public void RestartLevel()
+    {
+        if(PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            PhotonNetwork.LoadLevel(1);
     }
 
     [PunRPC]

@@ -425,8 +425,6 @@ public class GameManager : MonoBehaviour
 
     public void EndOfTheGame(int playerID)
     {
-        IsGameEnded = true;
-
         if (offlineMode)
             DelayedEndGame();
         else if (playerID == (int)QPlayerManager.instance.LocalPlayerID)
@@ -439,11 +437,14 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void DelayedEndGame()
     {
+        IsGameEnded = true;
         StartCoroutine(EndTheGamelocaly());
     }
 
     private IEnumerator EndTheGamelocaly()
     {
+        IsGameEnded = true;
+
         TimeManager.Instance.StopTimer();
         LevelManager.instance.CleanWalls();
         BallManager.instance.DespawnTheBall();

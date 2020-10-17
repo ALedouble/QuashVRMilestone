@@ -19,10 +19,7 @@ public class ExplosionManager : MonoBehaviour
     public float mainExplosionDelay;
     public float mainExplosionDuration;
 
-    [Header("Old")]
-    public float impactDuration;
-    public int numberOfDivision;
-    public float raycastOffset = 0;
+    public float ImpactDuration { get => mainExplosionDelay + mainExplosionDuration; }
 
     private PhotonView photonView;
 

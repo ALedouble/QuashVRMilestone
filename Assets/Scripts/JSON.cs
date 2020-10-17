@@ -46,7 +46,7 @@ public class JSON : MonoBehaviour
     public bool isGoingStraightToCampaign = false;
     //public bool devMode;
 
-    private string currentGameVersion = "0.9.5";
+    private string currentGameVersion = "0.9.5"; //0.9.5
     private int key = 324; //DON'T CHANGE THAT
 
 
@@ -122,6 +122,7 @@ public class JSON : MonoBehaviour
             SaveDATA(null);
         }
 
+        
         SavedObject loadObject;
 
         try
@@ -136,10 +137,11 @@ public class JSON : MonoBehaviour
         }
 
 
-        if (levelsToSave.Count != loadObject.savedObjects.Count)
-        {
-            RefreshDataCount(loadObject);
-        }
+
+        //if (levelsToSave.Count != loadObject.savedObjects.Count)
+        //{
+        //    RefreshDataCount(loadObject);
+        //}
 
         LoadDATA();
     }
@@ -149,7 +151,7 @@ public class JSON : MonoBehaviour
         SavedObject newDATA = new SavedObject() { };
         newDATA.saveGameVersion = oldSave.saveGameVersion;
 
-        //Debug.Log("Evolve at " + newDATA.saveGameVersion);
+        Debug.Log("Evolve at " + (levelsToSave.Count - oldSave.savedObjects.Count));
 
         string json = "";
 
@@ -578,7 +580,6 @@ public class JSON : MonoBehaviour
         string savedString = File.ReadAllText(GetSaveFilePath());
         savedString = SecureData.EncryptDecrypt(savedString, key);
         SavedObject loadObject = JsonUtility.FromJson<SavedObject>(savedString);
-
         return loadObject;
     }
 
@@ -617,13 +618,11 @@ public class JSON : MonoBehaviour
                     SavedObject newDATA = new SavedObject() { };
                     newDATA.saveGameVersion = "0.9.2";
 
-                    //Debug.Log("Evolve at " + newDATA.saveGameVersion);
-
                     SavedObject loadObject = GetData();
 
                     string json = "";
 
-                    for (int i = 0; i < levelsToSave.Count; i++)
+                    for (int i = 0; i < loadObject.savedObjects.Count; i++)
                     {
                         newDATA.savedObjects.Add(new SavedValues());
 
@@ -650,30 +649,28 @@ public class JSON : MonoBehaviour
                     SavedObject newDATA = new SavedObject() { };
                     newDATA.saveGameVersion = "0.9.3";
 
-                    //Debug.Log("Evolve at " + newDATA.saveGameVersion);
-
                     SavedObject loadObject = GetData();
 
                     string json = "";
 
 
-                    for (int i = 0; i < levelsToSave.Count; i++)
+                    for (int i = 0; i < loadObject.savedObjects.Count; i++)
                     {
                         newDATA.savedObjects.Add(new SavedValues());
                     }
 
 
-                    for (int z = 0; z < levelsToSave.Count; z++)
+                    for (int z = 0; z < loadObject.savedObjects.Count; z++)
                     {
                         //Debug.Log("BEFORE SET     !" + "index : " + z + "     number : " + levelsToSave[z].level.levelProgression.levelNumber + "     combo : " + loadObject.savedObjects[z].bestCombo.ToString());
 
 
-                        newDATA.savedObjects[z].unlock = loadObject.savedObjects[(levelsToSave.Count - 1) - z].unlock;
-                        newDATA.savedObjects[z].done = loadObject.savedObjects[(levelsToSave.Count - 1) - z].done;
+                        newDATA.savedObjects[z].unlock = loadObject.savedObjects[(loadObject.savedObjects.Count - 1) - z].unlock;
+                        newDATA.savedObjects[z].done = loadObject.savedObjects[(loadObject.savedObjects.Count - 1) - z].done;
 
-                        newDATA.savedObjects[z].bestScore = loadObject.savedObjects[(levelsToSave.Count - 1) - z].bestScore;
-                        newDATA.savedObjects[z].bestCombo = loadObject.savedObjects[(levelsToSave.Count - 1) - z].bestCombo;
-                        newDATA.savedObjects[z].bestTime = loadObject.savedObjects[(levelsToSave.Count - 1) - z].bestTime;
+                        newDATA.savedObjects[z].bestScore = loadObject.savedObjects[(loadObject.savedObjects.Count - 1) - z].bestScore;
+                        newDATA.savedObjects[z].bestCombo = loadObject.savedObjects[(loadObject.savedObjects.Count - 1) - z].bestCombo;
+                        newDATA.savedObjects[z].bestTime = loadObject.savedObjects[(loadObject.savedObjects.Count - 1) - z].bestTime;
 
                         //Debug.Log("FROM NOW ON     !" + "index : " + z + "     number : " + levelsToSave[z].level.levelProgression.levelNumber + "     combo : " + newDATA.savedObjects[z].bestCombo.ToString());
 
@@ -693,20 +690,18 @@ public class JSON : MonoBehaviour
                     SavedObject newDATA = new SavedObject() { };
                     newDATA.saveGameVersion = "0.9.4";
 
-                    //Debug.Log("Evolve at " + newDATA.saveGameVersion);
-
                     SavedObject loadObject = GetData();
 
                     string json = "";
 
 
-                    for (int i = 0; i < levelsToSave.Count; i++)
+                    for (int i = 0; i < loadObject.savedObjects.Count; i++)
                     {
                         newDATA.savedObjects.Add(new SavedValues());
                     }
 
 
-                    for (int i = 0; i < levelsToSave.Count; i++)
+                    for (int i = 0; i < loadObject.savedObjects.Count; i++)
                     {
                         if (i == 11)
                         {
@@ -839,7 +834,6 @@ public class JSON : MonoBehaviour
 
             case "0.9.4":
                 {
-                    //Debug.Log("FROM NOTHING");
                     SavedObject newDATA = new SavedObject() { };
                     newDATA.saveGameVersion = "0.9.5";
 
@@ -847,7 +841,7 @@ public class JSON : MonoBehaviour
 
                     string json = "";
 
-                    for (int i = 0; i < levelsToSave.Count; i++)
+                    for (int i = 0; i < loadObject.savedObjects.Count; i++)
                     {
                         newDATA.savedObjects.Add(new SavedValues());
 
@@ -875,7 +869,7 @@ public class JSON : MonoBehaviour
                 }
         }
 
-        Debug.Log("Changing game version");
+        //Debug.Log("Changing game version");
     }
 
     public void CheckGameVersion(SavedObject saveVersion)
@@ -891,10 +885,14 @@ public class JSON : MonoBehaviour
         {
             //Debug.Log("GOOD VERSION");
 
+            if (levelsToSave.Count != saveVersion.savedObjects.Count)
+            {
+                RefreshDataCount(saveVersion);
+                saveVersion = GetData();
+            }
+
             for (int i = 0; i < levelsToSave.Count; i++)
             {
-                //Debug.Log("   AFTER GET    " + "index : " + i + "     number : " + levelsToSave[i].level.levelProgression.levelNumber + "     combo : "+ saveVersion.savedObjects[i].bestCombo.ToString());
-
                 levelsToSave[i].level.levelProgression.isUnlocked = saveVersion.savedObjects[i].unlock;
                 levelsToSave[i].level.levelProgression.isDone = saveVersion.savedObjects[i].done;
                 levelsToSave[i].level.levelProgression.maxScore = saveVersion.savedObjects[i].bestScore;

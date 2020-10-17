@@ -105,17 +105,19 @@ public class GUIHUD : MonoBehaviour
             if (scoreScreenFailed.Length > 1)
             {
                 scoreScreenFailed[(int)QPlayerManager.instance.OtherPlayerID].SetActive(true);
-                foreach(Button button in scoreScreenFailed[(int)QPlayerManager.instance.OtherPlayerID].GetComponentsInChildren<Button>())
+                foreach(Button button in scoreScreenHUD[(int)QPlayerManager.instance.OtherPlayerID].GetComponentsInChildren<Button>())
                 {
                     button.gameObject.SetActive(false);
+                    Debug.Log("Other player End Button");
                 }
                 
             }
 
             scoreScreenCompleted[(int)QPlayerManager.instance.LocalPlayerID].SetActive(true);
-            foreach (Button button in scoreScreenCompleted[(int)QPlayerManager.instance.LocalPlayerID].GetComponentsInChildren<Button>())
+            foreach (Button button in scoreScreenHUD[(int)QPlayerManager.instance.LocalPlayerID].GetComponentsInChildren<Button>())
             {
                 button.gameObject.SetActive(true);
+                Debug.Log("My End Button");
             }
 
 
@@ -323,16 +325,18 @@ public class GUIHUD : MonoBehaviour
             if (scoreScreenCompleted.Length > 1)
             {
                 scoreScreenCompleted[(int)QPlayerManager.instance.OtherPlayerID].SetActive(true);
-                foreach (Button button in scoreScreenCompleted[(int)QPlayerManager.instance.OtherPlayerID].GetComponentsInChildren<Button>())
+                foreach (Button button in scoreScreenHUD[(int)QPlayerManager.instance.OtherPlayerID].GetComponentsInChildren<Button>())
                 {
                     button.gameObject.SetActive(false);
+                    Debug.Log("Other player End Button");
                 }
             }
 
             scoreScreenFailed[(int)QPlayerManager.instance.LocalPlayerID].SetActive(true);
-            foreach (Button button in scoreScreenFailed[(int)QPlayerManager.instance.LocalPlayerID].GetComponentsInChildren<Button>())
+            foreach (Button button in scoreScreenHUD[(int)QPlayerManager.instance.LocalPlayerID].GetComponentsInChildren<Button>())
             {
                 button.gameObject.SetActive(true);
+                Debug.Log("My End Button");
             }
         }
 

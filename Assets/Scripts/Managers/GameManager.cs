@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     public bool IsBrickFreeToMove { get; private set; }
     public bool IsGameStarted { get; private set; }
     public bool IsGamePaused { get; private set; }
+    public bool IsGameEnded { get; private set; }
     public bool HasLost { get; private set; }
 
     [HideInInspector]
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
         allPlayersAreReady = false;
         IsGameStarted = false;
         IsGamePaused = false;
+        IsGameEnded = false;
 
         isGameplayScene = false;
 
@@ -76,11 +78,12 @@ public class GameManager : MonoBehaviour
             HasLost = false;
         else
             HasLost = true;
+
+        
     }
 
     void Start()
     {
-
         InstantiatePlayers();
         SpawnLevel();
 
@@ -371,6 +374,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGameplayLoop()
     {
+        IsGameEnded = false;
         StartBrickMovement();
         BallFirstSpawn();
     }
@@ -421,6 +425,8 @@ public class GameManager : MonoBehaviour
 
     public void EndOfTheGame(int playerID)
     {
+        IsGameEnded = true;
+
         if (offlineMode)
             DelayedEndGame();
         else if (playerID == (int)QPlayerManager.instance.LocalPlayerID)
@@ -465,7 +471,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if (isGameplayScene)
+        if (isGameplayScene && !IsGameEnded)
         {
             if (offlineMode)
             {
@@ -488,7 +494,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        if (isGameplayScene)
+        if (isGameplayScene && !IsGameEnded)
         {
             if (offlineMode)
             {

@@ -42,16 +42,15 @@ public class PlayerInputManager : MonoBehaviour
 
     public void SetupInputMod()
     {
-        //QPlayerManager.instance.GetLocalController(PlayerHand.RIGHT).GetComponent<VRTK_UIPointer>().enabled = false;
-        //QPlayerManager.instance.GetLocalController(PlayerHand.LEFT).GetComponent<VRTK_UIPointer>().enabled = false;
         StartCoroutine(DelayInputSetup());
     }
 
     private IEnumerator DelayInputSetup()
     {
-        yield return new WaitForSeconds(inputSetupDelay);                           // ...
+        yield return new WaitForSeconds(inputSetupDelay);
         SetInputMod(inputMod);
     }
+
     public void SetInputMod(InputMod inputMod)
     {
         currentInput?.ExitInputMod();
@@ -97,19 +96,6 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnStartButtonPress()                    
     {
-        //  if (GameManager.Instance.offlineMode)
-        //  {
-        //      PhotonNetwork.Disconnect();
-        //      SceneManager.LoadScene(0);
-        //  } else
-        //  {
-        //      PhotonNetwork.Disconnect();
-        //      SceneManager.LoadScene(0);
-        //  }
-        ////SetInputMod((InputMod)(((int)inputMod + 1) % 2));
-        ////  GUIMenuPause.guiMenuPause.GamePaused();
-        ///
-
         currentInput?.OnStartButtonPress();
     }
 }

@@ -161,7 +161,7 @@ public class ScoreManager : MonoBehaviour
     public void CheckForComboBreak()
     {
         resetCombo = true;
-        StartCoroutine(CheckComboCondition(ExplosionManager.Instance.impactDuration, (int)QPlayerManager.instance.LocalPlayerID));
+        StartCoroutine(CheckComboCondition(ExplosionManager.Instance.ImpactDuration, (int)QPlayerManager.instance.LocalPlayerID));
     }
 
     private IEnumerator CheckComboCondition(float timeBeforeCheck, int playerID)

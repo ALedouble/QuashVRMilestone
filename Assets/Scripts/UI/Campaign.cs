@@ -328,7 +328,7 @@ public class Campaign : MonoBehaviour
             //Set LEVEL icon position
             level.rectTransform.anchoredPosition3D = new Vector3(startPos.x, startPos.y, 0);
 
-            //Set/Display Level Number or name
+            //Set/Display Level Number or name 
             for (int u = 0; u < level.buttonTexts.Count; u++)
             {
                 if (levelsImplemented[i].level.levelSpec.buttonName != null && levelsImplemented[i].level.levelSpec.buttonName != "" && levelsImplemented[i].level.levelSpec.buttonName != " ")
@@ -719,6 +719,9 @@ public class Campaign : MonoBehaviour
     {
         if (!sidePanel.activeSelf)
             sidePanel.SetActive(true);
+
+        //Play "Disable" anim on the previous selected button (if there's one)
+        DisableSelectedLevel();
 
         levelToPlay = selectedLevel;
         buttonSelected = button;

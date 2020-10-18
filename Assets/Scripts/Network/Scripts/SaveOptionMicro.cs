@@ -8,7 +8,7 @@ public class SaveOptionMicro : MonoBehaviour
 
     public bool enabledComms = true;
     public bool isMuted;
-    public float volumeValue;
+    public float volumeValue = 1f;
 
     private void Awake()
     {

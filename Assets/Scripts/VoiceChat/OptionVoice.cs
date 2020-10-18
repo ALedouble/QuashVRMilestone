@@ -15,14 +15,16 @@ public class OptionVoice : MonoBehaviour
 
     public PhotonView pV;
 
+    bool muteByOther;
+
     public void SelfMute()
     {
-        if (muteToggle.isOn)
+        if (muteToggle.isOn && !muteByOther)
         {
             comms.enabled = false;
             SaveOptionMicro.Instance.enabledComms = false;
         }
-        else
+        else if(!muteOther.isOn && !muteByOther)
         {
             comms.enabled = true;
             SaveOptionMicro.Instance.enabledComms = true;
@@ -47,6 +49,7 @@ public class OptionVoice : MonoBehaviour
         if (comms.enabled)
         {
             comms.IsMuted = value;
+            muteByOther = true;
             SaveOptionMicro.Instance.isMuted = comms.IsMuted;
         }
     }
@@ -54,6 +57,11 @@ public class OptionVoice : MonoBehaviour
     public void ChangeVolume()
     {
         broadcast.ActivationFader.Volume = sliderVolume.value;
+        SaveOptionMicro.Instance.volumeValue = broadcast.ActivationFader.Volume;
+    }
+
+    public void Update()
+    {
         SaveOptionMicro.Instance.volumeValue = broadcast.ActivationFader.Volume;
     }
 }

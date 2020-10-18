@@ -2933,6 +2933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 6589908983067301492}
+  pV: {fileID: 0}
 --- !u!1 &4131304445299834755
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,6 +3334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 8185911801247008724}
+  pV: {fileID: 0}
 --- !u!1 &4674715526515386005
 GameObject:
   m_ObjectHideFlags: 0
@@ -8152,12 +8154,12 @@ PrefabInstance:
     - target: {fileID: 270723340313265110, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.6338267
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 270723340313265110, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.7374768
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 270723340313265110, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
@@ -8233,6 +8235,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5357026931294747535, guid: ee2ab50370d42ee42af504803363ccfd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5357026931294747535, guid: ee2ab50370d42ee42af504803363ccfd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5357026931294747535, guid: ee2ab50370d42ee42af504803363ccfd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8542955620174675685, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
@@ -8334,12 +8351,12 @@ PrefabInstance:
     - target: {fileID: 270723340313265110, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.1413064
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 270723340313265110, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.7374768
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 270723340313265110, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}

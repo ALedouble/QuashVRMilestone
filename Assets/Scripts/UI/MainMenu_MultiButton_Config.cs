@@ -35,6 +35,7 @@ public class MainMenu_MultiButton_Config : MonoBehaviourPunCallbacks
     IEnumerator AnimFade()
     {
         yield return new WaitForSeconds(1.5f);
+        DisconnectPlayer();
         SceneManager.LoadScene(sceneName);
     }
 

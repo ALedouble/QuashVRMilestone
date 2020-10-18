@@ -13,7 +13,7 @@ public class PlayerSettings : MonoBehaviour
 
         public SwitchColorInputType switchColorInputType;
 
-        [Range(0f, 1f)]
+        [Range(1f, 2f)]
         public float flashIntensity;
 
         public bool hadDominantHandWarning;
@@ -96,11 +96,14 @@ public class PlayerSettings : MonoBehaviour
         get => playerPreferences.flashIntensity - 1f;
         set
         {
-            if (IsFlashIntensityValid(value))
+            if (IsFlashIntensityValid(value + 1f))
             {
-                playerPreferences.flashIntensity = value;
+                playerPreferences.flashIntensity = value + 1f;
+                Debug.Log("Flash Intensity : " + playerPreferences.flashIntensity);
                 SavePlayerSettings();
             }
+            else
+                Debug.Log("Wrong Flash Intensity : " + playerPreferences.flashIntensity);
         }
     }
 

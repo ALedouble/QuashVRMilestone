@@ -20,7 +20,6 @@ public class BallBackWallInteraction : MonoBehaviour
     {
         if (!BallManager.instance.IsBallPaused && other.gameObject.tag == "BackWall")
         {
-            Debug.Log("BackWall Collision");
             if(GameManager.Instance.offlineMode)
             {
                 BallManager.instance.LoseBall();

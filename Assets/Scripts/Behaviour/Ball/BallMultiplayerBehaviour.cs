@@ -46,7 +46,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
 
     public void HandOverBallOwnership(BallOwnershipSwitchType switchMotive)
     {
-        Debug.Log("Hand over ball ownership");
         photonView.RPC("BecomeBallOwner", RpcTarget.Others, switchMotive);
     }
 
@@ -67,7 +66,6 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
     {
-        Debug.Log("Ball Ownership Callback");
         if(photonView == targetView)
             UpdateBallOwnershipBasedStates();
     }
@@ -77,12 +75,10 @@ public class BallMultiplayerBehaviour : MonoBehaviour, IPunOwnershipCallbacks
         if (IsBallOwner)
         {
             OnBallOwnershipAcquisition?.Invoke();
-            Debug.Log("OnBallOwnershipAcquisition");
         }
         else
         {
             OnBallOwnershipLoss?.Invoke();
-            Debug.Log("OnBallOwnershipLoss");
         } 
     }
 

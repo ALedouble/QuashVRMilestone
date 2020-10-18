@@ -147,16 +147,6 @@ PrefabInstance:
       propertyPath: racketMats.Array.data[2].racketMaterial.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 97439b2486fbb7c4897f1e2c9fde090c, type: 2}
-    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: maxCounter
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: completedScoreColor.rgba
-      value: 4278243228
-      objectReference: {fileID: 0}
     - target: {fileID: 1412457064529820932, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: playersRadius.Array.size
@@ -218,6 +208,22 @@ PrefabInstance:
       propertyPath: delayBeforeReset
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: registeredLevels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe125d84b0091f4daafd318845b9974,
+        type: 2}
+    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: numberOfPlayers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+        type: 3}
+      propertyPath: numberOfLayerToDisplay
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8645785853228551081, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
       propertyPath: vibrations.Array.size
@@ -248,21 +254,15 @@ PrefabInstance:
       propertyPath: vibrations.Array.data[3].vibrationName
       value: Vibration_Mistake
       objectReference: {fileID: 0}
-    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
-      propertyPath: registeredLevels.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8fe125d84b0091f4daafd318845b9974,
-        type: 2}
-    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
-        type: 3}
-      propertyPath: numberOfPlayers
-      value: 1
+      propertyPath: maxCounter
+      value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 6538805861387698752, guid: 58f791378df5ec443a772977301f5bc8,
+    - target: {fileID: 2885429826814780052, guid: 58f791378df5ec443a772977301f5bc8,
         type: 3}
-      propertyPath: numberOfLayerToDisplay
-      value: 2
+      propertyPath: completedScoreColor.rgba
+      value: 4278243228
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58f791378df5ec443a772977301f5bc8, type: 3}

@@ -61,14 +61,19 @@ public class Campaign : MonoBehaviour
     {
         ViveportCallback += (viveportInt => { });
 
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
+        
     }
 
     private void Start()
     {
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Destroy(this);
+            return;
+        }
+
         SetUpCampaign();
         isLevelLaunch = false;
     }
@@ -735,10 +740,17 @@ public class Campaign : MonoBehaviour
         else
             levelRecapValues.levelTitle.text = "NO NAME";
 
-        if (selectedLevel.level.levelProgression.levelNumber < 10)
-            levelRecapValues.button.text = "0" + selectedLevel.level.levelProgression.levelNumber.ToString();
+        if (selectedLevel.level.levelSpec.buttonName != null && selectedLevel.level.levelSpec.buttonName != "" && selectedLevel.level.levelSpec.buttonName != " ")
+        {
+            levelRecapValues.button.text = selectedLevel.level.levelSpec.buttonName;
+        }
         else
-            levelRecapValues.button.text = selectedLevel.level.levelProgression.levelNumber.ToString();
+        {
+            if (selectedLevel.level.levelProgression.levelNumber < 10)
+                levelRecapValues.button.text = "0" + selectedLevel.level.levelProgression.levelNumber.ToString();
+            else
+                levelRecapValues.button.text = selectedLevel.level.levelProgression.levelNumber.ToString();
+        }
 
 
         //Deactivate Conditions

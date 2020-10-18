@@ -19,7 +19,7 @@ public class PoolManager : MonoBehaviour
     {
         if (instance)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             return;
         }
         else
@@ -29,6 +29,11 @@ public class PoolManager : MonoBehaviour
         }
 
         InitPoolDico();
+    }
+
+    private void OnDestroy()
+    {
+        instance = null;
     }
 
     private void InitPoolDico()

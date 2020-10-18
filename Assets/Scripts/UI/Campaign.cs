@@ -60,7 +60,11 @@ public class Campaign : MonoBehaviour
     private void Awake()
     {
         ViveportCallback += (viveportInt => { });
-        instance = this;
+
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
     }
 
     private void Start()

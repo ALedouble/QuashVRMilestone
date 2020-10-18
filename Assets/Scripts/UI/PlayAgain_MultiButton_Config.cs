@@ -24,9 +24,7 @@ public class PlayAgain_MultiButton_Config : MonoBehaviour
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length == 2 && !launchingGame)
         {
             Debug.Log("MASTER CLIENT _ Restart Game");
-
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.LoadLevel(1);
             launchingGame = true;
         }

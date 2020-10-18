@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Discord;
 
 public enum GameMod
 {
@@ -78,8 +79,6 @@ public class GameManager : MonoBehaviour
             HasLost = false;
         else
             HasLost = true;
-
-        
     }
 
     void Start()

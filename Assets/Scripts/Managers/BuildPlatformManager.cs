@@ -9,6 +9,8 @@ public class BuildPlatformManager : MonoBehaviour
 
     public TargetBuildPlatform targetBuildPlatform;
 
+    public GameObject SteamManagerPrefab;
+
     private Viveport.StatusCallback ViveportCallback;
 
     private void Awake()
@@ -21,6 +23,11 @@ public class BuildPlatformManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if(targetBuildPlatform == TargetBuildPlatform.Steam)
+        {
+            Instantiate(SteamManagerPrefab);
+        }
 
         if (targetBuildPlatform == TargetBuildPlatform.Viveport)
         {

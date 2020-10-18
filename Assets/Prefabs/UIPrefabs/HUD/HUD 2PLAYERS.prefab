@@ -2933,6 +2933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 6589908983067301492}
+  pV: {fileID: 0}
 --- !u!1 &4131304445299834755
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,6 +3334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 8185911801247008724}
+  pV: {fileID: 0}
 --- !u!1 &4674715526515386005
 GameObject:
   m_ObjectHideFlags: 0
@@ -8237,7 +8239,7 @@ PrefabInstance:
     - target: {fileID: 5357026931294747535, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5357026931294747535, guid: ee2ab50370d42ee42af504803363ccfd,
         type: 3}

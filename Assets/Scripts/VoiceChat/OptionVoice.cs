@@ -17,6 +17,11 @@ public class OptionVoice : MonoBehaviour
 
     bool muteByOther;
 
+    public void Start()
+    {
+        SaveOptionMicro.Instance.enabledComms = true;
+    }
+
     public void SelfMute()
     {
         if (muteToggle.isOn && !muteByOther)
@@ -62,6 +67,6 @@ public class OptionVoice : MonoBehaviour
 
     public void Update()
     {
-        SaveOptionMicro.Instance.volumeValue = broadcast.ActivationFader.Volume;
+        broadcast.ActivationFader.Volume = sliderVolume.value;
     }
 }

@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelSelectionPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -25,5 +26,20 @@ public class LevelSelectionPublic : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public void SelectLevel(int number)
     {
         MultiLevel.Instance.levelIndex = number;
+    }
+
+    public void DisconnectPlayer()
+    {
+        StartCoroutine("DisconnectAndLoad");
+    }
+
+    IEnumerator DisconnectAndLoad()
+    {
+        PhotonNetwork.LeaveRoom();
+
+        while (PhotonNetwork.InRoom)
+            yield return null;
+
+        SceneManager.LoadScene("Scene_Menu");
     }
 }

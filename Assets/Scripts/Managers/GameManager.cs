@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Discord;
 
 public enum GameMod
 {
@@ -78,8 +79,6 @@ public class GameManager : MonoBehaviour
             HasLost = false;
         else
             HasLost = true;
-
-        
     }
 
     void Start()
@@ -108,11 +107,17 @@ public class GameManager : MonoBehaviour
                 photonView.RPC("BecomeReady", RpcTarget.MasterClient);
             }
 
+            if(offlineMode)
+                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Solo);
+            else
+                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Multi);
+
             isGameplayScene = true;
         }
         else
         {
             isGameplayScene = false;
+            DiscordManager.Instance?.SetDiscordPresence(GameSituation.Lobby);
         }
     }
 

@@ -6,10 +6,21 @@ using System;
 
 public class DiscordManager : MonoBehaviour
 {
+    public static DiscordManager Instance { get; private set; }
+
     public Discord.Discord discord { get; set; }
 
-    private void Start()
+    private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         InitializeDiscordSDK();
     }
 
@@ -18,11 +29,14 @@ public class DiscordManager : MonoBehaviour
         DisconnetDiscordSDK();
     }
 
+    private void Update()
+    {
+        discord.RunCallbacks();
+    }
+
     public void InitializeDiscordSDK()
     {
         discord = new Discord.Discord(766943568107274250, (UInt64)Discord.CreateFlags.Default);
-
-        UpdateDiscordPresence();
     }
 
     public void DisconnetDiscordSDK()
@@ -30,20 +44,35 @@ public class DiscordManager : MonoBehaviour
         discord.Dispose();
     }
 
-    private void UpdateDiscordPresence()
+    public void SetDiscordPresence(GameSituation situation)
+    {
+        var activity = new Discord.Activity();
+
+        switch(situation)
+        {
+            case GameSituation.Lobby :
+                activity.State = "In the Lobby";
+                break;
+            case GameSituation.Solo:
+                activity.State = "In the Campaign";
+                break;
+            case GameSituation.Multi:
+                activity.State = "In Multiplayer Match";
+                break;
+        }
+
+        UpdateDiscordPresence(activity);
+    }
+
+    private void UpdateDiscordPresence(Discord.Activity activity)
     {
         var activityManager = discord.GetActivityManager();
-        var activity = new Discord.Activity
-        {
-            State = "Testing",
-            Details = "first activity Test"
-        };
-
+        
         activityManager.UpdateActivity(activity, (res) =>
         {
             if (res == Discord.Result.Ok)
             {
-                Debug.LogError("Everything is fine!");
+                Debug.Log("Discord Presence Updated!");
             }
         });
     }

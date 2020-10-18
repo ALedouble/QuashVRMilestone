@@ -107,11 +107,17 @@ public class GameManager : MonoBehaviour
                 photonView.RPC("BecomeReady", RpcTarget.MasterClient);
             }
 
+            if(offlineMode)
+                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Solo);
+            else
+                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Multi);
+
             isGameplayScene = true;
         }
         else
         {
             isGameplayScene = false;
+            DiscordManager.Instance?.SetDiscordPresence(GameSituation.Lobby);
         }
     }
 

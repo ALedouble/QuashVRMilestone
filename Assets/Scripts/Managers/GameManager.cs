@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
             }
 
             if(offlineMode)
-                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Solo);
+                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Solo, LevelManager.instance.currentLevel.level.levelSpec.levelName);
             else
                 DiscordManager.Instance?.SetDiscordPresence(GameSituation.Multi);
 
@@ -117,7 +117,6 @@ public class GameManager : MonoBehaviour
         else
         {
             isGameplayScene = false;
-            DiscordManager.Instance?.SetDiscordPresence(GameSituation.Lobby);
         }
     }
 

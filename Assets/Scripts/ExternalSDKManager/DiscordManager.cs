@@ -44,20 +44,31 @@ public class DiscordManager : MonoBehaviour
         discord.Dispose();
     }
 
-    public void SetDiscordPresence(GameSituation situation)
+    public void SetDiscordPresence(GameSituation situation, string situationDetails = "")
     {
         var activity = new Discord.Activity();
 
         switch(situation)
         {
-            case GameSituation.Lobby :
-                activity.State = "In the Lobby";
+            case GameSituation.MainMenu :
+                activity.State = "Browsing Menus";
+                activity.Details = "";
+                break;
+            case GameSituation.CampaignMenu:
+                activity.State = "Browsing Campaign";
+                activity.Details = "";
+                break;
+            case GameSituation.MultiplayerLobby:
+                activity.State = "In a Multiplayer lobby";
+                activity.Details = "";
                 break;
             case GameSituation.Solo:
                 activity.State = "In the Campaign";
+                activity.Details = "Destroying " + situationDetails + "'s blocks!";
                 break;
             case GameSituation.Multi:
-                activity.State = "In Multiplayer Match";
+                activity.State = "In a Multiplayer Match";
+                activity.Details = "";
                 break;
         }
 

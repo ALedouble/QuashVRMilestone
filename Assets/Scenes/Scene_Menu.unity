@@ -61391,6 +61391,7 @@ GameObject:
   - component: {fileID: 1930187398}
   - component: {fileID: 1930187405}
   - component: {fileID: 1930187406}
+  - component: {fileID: 1930187407}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Campaign Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: Untagged
@@ -61649,6 +61650,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1930187407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930187396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08972067bdb4f94f81e418160112f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: 1
+  situationDetails: 
 --- !u!1 &1939262681
 GameObject:
   m_ObjectHideFlags: 0
@@ -61738,6 +61753,7 @@ GameObject:
   - component: {fileID: 4507639600841012947}
   - component: {fileID: 4507639600841012946}
   - component: {fileID: 1939270144}
+  - component: {fileID: 1939270139}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Current Room Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: currentroom
@@ -61770,6 +61786,20 @@ RectTransform:
   m_AnchoredPosition: {x: -0.22784589, y: 0.4428978}
   m_SizeDelta: {x: 4, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1939270139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939270137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08972067bdb4f94f81e418160112f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: 2
+  situationDetails: 
 --- !u!114 &1939270140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68841,6 +68871,7 @@ GameObject:
   - component: {fileID: 2820985663557350352}
   - component: {fileID: 2820985663557350353}
   - component: {fileID: 2820985663557350355}
+  - component: {fileID: 2820985663557350354}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 1- Room Selection Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: Untagged
@@ -68948,6 +68979,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab8c10d42aa9624ca6070d22c6e01cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2820985663557350354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2820985663557350347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08972067bdb4f94f81e418160112f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: 0
+  situationDetails: 
 --- !u!114 &2820985663557350355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69636,6 +69681,7 @@ GameObject:
   - component: {fileID: 3591302381172348693}
   - component: {fileID: 3591302381172348694}
   - component: {fileID: 3591302381172348695}
+  - component: {fileID: 3591302381172348696}
   m_Layer: 5
   m_Name: "\u25A0\u25A0\u25A0\u25A0 Main Screen \u25A0\u25A0\u25A0\u25A0"
   m_TagString: Untagged
@@ -69786,6 +69832,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &3591302381172348696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3591302381172348688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08972067bdb4f94f81e418160112f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: 0
+  situationDetails: 
 --- !u!224 &3632604210503193287
 RectTransform:
   m_ObjectHideFlags: 0

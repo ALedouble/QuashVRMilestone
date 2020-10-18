@@ -12,6 +12,8 @@ public class PlayAgain_MultiButton_Config : MonoBehaviourPunCallbacks, IInRoomCa
     public PhotonView pV;
 
 
+    int currentLevel;
+
     private void Awake()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -23,27 +25,29 @@ public class PlayAgain_MultiButton_Config : MonoBehaviourPunCallbacks, IInRoomCa
 
     public void RestartGame()
     {
-        pV.RPC("LoadGame", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            pV.RPC("LoadGame", RpcTarget.All);
+        }
     }
 
     [PunRPC]
     private void LoadGame()
     {
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length == 2 && !launchingGame)
-        {
-            Debug.Log("MASTER CLIENT _ Restart Game");
-            PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.LoadLevel(1);
-            launchingGame = true;
-        }
+        Debug.Log("MASTER CLIENT _ Restart Game");
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel(1);
+        launchingGame = true;
     }
 
-    public void Update()
+    public void SetLevel(int level)
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            RestartGame();
-            Debug.Log("Restart");
-        }
+        currentLevel = level;
+        photonView.RPC("SelectLevel", RpcTarget.All, currentLevel);
+    }
+
+    public void SelectLevel(int number)
+    {
+        MultiLevel.Instance.levelIndex = number;
     }
 }

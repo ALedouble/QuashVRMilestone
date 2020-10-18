@@ -60,7 +60,11 @@ public class Campaign : MonoBehaviour
     private void Awake()
     {
         ViveportCallback += (viveportInt => { });
-        instance = this;
+
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
     }
 
     private void Start()
@@ -315,6 +319,7 @@ public class Campaign : MonoBehaviour
             //Spawn Level ICON 
             LevelButton level = PoolManager.instance.SpawnFromPool("LevelButton", Vector3.zero, Quaternion.identity).GetComponent<LevelButton>();
             level.transform.SetParent(CampaignPanel.transform);
+            level.gameObject.name = levelsImplemented[i].level.levelSpec.levelName;
 
             //Transpose editor position into campaign position
             float xPos = GetXScreenPositionPercent(levelsImplemented[i].level.levelProgression.levelPos.x);
@@ -367,10 +372,12 @@ public class Campaign : MonoBehaviour
                         if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                         {
                             level.unlockImages.SetActive(true);
+                            Debug.Log("no unlock cond UNLOCK : " + levelsImplemented[i].level.levelSpec.levelName);
                         }
                         else
                         {
                             level.exoticUnlockImages.SetActive(true);
+                            Debug.Log("no unlock cond EXO : " + levelsImplemented[i].level.levelSpec.levelName);
                         }
                     }
                     else
@@ -513,7 +520,7 @@ public class Campaign : MonoBehaviour
                     line.Points[1] = new Vector2(endDiffPos.x, endDiffPos.y);
 
 
-                    ////////////    CHECK UN/LOCK CONDITIONS    ////////////
+                    //Set line connection color and button interactable
                     if (!levelsImplemented[i].level.levelProgression.isUnlocked)
                     {
                         if (levelsImplemented[i].level.levelProgression.unlockConditions[y].level.levelProgression.isDone && PlayerStars >= levelsImplemented[i].level.levelProgression.starsRequired)
@@ -521,9 +528,6 @@ public class Campaign : MonoBehaviour
                             levelsImplemented[i].level.levelProgression.isUnlocked = true;
                             level.button.interactable = true;
                             line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
-
-
-                            level.unlockImages.SetActive(true);
                         }
                         else
                         {
@@ -537,96 +541,96 @@ public class Campaign : MonoBehaviour
                     else
                     {
                         line.color = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
-                        level.button.interactable = true;
+                    }
+                }
 
-
-                        if (levelsImplemented[i].level.levelProgression.isDone)
+                ////////////    CHECK UN/LOCK CONDITIONS    ////////////
+                if (levelsImplemented[i].level.levelProgression.isUnlocked)
+                {
+                    if (levelsImplemented[i].level.levelProgression.isDone)
+                    {
+                        if (levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0
+                            && !levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
                         {
-                            if (levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions > 0
-                                && !levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
+                            int conditionCompleted = 0;
+
+                            //Check each condition for star descritpion
+                            for (int o = 0; o < levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions; o++)
                             {
-                                int conditionCompleted = 0;
-
-                                //Check each condition for star descritpion
-                                for (int o = 0; o < levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions; o++)
+                                if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionComparator == 0)
                                 {
-                                    if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionComparator == 0)
+                                    switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
                                     {
-                                        switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
-                                        {
-                                            case CompleteConditionType.Score:
-                                                if (levelsImplemented[i].level.levelProgression.maxScore > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
-                                                    conditionCompleted += 1;
-                                                break;
+                                        case CompleteConditionType.Score:
+                                            if (levelsImplemented[i].level.levelProgression.maxScore > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
 
-                                            case CompleteConditionType.Combo:
-                                                if (levelsImplemented[i].level.levelProgression.maxCombo > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
-                                                    conditionCompleted += 1;
-                                                break;
+                                        case CompleteConditionType.Combo:
+                                            if (levelsImplemented[i].level.levelProgression.maxCombo > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
 
-                                            case CompleteConditionType.Timing:
-                                                if (levelsImplemented[i].level.levelProgression.minTiming > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
-                                                    conditionCompleted += 1;
-                                                break;
-                                        }
+                                        case CompleteConditionType.Timing:
+                                            if (levelsImplemented[i].level.levelProgression.minTiming > levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt)
+                                                conditionCompleted += 1;
+                                            break;
                                     }
-                                    else
-                                    {
-                                        switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
-                                        {
-                                            case CompleteConditionType.Score:
-                                                if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxScore)
-                                                    conditionCompleted += 1;
-                                                break;
-
-                                            case CompleteConditionType.Combo:
-                                                if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxCombo)
-                                                    conditionCompleted += 1;
-                                                break;
-
-                                            case CompleteConditionType.Timing:
-                                                if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.minTiming)
-                                                    conditionCompleted += 1;
-                                                break;
-                                        }
-                                    }
-                                }
-
-                                if (conditionCompleted == levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions)
-                                {
-                                    level.fullStarsImages.SetActive(true);
                                 }
                                 else
                                 {
-                                    level.doneImages.SetActive(true);
+                                    switch (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionType)
+                                    {
+                                        case CompleteConditionType.Score:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxScore)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Combo:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.maxCombo)
+                                                conditionCompleted += 1;
+                                            break;
+
+                                        case CompleteConditionType.Timing:
+                                            if (levelsImplemented[i].level.levelProgression.conditionsToComplete[o].conditionReachedAt > levelsImplemented[i].level.levelProgression.minTiming)
+                                                conditionCompleted += 1;
+                                            break;
+                                    }
                                 }
+                            }
+
+                            if (conditionCompleted == levelsImplemented[i].level.levelProgression.numberOfAdditionalConditions)
+                            {
+                                level.fullStarsImages.SetActive(true);
                             }
                             else
                             {
-                                if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
-                                {
-
-                                    level.fullStarsImages.SetActive(true);
-
-                                }
-                                else
-                                {
-                                    level.exoticDoneImages.SetActive(true);
-                                }
+                                level.doneImages.SetActive(true);
                             }
                         }
                         else
                         {
-                            if (!levelsImplemented[i].level.levelSpec.suddenDeath && !levelsImplemented[i].level.levelSpec.mandatoryBounce && !levelsImplemented[i].level.levelSpec.timeAttack)
+                            if (levelsImplemented[i].level.levelSpec.suddenDeath || levelsImplemented[i].level.levelSpec.mandatoryBounce || levelsImplemented[i].level.levelSpec.timeAttack)
                             {
-                                level.unlockImages.SetActive(true);
+                                level.exoticDoneImages.SetActive(true);
                             }
                             else
                             {
-                                level.exoticUnlockImages.SetActive(true);
+                                level.fullStarsImages.SetActive(true);
                             }
-
                         }
+                    }
+                    else
+                    {
+                        if (levelsImplemented[i].level.levelSpec.suddenDeath || levelsImplemented[i].level.levelSpec.mandatoryBounce || levelsImplemented[i].level.levelSpec.timeAttack)
+                        {
+                            level.exoticUnlockImages.SetActive(true);
+                        }
+                        else
+                        {
+                            level.unlockImages.SetActive(true);
+                        }
+
                     }
                 }
             }

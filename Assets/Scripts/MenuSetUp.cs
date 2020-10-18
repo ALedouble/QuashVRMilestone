@@ -10,7 +10,7 @@ public class MenuSetUp : MonoBehaviour
     public GameObject firstTimeGo;
     public Animator animToPlay;
 
-    void Start()
+    void OnEnable()
     {
         if (JSON.instance.isGoingStraightToCampaign)
         {

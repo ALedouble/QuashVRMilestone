@@ -13,10 +13,13 @@ public class SteamAchievementsManager : MonoBehaviour
 
     private void Start()
     {
-        if (BuildPlatformManager.Instance.targetBuildPlatform != TargetBuildPlatform.Steam && !SteamManager.Initialized)
+        if (BuildPlatformManager.Instance.targetBuildPlatform != TargetBuildPlatform.Steam)
             return;
 
-        instance = this;
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
     }
 
 

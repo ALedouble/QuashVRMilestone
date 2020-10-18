@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayAgain_MultiButton_Config : MonoBehaviour
+public class PlayAgain_MultiButton_Config : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     [SerializeField] Button button;
     private bool launchingGame = false;
+    public PhotonView pV;
 
 
     private void Awake()
@@ -19,7 +21,13 @@ public class PlayAgain_MultiButton_Config : MonoBehaviour
         launchingGame = false;
     }
 
-    private void RestartGame()
+    public void RestartGame()
+    {
+        pV.RPC("LoadGame", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void LoadGame()
     {
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.PlayerList.Length == 2 && !launchingGame)
         {
@@ -27,6 +35,15 @@ public class PlayAgain_MultiButton_Config : MonoBehaviour
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.LoadLevel(1);
             launchingGame = true;
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            RestartGame();
+            Debug.Log("Restart");
         }
     }
 }

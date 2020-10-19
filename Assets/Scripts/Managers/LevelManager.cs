@@ -10,6 +10,29 @@ public class LevelManager : MonoBehaviour
     public event OnLayerEnd onLayerEndEvent;
 
 
+    public string CurrentLevelID
+    {
+        get
+        {
+            if (currentLevel == null)
+                return "666";
+
+            if (currentLevel.level.levelSpec.buttonName != null && currentLevel.level.levelSpec.buttonName != "" && currentLevel.level.levelSpec.buttonName != " ")
+                return currentLevel.level.levelSpec.buttonName;
+            else
+            {
+                if (currentLevel.level.levelProgression.levelNumber < 10)
+                {
+                    return "0" + currentLevel.level.levelProgression.levelNumber.ToString();
+                }
+                else
+                {
+                    return currentLevel.level.levelProgression.levelNumber.ToString();
+                }
+            }
+        }
+    }
+
     [Header("Récupération de la configuration du level")]
     public LevelsScriptable[] registeredLevels;
     public LevelsScriptable currentLevel;

@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
             }
 
             if(offlineMode)
-                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Solo, LevelManager.instance.currentLevel.level.levelSpec.levelName);
+                DiscordManager.Instance?.SetDiscordPresence(GameSituation.Solo, "Level " + LevelManager.instance.CurrentLevelID);
             else
                 DiscordManager.Instance?.SetDiscordPresence(GameSituation.Multi);
 

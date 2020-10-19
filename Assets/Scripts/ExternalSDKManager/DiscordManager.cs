@@ -36,6 +36,7 @@ public class DiscordManager : MonoBehaviour
 
     public void InitializeDiscordSDK()
     {
+        Debug.Log("Discord SDK Init!");
         discord = new Discord.Discord(766943568107274250, (UInt64)Discord.CreateFlags.Default);
     }
 
@@ -46,9 +47,10 @@ public class DiscordManager : MonoBehaviour
 
     public void SetDiscordPresence(GameSituation situation, string situationDetails = "")
     {
+        Debug.Log("Set Discord presence!");
         var activity = new Discord.Activity();
 
-        switch(situation)
+        switch (situation)
         {
             case GameSituation.MainMenu :
                 activity.State = "Browsing Menus";
@@ -63,8 +65,8 @@ public class DiscordManager : MonoBehaviour
                 activity.Details = "";
                 break;
             case GameSituation.Solo:
-                activity.State = "In the Campaign";
-                activity.Details = "Destroying " + situationDetails + "'s blocks!";
+                activity.Details = "In the Campaign";
+                activity.State = "Destroying " + situationDetails + "'s blocks!";
                 break;
             case GameSituation.Multi:
                 activity.State = "In a Multiplayer Match";

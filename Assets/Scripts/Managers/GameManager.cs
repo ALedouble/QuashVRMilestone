@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Discord;
+using Photon.Realtime;
 
 public enum GameMod
 {
@@ -14,7 +15,7 @@ public enum GameMod
     GAMEPLAY = 1
 }
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     #region Singleton
     public static GameManager Instance;
@@ -59,6 +60,8 @@ public class GameManager : MonoBehaviour
     private bool isGameplayScene;
     private GUIMenuPause guiMenuPause;
 
+
+    bool launchingGame = false;
     PhotonView photonView;
 
     void Awake()
@@ -117,7 +120,14 @@ public class GameManager : MonoBehaviour
         else
         {
             isGameplayScene = false;
+
+            if (PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
         }
+
+        launchingGame = false;
     }
 
     #region SetupMethod
@@ -609,4 +619,22 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
     #endregion
+
+
+    public void RestartMultiplayerGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("LoadGame", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void LoadGame()
+    {
+        Debug.Log("MASTER CLIENT _ Restart Game");
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel(1);
+        launchingGame = true;
+    }
 }

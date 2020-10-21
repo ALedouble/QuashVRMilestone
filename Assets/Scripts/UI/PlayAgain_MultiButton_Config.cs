@@ -19,25 +19,8 @@ public class PlayAgain_MultiButton_Config : MonoBehaviourPunCallbacks, IInRoomCa
         if (!PhotonNetwork.IsMasterClient)
             button.gameObject.SetActive(false);
 
-        button.onClick.AddListener(() => RestartGame());
+        button.onClick.AddListener(() => GameManager.Instance.RestartMultiplayerGame());
         launchingGame = false;
-    }
-
-    public void RestartGame()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            pV.RPC("LoadGame", RpcTarget.All);
-        }
-    }
-
-    [PunRPC]
-    private void LoadGame()
-    {
-        Debug.Log("MASTER CLIENT _ Restart Game");
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.LoadLevel(1);
-        launchingGame = true;
     }
 
     public void SetLevel(int level)

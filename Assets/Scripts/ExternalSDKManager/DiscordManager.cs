@@ -66,7 +66,7 @@ public class DiscordManager : MonoBehaviour
                 break;
             case GameSituation.Solo:
                 activity.Details = "In the Campaign";
-                activity.State = "Destroying " + situationDetails + "'s blocks!";
+                activity.State = "Destroying blocks!";
                 break;
             case GameSituation.Multi:
                 activity.State = "In a Multiplayer Match";

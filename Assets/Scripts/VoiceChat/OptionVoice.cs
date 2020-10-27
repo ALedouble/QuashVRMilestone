@@ -61,8 +61,9 @@ public class OptionVoice : MonoBehaviour
 
     public void ChangeVolume()
     {
-        broadcast.ActivationFader.Volume = sliderVolume.value;
-        SaveOptionMicro.Instance.volumeValue = broadcast.ActivationFader.Volume;
+
+        comms.RemoteVoiceVolume = sliderVolume.value;
+        SaveOptionMicro.Instance.volumeValue = comms.RemoteVoiceVolume;
     }
 
     public void Update()

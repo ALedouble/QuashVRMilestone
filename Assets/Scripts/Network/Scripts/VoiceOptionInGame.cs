@@ -8,6 +8,7 @@ using Photon.Pun;
 public class VoiceOptionInGame : MonoBehaviour
 {
     public DissonanceComms comms;
+    public VoicePlayerState state;
     public VoiceBroadcastTrigger broadcast;
 
     // Start is called before the first frame update
@@ -20,6 +21,6 @@ public class VoiceOptionInGame : MonoBehaviour
             comms.IsMuted = SaveOptionMicro.Instance.isMuted;
         }
 
-        broadcast.ActivationFader.Volume = SaveOptionMicro.Instance.volumeValue;
+        comms.RemoteVoiceVolume = SaveOptionMicro.Instance.volumeValue;
     }
 }

@@ -55,22 +55,7 @@ public class JSON : MonoBehaviour
 
     public string GetSaveFilePath()
     {
-        if (BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Steam)
-        {
-            if (SteamManager.Initialized)
-                return Application.persistentDataPath + "/" + SteamUser.GetSteamID() + saveFileName;
-            else
-                return Application.persistentDataPath + saveFileName;
-        }
-        else if(BuildPlatformManager.Instance.targetBuildPlatform == TargetBuildPlatform.Viveport)
-        {
-            return Application.persistentDataPath + "/Viveport/" + saveFileName;
-        }
-        else
-        {
-            return Application.persistentDataPath + "/Dev/" + saveFileName;
-        }
-
+        return GetDirectory() + saveFileName;
     }
 
     private string GetDirectory()

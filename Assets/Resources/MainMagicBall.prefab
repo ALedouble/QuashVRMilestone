@@ -892,6 +892,7 @@ GameObject:
   - component: {fileID: 7449144409316582235}
   - component: {fileID: -6548133154734702371}
   - component: {fileID: 7492487284863152756}
+  - component: {fileID: 3783708436145040211}
   m_Layer: 9
   m_Name: MainMagicBall
   m_TagString: Ball
@@ -1291,6 +1292,19 @@ MonoBehaviour:
   readyParent: {fileID: 9161299054846873742}
   animator: {fileID: 5603508882293717807}
   succeedAnim: {fileID: 7400000, guid: 37ec926fa10886c419409a635b4bad06, type: 2}
+--- !u!114 &3783708436145040211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758958001795561110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f39e36fe18b34f64196fbb91bdbf4bc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killHeight: -10
 --- !u!1 &2061638916222303990
 GameObject:
   m_ObjectHideFlags: 0

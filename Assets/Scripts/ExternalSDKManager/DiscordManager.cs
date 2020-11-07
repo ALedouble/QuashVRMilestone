@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Discord;
 using System;
+using System.Linq.Expressions;
 
 public class DiscordManager : MonoBehaviour
 {
@@ -10,11 +11,15 @@ public class DiscordManager : MonoBehaviour
 
     public Discord.Discord discord { get; set; }
 
+    private bool isInitialized;
+
     private void Awake()
     {
         if (Instance != null)
         {
             Destroy(gameObject);
+            if (!isInitialized)
+                InitializeDiscordSDK();
             return;
         }
 
@@ -31,22 +36,40 @@ public class DiscordManager : MonoBehaviour
 
     private void Update()
     {
-        discord.RunCallbacks();
+        if(isInitialized)
+            discord.RunCallbacks();
     }
 
     public void InitializeDiscordSDK()
     {
         Debug.Log("Discord SDK Init!");
-        discord = new Discord.Discord(766943568107274250, (UInt64)Discord.CreateFlags.Default);
+
+        try
+        {
+            discord = new Discord.Discord(766943568107274250, (UInt64)Discord.CreateFlags.NoRequireDiscord);
+
+            if (discord != null)
+                isInitialized = true;
+            else
+                isInitialized = false;
+        }
+        catch (ResultException exception)
+        {
+            isInitialized = false;
+        }
     }
 
     public void DisconnetDiscordSDK()
     {
-        discord.Dispose();
+        if(isInitialized)
+            discord.Dispose();
     }
 
     public void SetDiscordPresence(GameSituation situation, string situationDetails = "")
     {
+        if (!isInitialized)
+            return;
+
         Debug.Log("Set Discord presence!");
         var activity = new Discord.Activity();
 
@@ -73,6 +96,9 @@ public class DiscordManager : MonoBehaviour
                 activity.Details = "";
                 break;
         }
+
+        activity.Assets.LargeImage = "quashlogo";
+        activity.Assets.LargeText = "Quash";
 
         UpdateDiscordPresence(activity);
     }

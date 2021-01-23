@@ -330,7 +330,7 @@ public class LevelManager : MonoBehaviour
                                 if (!isTimerType)
                                 {
                                     playersHUD.TimerConditionParents[1].SetActive(true);
-                                    //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[1]);
+
                                     TimeManager.Instance.timerConditionValue = currentLevel.level.levelProgression.conditionsToComplete[y].conditionReachedAt;
                                     TimeManager.Instance.isThereTimerCondition = true;
 
@@ -367,20 +367,6 @@ public class LevelManager : MonoBehaviour
                                     }
 
                                     isTimerType = true;
-
-                                    //Check if timer condition is already completed
-                                    //if (currentLevel.level.levelProgression.minTiming < TimeManager.Instance.timerConditionValue)
-                                    //{
-                                    //    //YES
-                                    //    playersHUD.TimerStars[1].SetActive(true);
-                                    //    TimeManager.Instance.isThereTimerCondition = false;
-                                    //}
-                                    //else
-                                    //{
-                                    //    //NO
-                                    //    playersHUD.TimerStars[0].SetActive(true);
-                                    //    TimeManager.Instance.isThereTimerCondition = true;
-                                    //}
                                 }
                                 break;
                         }
@@ -393,30 +379,18 @@ public class LevelManager : MonoBehaviour
                         ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
                     }
 
-                    if (!isTimerType)
-                    {
-                        //playersHUD.TimerConditionParents[0].SetActive(true);
-                        //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
-                    }
-
                 }
                 else
                 {
                     playersHUD.ScoreConditionParents[0].SetActive(true);
-                    //playersHUD.TimerConditionParents[0].SetActive(true);
 
-                    //Debug.Log("LOGY LOGY");
                     ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
-                    //TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[i]);
                 }
 
                 TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[0]);
             }
             else
             {
-                //playersHUD.ScoreConditionParents[0].SetActive(true);
-                //playersHUD.TimerConditionParents[0].SetActive(true);
-
                 ScoreManager.Instance.displayedScore[i] = playersHUD.ScoreDATAs[i];
                 TimeManager.Instance.SetupTimerGUI(playersHUD.TimerData[0]);
             }
@@ -552,12 +526,13 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Set up parameters to change level position
+    /// Set up parameters to change/updtae wall position
     /// </summary>
     public void SetNextLayer(int playerID)
     {
         if (onLayerEndEvent != null && isThereAnotherLayer[playerID])
             onLayerEndEvent();
+
 
         if (isThereAnotherLayer[playerID])
         {
@@ -571,26 +546,21 @@ public class LevelManager : MonoBehaviour
 
                 for (int i = 0; i < numberOfPlayers; i++)
                 {
-                    if (playerID != i)
+                    if (playerID != i && currentLayer[playerID] < currentLayer[i])
                     {
-                        if (currentLayer[playerID] < currentLayer[i])
-                        {
-                            rewardModifier++;
-                        }
+                        rewardModifier++;
                     }
                 }
-
-                //ScoreManager.Instance.SetScore((int)((float)ScoreManager.Instance.finishingFirstScoreBoost / rewardModifier), playerID);
             }
 
 
             if (!isEverythingDisplayed[playerID] && firstSetUpDone[playerID])
             {
-                //Debug.Log("numberOfLayerToDisplay - 1 : " + (numberOfLayerToDisplay - 1));
                 BrickManager.Instance.SpawnLayer(playerID, numberOfLayerToDisplay - 1);
             }
 
-            StartCoroutine(GoWALLgO(playerID));
+            //Move the wall forward to the next layer
+            StartCoroutine(MoveWallForward(playerID));
         }
 
         if (firstSetUpDone[playerID])
@@ -608,9 +578,6 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("NumberOfPlayers : " + playersParents.Length);
         //Debug.Log("NumberOf Layers : " + playersParents[playerID].layersParent.Length);
 
-
-
-        //BrickManager.Instance.ActivateMovingBricks(playerID);
         firstSetUpDone[playerID] = true;
     }
 
@@ -681,7 +648,7 @@ public class LevelManager : MonoBehaviour
         BrickManager.Instance.levelWallsConfig = selectedLevel.level.levelWallBuilds;
     }
 
-    IEnumerator GoWALLgO(int playerID)
+    IEnumerator MoveWallForward(int playerID)
     {
         BrickManager.Instance.SetCurrentBrickOnLayer(playerID);
 

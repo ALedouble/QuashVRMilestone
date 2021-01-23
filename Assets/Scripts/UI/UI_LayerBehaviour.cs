@@ -7,7 +7,9 @@ public class UI_LayerBehaviour : MonoBehaviour
     public GameObject layerCompleteObj;
     public Animator animLayerCompleted;
 
-
+    /// <summary>
+    /// Play UI icon animation for the completion of a layer
+    /// </summary>
     public void CompleteLayer()
     {
         //layerCompleteObj.SetActive(true);

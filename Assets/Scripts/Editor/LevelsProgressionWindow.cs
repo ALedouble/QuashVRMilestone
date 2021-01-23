@@ -165,10 +165,7 @@ public class LevelsProgressionWindow : EditorWindow
             currentLevel.level.levelSpec.buttonName = EditorGUI.TextField(new Rect(new Vector2(position.width - boxSize.x + 165, position.height - boxSize.y + 18), new Vector2(40, 15)),
                 currentLevel.level.levelSpec.buttonName);
 
-            //Is the level unlocked ?
-            //currentLevel.level.levelProgression.isUnlocked = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(90, 15)),
-            //    currentLevel.level.levelProgression.isUnlocked, " Unlocked ? ");
-
+            
             EditorGUI.BeginDisabledGroup(currentLevel.level.levelSpec.suddenDeath || currentLevel.level.levelSpec.mandatoryBounce || currentLevel.level.levelSpec.timeAttack);
             currentLevel.level.levelProgression.numberOfAdditionalConditions = (int)EditorGUI.Slider(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 45), new Vector2(15, 15)),
                 currentLevel.level.levelProgression.numberOfAdditionalConditions, 0, 2);
@@ -187,6 +184,11 @@ public class LevelsProgressionWindow : EditorWindow
 
             if (currentLevel.level.levelProgression.numberOfAdditionalConditions > 0)
             {
+                if (currentLevel.level.levelProgression.conditionsToComplete.Length == 0)
+                {
+                    currentLevel.level.levelProgression.conditionsToComplete = new LevelConditions[2];
+                }
+
                 //1nd condition
                 currentLevel.level.levelProgression.conditionsToComplete[0].conditionComparator =
                     (CompleteConditionComparator)EditorGUI.EnumPopup(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + 65), new Vector2(50, 15)),
@@ -219,11 +221,7 @@ public class LevelsProgressionWindow : EditorWindow
             int underCondtionY = 65 + 35 * currentLevel.level.levelProgression.numberOfAdditionalConditions;
 
             int numberOfSpecificRules = 0;
-            ///Level Specifics (exotic rules)
-            ///
-            //Ligne 0
-            //currentLevel.level.levelSpec.noWallsMode = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x, position.height - boxSize.y + underCondtionY), new Vector2(110, 15)),
-            //    currentLevel.level.levelSpec.noWallsMode, " No Walls Mode");
+           
 
             EditorGUI.BeginDisabledGroup(currentLevel.level.levelSpec.suddenDeath || currentLevel.level.levelSpec.timeAttack);
             currentLevel.level.levelSpec.mandatoryBounce = GUI.Toggle(new Rect(new Vector2(position.width - boxSize.x + 160, position.height - boxSize.y + underCondtionY), new Vector2(100, 15)),
@@ -336,7 +334,9 @@ public class LevelsProgressionWindow : EditorWindow
         GUI.EndScrollView();
     }
 
-    //Drop area for new level
+    /// <summary>
+    /// Drop area for new level
+    /// </summary>
     public void DropAreaGUI()
     {
         Event evt = Event.current;
@@ -398,7 +398,11 @@ public class LevelsProgressionWindow : EditorWindow
         return isAlreadyHere;
     }
 
-    //Check if the submit level for "unlock conditions" (necessary level(s) to complete to unlock one level) isn't already in
+    /// <summary>
+    /// Check if the submit level for "unlock conditions" (necessary level(s) to complete to unlock one level) isn't already in
+    /// </summary>
+    /// <param name="conditionToCheck"></param>
+    /// <returns></returns>
     bool IsThisLevelAlreadyAnUnlockCondition(LevelsScriptable conditionToCheck)
     {
         bool isAlreadyInCondition = false;
@@ -417,6 +421,7 @@ public class LevelsProgressionWindow : EditorWindow
 
     void ImplementLevel(LevelsScriptable level)
     {
+
         //Debug.Log("Level Added");
         levelsToDisplay.Add(level);
         level.level.levelProgression.levelPos = new Vector2(position.width / 2, position.height / 2);
@@ -425,7 +430,6 @@ public class LevelsProgressionWindow : EditorWindow
         EditorUtility.SetDirty(level);
 
         InitLevelProgression();
-        RefreshInspector();
     }
 
     void EventHandler()
@@ -597,11 +601,14 @@ public class LevelsProgressionWindow : EditorWindow
             {
 
                 levels[i] = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(levelsPaths[i]), typeof(LevelsScriptable)) as LevelsScriptable;
+                string levelPath = AssetDatabase.GetAssetPath(levels[i]);
+                Debug.Log("level path : " + levelPath);
 
             }
         }
         else
         {
+            Debug.Log("AHH");
             levels = new LevelsScriptable[0];
         }
     }

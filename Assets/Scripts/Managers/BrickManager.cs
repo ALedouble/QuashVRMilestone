@@ -103,23 +103,25 @@ public class BrickManager : MonoBehaviourPunCallbacks
     /// <param name="currentDisplacement"></param>
     public void SpawnLayer(int playerID, int currentDisplacement)
     {
+        //Get the wall composition reference from the correct scriptable object
         Wall layerToSpawn = levelWallsConfig.walls[LevelManager.instance.currentLayer[playerID] + currentDisplacement];
         List<int> layerBrickIDs = new List<int>();
+
 
         for (int i = 0; i < layerToSpawn.wallBricks.Count; i++)
         {
             if (layerToSpawn.wallBricks[i].isBrickHere)
             {
-                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
-                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.instance.layerDiffPosition * ((float)LevelManager.instance.currentLayer[playerID] + (float)currentDisplacement))));
+                
 
+                //Activate a "Brick" gameobject from the pool and get needed components
+                GameObject spawnedBrick = PoolManager.instance.SpawnFromPool("Brick", LevelManager.instance.levelTrans[playerID].position, Quaternion.identity);
+                BrickBehaviours objBehaviours = spawnedBrick.GetComponent<BrickBehaviours>();
+                BrickInfo brickInfo = spawnedBrick.GetComponent<BrickInfo>();
+                MeshRenderer objMesh = spawnedBrick.GetComponent<MeshRenderer>();
 
-                GameObject obj = PoolManager.instance.SpawnFromPool("Brick", LevelManager.instance.levelTrans[playerID].position, Quaternion.identity);
-                BrickBehaviours objBehaviours = obj.GetComponent<BrickBehaviours>();
-                BrickInfo brickInfo = obj.GetComponent<BrickInfo>();
-                MeshRenderer objMesh = obj.GetComponent<MeshRenderer>();
+                //Create and set a shader from colorPresets assigned
                 Material[] mats = objMesh.sharedMaterials;
-
                 mats[1] = new Material(Shader.Find("Shader Graphs/Sh_CubeEdges00"));
                 mats[1].SetFloat("_Metallic", 0.75f);
 
@@ -129,25 +131,27 @@ public class BrickManager : MonoBehaviourPunCallbacks
                 mats[0].SetFloat("_XFrameThickness", 0.75f);
                 mats[0].SetFloat("_YFrameThickness", 0.75f);
 
+                //Apply shader to new brick materials
                 objMesh.sharedMaterials = mats;
 
+                //Set new brick parent and displacement (evoluting considering layers count)
+                spawnedBrick.transform.parent = LevelManager.instance.playersParents[playerID].layersParent[(LevelManager.instance.currentLayer[playerID] + currentDisplacement)];
 
-                //Debug.Log("playerID : " + playerID);
-                //Debug.Log("playersParents LENGTH : " + LevelManager.instance.playersParents.Length);
+                //Set new brick name for better identification
+                spawnedBrick.name = layerToSpawn.wallBricks[i].brickID;
 
+                //Set new brick position
+                Vector3 brickNewPos = new Vector3(layerToSpawn.wallBricks[i].brickPosition.x, layerToSpawn.wallBricks[i].brickPosition.y,
+                    (layerToSpawn.wallBricks[i].brickPosition.z + (LevelManager.instance.layerDiffPosition * ((float)LevelManager.instance.currentLayer[playerID] + (float)currentDisplacement))));
 
-                obj.transform.parent = LevelManager.instance.playersParents[playerID].layersParent[(LevelManager.instance.currentLayer[playerID] + currentDisplacement)];
-
-                obj.name = layerToSpawn.wallBricks[i].brickID;
-
-                obj.transform.localPosition = brickNewPos;
+                spawnedBrick.transform.localPosition = brickNewPos;
 
                 // BrickID setup + Ref
                 int brickID = ++playerBrickLastID[playerID];
                 brickInfo.SetBrickID(brickID, playerID);
-                AddBrick(obj, brickID, playerID);
-                    
-                //brickInfo.armorPoints = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
+                AddBrick(spawnedBrick, brickID, playerID);
+                
+                //Set new brick gameplay values
                 brickInfo.armorValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].armorValue;
                 brickInfo.scoreValue = brickPresets[0].brickPresets[layerToSpawn.wallBricks[i].brickTypePreset].scoreValue;
 
@@ -160,7 +164,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
                 if (layerToSpawn.wallBricks[i].isMoving)
                 {
-                    //objBehaviours.isMoving = layerToSpawn.wallBricks[i].isMoving;// Related to the Level Manager NOW
                     objBehaviours.speed = layerToSpawn.wallBricks[i].speed;
                     objBehaviours.smoothTime = layerToSpawn.wallBricks[i].smoothTime;
                     objBehaviours.waypoints = new List<Vector3>();
@@ -174,8 +177,8 @@ public class BrickManager : MonoBehaviourPunCallbacks
                     }
                 }
 
+                //Add new brick to reference list
                 layerBrickIDs.Add(brickInfo.BrickID);
-                //Debug.Log(brickInfo.BrickID);
             }
         }
 
@@ -198,8 +201,6 @@ public class BrickManager : MonoBehaviourPunCallbacks
 
         List<BrickBehaviours> bricks = new List<BrickBehaviours>();
 
-        //Debug.Log("Current layer : " + LevelManager.instance.currentLayer[playerID]);
-        //Debug.Log("Child Count : " + LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount);
         if (LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount > 0)
         {
             for (int i = 0; i < LevelManager.instance.playersParents[playerID].layersParent[LevelManager.instance.currentLayer[playerID]].childCount; i++)
